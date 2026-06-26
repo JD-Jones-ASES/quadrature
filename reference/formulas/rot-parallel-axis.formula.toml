@@ -1,0 +1,19 @@
+id = "rot-parallel-axis"
+name = "Parallel-axis theorem"
+domain = "mechanics"
+regime = 1
+expr = "Icm + M*d**2"
+lhs = "I"
+result_unit = "kg*m**2"
+assumptions = ["axis parallel to one through the centre of mass, offset by d", "Icm is the moment about the centre-of-mass axis"]
+citations = []
+
+[variables]
+Icm = { unit = "kg*m**2", desc = "moment of inertia about the centre of mass" }
+M = { unit = "kg", desc = "total mass" }
+d = { unit = "m", desc = "distance between the two parallel axes" }
+
+[[edges]]
+type = "related-to"
+target = "rot-moment-rod"
+gloss = "turns the about-centre ML²/12 into the about-end ⅓ML²"

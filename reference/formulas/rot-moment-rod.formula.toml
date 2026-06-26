@@ -1,0 +1,29 @@
+id = "rot-moment-rod"
+name = "Moment of inertia of a rod (about one end)"
+domain = "mechanics"
+regime = 2
+expr = "M*L**2/3"
+lhs = "I"
+result_unit = "kg*m**2"
+assumptions = ["uniform thin rod, axis through one end", "derived from I = ∫r² dm; ⅓ML² about the centre is ML²/12"]
+lessons = ["moment-of-inertia"]
+citations = []
+
+[variables]
+M = { unit = "kg", desc = "rod mass" }
+L = { unit = "m", desc = "rod length" }
+
+[[edges]]
+type = "related-to"
+target = "rot-kinetic"
+gloss = "the I that enters the rotational kinetic energy ½Iω²"
+
+[[edges]]
+type = "related-to"
+target = "rot-moment-disk"
+gloss = "another shape's coefficient from the same ∫r² dm"
+
+[[edges]]
+type = "related-to"
+target = "rot-parallel-axis"
+gloss = "shift the axis off the centre of mass with the parallel-axis theorem"

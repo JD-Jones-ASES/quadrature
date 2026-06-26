@@ -1,0 +1,24 @@
+id = "optics-snell"
+name = "Snell's law of refraction"
+domain = "waves-optics"
+regime = 3
+expr = "asin(n1*sin(theta1)/n2)"
+lhs = "\\theta_2"
+result_unit = "rad"
+assumptions = ["light crossing a flat boundary between two media", "n₁ sin θ₁ = n₂ sin θ₂; angles measured from the normal"]
+citations = []
+
+[variables]
+n1 = { unit = "1", desc = "refractive index of the first medium" }
+theta1 = { unit = "rad", desc = "angle of incidence (from the normal)" }
+n2 = { unit = "1", desc = "refractive index of the second medium" }
+
+[[edges]]
+type = "related-to"
+target = "wave-speed"
+gloss = "light bends because its speed v = c/n changes between media"
+
+[[edges]]
+type = "related-to"
+target = "optics-thin-lens"
+gloss = "refraction at curved surfaces is what focuses a lens"

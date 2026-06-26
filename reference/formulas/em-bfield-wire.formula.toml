@@ -1,0 +1,24 @@
+id = "em-bfield-wire"
+name = "Magnetic field of a long straight wire"
+domain = "em"
+regime = 1
+expr = "mu0*I/(2*pi*r)"
+lhs = "B"
+result_unit = "T"
+assumptions = ["infinitely long, thin straight wire", "field circles the wire; magnitude falls as 1/r"]
+citations = []
+
+[variables]
+mu0 = { unit = "T*m/A", desc = "permeability of free space μ₀" }
+I = { unit = "A", desc = "current" }
+r = { unit = "m", desc = "distance from the wire" }
+
+[[edges]]
+type = "related-to"
+target = "em-lorentz-force"
+gloss = "this field exerts the force qvB on nearby moving charges"
+
+[[edges]]
+type = "related-to"
+target = "em-flux"
+gloss = "integrating B over an area gives the flux"

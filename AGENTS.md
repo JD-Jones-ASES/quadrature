@@ -162,14 +162,15 @@ The producer engine should rarely change. If it must, add a physics cross-check 
 See [`ROADMAP.md`](./ROADMAP.md) and the latest [`docs/sessions/`](./docs/sessions/) log. **Phase 0 is
 complete and reviewed**; **Phase 1 (mechanics)** is in progress, **Phase 2 (E&M) is opened** (a lesson + a 9-formula
 reference cluster), and **Phase 3 (thermo) is seeded and deepening**. The site is **live and public** at
-https://jd-jones-ases.github.io/quadrature/ (push to `main` auto-deploys). Shipped: 13 lessons — free fall,
+https://jd-jones-ases.github.io/quadrature/ (push to `main` auto-deploys). Shipped: 14 lessons — free fall,
 **projectile (drag-free)**, and **rotational kinematics** (regime 1); SHM, terminal velocity, the damped
 oscillator, **work–energy**, **projectile with quadratic drag**, **impulse–momentum**, **gravitational
-potential energy**, and **energy in a capacitor** (regime 2, E&M); and **isothermal** and **adiabatic PV-work**
-(regime 3) — plus a **56-formula reference spanning all five domains** (mechanics incl. fluids, E&M, thermo,
-waves & optics, modern) and a 56-node concept graph, all SymPy-verified. The producer is a model registry
-(`constant-accel`, `shm`, `linear-drag`, `damped-shm`, `work-energy`, `pv-work`, `projectile`, `impulse`,
-`rotation`, `gravity-pe`, `capacitor-energy`, `adiabatic`). The concept-graph nodes are click-to-select and
+potential energy**, **energy in a capacitor** (regime 2, E&M), and **moment of inertia** (regime 2, `∫r² dm`);
+and **isothermal** and **adiabatic PV-work** (regime 3) — plus a **65-formula reference spanning all five
+domains** (mechanics incl. fluids & rotation, E&M incl. magnetism, thermo, waves & optics, modern) and a
+65-node / 89-edge concept graph, all SymPy-verified. The producer is a model registry (`constant-accel`, `shm`,
+`linear-drag`, `damped-shm`, `work-energy`, `pv-work`, `projectile`, `impulse`, `rotation`, `gravity-pe`,
+`capacitor-energy`, `adiabatic`, `moment-of-inertia`). The concept-graph nodes are click-to-select and
 drag-to-reposition.
 
 Graphs come in three instruments: the **temporal stack** (`kind:"stack"`, modes `static` | `interactive` |
@@ -182,11 +183,11 @@ path y vs x; drag-free is exact/interactive, quadratic drag is numerically integ
 
 Pick a track; each is independent and lands on the proven engine. Resume from the newest session log
 ([`docs/sessions/2026-06-26.md`](./docs/sessions/), bottom). **Already done** (don't redo): work–energy,
-impulse, gravitational PE, **energy in a capacitor** (area instrument); projectile drag-free + quadratic drag
-(trajectory); rotational kinematics (stack); **isothermal + adiabatic PV-work** (thermo). The **reference now
-spans all five domains** (56 formulas: mechanics incl. fluids, E&M, thermo, waves/optics, modern) — breadth-fill
-track 3 below is largely discharged; what remains is per-domain *depth* and a couple of small, well-scoped
-engine extensions, flagged below.
+impulse, gravitational PE, **energy in a capacitor**, **moment of inertia** (area instrument); projectile
+drag-free + quadratic drag (trajectory); rotational kinematics (stack); **isothermal + adiabatic PV-work**
+(thermo). The **reference now spans all five domains** (65 formulas: mechanics incl. fluids & rotation, E&M
+incl. magnetism, thermo, waves/optics, modern) — breadth-fill track 3 below is largely discharged; what remains
+is per-domain *depth* and a couple of small, well-scoped engine extensions, flagged below.
 
 1. **Mechanics breadth that needs a SMALL engine extension** (highest-value next):
    - **Orbits & uniform circular motion** — reuse the trajectory instrument, but the path *loops* (no
@@ -196,9 +197,9 @@ engine extensions, flagged below.
    - **Energy conservation & collisions** — these are not "area under a curve" or a path; they need a NEW small
      viz (an energy-bar exchange KE↔PE over time/height, or a before/after momentum bar). Decide the viz first.
 2. **More area-instrument lessons (zero engine change — model + spec + test)** — **isobaric** PV-work (the
-   trivial rectangle, completes the PV-process trio), Coulomb PE (`∫kq²/r²` — the E&M twin of gravity-pe), and
-   later E&M field integrals (`∫E·dl`, `∫dq/r²`), moment of inertia (`∫r² dm`). Copy `work_energy.py` /
-   `capacitor_energy.py` / `gravity_pe.py`. **Watch the dimensionless-parameter trap**: a free dimensionless
+   trivial rectangle, completes the PV-process trio), Coulomb PE (`∫kq²/r²` — the E&M twin of gravity-pe),
+   rotational work (`∫τ dθ → ½Iω²`), and later E&M field integrals (`∫E·dl`, `∫dq/r²`). Copy `work_energy.py` /
+   `capacitor_energy.py` / `gravity_pe.py` / `moment_of_inertia.py`. **Watch the dimensionless-parameter trap**: a free dimensionless
    slider that lands in a denominator (e.g. `1/(γ−1)`) makes the build-time `check_homogeneous` divide by zero
    when it collapses units — bake such a parameter to its value and slide a *dimensionful* one instead (see
    `adiabatic.py`). Likewise, identities with a `symbol**symbol` power must certify in a *symbolic* tier

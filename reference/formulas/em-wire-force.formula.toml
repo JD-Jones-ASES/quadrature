@@ -1,0 +1,19 @@
+id = "em-wire-force"
+name = "Magnetic force on a current-carrying wire"
+domain = "em"
+regime = 1
+expr = "B*I*L"
+lhs = "F"
+result_unit = "N"
+assumptions = ["straight wire perpendicular to the field", "uniform field over the length L"]
+citations = []
+
+[variables]
+B = { unit = "T", desc = "magnetic flux density" }
+I = { unit = "A", desc = "current" }
+L = { unit = "m", desc = "length of wire in the field" }
+
+[[edges]]
+type = "related-to"
+target = "em-lorentz-force"
+gloss = "the Lorentz force qvB summed over the charge carriers in the current"

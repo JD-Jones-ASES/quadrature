@@ -1,0 +1,365 @@
+{
+  "id": "moment-of-inertia",
+  "title": "Moment of inertia: where the table of shapes comes from",
+  "topic": "rotation",
+  "slug": "moment-of-inertia",
+  "scenario": "A uniform rod of mass $M = 2$ kg and length $L = 1.2$ m spins about one end. The algebra course just hands you $I = \\tfrac13 ML^2$ from a table — but where does the $\\tfrac13$ come from? Each slice at radius $r$ adds $r^2\\,dm$, so the moment is the area under $dI/dr = \\lambda r^2$. Drag the cursor out from the pivot and watch $I$ build up — slowly near the axis, fast near the tip.",
+  "regime": 2,
+  "constants": {
+    "M": 2.0,
+    "L": 1.2
+  },
+  "initial_conditions": {},
+  "assumptions": [
+    {
+      "claim": "Uniform thin rod: mass spread evenly at linear density $\\lambda = M/L$, thickness negligible.",
+      "kind": "model"
+    },
+    {
+      "claim": "Rotation about a fixed axis through one end; $r$ is the distance from that axis.",
+      "kind": "model"
+    }
+  ],
+  "algebra": {
+    "steps": [
+      {
+        "label": "What the algebra-based course hands you (a table to memorize)",
+        "latex": "I_{\\text{rod}} = \\tfrac13 M L^2,\\quad I_{\\text{disk}} = \\tfrac12 M R^2,\\quad I_{\\text{hoop}} = M R^2",
+        "prose": "The algebra-based course gives moments of inertia as a *lookup table* — a different fraction for each shape, with no account of where the $\\tfrac13$, $\\tfrac12$, or $1$ come from. It can use the numbers but cannot say why a rod's coefficient is $\\tfrac13$ while a hoop's is $1$."
+      }
+    ],
+    "result": {
+      "moment_of_inertia": {
+        "label": "Moment of inertia $I = \\tfrac13 M L^2$ (the shaded area)",
+        "unit": "kg*m**2",
+        "symbolic_latex": "\\tfrac13 M L^2",
+        "value": 0.96,
+        "display": "0.96"
+      },
+      "hoop_value": {
+        "label": "If all the mass were at the tip: $I = M L^2$ (the hoop/point rectangle)",
+        "unit": "kg*m**2",
+        "symbolic_latex": "M L^2",
+        "value": 2.88,
+        "display": "2.88"
+      },
+      "linear_density": {
+        "label": "Linear mass density $\\lambda = M/L$",
+        "unit": "kg/m",
+        "symbolic_latex": "M/L",
+        "value": 1.666667,
+        "display": "1.667"
+      },
+      "tip_rate": {
+        "label": "Integrand at the tip $\\lambda L^2$",
+        "unit": "kg*m",
+        "symbolic_latex": "\\lambda L^2",
+        "value": 2.4,
+        "display": "2.4"
+      }
+    }
+  },
+  "calculus": {
+    "steps": [
+      {
+        "label": "Moment of inertia is the integral of r² over the mass",
+        "latex": "I = \\int r^2\\,dm",
+        "prose": "Every slice of mass $dm$ at radius $r$ contributes $r^2\\,dm$ to the moment of inertia. The total is the integral over the whole body — and for a body whose mass is spread out, that is the area under a curve, not a single term."
+      },
+      {
+        "label": "Spread the rod's mass at density $\\lambda = M/L$",
+        "latex": "dm = \\lambda\\,dr \\ \\Longrightarrow\\ I = \\int_0^{L} \\lambda\\,r^2\\,dr = \\tfrac13\\lambda L^3 = \\tfrac13 M L^2",
+        "prose": "With the rod's mass spread uniformly at $\\lambda = M/L$ per metre, the integrand becomes $\\lambda r^2$ — a parabola. The area under it from $0$ to $L$ is $\\tfrac13\\lambda L^3$, and $\\lambda L = M$ turns that into the memorized $\\tfrac13 M L^2$. Its slope at any radius is $\\lambda r^2$ — the rate at which the moment accumulates.",
+        "emphasis": true
+      },
+      {
+        "label": "Why the hoop's coefficient is the special one",
+        "latex": "\\text{all mass at } R \\ \\Longrightarrow\\ I = \\int R^2\\,dm = M R^2",
+        "prose": "If instead the mass is all at a single radius $R$ — a thin hoop — the integrand $r^2$ is the constant $R^2$, and the integral collapses to the rectangle $M R^2$. The rod's $\\tfrac13$ is small because most of its mass sits close to the pivot, where $r^2$ is tiny; the hoop's $1$ is the extreme where all the mass is as far out as possible."
+      }
+    ]
+  },
+  "proof": {
+    "kind": "integral",
+    "heading": "The moment of inertia is the area under dI/dr = λr² — and the table's ⅓ML² falls out of the integral.",
+    "checked_by": "sympy",
+    "holds": true,
+    "detail": "check $\\tfrac{dI}{dr} = \\lambda r^2$; check $I = \\int_0^r \\lambda r'^2\\,dr'$; recover $\\tfrac13 M L^2$ at $r=L$; collapse the hoop case to $M R^2$",
+    "checks": [
+      {
+        "key": "ftc_slope",
+        "claim": "The moment's slope is the integrand: $\\tfrac{dI}{dr} = \\lambda r^2$ — the area's growth rate is the curve's height.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "area_is_integral",
+        "claim": "The accumulated moment is the area: $I(r) = \\int_0^r \\lambda r'^2\\,dr'$.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "rod_falls_out",
+        "claim": "At the rod's end the area is the memorized $I = \\tfrac13 M L^2$.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "hoop_echo",
+        "claim": "If all the mass sat at one radius $R$ (a hoop), the integral collapses to $I = M R^2$ — the rectangle (the quadrature).",
+        "holds": true,
+        "tier": "structural"
+      }
+    ]
+  },
+  "units_check": {
+    "checked_by": "sympy",
+    "holds": true
+  },
+  "graphs": [
+    {
+      "kind": "area",
+      "mode": "interactive",
+      "window": "fixed",
+      "annotate": [
+        "area_is_inertia",
+        "rod_vs_hoop"
+      ],
+      "svg": "assets/graphs/moment-of-inertia-0.svg",
+      "series": {
+        "u": [
+          0.0,
+          0.023666667,
+          0.047333333,
+          0.071,
+          0.094666667,
+          0.118333333,
+          0.142,
+          0.165666667,
+          0.189333333,
+          0.213,
+          0.236666667,
+          0.260333333,
+          0.284,
+          0.307666667,
+          0.331333333,
+          0.355,
+          0.378666667,
+          0.402333333,
+          0.426,
+          0.449666667,
+          0.473333333,
+          0.497,
+          0.520666667,
+          0.544333333,
+          0.568,
+          0.591666667,
+          0.615333333,
+          0.639,
+          0.662666667,
+          0.686333333,
+          0.71,
+          0.733666667,
+          0.757333333,
+          0.781,
+          0.804666667,
+          0.828333333,
+          0.852,
+          0.875666667,
+          0.899333333,
+          0.923,
+          0.946666667,
+          0.970333333,
+          0.994,
+          1.017666667,
+          1.041333333,
+          1.065,
+          1.088666667,
+          1.112333333,
+          1.136,
+          1.159666667,
+          1.183333333,
+          1.207,
+          1.230666667,
+          1.254333333,
+          1.278,
+          1.301666667,
+          1.325333333,
+          1.349,
+          1.372666667,
+          1.396333333,
+          1.42
+        ],
+        "f": [
+          0.0,
+          0.0009335185,
+          0.003734074,
+          0.0084016667,
+          0.0149362964,
+          0.0233379628,
+          0.0336066667,
+          0.0457424076,
+          0.059745185,
+          0.075615,
+          0.0933518521,
+          0.1129557405,
+          0.1344266667,
+          0.15776463,
+          0.1829696293,
+          0.2100416667,
+          0.2389807412,
+          0.2697868514,
+          0.30246,
+          0.3370001857,
+          0.3734074069,
+          0.4116816667,
+          0.4518229635,
+          0.4938312957,
+          0.5377066667,
+          0.5834490747,
+          0.6310585178,
+          0.680535,
+          0.7318785193,
+          0.7850890733,
+          0.8401666667,
+          0.8971112971,
+          0.9559229621,
+          1.0166016667,
+          1.0791474083,
+          1.1435601843,
+          1.20984,
+          1.2779868528,
+          1.3480007397,
+          1.4198816667,
+          1.4936296307,
+          1.5692446286,
+          1.6467266667,
+          1.7260757419,
+          1.8072918507,
+          1.890375,
+          1.9753251864,
+          2.0621424062,
+          2.1508266667,
+          2.2413779643,
+          2.333796295,
+          2.4280816667,
+          2.5242340754,
+          2.6222535171,
+          2.72214,
+          2.82389352,
+          2.9275140726,
+          3.0330016667,
+          3.1403562978,
+          3.2495779614,
+          3.3606666667
+        ],
+        "g": [
+          0.0,
+          7.3644e-06,
+          5.89154e-05,
+          0.0001988394,
+          0.0004713231,
+          0.000920553,
+          0.0015907156,
+          0.0025259974,
+          0.003770585,
+          0.005368665,
+          0.0073644239,
+          0.0098020481,
+          0.0127257244,
+          0.0161796393,
+          0.020207979,
+          0.0248549306,
+          0.0301646802,
+          0.0361814144,
+          0.04294932,
+          0.0505125834,
+          0.0589153908,
+          0.0682019294,
+          0.0784163855,
+          0.089602945,
+          0.1018057956,
+          0.1150691231,
+          0.1294371137,
+          0.144953955,
+          0.161663833,
+          0.1796109335,
+          0.1988394444,
+          0.2193935518,
+          0.241317441,
+          0.2646553006,
+          0.2894513161,
+          0.315749673,
+          0.34359456,
+          0.3730301626,
+          0.4041006661,
+          0.4368502594,
+          0.4713231281,
+          0.5075634569,
+          0.5456154356,
+          0.5855232491,
+          0.6273310822,
+          0.671083125,
+          0.7168235623,
+          0.7645965786,
+          0.8144463644,
+          0.8664171044,
+          0.9205529828,
+          0.9768981906,
+          1.0354969121,
+          1.0963933314,
+          1.15963164,
+          1.225256022,
+          1.2933106611,
+          1.3638397494,
+          1.4368874708,
+          1.5124980086,
+          1.5907155556
+        ],
+        "u_max": 1.42
+      },
+      "closed_form": {
+        "f": "(5/6)*M*Math.pow(u, 2)",
+        "g": "(5/18)*M*Math.pow(u, 3)"
+      },
+      "closed_form_params": [
+        "M",
+        "u"
+      ],
+      "params": {
+        "M": {
+          "min": 0.2,
+          "max": 8.0,
+          "default": 2.0
+        }
+      },
+      "cursor": {
+        "name": "u",
+        "label": "r  (m)",
+        "unit": "m",
+        "min": 0.0,
+        "max": 1.42,
+        "default": 1.2
+      },
+      "u_label": "r  (m)",
+      "f_label": "dI/dr  (kg·m)",
+      "g_label": "I  (kg·m²)",
+      "u0": 0.0
+    }
+  ],
+  "misconception": {
+    "claim": "Moment of inertia just depends on how much mass there is, like ordinary mass does.",
+    "refuted_by": "It depends on *where* the mass is, not just how much. Each slice contributes $r^2\\,dm$, so mass far from the axis counts far more — the area under $dI/dr = \\lambda r^2$ piles up near the tip. That is why the same mass gives $I = \\tfrac13 ML^2$ as a rod about its end but $I = ML^2$ if you bunch it all at the tip (a hoop). Move the mass outward and $I$ grows even though $M$ is unchanged."
+  },
+  "formulas_used": [
+    "rot-moment-rod",
+    "rot-kinetic"
+  ],
+  "provenance": {
+    "producer": "quadrature_producer",
+    "version": "0.1.0",
+    "sympy": "1.14.0",
+    "author": "Quadrature",
+    "created": "2026-06-26"
+  }
+}

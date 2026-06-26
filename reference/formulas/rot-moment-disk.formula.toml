@@ -1,0 +1,18 @@
+id = "rot-moment-disk"
+name = "Moment of inertia of a disk"
+domain = "mechanics"
+regime = 2
+expr = "M*R**2/2"
+lhs = "I"
+result_unit = "kg*m**2"
+assumptions = ["uniform solid disk (or cylinder), axis through the centre", "from I = ∫r² dm with mass spread over area"]
+citations = []
+
+[variables]
+M = { unit = "kg", desc = "disk mass" }
+R = { unit = "m", desc = "disk radius" }
+
+[[edges]]
+type = "related-to"
+target = "rot-kinetic"
+gloss = "the I in ½Iω² for a rolling or spinning disk"

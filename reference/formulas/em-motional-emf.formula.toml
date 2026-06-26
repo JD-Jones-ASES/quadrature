@@ -1,0 +1,24 @@
+id = "em-motional-emf"
+name = "Motional EMF"
+domain = "em"
+regime = 2
+expr = "B*L*v"
+lhs = "\\mathcal{E}"
+result_unit = "V"
+assumptions = ["straight conductor of length L moving at speed v across a field B", "a special case of Faraday's law, EMF = −dΦ/dt, with Φ = BLx"]
+citations = []
+
+[variables]
+B = { unit = "T", desc = "magnetic flux density" }
+L = { unit = "m", desc = "length of the moving conductor" }
+v = { unit = "m/s", desc = "speed across the field" }
+
+[[edges]]
+type = "related-to"
+target = "em-flux"
+gloss = "Faraday's law: EMF = −dΦ/dt; sweeping area at rate Lv gives EMF = BLv"
+
+[[edges]]
+type = "related-to"
+target = "drag-v-of-t"
+gloss = "in an RL/RC circuit the induced quantities approach their final values exponentially, like a velocity under drag"

@@ -355,6 +355,42 @@
       }
     },
     {
+      "id": "em-bfield-wire",
+      "name": "Magnetic field of a long straight wire",
+      "domain": "em",
+      "regime": 1,
+      "lhs": "B",
+      "expr": "mu0*I/(2*pi*r)",
+      "expr_srepr": "Mul(Rational(1, 2), Pow(pi, Integer(-1)), Symbol('I', real=True), Symbol('mu0', real=True), Pow(Symbol('r', real=True), Integer(-1)))",
+      "latex": "B = \\frac{I \\mu_{0}}{2 \\pi r}",
+      "result_unit": "T",
+      "variables": {
+        "mu0": {
+          "unit": "T*m/A",
+          "desc": "permeability of free space μ₀"
+        },
+        "I": {
+          "unit": "A",
+          "desc": "current"
+        },
+        "r": {
+          "unit": "m",
+          "desc": "distance from the wire"
+        }
+      },
+      "assumptions": [
+        "infinitely long, thin straight wire",
+        "field circles the wire; magnitude falls as 1/r"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
       "id": "em-capacitance",
       "name": "Capacitance",
       "domain": "em",
@@ -488,6 +524,110 @@
       "assumptions": [
         "point charge (or spherical charge)",
         "magnitude of the radial field; points away from a positive charge"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "em-flux",
+      "name": "Magnetic flux",
+      "domain": "em",
+      "regime": 1,
+      "lhs": "\\Phi",
+      "expr": "B*A",
+      "expr_srepr": "Mul(Symbol('A', real=True), Symbol('B', real=True))",
+      "latex": "\\Phi = A B",
+      "result_unit": "Wb",
+      "variables": {
+        "B": {
+          "unit": "T",
+          "desc": "magnetic flux density"
+        },
+        "A": {
+          "unit": "m**2",
+          "desc": "area threaded by the field"
+        }
+      },
+      "assumptions": [
+        "uniform field perpendicular to a flat area A",
+        "general case Φ = ∫B·dA"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "em-lorentz-force",
+      "name": "Magnetic force on a charge",
+      "domain": "em",
+      "regime": 1,
+      "lhs": "F",
+      "expr": "q*v*B",
+      "expr_srepr": "Mul(Symbol('B', real=True), Symbol('q', real=True), Symbol('v', real=True))",
+      "latex": "F = B q v",
+      "result_unit": "N",
+      "variables": {
+        "q": {
+          "unit": "C",
+          "desc": "charge"
+        },
+        "v": {
+          "unit": "m/s",
+          "desc": "speed"
+        },
+        "B": {
+          "unit": "T",
+          "desc": "magnetic flux density"
+        }
+      },
+      "assumptions": [
+        "magnitude for velocity perpendicular to the field",
+        "force is perpendicular to both v and B (F = qv×B)"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "em-motional-emf",
+      "name": "Motional EMF",
+      "domain": "em",
+      "regime": 2,
+      "lhs": "\\mathcal{E}",
+      "expr": "B*L*v",
+      "expr_srepr": "Mul(Symbol('B', real=True), Symbol('L', real=True), Symbol('v', real=True))",
+      "latex": "\\mathcal{E} = B L v",
+      "result_unit": "V",
+      "variables": {
+        "B": {
+          "unit": "T",
+          "desc": "magnetic flux density"
+        },
+        "L": {
+          "unit": "m",
+          "desc": "length of the moving conductor"
+        },
+        "v": {
+          "unit": "m/s",
+          "desc": "speed across the field"
+        }
+      },
+      "assumptions": [
+        "straight conductor of length L moving at speed v across a field B",
+        "a special case of Faraday's law, EMF = −dΦ/dt, with Φ = BLx"
       ],
       "derivation": null,
       "lessons": [],
@@ -662,6 +802,42 @@
       "assumptions": [
         "series resistor and capacitor",
         "the charge approaches its final value as 1 − e^{−t/τ}"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "em-wire-force",
+      "name": "Magnetic force on a current-carrying wire",
+      "domain": "em",
+      "regime": 1,
+      "lhs": "F",
+      "expr": "B*I*L",
+      "expr_srepr": "Mul(Symbol('B', real=True), Symbol('I', real=True), Symbol('L', real=True))",
+      "latex": "F = B I L",
+      "result_unit": "N",
+      "variables": {
+        "B": {
+          "unit": "T",
+          "desc": "magnetic flux density"
+        },
+        "I": {
+          "unit": "A",
+          "desc": "current"
+        },
+        "L": {
+          "unit": "m",
+          "desc": "length of wire in the field"
+        }
+      },
+      "assumptions": [
+        "straight wire perpendicular to the field",
+        "uniform field over the length L"
       ],
       "derivation": null,
       "lessons": [],
@@ -1325,6 +1501,42 @@
       }
     },
     {
+      "id": "optics-snell",
+      "name": "Snell's law of refraction",
+      "domain": "waves-optics",
+      "regime": 3,
+      "lhs": "\\theta_2",
+      "expr": "asin(n1*sin(theta1)/n2)",
+      "expr_srepr": "asin(Mul(Symbol('n1', real=True), Pow(Symbol('n2', real=True), Integer(-1)), sin(Symbol('theta1', real=True))))",
+      "latex": "\\theta_2 = \\operatorname{asin}{\\left(\\frac{n_{1} \\sin{\\left(\\theta_{1} \\right)}}{n_{2}} \\right)}",
+      "result_unit": "rad",
+      "variables": {
+        "n1": {
+          "unit": "1",
+          "desc": "refractive index of the first medium"
+        },
+        "theta1": {
+          "unit": "rad",
+          "desc": "angle of incidence (from the normal)"
+        },
+        "n2": {
+          "unit": "1",
+          "desc": "refractive index of the second medium"
+        }
+      },
+      "assumptions": [
+        "light crossing a flat boundary between two media",
+        "n₁ sin θ₁ = n₂ sin θ₂; angles measured from the normal"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
       "id": "optics-thin-lens",
       "name": "Thin-lens equation",
       "domain": "waves-optics",
@@ -1409,6 +1621,108 @@
       },
       "assumptions": [
         "rotation about a fixed axis"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "rot-moment-disk",
+      "name": "Moment of inertia of a disk",
+      "domain": "mechanics",
+      "regime": 2,
+      "lhs": "I",
+      "expr": "M*R**2/2",
+      "expr_srepr": "Mul(Rational(1, 2), Symbol('M', real=True), Pow(Symbol('R', real=True), Integer(2)))",
+      "latex": "I = \\frac{M R^{2}}{2}",
+      "result_unit": "kg*m**2",
+      "variables": {
+        "M": {
+          "unit": "kg",
+          "desc": "disk mass"
+        },
+        "R": {
+          "unit": "m",
+          "desc": "disk radius"
+        }
+      },
+      "assumptions": [
+        "uniform solid disk (or cylinder), axis through the centre",
+        "from I = ∫r² dm with mass spread over area"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "rot-moment-rod",
+      "name": "Moment of inertia of a rod (about one end)",
+      "domain": "mechanics",
+      "regime": 2,
+      "lhs": "I",
+      "expr": "M*L**2/3",
+      "expr_srepr": "Mul(Rational(1, 3), Pow(Symbol('L', real=True), Integer(2)), Symbol('M', real=True))",
+      "latex": "I = \\frac{L^{2} M}{3}",
+      "result_unit": "kg*m**2",
+      "variables": {
+        "M": {
+          "unit": "kg",
+          "desc": "rod mass"
+        },
+        "L": {
+          "unit": "m",
+          "desc": "rod length"
+        }
+      },
+      "assumptions": [
+        "uniform thin rod, axis through one end",
+        "derived from I = ∫r² dm; ⅓ML² about the centre is ML²/12"
+      ],
+      "derivation": null,
+      "lessons": [
+        "moment-of-inertia"
+      ],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "rot-parallel-axis",
+      "name": "Parallel-axis theorem",
+      "domain": "mechanics",
+      "regime": 1,
+      "lhs": "I",
+      "expr": "Icm + M*d**2",
+      "expr_srepr": "Add(Symbol('Icm', real=True), Mul(Symbol('M', real=True), Pow(Symbol('d', real=True), Integer(2))))",
+      "latex": "I = Icm + M d^{2}",
+      "result_unit": "kg*m**2",
+      "variables": {
+        "Icm": {
+          "unit": "kg*m**2",
+          "desc": "moment of inertia about the centre of mass"
+        },
+        "M": {
+          "unit": "kg",
+          "desc": "total mass"
+        },
+        "d": {
+          "unit": "m",
+          "desc": "distance between the two parallel axes"
+        }
+      },
+      "assumptions": [
+        "axis parallel to one through the centre of mass, offset by d",
+        "Icm is the moment about the centre-of-mass axis"
       ],
       "derivation": null,
       "lessons": [],

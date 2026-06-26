@@ -5,6 +5,16 @@ plan in [`ROADMAP.md`](./ROADMAP.md).
 
 ## [Unreleased] — Phase 1: full mechanics (in progress)
 
+- **Moment of inertia** (regime 2, rotation — area instrument on a *mass-distribution* axis, no engine change):
+  the algebra course hands you a *table* of moments ($\tfrac13ML^2$, $\tfrac12MR^2$, $MR^2$); calculus makes
+  them all from one integral $I=\int r^2\,dm$. With the rod's mass at density $\lambda=M/L$, the integrand is
+  $dI/dr=\lambda r^2$ (a parabola), the shaded area is $I(r)=\tfrac13\lambda r^3$, and at the tip it is the
+  memorized $\tfrac13ML^2$; concentrating all the mass at one radius (a hoop) collapses the integral to the
+  rectangle $MR^2$. SymPy proves all four. ($I=0.96$ kg·m² for a 2 kg, 1.2 m rod.)
+- **Reference depth — opened E&M magnetism + rounded out rotation & optics** (56 → 65 formulas; graph
+  56 → 65 nodes / 89 edges): magnetism (Lorentz force, force on a wire, field of a long wire, magnetic flux,
+  motional EMF), rotation (rod & disk moments, parallel-axis theorem), and Snell's law of refraction. Every
+  domain now has multiple formulas; E&M induction is seeded via motional EMF.
 - **Opened Phase 2 (E&M) and deepened Phase 3 (thermo) — two more area-instrument lessons, no engine change
   (model + spec + test):**
   - **Energy in a capacitor** (regime 2, E&M — *opens Phase 2*): the area instrument on the **charge** axis.

@@ -18,7 +18,7 @@ what algebra cannot (non-constant forces; ODEs) · **3** = algebra-only (no calc
 | Mechanics | Dynamics / Newton's laws | dual | 1–2 | 1 | ref ✓ |
 | Mechanics | Work & energy | dual | 1–2 | 1 | lesson (area: ∫F dx) + ref |
 | Mechanics | Momentum & impulse | dual | 1–2 | 1 | lesson (impulse: area ∫F dt) + ref |
-| Mechanics | Rotation / rigid bodies | dual | 1–2 | 1 | lesson (angular kinematics) + ref (partial) |
+| Mechanics | Rotation / rigid bodies | dual | 1–2 | 1 | lessons (angular kinematics; moment of inertia `∫r² dm`) + ref (kinematics, energy, momentum, torque, rod/disk moments, parallel-axis) |
 | Mechanics | Simple harmonic motion | dual | 2 | 1 | lesson + ref |
 | Mechanics | Gravitation | dual | 2 | 1 | lesson (PE: area ∫GMm/r² dr) + ref |
 | Mechanics | Circular motion | dual | 1 | 1 | ref ✓ |
@@ -27,13 +27,13 @@ what algebra cannot (non-constant forces; ODEs) · **3** = algebra-only (no calc
 | E&M | Electric potential | dual | 1–2 | 2 | ref ✓ (point-charge potential, electric PE) |
 | E&M | DC circuits | dual | 1 | 2 | ref ✓ (Ohm's law, electrical power) |
 | E&M | Capacitors (incl. RC) | dual | 2 | 2 | lesson (area: ∫V dq → ½CV²) + ref (capacitance, energy, RC) |
-| E&M | Magnetism & forces | dual | 1–2 | 2 | — |
-| E&M | Induction (Faraday/Lenz) | dual | 2 | 2 | — |
+| E&M | Magnetism & forces | dual | 1–2 | 2 | ref ✓ (Lorentz force, force on a wire, field of a long wire) |
+| E&M | Induction (Faraday/Lenz) | dual | 2 | 2 | ref (partial: magnetic flux, motional EMF) |
 | Fluids | Statics & dynamics | algebra | 3 | 3 | ref ✓ (pressure, buoyancy, continuity, Bernoulli — `mechanics` domain) |
 | Thermo | Temperature, heat, kinetic theory | algebra | 3 | 3 | ref ✓ (first law, specific heat, internal energy, Carnot) |
 | Thermo | Laws / PV work | algebra | 3 (∫P dV stretch) | 3 | lesson (area: isothermal + adiabatic ∫P dV) + ref (ideal gas, isothermal, adiabatic) |
 | Waves & optics | Waves, sound, superposition | algebra | 3 | 3 | ref ✓ (wave speed, period, string) |
-| Waves & optics | Geometric & physical optics | algebra | 3 | 3 | ref ✓ (thin lens, magnification) |
+| Waves & optics | Geometric & physical optics | algebra | 3 | 3 | ref ✓ (thin lens, magnification, Snell's law) |
 | Modern | Quanta, atom, nuclear | algebra | 3 | 3 | ref ✓ (photon energy, de Broglie, E=mc², photoelectric) |
 
 Notes:

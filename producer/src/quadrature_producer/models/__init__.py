@@ -6,7 +6,8 @@ the spec's `model` field. The Scenario shape is the contract — see base.py.
 """
 
 from . import (constant_accel, shm, linear_drag, damped_shm, work_energy, pv_work,
-               projectile, impulse, rotation, gravity_pe, capacitor_energy, adiabatic)
+               projectile, impulse, rotation, gravity_pe, capacitor_energy, adiabatic,
+               moment_of_inertia)
 
 MODELS = {
     "constant-accel": constant_accel.build,
@@ -21,4 +22,5 @@ MODELS = {
     "gravity-pe": gravity_pe.build,
     "capacitor-energy": capacitor_energy.build,
     "adiabatic": adiabatic.build,
+    "moment-of-inertia": moment_of_inertia.build,
 }

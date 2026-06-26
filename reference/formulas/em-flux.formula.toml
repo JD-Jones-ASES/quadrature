@@ -1,0 +1,23 @@
+id = "em-flux"
+name = "Magnetic flux"
+domain = "em"
+regime = 1
+expr = "B*A"
+lhs = "\\Phi"
+result_unit = "Wb"
+assumptions = ["uniform field perpendicular to a flat area A", "general case Φ = ∫B·dA"]
+citations = []
+
+[variables]
+B = { unit = "T", desc = "magnetic flux density" }
+A = { unit = "m**2", desc = "area threaded by the field" }
+
+[[edges]]
+type = "related-to"
+target = "em-motional-emf"
+gloss = "a changing flux drives an EMF (Faraday's law)"
+
+[[edges]]
+type = "related-to"
+target = "em-bfield-wire"
+gloss = "B is the field whose flux this is"

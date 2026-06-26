@@ -1,0 +1,32 @@
+id = "moment-of-inertia"
+title = "Moment of inertia: where the table of shapes comes from"
+topic = "rotation"
+slug = "moment-of-inertia"
+model = "moment-of-inertia"
+regime = 2
+author = "Quadrature"
+created = "2026-06-26"
+scenario = "A uniform rod of mass $M = 2$ kg and length $L = 1.2$ m spins about one end. The algebra course just hands you $I = \\tfrac13 ML^2$ from a table — but where does the $\\tfrac13$ come from? Each slice at radius $r$ adds $r^2\\,dm$, so the moment is the area under $dI/dr = \\lambda r^2$. Drag the cursor out from the pivot and watch $I$ build up — slowly near the axis, fast near the tip."
+formulas_used = ["rot-moment-rod", "rot-kinetic"]
+
+[parameters]
+M = 2                   # kg — total rod mass
+L = 1.2                 # m — rod length (pivot at one end)
+r_window = 1.42         # m — how far the cursor can travel past the tip
+
+[[assumptions]]
+claim = "Uniform thin rod: mass spread evenly at linear density $\\lambda = M/L$, thickness negligible."
+kind = "model"
+
+[[assumptions]]
+claim = "Rotation about a fixed axis through one end; $r$ is the distance from that axis."
+kind = "model"
+
+[[graphs]]
+kind = "area"
+mode = "interactive"
+annotate = ["area_is_inertia", "rod_vs_hoop"]
+
+[misconception]
+claim = "Moment of inertia just depends on how much mass there is, like ordinary mass does."
+refuted_by = "It depends on *where* the mass is, not just how much. Each slice contributes $r^2\\,dm$, so mass far from the axis counts far more — the area under $dI/dr = \\lambda r^2$ piles up near the tip. That is why the same mass gives $I = \\tfrac13 ML^2$ as a rod about its end but $I = ML^2$ if you bunch it all at the tip (a hoop). Move the mass outward and $I$ grows even though $M$ is unchanged."

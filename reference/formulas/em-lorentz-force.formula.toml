@@ -1,0 +1,24 @@
+id = "em-lorentz-force"
+name = "Magnetic force on a charge"
+domain = "em"
+regime = 1
+expr = "q*v*B"
+lhs = "F"
+result_unit = "N"
+assumptions = ["magnitude for velocity perpendicular to the field", "force is perpendicular to both v and B (F = qv×B)"]
+citations = []
+
+[variables]
+q = { unit = "C", desc = "charge" }
+v = { unit = "m/s", desc = "speed" }
+B = { unit = "T", desc = "magnetic flux density" }
+
+[[edges]]
+type = "related-to"
+target = "em-wire-force"
+gloss = "summed over the moving charges in a current, this becomes F = BIL"
+
+[[edges]]
+type = "related-to"
+target = "em-bfield-wire"
+gloss = "B is the field a current produces"

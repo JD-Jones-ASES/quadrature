@@ -13,18 +13,21 @@ from `JD.md`), then fill depth-first, and close with a doc sweep. Status lives h
 - **Phase 1 — full mechanics — IN PROGRESS.** Lessons: free fall (1), SHM (2), terminal velocity (2), damped
   oscillator (2, sampled), **work–energy (2, area)**, **projectile drag-free (1) and quadratic drag (2,
   numerical)**, **impulse–momentum (2, area on the time axis)**, **rotational kinematics (1, stack)**,
-  **gravitational PE (2, area on the radial axis)**. Engine has the **integral instrument** (ADR-0014) and the
-  **2D trajectory instrument** (ADR-0015, drag-free exact + quadratic-drag numerical with a new accuracy gate).
+  **gravitational PE (2, area on the radial axis)**, **moment of inertia (2, area on the mass-distribution
+  axis — `∫r² dm`)**. Engine has the **integral instrument** (ADR-0014) and the **2D trajectory instrument**
+  (ADR-0015, drag-free exact + quadratic-drag numerical with a new accuracy gate).
 - **Phase 2 — electricity & magnetism — OPENED.** First E&M lesson: **energy in a capacitor** (`∫V dq → ½CV²`,
-  regime 2, area instrument on the charge axis), built with no engine change. A 9-formula E&M reference cluster
-  (Coulomb, point-charge field & potential, electric PE, capacitance, capacitor energy, Ohm's law, electrical
-  power, RC time constant). Magnetism, induction, and continuous-charge integrals: not started.
+  regime 2, area instrument on the charge axis), built with no engine change. A **14-formula E&M reference**:
+  electrostatics (Coulomb, point-charge field & potential, electric PE), circuits (capacitance, capacitor
+  energy, Ohm's law, electrical power, RC time constant), and **magnetism** (Lorentz force, force on a wire,
+  field of a long wire, magnetic flux, motional EMF — which seeds induction). Magnetism/induction lessons and
+  continuous-charge integrals: not started.
 - **Phase 3 — algebra-only domains — SEEDED & DEEPENING.** Thermo: **isothermal** and **adiabatic** PV-work
   lessons (`∫P dV`, regime 3, area instrument) + a 6-formula thermo reference (ideal gas, first law, specific
   heat, internal energy, adiabatic work & relation, Carnot). Reference breadth seeded across the remaining
   algebra-only domains too — **fluids** (pressure, buoyancy, continuity, Bernoulli), **waves & optics** (wave
   speed, period, string, thin lens, magnification), **modern** (photon energy, de Broglie, E=mc², photoelectric).
-- **Reference: 56 formulas across all five domains**, all SymPy-unit-verified, 56-node / 73-edge concept graph.
+- **Reference: 65 formulas across all five domains**, all SymPy-unit-verified, 65-node / 89-edge concept graph.
 
 ---
 
@@ -124,10 +127,10 @@ offerings (ADR-0007), independent of which lessons exist. Tracked against
 [`docs/regime-map.md`](./docs/regime-map.md). Goal: the reference is a comprehensive, SymPy-verified, fully
 interlinked formula sheet early, while lessons trail depth-first.
 
-**Status (2026-06-26): the breadth-first pass now covers all five domains** — 56 formulas (mechanics incl.
-fluids, E&M, thermo, waves & optics, modern), a 56-node / 73-edge concept graph, every formula's LaTeX
-generated from its SymPy expression and unit-checked. Remaining is per-domain depth (E&M magnetism / induction
-/ Gauss, the rest of optics, nuclear), not new domains.
+**Status (2026-06-26): the breadth-first pass now covers all five domains** — 65 formulas (mechanics incl.
+fluids & rotation, E&M incl. magnetism, thermo, waves & optics, modern), a 65-node / 89-edge concept graph,
+every formula's LaTeX generated from its SymPy expression and unit-checked. Remaining is per-domain depth (E&M
+induction beyond motional EMF, Gauss, the rest of optics, nuclear), not new domains.
 
 ## Out of scope (v1)
 
