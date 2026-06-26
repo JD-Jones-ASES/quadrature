@@ -17,11 +17,29 @@ const svg = readFileSync(
   "utf8"
 );
 
+const graph0 = solution.graphs[0];
+const isArea = graph0.kind === "area";
+const isTraj = graph0.kind === "trajectory";
+const fSym = (graph0.f_label ?? "").split("(")[0].trim();
+const uSym = (graph0.u_label ?? "").split("(")[0].trim();
+
 const FRAMING = {
   1: "Regime 1 — the algebra is the calculus, evaluated. Step the algebra, step the calculus, and watch the algebra formula fall out of the integral. SymPy proves the two registers agree.",
-  2: "Regime 2 — calculus does what algebra cannot. The acceleration isn't constant, so the algebra formulas don't apply; calculus is the only road in, and SymPy proves the closed form solves the equation of motion.",
-  3: "Regime 3 — an algebra-only topic.",
+  2: isArea
+    ? "Regime 2 — calculus does what algebra cannot. The force isn't constant, so the algebra W = F·d doesn't apply; the work is the area under the force curve, ∫F dx — and SymPy proves that area is exactly the kinetic energy gained."
+    : "Regime 2 — calculus does what algebra cannot. The acceleration isn't constant, so the algebra formulas don't apply; calculus is the only road in, and SymPy proves the closed form solves the equation of motion.",
+  3: isArea
+    ? "Regime 3 — an algebra-only domain, but the calculus underpinning is clean and worth seeing: the work is the area under the curve, ∫P dV. SymPy proves that area is exactly the memorized result — and that the constant-pressure case collapses to the rectangle."
+    : "Regime 3 — an algebra-only topic.",
 };
+
+const figureHeading = isArea
+  ? `The ${fSym}–${uSym} graph, fully annotated`
+  : isTraj ? "The trajectory, fully annotated" : "The stacked graph, fully annotated";
+const figureCaption = isArea
+  ? `A static rendering (Matplotlib): the shaded area under ${fSym} is the accumulated integral ${graph0.g_label?.split("(")[0].trim()}, and the slope of ${graph0.g_label?.split("(")[0].trim()} is ${fSym}. The interactive version with a draggable cursor is in the Graph tab above.`
+  : isTraj ? "A static rendering (Matplotlib) at the default launch — the path y vs x, with the apex and range marked. The interactive version with launch-angle and speed sliders is in the Graph tab above."
+  : "A static rendering (Matplotlib) at the default parameters — the interactive version is in the Graph tab above.";
 ---
 
 <Base title={`${solution.title} — Quadrature`} description={solution.scenario}>
@@ -32,9 +50,8 @@ const FRAMING = {
   <SolutionPlayer solution={view} client:visible />
 
   <section class="figure">
-    <h2>The stacked graph, fully annotated</h2>
-    <p class="muted">A static rendering (Matplotlib) at the default parameters — the interactive version is in
-      the Graph tab above.</p>
+    <h2>{figureHeading}</h2>
+    <p class="muted">{figureCaption}</p>
     <div class="svgwrap" set:html={svg} />
   </section>
 

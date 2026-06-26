@@ -893,6 +893,89 @@
         "units": true,
         "derivation": false
       }
+    },
+    {
+      "id": "thermo-ideal-gas",
+      "name": "Ideal-gas law (pressure form)",
+      "domain": "thermo",
+      "regime": 3,
+      "lhs": "P",
+      "expr": "n*R*T/V",
+      "expr_srepr": "Mul(Symbol('R', real=True), Symbol('T', real=True), Pow(Symbol('V', real=True), Integer(-1)), Symbol('n', real=True))",
+      "latex": "P = \\frac{R T n}{V}",
+      "result_unit": "Pa",
+      "variables": {
+        "n": {
+          "unit": "mol",
+          "desc": "amount of substance"
+        },
+        "R": {
+          "unit": "J/(mol*K)",
+          "desc": "ideal-gas constant"
+        },
+        "T": {
+          "unit": "K",
+          "desc": "absolute temperature"
+        },
+        "V": {
+          "unit": "m**3",
+          "desc": "volume"
+        }
+      },
+      "assumptions": [
+        "ideal gas (no intermolecular forces, point particles)"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "thermo-work-isothermal",
+      "name": "Isothermal work (ideal gas)",
+      "domain": "thermo",
+      "regime": 3,
+      "lhs": "W",
+      "expr": "n*R*T*log(V2/V1)",
+      "expr_srepr": "Mul(Symbol('R', real=True), Symbol('T', real=True), Symbol('n', real=True), log(Mul(Pow(Symbol('V1', real=True), Integer(-1)), Symbol('V2', real=True))))",
+      "latex": "W = R T n \\log{\\left(\\frac{V_{2}}{V_{1}} \\right)}",
+      "result_unit": "J",
+      "variables": {
+        "n": {
+          "unit": "mol",
+          "desc": "amount of substance"
+        },
+        "R": {
+          "unit": "J/(mol*K)",
+          "desc": "ideal-gas constant"
+        },
+        "T": {
+          "unit": "K",
+          "desc": "absolute temperature"
+        },
+        "V1": {
+          "unit": "m**3",
+          "desc": "initial volume"
+        },
+        "V2": {
+          "unit": "m**3",
+          "desc": "final volume"
+        }
+      },
+      "assumptions": [
+        "ideal gas at constant temperature (isothermal, reversible expansion)",
+        "work is the area under the P–V curve, W = ∫P dV"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
     }
   ]
 }

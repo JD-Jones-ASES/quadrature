@@ -1,0 +1,38 @@
+id = "isothermal-work"
+title = "Work by an expanding gas: area under the P–V curve"
+topic = "thermo"
+slug = "isothermal-work"
+model = "pv-work"
+regime = 3
+author = "Quadrature"
+created = "2026-06-26"
+scenario = "One mole of an ideal gas at $T = 300$ K expands isothermally from $V_1 = 0.025$ m³ to $V_2 = 0.075$ m³. How much work does it do — and why is the answer a logarithm, not simply pressure times volume change? Watch the work accumulate as the area under the P–V curve."
+formulas_used = ["thermo-ideal-gas", "thermo-work-isothermal"]
+
+[parameters]
+n = 1                   # mol
+T = 300                 # K
+V1 = 0.025              # m³ — initial volume
+V2 = 0.075              # m³ — final volume (3× expansion)
+v_window = 0.084        # m³ — how far the cursor can sweep
+
+[[assumptions]]
+claim = "Ideal gas: $PV = nRT$ holds exactly (no intermolecular forces, point particles)."
+kind = "model"
+
+[[assumptions]]
+claim = "Isothermal, reversible, quasi-static expansion — the temperature is held constant by a reservoir."
+kind = "model"
+
+[[assumptions]]
+claim = "Work is the area under the P–V curve, $W = \\int P\\,dV$, with no friction or dissipation."
+kind = "model"
+
+[[graphs]]
+kind = "area"
+mode = "interactive"
+annotate = ["area_is_work", "slope_is_pressure"]
+
+[misconception]
+claim = "The work done by an expanding gas is just pressure times the change in volume, $W = P\\,\\Delta V$."
+refuted_by = "That is only true at *constant* pressure (a rectangle). In an isothermal expansion the pressure *falls* as the gas expands — $P = nRT/V$ — so the work is the area under a curved hyperbola, $nRT\\ln(V_2/V_1)$, which is less than $P_1\\,\\Delta V$. Drag the cursor: the shaded area under the curve, not a rectangle, is the work."

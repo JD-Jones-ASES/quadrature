@@ -32,8 +32,13 @@ function compile(expr, params) {
 }
 
 let count = 0;
-function checkUnit(label, closedForm, params, series, paramValue) {
-  const { t, t_max, ...rest } = series; // rest = {x, v, a}
+function checkUnit(label, closedForm, params, series, paramValue, axisKey = "t") {
+  // The axis is t for the x–t/v–t/a–t stack, u for the area instrument (ADR-0014). rest = the value
+  // series keyed by the closed-form names (x/v/a, or f/g).
+  const axis = series[axisKey];
+  const rest = { ...series };
+  delete rest[axisKey];
+  delete rest[axisKey + "_max"];
   for (const [name, expr] of Object.entries(closedForm)) {
     if (!(name in rest)) continue;
     let fn;
@@ -44,8 +49,8 @@ function checkUnit(label, closedForm, params, series, paramValue) {
       continue;
     }
     const expected = rest[name];
-    for (let i = 0; i < t.length; i++) {
-      const args = params.map((p) => (p === "t" ? t[i] : paramValue(p)));
+    for (let i = 0; i < axis.length; i++) {
+      const args = params.map((p) => (p === axisKey ? axis[i] : paramValue(p)));
       if (args.some((a) => a === undefined)) {
         fail(`${label}.${name}: no value for a closed_form parameter`);
         break;
@@ -66,13 +71,18 @@ for (const file of walk(DERIVED).sort()) {
   const data = JSON.parse(readFileSync(file, "utf8"));
   const ic = data.initial_conditions ?? {};
   data.graphs.forEach((g, gi) => {
+    const axisKey = g.series?.u !== undefined ? "u" : "t";
     if (g.closed_form && g.series)
       checkUnit(`${rel} graphs[${gi}]`, g.closed_form, g.closed_form_params, g.series,
-                (p) => ic[p] ?? g.params?.[p]?.default);
+                (p) => ic[p] ?? g.params?.[p]?.default, axisKey);
     if (g.frames)
-      g.frames.forEach((fr, fi) =>
+      g.frames.forEach((fr, fi) => {
+        // numerical (no-closed-form) frames — e.g. the quadratic-drag trajectory — carry only sample points;
+        // they are verified by the accuracy gate, not the closed-form parity oracle.
+        if (!fr.closed_form) return;
         checkUnit(`${rel} graphs[${gi}].frames[${fi}]`, fr.closed_form, fr.closed_form_params, fr.series,
-                  () => undefined));
+                  () => undefined);
+      });
   });
 }
 

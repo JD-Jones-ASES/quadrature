@@ -20,9 +20,10 @@ import sympy as sp
 
 from . import BuildError, __version__
 from .dims import check_homogeneous, parse_unit
-from .emit import (closed_form, closed_form_of, closed_form_params, sample_series,
-                   sample_series_of)
-from .graph import render_stack
+from .emit import (closed_form, closed_form_area, closed_form_of, closed_form_params,
+                   closed_form_params_area, closed_form_params_traj, closed_form_traj,
+                   sample_area_series, sample_series, sample_series_of, sample_traj_series)
+from .graph import render_area, render_stack, render_trajectory
 from .models import MODELS
 from .reference import build_reference
 
@@ -44,21 +45,81 @@ def build_problem(path: Path, root: Path) -> tuple[dict, str]:
 
     # dimensional homogeneity (raises on a contradiction) — the units_check
     umap = {s: parse_unit(u, ctx) for s, u in scn.unit_map.items()}
-    for name, expr in (("x(t)", scn.x_expr), ("v(t)", scn.v_expr), ("a(t)", scn.a_expr)):
-        check_homogeneous(expr, umap, f"{ctx}: {name}")
+    if scn.x_expr is not None:
+        for name, expr in (("x(t)", scn.x_expr), ("v(t)", scn.v_expr), ("a(t)", scn.a_expr)):
+            check_homogeneous(expr, umap, f"{ctx}: {name}")
+    if scn.area is not None:
+        amap = {s: parse_unit(uu, ctx) for s, uu in scn.area.unit_map.items()}
+        check_homogeneous(scn.area.f_expr, amap, f"{ctx}: F(x)")
+        check_homogeneous(scn.area.g_expr, amap, f"{ctx}: W(x)")
+    if scn.trajectory is not None and scn.trajectory.x_expr is not None:
+        tmap = {s: parse_unit(uu, ctx) for s, uu in scn.trajectory.unit_map.items()}
+        check_homogeneous(scn.trajectory.x_expr, tmap, f"{ctx}: x(t)")
+        check_homogeneous(scn.trajectory.y_expr, tmap, f"{ctx}: y(t)")
 
     graphs = []
     for i, gentry in enumerate(spec.get("graphs", [])):
+        kind = gentry.get("kind", "stack")
         mode = gentry.get("mode", "static")
         svg_rel = f"assets/graphs/{ctx}-{i}.svg"
-        render_stack(scn, root / "derived" / svg_rel, scn.t_window)
         gobj = {
-            "kind": gentry.get("kind", "stack"),
+            "kind": kind,
             "mode": mode,
             "window": scn.window_mode,
             "annotate": gentry.get("annotate", []),
             "svg": svg_rel,
         }
+        if kind == "area":
+            if scn.area is None:
+                raise BuildError(f"{ctx}: graph kind 'area' but the model produced no AreaPlot")
+            a = scn.area
+            render_area(a, root / "derived" / svg_rel)
+            gobj["mode"] = "interactive"
+            gobj["series"] = sample_area_series(a)
+            gobj["closed_form"] = closed_form_area(a)
+            gobj["closed_form_params"] = closed_form_params_area(a)
+            gobj["params"] = {sl.name: {"min": sl.min, "max": sl.max, "default": sl.default}
+                              for sl in a.sliders}
+            # the cursor drives the canonical axis variable `u` (see emit._AXIS)
+            gobj["cursor"] = {"name": "u", "label": a.u_label, "unit": a.u_unit,
+                              "min": a.cursor.min, "max": a.cursor.max, "default": a.cursor.default}
+            gobj["u_label"] = a.u_label
+            gobj["f_label"] = a.f_label
+            gobj["g_label"] = a.g_label
+            gobj["u0"] = a.u0
+            graphs.append(gobj)
+            continue
+
+        if kind == "trajectory":
+            if scn.trajectory is None:
+                raise BuildError(f"{ctx}: graph kind 'trajectory' but the model produced no TrajectoryPlot")
+            tr = scn.trajectory
+            render_trajectory(tr, root / "derived" / svg_rel)
+            gobj["x_label"] = tr.x_label
+            gobj["y_label"] = tr.y_label
+            gobj["g"] = float(scn.constants_export.get("g", -10))
+            if tr.frames is not None:
+                gobj["mode"] = "sampled"
+                gobj["sweep"] = tr.sweep
+                gobj["frames"] = [
+                    {"value": fr.value, "label": fr.label,
+                     "series": {"t": fr.t, "x": fr.x, "y": fr.y, "t_max": round(fr.t[-1], 9)}}
+                    for fr in tr.frames
+                ]
+                if tr.reference is not None:
+                    gobj["reference"] = {"t": tr.reference.t, "x": tr.reference.x,
+                                         "y": tr.reference.y, "t_max": round(tr.reference.t[-1], 9)}
+            else:
+                gobj["mode"] = "interactive"
+                gobj["series"] = sample_traj_series(tr)
+                gobj["closed_form"] = closed_form_traj(tr)
+                gobj["closed_form_params"] = closed_form_params_traj(tr)
+                gobj["params"] = {sl.name: {"min": sl.min, "max": sl.max, "default": sl.default}
+                                  for sl in tr.sliders}
+            graphs.append(gobj)
+            continue
+
+        render_stack(scn, root / "derived" / svg_rel, scn.t_window)
         if mode == "sampled":
             if not scn.sampled:
                 raise BuildError(f"{ctx}: graph mode 'sampled' but the model produced no frames")

@@ -66,7 +66,7 @@
       "additionalProperties": false,
       "required": ["kind", "heading", "checked_by", "holds", "detail", "checks"],
       "properties": {
-        "kind": { "enum": ["equivalence", "governing"] },
+        "kind": { "enum": ["equivalence", "governing", "integral"] },
         "heading": { "type": "string" },
         "checked_by": { "const": "sympy" },
         "holds": { "type": "boolean" },
@@ -179,9 +179,30 @@
         "window": { "enum": ["landing", "fixed"] },
         "annotate": { "type": "array", "items": { "type": "string" } },
         "svg": { "type": "string" },
-        "series": { "$ref": "#/$defs/series" },
+        "series": { "oneOf": [ { "$ref": "#/$defs/series" }, { "$ref": "#/$defs/area_series" }, { "$ref": "#/$defs/traj_series" } ] },
         "closed_form": { "type": "object", "additionalProperties": { "type": "string" } },
         "closed_form_params": { "type": "array", "items": { "type": "string" } },
+        "u_label": { "type": "string" },
+        "f_label": { "type": "string" },
+        "g_label": { "type": "string" },
+        "u0": { "type": "number" },
+        "x_label": { "type": "string" },
+        "y_label": { "type": "string" },
+        "g": { "type": "number" },
+        "reference": { "$ref": "#/$defs/traj_series" },
+        "cursor": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["name", "label", "min", "max", "default"],
+          "properties": {
+            "name": { "type": "string" },
+            "label": { "type": "string" },
+            "unit": { "type": "string" },
+            "min": { "type": "number" },
+            "max": { "type": "number" },
+            "default": { "type": "number" }
+          }
+        },
         "params": {
           "type": "object",
           "additionalProperties": {
@@ -213,24 +234,67 @@
           "items": {
             "type": "object",
             "additionalProperties": false,
-            "required": ["value", "label", "closed_form", "closed_form_params", "series"],
+            "required": ["value", "label", "series"],
             "properties": {
               "value": { "type": "number" },
               "label": { "type": "string" },
               "closed_form": { "type": "object", "additionalProperties": { "type": "string" } },
               "closed_form_params": { "type": "array", "items": { "type": "string" } },
-              "series": { "$ref": "#/$defs/series" }
+              "series": { "oneOf": [ { "$ref": "#/$defs/series" }, { "$ref": "#/$defs/traj_series" } ] }
             }
           }
         }
       },
       "allOf": [
         {
-          "if": { "properties": { "mode": { "const": "sampled" } } },
-          "then": { "required": ["sweep", "frames"] },
-          "else": { "required": ["series", "closed_form", "closed_form_params"] }
+          "if": { "required": ["mode"], "properties": { "mode": { "const": "sampled" } } },
+          "then": { "required": ["sweep", "frames"] }
+        },
+        {
+          "if": { "required": ["kind"], "properties": { "kind": { "const": "area" } } },
+          "then": {
+            "required": [
+              "series", "closed_form", "closed_form_params", "params",
+              "cursor", "u_label", "f_label", "g_label"
+            ]
+          }
+        },
+        {
+          "if": { "required": ["kind"], "properties": { "kind": { "const": "trajectory" } } },
+          "then": { "required": ["x_label", "y_label"] }
+        },
+        {
+          "if": {
+            "allOf": [
+              { "properties": { "mode": { "not": { "const": "sampled" } } } },
+              { "properties": { "kind": { "not": { "const": "area" } } } }
+            ]
+          },
+          "then": { "required": ["series", "closed_form", "closed_form_params"] }
         }
       ]
+    },
+    "area_series": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["u", "f", "g", "u_max"],
+      "properties": {
+        "u": { "type": "array", "items": { "type": "number" } },
+        "f": { "type": "array", "items": { "type": "number" } },
+        "g": { "type": "array", "items": { "type": "number" } },
+        "u_max": { "type": "number" }
+      }
+    },
+    "traj_series": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["t", "x", "y", "t_max"],
+      "properties": {
+        "t": { "type": "array", "items": { "type": "number" } },
+        "x": { "type": "array", "items": { "type": "number" } },
+        "y": { "type": "array", "items": { "type": "number" } },
+        "t_max": { "type": "number" }
+      }
     }
   }
 }

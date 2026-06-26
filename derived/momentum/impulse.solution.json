@@ -1,0 +1,368 @@
+{
+  "id": "impulse-momentum",
+  "title": "Impulse as area: the force–time curve",
+  "topic": "momentum",
+  "slug": "impulse",
+  "scenario": "A $0.5$ kg ball is struck by a bat: the contact force rises and falls as a brief pulse, $F(t) = F_{\\max}\\sin(\\pi t/\\tau)$ with $F_{\\max} = 200$ N over $\\tau = 0.02$ s. What impulse does it deliver, and how fast does the ball leave? Watch the impulse accumulate as the area under the force–time curve.",
+  "regime": 2,
+  "constants": {
+    "m": 0.5,
+    "Fmax": 200.0,
+    "tau": 0.02
+  },
+  "initial_conditions": {
+    "v0": 0.0
+  },
+  "assumptions": [
+    {
+      "claim": "The contact force follows a half-sine pulse $F(t) = F_{\\max}\\sin(\\pi t/\\tau)$ (an idealized but realistic collision profile).",
+      "kind": "model"
+    },
+    {
+      "claim": "The struck object is free (the only horizontal force during contact is the strike), starting from rest.",
+      "kind": "model"
+    }
+  ],
+  "algebra": {
+    "steps": [
+      {
+        "label": "What the algebra-based course hands you",
+        "latex": "J = \\bar F\\,\\Delta t \\qquad J = \\Delta p = m\\,\\Delta v",
+        "prose": "Impulse is the average force times the contact time, and it equals the change in momentum. But a real collision force is not constant — it rises and falls over a few milliseconds — so 'average force' hides where the number comes from."
+      }
+    ],
+    "result": {
+      "impulse": {
+        "label": "Impulse $J = \\tfrac{2}{\\pi}F_{\\max}\\tau$ (the shaded area)",
+        "unit": "N·s",
+        "symbolic_latex": "\\tfrac{2}{\\pi}F_{\\max}\\tau",
+        "value": 2.546479,
+        "display": "2.546"
+      },
+      "delta_v": {
+        "label": "Change in speed $\\Delta v = J/m$",
+        "unit": "m/s",
+        "symbolic_latex": "J/m",
+        "value": 5.092958,
+        "display": "5.093"
+      },
+      "peak_force": {
+        "label": "Peak force $F_{\\max}$",
+        "unit": "N",
+        "symbolic_latex": "F_{\\max}",
+        "value": 200.0,
+        "display": "200"
+      },
+      "avg_force": {
+        "label": "Average force $\\bar F = \\tfrac{2}{\\pi}F_{\\max}$",
+        "unit": "N",
+        "symbolic_latex": "\\tfrac{2}{\\pi}F_{\\max}",
+        "value": 127.323954,
+        "display": "127.3"
+      }
+    }
+  },
+  "calculus": {
+    "steps": [
+      {
+        "label": "Impulse is the area under the force–time curve",
+        "latex": "J = \\int F\\,dt",
+        "prose": "Impulse is the integral of force over time — the area under the $F$–$t$ curve. For a constant force this is a rectangle ($\\bar F\\,\\Delta t$); for a real pulse it is the area under the curve."
+      },
+      {
+        "label": "Evaluate for the contact pulse $F(t) = F_{\\max}\\sin(\\pi t/\\tau)$",
+        "latex": "J = \\int_0^{\\tau} F_{\\max}\\sin\\!\\frac{\\pi t}{\\tau}\\,dt = \\frac{2}{\\pi}F_{\\max}\\tau",
+        "prose": "The area under a half-sine pulse is $\\tfrac{2}{\\pi}F_{\\max}\\tau$ — so the effective average force is $\\tfrac{2}{\\pi}F_{\\max}\\approx 0.64\\,F_{\\max}$. Its slope at any instant is the force $F(t)$."
+      },
+      {
+        "label": "The change in momentum falls out of the same integral",
+        "latex": "\\int F\\,dt = \\int m\\,\\frac{dv}{dt}\\,dt = m\\,\\Delta v \\ \\Longrightarrow\\ J = \\Delta p",
+        "prose": "Because $F = m\\,dv/dt$, the impulse integral is exactly $m\\,\\Delta v$. The impulse–momentum theorem is not a separate fact — it is the area under the force curve. Drag the cursor: the shaded area and the momentum change grow together.",
+        "emphasis": true
+      }
+    ]
+  },
+  "proof": {
+    "kind": "integral",
+    "heading": "The impulse is the area under the force–time curve — and it is exactly the change in momentum.",
+    "checked_by": "sympy",
+    "holds": true,
+    "detail": "check $\\tfrac{dJ}{dt} = F$; check $J = \\int_0^t F\\,dt'$; evaluate the pulse area $\\tfrac{2}{\\pi}F_{\\max}\\tau$; collapse the constant-force case to $F\\,\\Delta t$",
+    "checks": [
+      {
+        "key": "ftc_slope",
+        "claim": "The impulse's slope is the force: $J'(t) = F(t)$ — the area's rate of growth is the curve's height.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "area_is_integral",
+        "claim": "The accumulated impulse is the area: $J(t) = \\int_0^t F\\,dt'$.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "impulse_result",
+        "claim": "The total impulse is $J = \\tfrac{2}{\\pi}F_{\\max}\\tau = \\bar F\\,\\tau$ — exactly the area of the pulse.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "constant_force_echo",
+        "claim": "For a constant force the integral collapses to $J = F\\,\\Delta t$ — the area is a rectangle (the quadrature).",
+        "holds": true,
+        "tier": "structural"
+      }
+    ]
+  },
+  "units_check": {
+    "checked_by": "sympy",
+    "holds": true
+  },
+  "graphs": [
+    {
+      "kind": "area",
+      "mode": "interactive",
+      "window": "fixed",
+      "annotate": [
+        "area_is_impulse",
+        "slope_is_force"
+      ],
+      "svg": "assets/graphs/impulse-momentum-0.svg",
+      "series": {
+        "u": [
+          0.0,
+          0.000333333,
+          0.000666667,
+          0.001,
+          0.001333333,
+          0.001666667,
+          0.002,
+          0.002333333,
+          0.002666667,
+          0.003,
+          0.003333333,
+          0.003666667,
+          0.004,
+          0.004333333,
+          0.004666667,
+          0.005,
+          0.005333333,
+          0.005666667,
+          0.006,
+          0.006333333,
+          0.006666667,
+          0.007,
+          0.007333333,
+          0.007666667,
+          0.008,
+          0.008333333,
+          0.008666667,
+          0.009,
+          0.009333333,
+          0.009666667,
+          0.01,
+          0.010333333,
+          0.010666667,
+          0.011,
+          0.011333333,
+          0.011666667,
+          0.012,
+          0.012333333,
+          0.012666667,
+          0.013,
+          0.013333333,
+          0.013666667,
+          0.014,
+          0.014333333,
+          0.014666667,
+          0.015,
+          0.015333333,
+          0.015666667,
+          0.016,
+          0.016333333,
+          0.016666667,
+          0.017,
+          0.017333333,
+          0.017666667,
+          0.018,
+          0.018333333,
+          0.018666667,
+          0.019,
+          0.019333333,
+          0.019666667,
+          0.02
+        ],
+        "f": [
+          0.0,
+          10.467180791,
+          20.9057030681,
+          31.286893008,
+          41.5823279204,
+          51.7638191357,
+          61.803398875,
+          71.6735801326,
+          81.3473381818,
+          90.7980999479,
+          99.999990931,
+          108.9278157855,
+          117.5570504585,
+          125.8640700717,
+          133.826129054,
+          141.4213562373,
+          148.6289580884,
+          155.4291988816,
+          161.803398875,
+          167.7341078856,
+          173.2050859929,
+          178.2013048377,
+          182.7090872692,
+          186.7160890523,
+          190.211303259,
+          193.1851625475,
+          195.629522324,
+          197.537668119,
+          198.904377979,
+          199.725907499,
+          200.0,
+          199.725907499,
+          198.904377979,
+          197.537668119,
+          195.629522324,
+          193.1851625475,
+          190.211303259,
+          186.7160890523,
+          182.7090872692,
+          178.2013048377,
+          173.2050859929,
+          167.7341078856,
+          161.803398875,
+          155.4291988816,
+          148.6289580884,
+          141.4213562373,
+          133.826129054,
+          125.8640700717,
+          117.5570504585,
+          108.9278157855,
+          99.999990931,
+          90.7980999479,
+          81.3473381818,
+          71.6735801326,
+          61.803398875,
+          51.7638191357,
+          41.5823279204,
+          31.286893008,
+          20.9057030681,
+          10.467180791,
+          0.0
+        ],
+        "g": [
+          0.0,
+          0.0017449271,
+          0.0069749464,
+          0.0156756916,
+          0.027823325,
+          0.0433846027,
+          0.0623167789,
+          0.0845680036,
+          0.1100773693,
+          0.1387748035,
+          0.1705817206,
+          0.2054110489,
+          0.2431671151,
+          0.2837465326,
+          0.3270382101,
+          0.3729232286,
+          0.4212759466,
+          0.4719639884,
+          0.5248481177,
+          0.5797835318,
+          0.6366198301,
+          0.6952008875,
+          0.7553663056,
+          0.816951362,
+          0.8797868875,
+          0.9437008372,
+          1.0085182234,
+          1.0740609977,
+          1.1401497055,
+          1.2066034022,
+          1.2732395447,
+          1.3398756873,
+          1.406329384,
+          1.4724180918,
+          1.5379608661,
+          1.6027782523,
+          1.666692202,
+          1.7295277274,
+          1.7911127839,
+          1.8512782019,
+          1.9098592594,
+          1.9666955576,
+          2.0216309718,
+          2.0745151011,
+          2.1252031429,
+          2.1735558609,
+          2.2194408794,
+          2.2627325568,
+          2.3033119743,
+          2.3410680405,
+          2.3758973689,
+          2.4077042859,
+          2.4364017202,
+          2.4619110858,
+          2.4841623106,
+          2.5030944868,
+          2.5186557644,
+          2.5308033979,
+          2.5395041431,
+          2.5447341624,
+          2.5464790895
+        ],
+        "u_max": 0.02
+      },
+      "closed_form": {
+        "f": "Fmax*Math.sin(50*Math.PI*u)",
+        "g": "-1/50*Fmax*Math.cos(50*Math.PI*u)/Math.PI + (1/50)*Fmax/Math.PI"
+      },
+      "closed_form_params": [
+        "Fmax",
+        "u"
+      ],
+      "params": {
+        "Fmax": {
+          "min": 50.0,
+          "max": 400.0,
+          "default": 200.0
+        }
+      },
+      "cursor": {
+        "name": "u",
+        "label": "t  (s)",
+        "unit": "s",
+        "min": 0.0,
+        "max": 0.02,
+        "default": 0.02
+      },
+      "u_label": "t  (s)",
+      "f_label": "F  (N)",
+      "g_label": "J  (N·s)",
+      "u0": 0.0
+    }
+  ],
+  "misconception": {
+    "claim": "A bigger peak force always means a bigger change in momentum.",
+    "refuted_by": "Not necessarily — the change in momentum is the *area* under the force–time curve (the impulse $\\int F\\,dt$), not the peak height. A small force acting over a long time delivers the same impulse — and the same $\\Delta v$ — as a large force over a brief time. The area, not the height, is what changes the motion."
+  },
+  "formulas_used": [
+    "mom-impulse",
+    "mom-momentum"
+  ],
+  "provenance": {
+    "producer": "quadrature_producer",
+    "version": "0.1.0",
+    "sympy": "1.14.0",
+    "author": "Quadrature",
+    "created": "2026-06-26"
+  }
+}

@@ -137,8 +137,16 @@ broad. Adding either touches data, not the engine.
   [`docs/authoring-formulas.md`](./docs/authoring-formulas.md).
 - **A new physics model** (e.g. projectile-2D, collisions) → add `producer/src/quadrature_producer/models/
   <name>.py` exposing `build(spec) -> Scenario`, register it in `models/__init__.py`, add a physics
-  cross-check in `producer/tests/`. Regime-1 models prove `equivalence`; regime-2 models prove `governing`
-  (back-substitute into the equation of motion). See `models/base.py` for the `Scenario` contract.
+  cross-check in `producer/tests/`. Regime-1 models prove `equivalence`; regime-2 ODE models prove `governing`
+  (back-substitute into the equation of motion); **integral / area-instrument models** (ADR-0014) prove
+  `integral` (FTC slope, area=integral, the memorized result falls out, constant-integrand→rectangle) and
+  return a `Scenario` carrying an `AreaPlot` with the temporal `x/v/a` left `None`. See `models/base.py` for
+  the `Scenario` + `AreaPlot` contracts, and `work_energy.py` / `pv_work.py` as worked examples (an `∫F dx`
+  and an `∫P dV` lesson on the *same* instrument, different axes — no engine change between them).
+  **Trajectory / vector models** (ADR-0015) carry a `TrajectoryPlot`: drag-free is an exact closed-form path
+  (`equivalence`, parity-verified); a **numerically-integrated** path (quadratic drag) has no closed form, so
+  the producer integrates by RK4, verifies it (converged + EOM residual + recovers the exact case), refuses to
+  emit on failure, and ships `frames` re-gated in CI by `check-trajectory.mjs`. See `projectile.py`.
 
 **Authoring math.** Display equations use the `latex` field (rendered as a block). Inline math inside any
 prose / claim / label / scenario / misconception is written with `$...$` (e.g. `the period $T = 2\pi/\omega$`)
@@ -151,28 +159,42 @@ The producer engine should rarely change. If it must, add a physics cross-check 
 ## Current state
 
 See [`ROADMAP.md`](./ROADMAP.md) and the latest [`docs/sessions/`](./docs/sessions/) log. **Phase 0 is
-complete and reviewed**; **Phase 1 (mechanics)** is in progress. Shipped: 4 lessons — constant-gravity free
-fall (regime 1), SHM, terminal velocity, and the damped oscillator (regime 2) — plus a 26-formula mechanics
-reference and concept graph, all SymPy-verified. The producer is a model registry (`constant-accel`, `shm`,
-`linear-drag`, `damped-shm`); graphs come in three modes (`static` | `interactive` | `sampled`). Pages stays
-disabled until the owner publishes.
+complete and reviewed**; **Phase 1 (mechanics)** is in progress and **Phase 3 (thermo) is seeded**. Shipped:
+10 lessons — free fall, **projectile (drag-free)**, and **rotational kinematics** (regime 1); SHM, terminal
+velocity, the damped oscillator, **work–energy**, **projectile with quadratic drag**, and
+**impulse–momentum** (regime 2); and **isothermal PV-work** (regime 3) — plus a 28-formula reference
+(mechanics + two thermo) and concept graph, all SymPy-verified. The producer is a model registry
+(`constant-accel`, `shm`, `linear-drag`, `damped-shm`, `work-energy`, `pv-work`, `projectile`, `impulse`,
+`rotation`). Graphs come as the **temporal stack** (`kind:"stack"`, modes `static` | `interactive` |
+`sampled`), the **area/integral instrument** (`kind:"area"`, ADR-0014 — area under `f(u)` = the accumulated
+integral `g(u)`, off the time axis), or the **2D trajectory instrument** (`kind:"trajectory"`, ADR-0015 — the
+path y vs x; drag-free is exact/interactive, quadratic drag is numerically integrated). Proof kinds:
+`equivalence` (regime 1) · `governing` (regime-2 ODE / numerical motion) · `integral` (area instrument). Pages
+stays disabled until the owner publishes.
 
 ## Where this might go next (paths for a future session)
 
 Pick a track; each is independent and lands on the proven engine. Resume from the newest session log.
 
-1. **Reference breadth into other domains** — E&M, thermodynamics, waves/optics, modern (ADR-0007, toward the
-   complete formula sheet). Pure authored+verified data: add `reference/formulas/*.formula.toml` with the
+1. **More area-instrument lessons (the cheap downstream of ADR-0014)** — the integral instrument now exists, so
+   any "area under a curve = accumulated integral" lesson is just a model + spec + test, no engine change:
+   gravitational PE (`∫F dr`), impulse–momentum (`∫F dt`), more thermo PV processes (isobaric, adiabatic), and
+   later E&M potential/field integrals (`∫E·dl`, `∫dq/r²`). This is the highest-leverage breadth track.
+2. **Reference breadth into other domains** — E&M, the rest of thermo, waves/optics, modern (ADR-0007, toward
+   the complete formula sheet). Pure authored+verified data: add `reference/formulas/*.formula.toml` with the
    right `domain` (it color-codes the concept-graph node). No engine change.
-2. **More regime-1 / regime-2 mechanics lessons** — energy conservation, 2D projectile (a new model; likely
-   `sampled` or `static` since 2D drag has no closed form), collisions/momentum, gravitation/orbits. Add a
-   model if the physics is new; otherwise reuse one.
-3. **The §8 interlinking backbone** — hover-to-reference from any formula token in a lesson, and
-   formula→lesson navigation, so the reference becomes the site's navigational spine (brief §8). Frontend work
-   over the existing `formulas.json` + `concept-graph.json`.
-4. **Polish / publish prep** — when the owner is ready: enable GitHub Pages, run the deploy, write a `/about`
+3. **More regime-1 / regime-2 mechanics lessons** — energy conservation, collisions/momentum, rotation,
+   gravitation/orbits. Reuse an existing model where the physics fits; the trajectory + numerical-RK4 pattern
+   (ADR-0015) now covers any new no-closed-form motion (anharmonic oscillators, non-1/r² orbits).
+4. **The §8 interlinking backbone** — hover-to-reference from any formula token in a lesson, and formula→lesson
+   navigation, so the reference becomes the site's navigational spine (brief §8). Frontend work over the
+   existing `formulas.json` + `concept-graph.json`.
+5. **Polish / publish prep** — when the owner is ready: enable GitHub Pages, run the deploy, write a `/about`
    page, and do a `/ship`-style validation sweep.
 
-Open question still parked: a `sampled` mode that *interpolates* (vs the current discrete-exact-frames) would
-be needed only if a future lesson sweeps a parameter continuously through a region with no closed form —
-revisit then (ADR-0012).
+The ADR-0012 parked question (a no-closed-form `sampled` region) is **resolved** (ADR-0015): the
+quadratic-drag trajectory is numerically integrated by RK4, each frame producer-verified (converged + EOM
+residual + recovers the exact parabola at zero drag) and CI re-gated by `check-trajectory.mjs`, with the
+slider snapping between frames over a single parameter. No continuous interpolation-error gate was needed —
+the committed sample density only sets drawing smoothness; the physics accuracy is the producer's converged
+solution.

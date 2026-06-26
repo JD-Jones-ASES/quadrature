@@ -1,0 +1,33 @@
+id = "angular-kinematics"
+title = "Rotational kinematics: the same calculus, angular labels"
+topic = "rotation"
+slug = "angular-kinematics"
+model = "rotation"
+regime = 1
+author = "Quadrature"
+created = "2026-06-26"
+scenario = "A flywheel starts from rest and spins up under a constant angular acceleration $\\alpha = 3$ rad/s² for $4$ s. How fast is it turning, and how many revolutions has it made? The rotational kinematics are the straight-line equations with angular symbols — step them and watch the timeless equation fall out of the integrals."
+formulas_used = ["kin-x-of-t", "kin-v-of-t"]
+
+[parameters]
+omega0 = 0              # rad/s, starts from rest
+alpha = 3               # rad/s², constant angular acceleration
+theta0 = 0              # rad
+t = 4                   # s, duration
+
+[[assumptions]]
+claim = "Constant angular acceleration (a constant net torque on a rigid body of fixed moment of inertia)."
+kind = "model"
+
+[[assumptions]]
+claim = "Rigid body; angles in radians; the axis of rotation is fixed."
+kind = "model"
+
+[[graphs]]
+kind = "stack"
+mode = "interactive"
+annotate = ["theta_omega_alpha", "constant_alpha"]
+
+[misconception]
+claim = "Rotational motion needs its own special set of equations to memorize."
+refuted_by = "The rotational kinematics equations *are* the straight-line ones with angular symbols: $x\\to\\theta$, $v\\to\\omega$, $a\\to\\alpha$. They come from the same two integrations of a constant acceleration — the slope of the $\\omega$–$t$ line is $\\alpha$, and the area under it is $\\Delta\\theta$. Learn one set, relabel, and you have the other."

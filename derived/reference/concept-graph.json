@@ -11,7 +11,7 @@
       "name": "Centripetal acceleration",
       "domain": "mechanics",
       "degree": 1,
-      "x": 343.64,
+      "x": 365.47,
       "y": 40
     },
     {
@@ -20,7 +20,7 @@
       "name": "Centripetal force",
       "domain": "mechanics",
       "degree": 2,
-      "x": 366.56,
+      "x": 446.01,
       "y": 40
     },
     {
@@ -29,8 +29,8 @@
       "name": "Damped angular frequency",
       "domain": "mechanics",
       "degree": 2,
-      "x": 503.21,
-      "y": 222.55
+      "x": 427.67,
+      "y": 197.88
     },
     {
       "id": "damped-zeta",
@@ -38,8 +38,8 @@
       "name": "Damping ratio",
       "domain": "mechanics",
       "degree": 1,
-      "x": 529.16,
-      "y": 45.96
+      "x": 426.31,
+      "y": 51.97
     },
     {
       "id": "drag-terminal",
@@ -48,7 +48,7 @@
       "domain": "mechanics",
       "degree": 1,
       "x": 600,
-      "y": 40
+      "y": 69.25
     },
     {
       "id": "drag-v-of-t",
@@ -57,7 +57,7 @@
       "domain": "mechanics",
       "degree": 2,
       "x": 600,
-      "y": 206.35
+      "y": 208.39
     },
     {
       "id": "dyn-friction-kinetic",
@@ -74,8 +74,8 @@
       "name": "Hooke's law (spring force)",
       "domain": "mechanics",
       "degree": 2,
-      "x": 200.21,
-      "y": 333.92
+      "x": 281.56,
+      "y": 440
     },
     {
       "id": "dyn-newton-2",
@@ -83,8 +83,8 @@
       "name": "Newton's second law",
       "domain": "mechanics",
       "degree": 3,
-      "x": 474.75,
-      "y": 137.85
+      "x": 539.77,
+      "y": 76.78
     },
     {
       "id": "dyn-weight",
@@ -93,7 +93,7 @@
       "domain": "mechanics",
       "degree": 2,
       "x": 600,
-      "y": 87.47
+      "y": 119.89
     },
     {
       "id": "en-kinetic",
@@ -102,7 +102,7 @@
       "domain": "mechanics",
       "degree": 4,
       "x": 40,
-      "y": 222.53
+      "y": 330.27
     },
     {
       "id": "en-power",
@@ -110,8 +110,8 @@
       "name": "Mechanical power (constant force)",
       "domain": "mechanics",
       "degree": 1,
-      "x": 84.72,
-      "y": 97.66
+      "x": 43.55,
+      "y": 81.13
     },
     {
       "id": "en-spring-pe",
@@ -119,17 +119,17 @@
       "name": "Elastic potential energy",
       "domain": "mechanics",
       "degree": 2,
-      "x": 79.26,
-      "y": 389.1
+      "x": 129.92,
+      "y": 440
     },
     {
       "id": "en-work",
       "label": "W",
       "name": "Work (constant force along displacement)",
       "domain": "mechanics",
-      "degree": 2,
-      "x": 40,
-      "y": 40
+      "degree": 3,
+      "x": 153.91,
+      "y": 164.74
     },
     {
       "id": "grav-newton",
@@ -138,7 +138,7 @@
       "domain": "mechanics",
       "degree": 1,
       "x": 600,
-      "y": 149.64
+      "y": 40
     },
     {
       "id": "kin-a-const",
@@ -156,7 +156,7 @@
       "domain": "mechanics",
       "degree": 5,
       "x": 600,
-      "y": 376.1
+      "y": 371.29
     },
     {
       "id": "kin-x-of-t",
@@ -164,7 +164,7 @@
       "name": "Position under constant acceleration",
       "domain": "mechanics",
       "degree": 2,
-      "x": 561.81,
+      "x": 570.61,
       "y": 440
     },
     {
@@ -183,7 +183,7 @@
       "domain": "mechanics",
       "degree": 3,
       "x": 40,
-      "y": 382.03
+      "y": 416.2
     },
     {
       "id": "rot-angular-momentum",
@@ -192,7 +192,7 @@
       "domain": "mechanics",
       "degree": 1,
       "x": 40,
-      "y": 317.97
+      "y": 334.4
     },
     {
       "id": "rot-kinetic",
@@ -201,7 +201,7 @@
       "domain": "mechanics",
       "degree": 1,
       "x": 40,
-      "y": 108.1
+      "y": 201.01
     },
     {
       "id": "rot-torque",
@@ -209,8 +209,8 @@
       "name": "Torque (force at a lever arm)",
       "domain": "mechanics",
       "degree": 1,
-      "x": 442.33,
-      "y": 337.09
+      "x": 514.37,
+      "y": 268.67
     },
     {
       "id": "shm-omega",
@@ -218,8 +218,8 @@
       "name": "Angular frequency of a spring–mass oscillator",
       "domain": "mechanics",
       "degree": 4,
-      "x": 335.28,
-      "y": 221.04
+      "x": 301.29,
+      "y": 296.59
     },
     {
       "id": "shm-period",
@@ -227,8 +227,8 @@
       "name": "Period of a spring–mass oscillator",
       "domain": "mechanics",
       "degree": 2,
-      "x": 211.05,
-      "y": 196.14
+      "x": 138.0,
+      "y": 260.75
     },
     {
       "id": "shm-x-of-t",
@@ -236,8 +236,26 @@
       "name": "Position in simple harmonic motion",
       "domain": "mechanics",
       "degree": 2,
-      "x": 297.67,
-      "y": 338.74
+      "x": 194.54,
+      "y": 368.34
+    },
+    {
+      "id": "thermo-ideal-gas",
+      "label": "P",
+      "name": "Ideal-gas law (pressure form)",
+      "domain": "thermo",
+      "degree": 1,
+      "x": 185.06,
+      "y": 40
+    },
+    {
+      "id": "thermo-work-isothermal",
+      "label": "W",
+      "name": "Isothermal work (ideal gas)",
+      "domain": "thermo",
+      "degree": 2,
+      "x": 272.5,
+      "y": 68.6
     }
   ],
   "edges": [
@@ -390,6 +408,18 @@
       "target": "shm-period",
       "type": "related-to",
       "gloss": "repeats every period T"
+    },
+    {
+      "source": "thermo-ideal-gas",
+      "target": "thermo-work-isothermal",
+      "type": "related-to",
+      "gloss": "integrating this pressure over volume at constant T gives the isothermal work"
+    },
+    {
+      "source": "thermo-work-isothermal",
+      "target": "en-work",
+      "type": "related-to",
+      "gloss": "the same area-under-the-curve idea as mechanical work, here W = ∫P dV on the P–V diagram"
     }
   ]
 }

@@ -1,0 +1,32 @@
+id = "impulse-momentum"
+title = "Impulse as area: the force–time curve"
+topic = "momentum"
+slug = "impulse"
+model = "impulse"
+regime = 2
+author = "Quadrature"
+created = "2026-06-26"
+scenario = "A $0.5$ kg ball is struck by a bat: the contact force rises and falls as a brief pulse, $F(t) = F_{\\max}\\sin(\\pi t/\\tau)$ with $F_{\\max} = 200$ N over $\\tau = 0.02$ s. What impulse does it deliver, and how fast does the ball leave? Watch the impulse accumulate as the area under the force–time curve."
+formulas_used = ["mom-impulse", "mom-momentum"]
+
+[parameters]
+m = 0.5                 # kg
+Fmax = 200              # N — peak of the contact pulse
+tau = 0.02              # s — contact duration
+
+[[assumptions]]
+claim = "The contact force follows a half-sine pulse $F(t) = F_{\\max}\\sin(\\pi t/\\tau)$ (an idealized but realistic collision profile)."
+kind = "model"
+
+[[assumptions]]
+claim = "The struck object is free (the only horizontal force during contact is the strike), starting from rest."
+kind = "model"
+
+[[graphs]]
+kind = "area"
+mode = "interactive"
+annotate = ["area_is_impulse", "slope_is_force"]
+
+[misconception]
+claim = "A bigger peak force always means a bigger change in momentum."
+refuted_by = "Not necessarily — the change in momentum is the *area* under the force–time curve (the impulse $\\int F\\,dt$), not the peak height. A small force acting over a long time delivers the same impulse — and the same $\\Delta v$ — as a large force over a brief time. The area, not the height, is what changes the motion."

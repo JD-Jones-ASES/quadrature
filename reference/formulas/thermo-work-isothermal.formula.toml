@@ -1,0 +1,24 @@
+id = "thermo-work-isothermal"
+name = "Isothermal work (ideal gas)"
+domain = "thermo"
+regime = 3
+expr = "n*R*T*log(V2/V1)"
+lhs = "W"
+result_unit = "J"
+assumptions = [
+  "ideal gas at constant temperature (isothermal, reversible expansion)",
+  "work is the area under the P–V curve, W = ∫P dV",
+]
+citations = []
+
+[variables]
+n = { unit = "mol", desc = "amount of substance" }
+R = { unit = "J/(mol*K)", desc = "ideal-gas constant" }
+T = { unit = "K", desc = "absolute temperature" }
+V1 = { unit = "m**3", desc = "initial volume" }
+V2 = { unit = "m**3", desc = "final volume" }
+
+[[edges]]
+type = "related-to"
+target = "en-work"
+gloss = "the same area-under-the-curve idea as mechanical work, here W = ∫P dV on the P–V diagram"

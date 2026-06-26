@@ -4,9 +4,12 @@
   // the graph. Plus the two honesty badges, the SHOWN equivalence proof, the misconception register,
   // and the sign-rigor treatment. It computes nothing; every value came from the producer.
   import GraphStack from "./GraphStack.svelte";
+  import AreaPlot from "./AreaPlot.svelte";
+  import Trajectory from "./Trajectory.svelte";
 
   let { solution } = $props();
   const s = solution;
+  const graph = s.graphs[0];
 
   let tab = $state("calculus");
   let stepA = $state(0);
@@ -74,8 +77,12 @@
         <button onclick={() => (stepC = clamp(stepC + 1, cSteps.length))} disabled={stepC === cSteps.length - 1}>Next ›</button>
       </nav>
     </div>
+  {:else if graph.kind === "area"}
+    <AreaPlot {graph} />
+  {:else if graph.kind === "trajectory"}
+    <Trajectory {graph} />
   {:else}
-    <GraphStack graph={s.graphs[0]} />
+    <GraphStack {graph} />
   {/if}
 
   <!-- the proof, SHOWN not asserted (equivalence for regime 1; governing for regime 2) -->

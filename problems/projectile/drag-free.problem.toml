@@ -1,0 +1,36 @@
+id = "projectile-drag-free"
+title = "Projectile motion: two 1D motions, superposed"
+topic = "projectile"
+slug = "drag-free"
+model = "projectile"
+regime = 1
+author = "Quadrature"
+created = "2026-06-26"
+scenario = "A ball is launched from the ground at $v_0 = 20$ m/s, $\\theta = 40°$ above the horizontal (no air resistance, $g = -10$). What is its range, how high does it go — and why is the path a parabola? Drag the launch angle and speed and watch the trajectory, range, and apex move together."
+formulas_used = ["kin-x-of-t", "kin-v-of-t"]
+
+[parameters]
+v0 = 20                 # m/s, launch speed
+theta = 40              # degrees above horizontal
+g = -10                 # m/s², house convention (up positive)
+
+[[assumptions]]
+claim = "No air resistance — the only force in flight is gravity (drag is the regime-2 sequel)."
+kind = "model"
+
+[[assumptions]]
+claim = "$g = -10$ m/s² (simplified from 9.81), up positive, so gravity carries its negative sign."
+kind = "model"
+
+[[assumptions]]
+claim = "Point mass launched from and landing at the same height (flat ground)."
+kind = "model"
+
+[[graphs]]
+kind = "trajectory"
+mode = "interactive"
+annotate = ["range_at_45", "independent_components"]
+
+[misconception]
+claim = "At the top of its arc, the projectile is momentarily at rest."
+refuted_by = "Only the *vertical* velocity is zero at the apex; the horizontal velocity $v_0\\cos\\theta$ never changes — there is no horizontal force. At the top the ball is still moving horizontally at full speed. The horizontal and vertical motions are completely independent, which is exactly why the path is a parabola ($y$ a quadratic in $t$, $x$ linear in $t$)."

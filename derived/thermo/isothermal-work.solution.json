@@ -1,0 +1,372 @@
+{
+  "id": "isothermal-work",
+  "title": "Work by an expanding gas: area under the P–V curve",
+  "topic": "thermo",
+  "slug": "isothermal-work",
+  "scenario": "One mole of an ideal gas at $T = 300$ K expands isothermally from $V_1 = 0.025$ m³ to $V_2 = 0.075$ m³. How much work does it do — and why is the answer a logarithm, not simply pressure times volume change? Watch the work accumulate as the area under the P–V curve.",
+  "regime": 3,
+  "constants": {
+    "n": 1.0,
+    "R": 8.3145,
+    "T": 300.0,
+    "V1": 0.025,
+    "V2": 0.075
+  },
+  "initial_conditions": {},
+  "assumptions": [
+    {
+      "claim": "Ideal gas: $PV = nRT$ holds exactly (no intermolecular forces, point particles).",
+      "kind": "model"
+    },
+    {
+      "claim": "Isothermal, reversible, quasi-static expansion — the temperature is held constant by a reservoir.",
+      "kind": "model"
+    },
+    {
+      "claim": "Work is the area under the P–V curve, $W = \\int P\\,dV$, with no friction or dissipation.",
+      "kind": "model"
+    }
+  ],
+  "algebra": {
+    "steps": [
+      {
+        "label": "What the algebra-based course hands you (two memorized cases)",
+        "latex": "W = P\\,\\Delta V \\quad(\\text{constant pressure}) \\qquad W = nRT\\ln\\!\\frac{V_2}{V_1}\\quad(\\text{constant temperature})",
+        "prose": "At constant pressure, work is pressure times volume change — a rectangle. For an isothermal expansion you are handed a logarithm to memorize, with no account of where it comes from. The algebra course can use both but cannot say why one is a rectangle and the other a logarithm."
+      }
+    ],
+    "result": {
+      "isothermal_work": {
+        "label": "Isothermal work $W = nRT\\ln(V_2/V_1)$ (the shaded area)",
+        "unit": "J",
+        "symbolic_latex": "nRT\\ln\\!\\frac{V_2}{V_1}",
+        "value": 2740.323562,
+        "display": "2740"
+      },
+      "initial_pressure": {
+        "label": "Initial pressure $P_1 = nRT/V_1$",
+        "unit": "Pa",
+        "symbolic_latex": "nRT/V_1",
+        "value": 99774.0,
+        "display": "99770"
+      },
+      "final_pressure": {
+        "label": "Final pressure $P_2 = nRT/V_2$",
+        "unit": "Pa",
+        "symbolic_latex": "nRT/V_2",
+        "value": 33258.0,
+        "display": "33260"
+      },
+      "rectangle_work": {
+        "label": "If pressure stayed at $P_1$: $W = P_1\\,\\Delta V$ (the rectangle)",
+        "unit": "J",
+        "symbolic_latex": "P_1\\,\\Delta V",
+        "value": 4988.7,
+        "display": "4989"
+      }
+    }
+  },
+  "calculus": {
+    "steps": [
+      {
+        "label": "Work is the area under the pressure–volume curve",
+        "latex": "W = \\int_{V_1}^{V_2} P\\,dV",
+        "prose": "Work done by the gas is the integral of pressure over volume — the area under the $P$–$V$ curve. At constant pressure the area is a rectangle ($P\\,\\Delta V$); when the pressure varies, it is the area under a curve."
+      },
+      {
+        "label": "Use the ideal-gas law at constant temperature",
+        "latex": "P = \\frac{nRT}{V} \\ \\Longrightarrow\\ W = \\int_{V_1}^{V_2}\\frac{nRT}{V}\\,dV = nRT\\ln\\!\\frac{V_2}{V_1}",
+        "prose": "For an isotherm, $PV = nRT$ makes $P$ inversely proportional to $V$ — a hyperbola. The area under $1/V$ is a logarithm, so the memorized isothermal work is exactly the area under the curve. Its slope at any volume is $P(V)$.",
+        "emphasis": true
+      },
+      {
+        "label": "Why the pressure case is the special one",
+        "latex": "P = \\text{const} \\ \\Longrightarrow\\ W = \\int_{V_1}^{V_2} P\\,dV = P\\,(V_2 - V_1)",
+        "prose": "When pressure does not vary, the integrand is constant and the integral collapses to the rectangle $P\\,\\Delta V$ — the algebra formula is the quadrature, the area already evaluated. The expanding-gas work is less than this rectangle because the pressure falls as the gas expands."
+      }
+    ]
+  },
+  "proof": {
+    "kind": "integral",
+    "heading": "The work is the area under the P–V curve — and the memorized isothermal result falls out.",
+    "checked_by": "sympy",
+    "holds": true,
+    "detail": "check $\\tfrac{dW}{dV} = P$; check $W = \\int_{V_1}^{V} P\\,dV'$; recover $W = nRT\\ln(V_2/V_1)$; collapse the constant-pressure case to $P\\,\\Delta V$",
+    "checks": [
+      {
+        "key": "ftc_slope",
+        "claim": "The work's slope is the pressure: $\\tfrac{dW}{dV} = P$ — the area's rate of growth is the curve's height.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "area_is_integral",
+        "claim": "The accumulated work is the area: $W(V) = \\int_{V_1}^{V} P\\,dV'$.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "isothermal_falls_out",
+        "claim": "The memorized isothermal result $W = nRT\\ln(V_2/V_1)$ is exactly the area at $V_2$.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "isobaric_echo",
+        "claim": "At constant pressure the integral collapses to $W = P\\,\\Delta V$ — the area is a rectangle (the quadrature).",
+        "holds": true,
+        "tier": "structural"
+      }
+    ]
+  },
+  "units_check": {
+    "checked_by": "sympy",
+    "holds": true
+  },
+  "graphs": [
+    {
+      "kind": "area",
+      "mode": "interactive",
+      "window": "fixed",
+      "annotate": [
+        "area_is_work",
+        "slope_is_pressure"
+      ],
+      "svg": "assets/graphs/isothermal-work-0.svg",
+      "series": {
+        "u": [
+          0.025,
+          0.025983333,
+          0.026966667,
+          0.02795,
+          0.028933333,
+          0.029916667,
+          0.0309,
+          0.031883333,
+          0.032866667,
+          0.03385,
+          0.034833333,
+          0.035816667,
+          0.0368,
+          0.037783333,
+          0.038766667,
+          0.03975,
+          0.040733333,
+          0.041716667,
+          0.0427,
+          0.043683333,
+          0.044666667,
+          0.04565,
+          0.046633333,
+          0.047616667,
+          0.0486,
+          0.049583333,
+          0.050566667,
+          0.05155,
+          0.052533333,
+          0.053516667,
+          0.0545,
+          0.055483333,
+          0.056466667,
+          0.05745,
+          0.058433333,
+          0.059416667,
+          0.0604,
+          0.061383333,
+          0.062366667,
+          0.06335,
+          0.064333333,
+          0.065316667,
+          0.0663,
+          0.067283333,
+          0.068266667,
+          0.06925,
+          0.070233333,
+          0.071216667,
+          0.0722,
+          0.073183333,
+          0.074166667,
+          0.07515,
+          0.076133333,
+          0.077116667,
+          0.0781,
+          0.079083333,
+          0.080066667,
+          0.08105,
+          0.082033333,
+          0.083016667,
+          0.084
+        ],
+        "f": [
+          99774.0,
+          95998.0769210786,
+          92497.5266687574,
+          89243.2915921288,
+          86210.2544494269,
+          83376.600742322,
+          80723.3009708738,
+          78233.6652193797,
+          75893.0012586917,
+          73688.3308714919,
+          71608.1346565372,
+          69642.1584956523,
+          67781.25,
+          66017.2039348673,
+          64342.6477700546,
+          62750.9433962264,
+          61236.0888808191,
+          59792.6483436464,
+          58415.6908665105,
+          57100.725349872,
+          55843.6562996742,
+          54640.7447973713,
+          53488.5636418053,
+          52383.9688317538,
+          51324.0740740741,
+          50306.218825588,
+          49327.9495759529,
+          48387.0029097963,
+          47481.2820271655,
+          46608.8443063915,
+          45767.8899082569,
+          44956.7440369886,
+          44173.8486176278,
+          43417.7545691906,
+          42687.1080586829,
+          41980.6449257748,
+          41297.1854304636,
+          40635.6233539811,
+          39994.9222875739,
+          39374.1120757695,
+          38772.2799936388,
+          38188.5683174863,
+          37622.1719457014,
+          37072.3311224787,
+          36538.3298997152,
+          36019.4945848375,
+          35515.1876388951,
+          35024.806763282,
+          34547.783933518,
+          34083.5802053454,
+          33631.6852421048,
+          33191.6167664671,
+          32762.9160803981,
+          32345.1479042786,
+          31937.900128041,
+          31540.7799011203,
+          31153.4136921173,
+          30775.447254781,
+          30406.5421796284,
+          30046.3761090288,
+          29694.6428571429
+        ],
+        "g": [
+          0.0,
+          96.2306988462,
+          188.8864568884,
+          278.223228065,
+          364.4706720173,
+          447.8354118592,
+          528.5037735602,
+          606.6448069567,
+          682.4121506918,
+          755.9456292893,
+          827.3732716901,
+          896.8124101656,
+          964.370636352,
+          1030.147230249,
+          1094.2338164735,
+          1156.7149433886,
+          1217.6691468183,
+          1277.169340075,
+          1335.2831629271,
+          1392.0738084375,
+          1447.6002476228,
+          1501.9174334627,
+          1555.0769678183,
+          1607.127220677,
+          1658.1134405565,
+          1708.0783094953,
+          1757.0619937217,
+          1805.1021924083,
+          1852.2346117306,
+          1898.4929702498,
+          1943.9090064486,
+          1988.512892521,
+          2032.3332095507,
+          2075.3969272026,
+          2117.7297714153,
+          2159.3561793453,
+          2200.299260149,
+          2240.5811265508,
+          2280.2228362644,
+          2319.2443399346,
+          2357.6647837715,
+          2395.5024420301,
+          2432.7746563004,
+          2469.4981145034,
+          2505.6887775971,
+          2541.361813139,
+          2576.5318546251,
+          2611.2129246349,
+          2645.4183647276,
+          2679.1610781757,
+          2712.4534511029,
+          2745.3072801809,
+          2777.7340011349,
+          2809.7446089732,
+          2841.3495845329,
+          2872.5591106404,
+          2903.3829922104,
+          2933.830582392,
+          2963.9109878984,
+          2993.6329895251,
+          3023.0049684348
+        ],
+        "u_max": 0.084
+      },
+      "closed_form": {
+        "f": "(16629/2000)*T/u",
+        "g": "(16629/2000)*T*Math.log(40*u)"
+      },
+      "closed_form_params": [
+        "T",
+        "u"
+      ],
+      "params": {
+        "T": {
+          "min": 200.0,
+          "max": 500.0,
+          "default": 300.0
+        }
+      },
+      "cursor": {
+        "name": "u",
+        "label": "V  (m³)",
+        "unit": "m³",
+        "min": 0.025,
+        "max": 0.084,
+        "default": 0.075
+      },
+      "u_label": "V  (m³)",
+      "f_label": "P  (Pa)",
+      "g_label": "W  (J)",
+      "u0": 0.025
+    }
+  ],
+  "misconception": {
+    "claim": "The work done by an expanding gas is just pressure times the change in volume, $W = P\\,\\Delta V$.",
+    "refuted_by": "That is only true at *constant* pressure (a rectangle). In an isothermal expansion the pressure *falls* as the gas expands — $P = nRT/V$ — so the work is the area under a curved hyperbola, $nRT\\ln(V_2/V_1)$, which is less than $P_1\\,\\Delta V$. Drag the cursor: the shaded area under the curve, not a rectangle, is the work."
+  },
+  "formulas_used": [
+    "thermo-ideal-gas",
+    "thermo-work-isothermal"
+  ],
+  "provenance": {
+    "producer": "quadrature_producer",
+    "version": "0.1.0",
+    "sympy": "1.14.0",
+    "author": "Quadrature",
+    "created": "2026-06-26"
+  }
+}

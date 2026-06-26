@@ -81,8 +81,12 @@ for (const file of files.sort()) {
   for (const a of data.assumptions)
     if (a.kind !== "model") fail(`${rel}: assumption '${a.claim}' must be kind 'model'`);
 
-  // graph integrity
-  const seriesLensOk = (s) => ["x", "v", "a"].every((k) => s[k].length === s.t.length);
+  // graph integrity — axis-agnostic: every value array matches the axis array (t for the stack, u for area)
+  const seriesLensOk = (s) => {
+    const axis = "u" in s ? s.u : s.t;
+    if (!Array.isArray(axis)) return false;
+    return Object.values(s).every((v) => !Array.isArray(v) || v.length === axis.length);
+  };
   data.graphs.forEach((g, i) => {
     if (g.mode === "interactive" && !g.params)
       fail(`${rel}: graphs[${i}] is interactive but has no params`);

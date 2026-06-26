@@ -1,0 +1,41 @@
+id = "work-variable-force"
+title = "Work as area: a variable force"
+topic = "energy"
+slug = "work-variable-force"
+model = "work-energy"
+regime = 2
+author = "Quadrature"
+created = "2026-06-26"
+scenario = "A 2 kg block on a frictionless track starts at rest. A force that grows with distance, $F(x) = b\\,x$ (here $b = 8$ N/m), pushes it for $d = 1.5$ m. How much work is done — and where does $\\tfrac12 m v^2$ actually come from? Watch the work accumulate as the area under the force curve."
+formulas_used = ["en-work", "en-kinetic"]
+
+[parameters]
+m = 2                   # kg
+b = 8                   # N/m — the force grows as F(x) = b·x
+d = 1.5                 # m — the displacement worked in the scenario
+x_window = 2.0          # m — how far the cursor can sweep
+
+[[assumptions]]
+claim = "Frictionless track: the applied force is the only force doing work along the motion."
+kind = "model"
+
+[[assumptions]]
+claim = "The force acts along the direction of motion (one dimension), so $W = \\int F\\,dx$ with no angle factor."
+kind = "model"
+
+[[assumptions]]
+claim = "Point mass; the block starts from rest ($v_0 = 0$), so all the work becomes kinetic energy."
+kind = "model"
+
+[[assumptions]]
+claim = "Ideal linear force law $F(x) = b\\,x$ (the force is exactly proportional to displacement)."
+kind = "model"
+
+[[graphs]]
+kind = "area"
+mode = "interactive"
+annotate = ["area_is_work", "slope_is_force"]
+
+[misconception]
+claim = "Work is the maximum force times the distance, $W = F_{\\max}\\,d$."
+refuted_by = "The force is not constant — it climbs from $0$ to $F_{\\max} = b\\,d$. Work is the *area* under the $F$–$x$ line, a triangle of area $\\tfrac12 F_{\\max} d$ — exactly half the rectangle $F_{\\max} d$. Drag the cursor: the shaded triangle, not the enclosing rectangle, is the work, and it equals the kinetic energy gained."

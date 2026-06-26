@@ -213,3 +213,90 @@ is checked as in regime 1.
 **Consequences.** Regime 2 keeps a machine-checked proof shown to the reader — now "this closed form provably
 solves the equation of motion, and the memorized results fall out of it." The honesty axes are unchanged;
 modeling assumptions (linear vs quadratic drag, ideal spring) remain author-asserted and disclosed.
+
+## ADR-0014 — The integral instrument off the time axis: a general "area = integral" graph kind (2026-06-26)
+
+**Context.** The whole engine assumed the integration variable is **time** and the visual instrument is the
+stacked x–t/v–t/a–t graph. But a comprehensive course integrates over things other than time: work `∫F dx`
+(position), thermodynamic work `∫P dV` (volume), electric potential `∫E·dl`, the field of a charge
+distribution `∫dq/r²`, moment of inertia `∫r² dm`. The project's own thesis — "the area under the lower graph
+is the change in the upper" — is axis-agnostic, but the data model (the `Scenario`, the schema's `series`,
+the parity gate, the player) hard-wired `{t,x,v,a}`. Generalizing off the time axis is the highest-leverage
+architectural move toward breadth: once the engine can put **area-under-a-curve = accumulated integral** on
+*any* axis, work-energy, thermo PV-work, and E&M field/potential integrals become authoring, not engineering.
+
+**Decision.** Add a second, parallel instrument — the **area (integral) graph** — without disturbing the
+temporal stack:
+1. A model may return a `Scenario` whose temporal fields (`t/x_expr/v_expr/a_expr`) are `None` and that instead
+   carries an **`AreaPlot`**: an integrand `f(u)` and its accumulated integral `g(u) = ∫_{u0}^{u} f du` over a
+   general axis `u`, with axis/panel labels, parameter sliders, and a **cursor** (the upper-limit slider). The
+   shaded area under `f` up to the cursor *is* `g`; the slope of `g` *is* `f` — the thesis, on the `u` axis.
+2. A new graph **`kind:"area"`** in the schema, with its own `area_series` shape `{u,f,g,u_max}` (gated by
+   kind, alongside the temporal `series`), `closed_form{f,g}`, a `cursor`, and `u_label/f_label/g_label`. The
+   browser-side axis variable is normalized to the canonical `u` (emit substitutes the model's symbol → `u`),
+   so the series key, the closed-form param, and the cursor name always agree.
+3. A third **proof kind `"integral"`** (alongside `equivalence`/`governing`), proven via the same
+   `tiered_zero`: `g'(u)=f` (FTC / slope↔value), `g=∫f du` (area↔change), the **memorized result falls out**
+   of the integral (`½mv²=W`; `nRT ln(V₂/V₁)`), and the **constant-integrand case collapses to the rectangle**
+   (`W=Fd`; `W=PΔV`) — the regime-1 quadrature echo, now on the work axis.
+4. A static poster (`graph.render_area`) and a new **`AreaPlot.svelte`** island render the two-panel figure
+   with a draggable cursor. `check-parity.mjs` and `validate-solutions.mjs` were made axis-agnostic (`u` or
+   `t`), so the same 1e-9 oracle proves the area closed forms the browser evaluates.
+
+**Regime-3 with a calculus underpinning.** Thermodynamics is regime 3 (algebra-only), yet PV-work has a clean
+calculus underpinning (`W=∫P dV`). Per Phase-3 policy ("surface calculus underpinnings only where clean"), a
+regime-3 area lesson shows that underpinning without claiming a dual register: the badge stays "regime 3 ·
+algebra-only" and the proof kind is `integral`, not `equivalence`.
+
+**Consequences.** Proven on two lessons across two axes with **no engine change between them**: **work-energy**
+(`∫F dx`; position; regime 2; mechanics) and **isothermal PV-work** (`∫P dV`; volume; regime 3; thermo —
+opening Phase 3). The second reused the schema, the gates, and the island untouched — the demonstration that
+the hard instrument makes a domain's granular lessons simple. The frontier the area instrument does *not* yet
+cover is a **numerically-integrated** curve with no elementary closed form — that is the separate
+`sampled`-interpolation open question (ADR-0012) — **now resolved by ADR-0015**. A future instrument that
+needs a vector or multi-panel integral (an E&M field) would extend `AreaPlot`, not replace it.
+
+## ADR-0015 — The trajectory instrument (2D projectile) + a verification model for numerically-integrated motion (2026-06-26)
+
+**Context.** Everything before was 1D: a single x(t) over time, or an integral over one axis. 2D projectile
+motion is the first genuinely vector scenario, and it splits into the two cases the engine had never handled:
+a **drag-free** path (each component is constant-acceleration motion — an *exact* closed form, plotted as
+y-vs-x) and a **quadratic-drag** path (m v̇ = mg − b|v|v — coupled components, **no elementary closed form**:
+the motivating case for the `sampled` mode parked in ADR-0012).
+
+**Decision.**
+1. **A trajectory graph kind** (`kind:"trajectory"`): the path y vs x (the parametric trace of two
+   independent 1D motions), carried by a `TrajectoryPlot` on the `Scenario` (temporal `x/v/a` left `None`),
+   with its own `traj_series {t,x,y,t_max}` schema shape, a `Trajectory.svelte` island, and `render_trajectory`.
+2. **Drag-free (regime 1, exact).** x(t)=v₀cosθ·t and y(t)=v₀sinθ·t+½gt² are exact polynomials; the graph is
+   `interactive` (launch-angle and speed sliders, closed-form-in-JS, parity-verified). The proof is
+   `equivalence`: each component solves its constant-acceleration EOM, and the memorized projectile formulas
+   (range, height, flight time) fall out of the component integrals — regime 1, in 2D.
+3. **Quadratic drag (regime 2, numerical).** No closed form, so the producer integrates the vector ODE by
+   fixed-step RK4 and ships the path as `frames` of sample points swept over **one** parameter (the drag
+   coefficient b); the slider snaps between numerically-integrated trajectories, with the drag-free parabola
+   overlaid as a `reference`. A single-parameter sweep avoids the committed-data blow-up ADR-0012 warned about
+   for a 2-D launch grid.
+4. **A verification model for numerical motion** (the governing proof, extended for no-closed-form solutions,
+   in the ADR-0010 split):
+   - **Producer (strong, local, refuse-to-emit):** each path is verified RK4-**converged** (halving the step
+     moves the range < 1 mm), made to satisfy the **equation-of-motion residual** (central-difference
+     acceleration matches g − (b/m)|v|v to < 1e-2 m/s²), and the **b=0 path is cross-checked against the exact
+     analytic parabola** (independent ground truth). A failure raises; nothing is emitted.
+   - **CI Node re-gate** (`check-trajectory.mjs`, the analog of `check-parity` for paths with no closed form):
+     the committed points are structurally sound (start at the origin, land at y≈0, t increasing, finite,
+     y≥0), the b=0 frame reproduces the exact parabola range, and the range is **monotonically non-increasing
+     in the drag coefficient** (drag can only shorten the flight). The strong physics lives in the producer;
+     the Node side re-checks what it can do exactly.
+
+**This resolves the ADR-0012 parked question** for its motivating case: the no-closed-form region is handled
+by numerically-integrated, individually-verified frames the slider snaps between — *not* by continuous
+interpolation between samples, so no interpolation-error gate is needed (the committed sample density just
+sets drawing smoothness; the *physics* accuracy is the producer's converged solution).
+
+**Consequences.** The engine now spans 1D temporal motion, the integral instrument, and 2D trajectories —
+drag-free (exact) and drag (numerical). "Verification is the product" extends to numerically-integrated
+solutions: the path is converged, satisfies the EOM, and recovers the exact parabola at zero drag, all
+machine-checked. Honesty axes unchanged; the quadratic-drag model and the use of numerical integration are
+author-disclosed. Future numerical models (anharmonic oscillators, non-1/r² orbits) reuse this exact pattern
+(RK4 + producer verification + the trajectory / `check-trajectory` gate).

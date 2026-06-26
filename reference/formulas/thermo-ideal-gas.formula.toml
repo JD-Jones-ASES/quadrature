@@ -1,0 +1,20 @@
+id = "thermo-ideal-gas"
+name = "Ideal-gas law (pressure form)"
+domain = "thermo"
+regime = 3
+expr = "n*R*T/V"
+lhs = "P"
+result_unit = "Pa"
+assumptions = ["ideal gas (no intermolecular forces, point particles)"]
+citations = []
+
+[variables]
+n = { unit = "mol", desc = "amount of substance" }
+R = { unit = "J/(mol*K)", desc = "ideal-gas constant" }
+T = { unit = "K", desc = "absolute temperature" }
+V = { unit = "m**3", desc = "volume" }
+
+[[edges]]
+type = "related-to"
+target = "thermo-work-isothermal"
+gloss = "integrating this pressure over volume at constant T gives the isothermal work"

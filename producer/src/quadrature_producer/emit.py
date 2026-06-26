@@ -60,6 +60,91 @@ def sample_series_of(x_expr, v_expr, a_expr, t, t_max: float, n: int = 61) -> di
     return {"t": ts, "x": xs, "v": vs, "a": as_, "t_max": round(float(t_max), 9)}
 
 
+# The browser-side axis variable is always the canonical `u`, regardless of the model's symbol name (V, x,
+# …), so the JSON axis key (series `u`), the closed-form param, and the cursor name all agree.
+_AXIS = sp.Symbol("u")
+
+
+def _norm(area, expr):
+    return expr.subs(area.constants).subs(area.u, _AXIS)
+
+
+def closed_form_area(area) -> dict[str, str]:
+    """JS-evaluable f(u) and g(u) for the area instrument (constants substituted; axis u + sliders free)."""
+    out = {}
+    for name, expr in (("f", area.f_expr), ("g", area.g_expr)):
+        e = _norm(area, expr)
+        try:
+            out[name] = jscode(e)
+        except Exception as ex:
+            raise BuildError(f"area closed_form.{name}: cannot emit JS for {sp.srepr(e)}: {ex}") from ex
+    return out
+
+
+def closed_form_params_area(area) -> list[str]:
+    syms: set[str] = set()
+    for expr in (area.f_expr, area.g_expr):
+        syms |= {str(s) for s in _norm(area, expr).free_symbols}
+    return sorted(syms)
+
+
+def sample_area_series(area, n: int = 61) -> dict:
+    """SymPy's f(u) and g(u) at the default slider values over u in [u0, u_window] — the parity truth.
+
+    Rounds u first, then evaluates AT the rounded u, so the JS player (reading the rounded u back)
+    reproduces these values exactly. Axis key is `u` (the analogue of `t` in the temporal series)."""
+    base = dict(area.constants)
+    for sl in area.sliders:
+        base[sl.sym] = sp.nsimplify(sl.default)
+    u = area.u
+    us, fs, gs = [], [], []
+    span = sp.nsimplify(area.u_window) - sp.nsimplify(area.u0)
+    for i in range(n):
+        ui = round(float(sp.nsimplify(area.u0) + sp.Rational(i, n - 1) * span), 9)
+        sub = {**base, u: sp.Rational(str(ui))}
+        us.append(ui)
+        fs.append(round(float(sp.N(area.f_expr.subs(sub), 30)), 10))
+        gs.append(round(float(sp.N(area.g_expr.subs(sub), 30)), 10))
+    return {"u": us, "f": fs, "g": gs, "u_max": round(float(area.u_window), 9)}
+
+
+def closed_form_traj(traj) -> dict[str, str]:
+    """JS-evaluable x(t) and y(t) for the trajectory instrument (constants substituted; t + sliders free)."""
+    out = {}
+    for name, expr in (("x", traj.x_expr), ("y", traj.y_expr)):
+        e = expr.subs(traj.constants)
+        try:
+            out[name] = jscode(e)
+        except Exception as ex:
+            raise BuildError(f"traj closed_form.{name}: cannot emit JS for {sp.srepr(e)}: {ex}") from ex
+    return out
+
+
+def closed_form_params_traj(traj) -> list[str]:
+    syms: set[str] = set()
+    for expr in (traj.x_expr, traj.y_expr):
+        syms |= {str(s) for s in expr.subs(traj.constants).free_symbols}
+    return sorted(syms)
+
+
+def sample_traj_series(traj, n: int = 81) -> dict:
+    """SymPy's x(t), y(t) at the default slider values over t in [0, t_flight] — the parity truth for the
+    closed-form (drag-free) path. Rounds t first, then evaluates (so the JS player reproduces it exactly)."""
+    base = dict(traj.constants)
+    for sl in traj.sliders:
+        base[sl.sym] = sp.nsimplify(sl.default)
+    tt = traj.t
+    ts, xs, ys = [], [], []
+    span = sp.nsimplify(traj.t_flight)
+    for i in range(n):
+        ti = round(float(sp.Rational(i, n - 1) * span), 9)
+        sub = {**base, tt: sp.Rational(str(ti))}
+        ts.append(ti)
+        xs.append(round(float(sp.N(traj.x_expr.subs(sub), 30)), 10))
+        ys.append(round(float(sp.N(traj.y_expr.subs(sub), 30)), 10))
+    return {"t": ts, "x": xs, "y": ys, "t_max": round(float(traj.t_flight), 9)}
+
+
 def sample_series(scn, t_max: float, n: int = 61) -> dict:
     """SymPy's x/v/a at the default parameters over t in [0, t_max] — the parity truth.
 

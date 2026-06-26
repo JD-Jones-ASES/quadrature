@@ -1,0 +1,438 @@
+{
+  "id": "projectile-drag-free",
+  "title": "Projectile motion: two 1D motions, superposed",
+  "topic": "projectile",
+  "slug": "drag-free",
+  "scenario": "A ball is launched from the ground at $v_0 = 20$ m/s, $\\theta = 40°$ above the horizontal (no air resistance, $g = -10$). What is its range, how high does it go — and why is the path a parabola? Drag the launch angle and speed and watch the trajectory, range, and apex move together.",
+  "regime": 1,
+  "constants": {
+    "g": -10.0,
+    "v0": 20.0,
+    "theta_deg": 40.0
+  },
+  "initial_conditions": {
+    "x0": 0.0,
+    "y0": 0.0,
+    "v0": 20.0,
+    "theta_deg": 40.0
+  },
+  "assumptions": [
+    {
+      "claim": "No air resistance — the only force in flight is gravity (drag is the regime-2 sequel).",
+      "kind": "model"
+    },
+    {
+      "claim": "$g = -10$ m/s² (simplified from 9.81), up positive, so gravity carries its negative sign.",
+      "kind": "model"
+    },
+    {
+      "claim": "Point mass launched from and landing at the same height (flat ground).",
+      "kind": "model"
+    }
+  ],
+  "algebra": {
+    "steps": [
+      {
+        "label": "What the algebra-based course hands you (memorized)",
+        "latex": "R = \\frac{v_0^2\\sin 2\\theta}{|g|}\\qquad H = \\frac{(v_0\\sin\\theta)^2}{2|g|}\\qquad T = \\frac{2v_0\\sin\\theta}{|g|}",
+        "prose": "Three formulas to memorize for range, height, and flight time — but not *why* the path is a parabola, or where the $\\sin 2\\theta$ comes from. Calculus gives all three from one idea: each direction is just constant-acceleration motion."
+      }
+    ],
+    "result": {
+      "range": {
+        "label": "Range $R = v_0^2\\sin 2\\theta/|g|$",
+        "unit": "m",
+        "symbolic_latex": "- \\frac{v_{0}^{2} \\sin{\\left(\\frac{\\pi \\theta}{90} \\right)}}{g}",
+        "value": 39.39231,
+        "display": "39.39"
+      },
+      "max_height": {
+        "label": "Max height $H = (v_0\\sin\\theta)^2/2|g|$",
+        "unit": "m",
+        "symbolic_latex": "- \\frac{v_{0}^{2} \\sin^{2}{\\left(\\frac{\\pi \\theta}{180} \\right)}}{2 g}",
+        "value": 8.263518,
+        "display": "8.264"
+      },
+      "flight_time": {
+        "label": "Time of flight $T = 2v_0\\sin\\theta/|g|$",
+        "unit": "s",
+        "symbolic_latex": "- \\frac{2 v_{0} \\sin{\\left(\\frac{\\pi \\theta}{180} \\right)}}{g}",
+        "value": 2.57115,
+        "display": "2.571"
+      },
+      "apex_time": {
+        "label": "Time to apex $T/2$",
+        "unit": "s",
+        "symbolic_latex": "- \\frac{v_{0} \\sin{\\left(\\frac{\\pi \\theta}{180} \\right)}}{g}",
+        "value": 1.285575,
+        "display": "1.286"
+      }
+    }
+  },
+  "calculus": {
+    "steps": [
+      {
+        "label": "Split the launch into independent x and y motions",
+        "latex": "a_x = 0,\\quad a_y = g \\qquad v_{x0} = v_0\\cos\\theta,\\quad v_{y0} = v_0\\sin\\theta",
+        "prose": "Gravity acts only vertically, so the horizontal and vertical motions are independent. Horizontally the acceleration is zero; vertically it is the constant $g$ — two constant-acceleration problems, side by side."
+      },
+      {
+        "label": "Integrate each component (the regime-1 quadrature, twice)",
+        "latex": "x(t) = v_0\\cos\\theta\\,t \\qquad y(t) = v_0\\sin\\theta\\,t + \\tfrac12 g t^2",
+        "prose": "Integrate the constant accelerations: $x$ grows linearly (constant velocity), $y$ is the throw-up parabola. The path $y$ vs $x$ is their parametric trace — a parabola."
+      },
+      {
+        "label": "The memorized formulas fall out",
+        "latex": "y=0 \\Rightarrow T = \\frac{2v_0\\sin\\theta}{|g|};\\quad R = x(T) = \\frac{v_0^2\\sin 2\\theta}{|g|};\\quad H = y(T/2) = \\frac{(v_0\\sin\\theta)^2}{2|g|}",
+        "prose": "Set $y=0$ for the flight time, put it into $x$ for the range (the $\\sin 2\\theta$ is just $2\\sin\\theta\\cos\\theta$), and evaluate $y$ at the apex for the height. SymPy proves each memorized formula equals the integral evaluated.",
+        "emphasis": true
+      }
+    ]
+  },
+  "proof": {
+    "kind": "equivalence",
+    "heading": "The projectile range and height formulas are the constant-acceleration integrals, evaluated — proven, not asserted.",
+    "checked_by": "sympy",
+    "holds": true,
+    "detail": "check $x''=0$ and $y''=g$; check the launch conditions; show the memorized $R$ and $H$ fall out of $x(t)$ and $y(t)$",
+    "checks": [
+      {
+        "key": "x_constant_velocity",
+        "claim": "Horizontally there is no force, so $x'' = 0$ (constant velocity).",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "y_constant_gravity",
+        "claim": "Vertically the only acceleration is gravity, $y'' = g$.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "ic",
+        "claim": "It launches from the origin with the right velocity components: $x(0)=y(0)=0$, $x'(0)=v_0\\cos\\theta$, $y'(0)=v_0\\sin\\theta$.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "range_falls_out",
+        "claim": "The memorized range $R = v_0^2\\sin 2\\theta/|g|$ is exactly $x$ at landing — it falls out of the integral.",
+        "holds": true,
+        "tier": "simplify"
+      },
+      {
+        "key": "height_falls_out",
+        "claim": "The memorized max height $H = (v_0\\sin\\theta)^2/2|g|$ is exactly $y$ at the apex.",
+        "holds": true,
+        "tier": "structural"
+      }
+    ]
+  },
+  "units_check": {
+    "checked_by": "sympy",
+    "holds": true
+  },
+  "graphs": [
+    {
+      "kind": "trajectory",
+      "mode": "interactive",
+      "window": "fixed",
+      "annotate": [
+        "range_at_45",
+        "independent_components"
+      ],
+      "svg": "assets/graphs/projectile-drag-free-0.svg",
+      "x_label": "x  (m)",
+      "y_label": "y  (m)",
+      "g": -10.0,
+      "series": {
+        "t": [
+          0.0,
+          0.03213938,
+          0.064278761,
+          0.096418141,
+          0.128557522,
+          0.160696902,
+          0.192836283,
+          0.224975663,
+          0.257115044,
+          0.289254424,
+          0.321393805,
+          0.353533185,
+          0.385672566,
+          0.417811946,
+          0.449951327,
+          0.482090707,
+          0.514230088,
+          0.546369468,
+          0.578508849,
+          0.610648229,
+          0.64278761,
+          0.67492699,
+          0.707066371,
+          0.739205751,
+          0.771345132,
+          0.803484512,
+          0.835623893,
+          0.867763273,
+          0.899902654,
+          0.932042034,
+          0.964181415,
+          0.996320795,
+          1.028460175,
+          1.060599556,
+          1.092738936,
+          1.124878317,
+          1.157017697,
+          1.189157078,
+          1.221296458,
+          1.253435839,
+          1.285575219,
+          1.3177146,
+          1.34985398,
+          1.381993361,
+          1.414132741,
+          1.446272122,
+          1.478411502,
+          1.510550883,
+          1.542690263,
+          1.574829644,
+          1.606969024,
+          1.639108405,
+          1.671247785,
+          1.703387166,
+          1.735526546,
+          1.767665927,
+          1.799805307,
+          1.831944688,
+          1.864084068,
+          1.896223449,
+          1.928362829,
+          1.96050221,
+          1.99264159,
+          2.024780971,
+          2.056920351,
+          2.089059731,
+          2.121199112,
+          2.153338492,
+          2.185477873,
+          2.217617253,
+          2.249756634,
+          2.281896014,
+          2.314035395,
+          2.346174775,
+          2.378314156,
+          2.410453536,
+          2.442592917,
+          2.474732297,
+          2.506871678,
+          2.539011058,
+          2.571150439
+        ],
+        "x": [
+          0.0,
+          0.4924038691,
+          0.9848077535,
+          1.4772116226,
+          1.969615507,
+          2.4620193761,
+          2.9544232605,
+          3.4468271296,
+          3.939231014,
+          4.4316348831,
+          4.9240387675,
+          5.4164426365,
+          5.908846521,
+          6.40125039,
+          6.8936542744,
+          7.3860581435,
+          7.8784620279,
+          8.370865897,
+          8.8632697814,
+          9.3556736505,
+          9.8480775349,
+          10.340481404,
+          10.8328852884,
+          11.3252891575,
+          11.8176930419,
+          12.310096911,
+          12.8025007954,
+          13.2949046645,
+          13.7873085489,
+          14.279712418,
+          14.7721163024,
+          15.2645201715,
+          15.7569240406,
+          16.249327925,
+          16.7417317941,
+          17.2341356785,
+          17.7265395475,
+          18.218943432,
+          18.711347301,
+          19.2037511854,
+          19.6961550545,
+          20.1885589389,
+          20.680962808,
+          21.1733666924,
+          21.6657705615,
+          22.1581744459,
+          22.650578315,
+          23.1429821994,
+          23.6353860685,
+          24.1277899529,
+          24.620193822,
+          25.1125977064,
+          25.6050015755,
+          26.0974054599,
+          26.589809329,
+          27.0822132134,
+          27.5746170825,
+          28.0670209669,
+          28.559424836,
+          29.0518287204,
+          29.5442325895,
+          30.0366364739,
+          30.5290403429,
+          31.0214442274,
+          31.5138480964,
+          32.0062519655,
+          32.4986558499,
+          32.991059719,
+          33.4834636034,
+          33.9758674725,
+          34.4682713569,
+          34.960675226,
+          35.4530791104,
+          35.9454829795,
+          36.4378868639,
+          36.930290733,
+          37.4226946174,
+          37.9150984865,
+          38.4075023709,
+          38.89990624,
+          39.3923101244
+        ],
+        "y": [
+          0.0,
+          0.4080112062,
+          0.8056930272,
+          1.1930454381,
+          1.5700684632,
+          1.9367620789,
+          2.293126308,
+          2.6391611284,
+          2.9748665617,
+          3.3002425869,
+          3.6152892242,
+          3.9200064541,
+          4.2143942956,
+          4.4984527303,
+          4.7721817758,
+          5.0355814152,
+          5.2886516649,
+          5.531392509,
+          5.7638039628,
+          5.9858860117,
+          6.1976386695,
+          6.3990619231,
+          6.5901557851,
+          6.7709202435,
+          6.9413553095,
+          7.1014609727,
+          7.2512372428,
+          7.3906841107,
+          7.5198015849,
+          7.6385896575,
+          7.7470483359,
+          7.8451776132,
+          7.9329774931,
+          8.0104479778,
+          8.0775890624,
+          8.1344007512,
+          8.1808830405,
+          8.2170359334,
+          8.2428594275,
+          8.2583535245,
+          8.2635182233,
+          8.2583535244,
+          8.242859428,
+          8.2170359332,
+          8.1808830415,
+          8.1344007508,
+          8.0775890638,
+          8.0104479772,
+          7.932977495,
+          7.8451776125,
+          7.7470483351,
+          7.6385896566,
+          7.5198015839,
+          7.3906841096,
+          7.2512372417,
+          7.1014609714,
+          6.9413553082,
+          6.7709202421,
+          6.5901557836,
+          6.3990619216,
+          6.1976386679,
+          5.9858860099,
+          5.763803961,
+          5.5313925071,
+          5.2886516629,
+          5.0355814212,
+          4.7721817737,
+          4.4984527367,
+          4.2143942933,
+          3.9200064611,
+          3.6152892218,
+          3.3002425943,
+          2.9748665591,
+          2.6391611364,
+          2.2931263052,
+          1.9367620872,
+          1.5700684602,
+          1.193045447,
+          0.8056930241,
+          0.4080112156,
+          -3.3e-09
+        ],
+        "t_max": 2.571150439
+      },
+      "closed_form": {
+        "x": "t*v0*Math.cos((1/180)*Math.PI*theta)",
+        "y": "-5*Math.pow(t, 2) + t*v0*Math.sin((1/180)*Math.PI*theta)"
+      },
+      "closed_form_params": [
+        "t",
+        "theta",
+        "v0"
+      ],
+      "params": {
+        "theta": {
+          "min": 10.0,
+          "max": 80.0,
+          "default": 40.0
+        },
+        "v0": {
+          "min": 8.0,
+          "max": 35.0,
+          "default": 20.0
+        }
+      }
+    }
+  ],
+  "misconception": {
+    "claim": "At the top of its arc, the projectile is momentarily at rest.",
+    "refuted_by": "Only the *vertical* velocity is zero at the apex; the horizontal velocity $v_0\\cos\\theta$ never changes — there is no horizontal force. At the top the ball is still moving horizontally at full speed. The horizontal and vertical motions are completely independent, which is exactly why the path is a parabola ($y$ a quadratic in $t$, $x$ linear in $t$)."
+  },
+  "formulas_used": [
+    "kin-x-of-t",
+    "kin-v-of-t"
+  ],
+  "provenance": {
+    "producer": "quadrature_producer",
+    "version": "0.1.0",
+    "sympy": "1.14.0",
+    "author": "Quadrature",
+    "created": "2026-06-26"
+  }
+}

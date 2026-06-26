@@ -1,0 +1,420 @@
+{
+  "id": "angular-kinematics",
+  "title": "Rotational kinematics: the same calculus, angular labels",
+  "topic": "rotation",
+  "slug": "angular-kinematics",
+  "scenario": "A flywheel starts from rest and spins up under a constant angular acceleration $\\alpha = 3$ rad/s² for $4$ s. How fast is it turning, and how many revolutions has it made? The rotational kinematics are the straight-line equations with angular symbols — step them and watch the timeless equation fall out of the integrals.",
+  "regime": 1,
+  "constants": {
+    "theta0": 0.0,
+    "omega0": 0.0,
+    "alpha": 3.0
+  },
+  "initial_conditions": {
+    "theta0": 0.0,
+    "omega0": 0.0
+  },
+  "assumptions": [
+    {
+      "claim": "Constant angular acceleration (a constant net torque on a rigid body of fixed moment of inertia).",
+      "kind": "model"
+    },
+    {
+      "claim": "Rigid body; angles in radians; the axis of rotation is fixed.",
+      "kind": "model"
+    }
+  ],
+  "algebra": {
+    "steps": [
+      {
+        "label": "What the algebra-based course hands you (the same four equations, angular)",
+        "latex": "\\omega = \\omega_0 + \\alpha t,\\quad \\theta = \\theta_0 + \\omega_0 t + \\tfrac12\\alpha t^2,\\quad \\omega^2 = \\omega_0^2 + 2\\alpha\\Delta\\theta",
+        "prose": "The rotational kinematics formulas are the straight-line ones with every symbol swapped for its angular twin: $x\\to\\theta$, $v\\to\\omega$, $a\\to\\alpha$. They are memorized as a separate set — but they are the same calculus."
+      }
+    ],
+    "result": {
+      "angle": {
+        "label": "Angle turned $\\theta(T)$",
+        "unit": "rad",
+        "symbolic_latex": "\\frac{\\alpha t^{2}}{2} + \\omega_{0} t + \\theta_{0}",
+        "value": 24.0,
+        "display": "24"
+      },
+      "final_omega": {
+        "label": "Final angular velocity $\\omega(T)$",
+        "unit": "rad/s",
+        "symbolic_latex": "\\alpha t + \\omega_{0}",
+        "value": 12.0,
+        "display": "12"
+      },
+      "revolutions": {
+        "label": "Revolutions $\\theta/2\\pi$",
+        "unit": "rev",
+        "symbolic_latex": "\\frac{\\frac{\\alpha t^{2}}{2} + \\omega_{0} t + \\theta_{0}}{2 \\pi}",
+        "value": 3.819719,
+        "display": "3.82"
+      }
+    }
+  },
+  "calculus": {
+    "steps": [
+      {
+        "label": "Constant angular acceleration",
+        "latex": "\\alpha = \\text{const} \\quad\\Longrightarrow\\quad \\omega(t) = \\omega_0 + \\int_0^t \\alpha\\,dt' = \\omega_0 + \\alpha t",
+        "prose": "A constant net torque gives a constant angular acceleration. Integrate it once for the angular velocity — exactly as constant linear acceleration integrates to $v$."
+      },
+      {
+        "label": "Integrate again for the angle",
+        "latex": "\\theta(t) = \\theta_0 + \\int_0^t \\omega\\,dt' = \\theta_0 + \\omega_0 t + \\tfrac12\\alpha t^2",
+        "prose": "Integrate the angular velocity for the angle. This is the rotational $x = x_0 + v_0 t + \\tfrac12 a t^2$ — the area under the $\\omega$–$t$ line is the angle turned."
+      },
+      {
+        "label": "The timeless equation falls out",
+        "latex": "\\boxed{\\,\\omega^2 = \\omega_0^2 + 2\\alpha\\,\\Delta\\theta\\,}",
+        "prose": "Eliminate $t$ between the two integrals and the memorized timeless equation appears — and SymPy proves it. Nothing about rotation is new; it is constant-acceleration kinematics with angular labels.",
+        "emphasis": true
+      }
+    ]
+  },
+  "proof": {
+    "kind": "equivalence",
+    "heading": "The rotational equations are the linear ones with angular symbols — and the timeless equation falls out of the integrals.",
+    "checked_by": "sympy",
+    "holds": true,
+    "detail": "check $\\theta' = \\omega$ and $\\omega' = \\alpha$; show $\\omega^2 = \\omega_0^2 + 2\\alpha\\Delta\\theta$ and $\\Delta\\theta = \\tfrac12(\\omega_0+\\omega)t$ fall out",
+    "checks": [
+      {
+        "key": "omega_is_integral",
+        "claim": "Angular velocity is the integral of $\\alpha$: $\\omega = d\\theta/dt$.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "alpha_constant",
+        "claim": "Angular acceleration is constant: $\\alpha = d\\omega/dt$.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "timeless_falls_out",
+        "claim": "The memorized timeless equation $\\omega^2 = \\omega_0^2 + 2\\alpha\\,\\Delta\\theta$ falls out.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "average_velocity",
+        "claim": "The average-velocity relation $\\Delta\\theta = \\tfrac12(\\omega_0+\\omega)\\,t$ holds.",
+        "holds": true,
+        "tier": "structural"
+      }
+    ]
+  },
+  "units_check": {
+    "checked_by": "sympy",
+    "holds": true
+  },
+  "graphs": [
+    {
+      "kind": "stack",
+      "mode": "interactive",
+      "window": "fixed",
+      "annotate": [
+        "theta_omega_alpha",
+        "constant_alpha"
+      ],
+      "svg": "assets/graphs/angular-kinematics-0.svg",
+      "series": {
+        "t": [
+          0.0,
+          0.066666667,
+          0.133333333,
+          0.2,
+          0.266666667,
+          0.333333333,
+          0.4,
+          0.466666667,
+          0.533333333,
+          0.6,
+          0.666666667,
+          0.733333333,
+          0.8,
+          0.866666667,
+          0.933333333,
+          1.0,
+          1.066666667,
+          1.133333333,
+          1.2,
+          1.266666667,
+          1.333333333,
+          1.4,
+          1.466666667,
+          1.533333333,
+          1.6,
+          1.666666667,
+          1.733333333,
+          1.8,
+          1.866666667,
+          1.933333333,
+          2.0,
+          2.066666667,
+          2.133333333,
+          2.2,
+          2.266666667,
+          2.333333333,
+          2.4,
+          2.466666667,
+          2.533333333,
+          2.6,
+          2.666666667,
+          2.733333333,
+          2.8,
+          2.866666667,
+          2.933333333,
+          3.0,
+          3.066666667,
+          3.133333333,
+          3.2,
+          3.266666667,
+          3.333333333,
+          3.4,
+          3.466666667,
+          3.533333333,
+          3.6,
+          3.666666667,
+          3.733333333,
+          3.8,
+          3.866666667,
+          3.933333333,
+          4.0
+        ],
+        "x": [
+          0.0,
+          0.0066666667,
+          0.0266666665,
+          0.06,
+          0.1066666669,
+          0.1666666663,
+          0.24,
+          0.3266666671,
+          0.4266666661,
+          0.54,
+          0.6666666673,
+          0.8066666659,
+          0.96,
+          1.1266666675,
+          1.3066666657,
+          1.5,
+          1.7066666677,
+          1.9266666655,
+          2.16,
+          2.4066666679,
+          2.6666666653,
+          2.94,
+          3.2266666681,
+          3.5266666651,
+          3.84,
+          4.1666666683,
+          4.5066666649,
+          4.86,
+          5.2266666685,
+          5.6066666647,
+          6.0,
+          6.4066666687,
+          6.8266666645,
+          7.26,
+          7.7066666689,
+          8.1666666643,
+          8.64,
+          9.1266666691,
+          9.6266666641,
+          10.14,
+          10.6666666693,
+          11.2066666639,
+          11.76,
+          12.3266666695,
+          12.9066666637,
+          13.5,
+          14.1066666697,
+          14.7266666635,
+          15.36,
+          16.0066666699,
+          16.6666666633,
+          17.34,
+          18.0266666701,
+          18.7266666631,
+          19.44,
+          20.1666666703,
+          20.9066666629,
+          21.66,
+          22.4266666705,
+          23.2066666627,
+          24.0
+        ],
+        "v": [
+          0.0,
+          0.200000001,
+          0.399999999,
+          0.6,
+          0.800000001,
+          0.999999999,
+          1.2,
+          1.400000001,
+          1.599999999,
+          1.8,
+          2.000000001,
+          2.199999999,
+          2.4,
+          2.600000001,
+          2.799999999,
+          3.0,
+          3.200000001,
+          3.399999999,
+          3.6,
+          3.800000001,
+          3.999999999,
+          4.2,
+          4.400000001,
+          4.599999999,
+          4.8,
+          5.000000001,
+          5.199999999,
+          5.4,
+          5.600000001,
+          5.799999999,
+          6.0,
+          6.200000001,
+          6.399999999,
+          6.6,
+          6.800000001,
+          6.999999999,
+          7.2,
+          7.400000001,
+          7.599999999,
+          7.8,
+          8.000000001,
+          8.199999999,
+          8.4,
+          8.600000001,
+          8.799999999,
+          9.0,
+          9.200000001,
+          9.399999999,
+          9.6,
+          9.800000001,
+          9.999999999,
+          10.2,
+          10.400000001,
+          10.599999999,
+          10.8,
+          11.000000001,
+          11.199999999,
+          11.4,
+          11.600000001,
+          11.799999999,
+          12.0
+        ],
+        "a": [
+          3.0,
+          3.0,
+          3.0,
+          3.0,
+          3.0,
+          3.0,
+          3.0,
+          3.0,
+          3.0,
+          3.0,
+          3.0,
+          3.0,
+          3.0,
+          3.0,
+          3.0,
+          3.0,
+          3.0,
+          3.0,
+          3.0,
+          3.0,
+          3.0,
+          3.0,
+          3.0,
+          3.0,
+          3.0,
+          3.0,
+          3.0,
+          3.0,
+          3.0,
+          3.0,
+          3.0,
+          3.0,
+          3.0,
+          3.0,
+          3.0,
+          3.0,
+          3.0,
+          3.0,
+          3.0,
+          3.0,
+          3.0,
+          3.0,
+          3.0,
+          3.0,
+          3.0,
+          3.0,
+          3.0,
+          3.0,
+          3.0,
+          3.0,
+          3.0,
+          3.0,
+          3.0,
+          3.0,
+          3.0,
+          3.0,
+          3.0,
+          3.0,
+          3.0,
+          3.0,
+          3.0
+        ],
+        "t_max": 4.0
+      },
+      "closed_form": {
+        "x": "(1/2)*alpha*Math.pow(t, 2) + omega0*t",
+        "v": "alpha*t + omega0",
+        "a": "alpha"
+      },
+      "closed_form_params": [
+        "alpha",
+        "omega0",
+        "t"
+      ],
+      "params": {
+        "omega0": {
+          "min": -5.0,
+          "max": 10.0,
+          "default": 0.0
+        },
+        "alpha": {
+          "min": 0.5,
+          "max": 6.0,
+          "default": 3.0
+        }
+      }
+    }
+  ],
+  "misconception": {
+    "claim": "Rotational motion needs its own special set of equations to memorize.",
+    "refuted_by": "The rotational kinematics equations *are* the straight-line ones with angular symbols: $x\\to\\theta$, $v\\to\\omega$, $a\\to\\alpha$. They come from the same two integrations of a constant acceleration — the slope of the $\\omega$–$t$ line is $\\alpha$, and the area under it is $\\Delta\\theta$. Learn one set, relabel, and you have the other."
+  },
+  "formulas_used": [
+    "kin-x-of-t",
+    "kin-v-of-t"
+  ],
+  "provenance": {
+    "producer": "quadrature_producer",
+    "version": "0.1.0",
+    "sympy": "1.14.0",
+    "author": "Quadrature",
+    "created": "2026-06-26"
+  }
+}

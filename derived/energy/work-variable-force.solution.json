@@ -1,0 +1,382 @@
+{
+  "id": "work-variable-force",
+  "title": "Work as area: a variable force",
+  "topic": "energy",
+  "slug": "work-variable-force",
+  "scenario": "A 2 kg block on a frictionless track starts at rest. A force that grows with distance, $F(x) = b\\,x$ (here $b = 8$ N/m), pushes it for $d = 1.5$ m. How much work is done — and where does $\\tfrac12 m v^2$ actually come from? Watch the work accumulate as the area under the force curve.",
+  "regime": 2,
+  "constants": {
+    "m": 2.0,
+    "b": 8.0,
+    "d": 1.5
+  },
+  "initial_conditions": {
+    "x0": 0.0,
+    "v0": 0.0
+  },
+  "assumptions": [
+    {
+      "claim": "Frictionless track: the applied force is the only force doing work along the motion.",
+      "kind": "model"
+    },
+    {
+      "claim": "The force acts along the direction of motion (one dimension), so $W = \\int F\\,dx$ with no angle factor.",
+      "kind": "model"
+    },
+    {
+      "claim": "Point mass; the block starts from rest ($v_0 = 0$), so all the work becomes kinetic energy.",
+      "kind": "model"
+    },
+    {
+      "claim": "Ideal linear force law $F(x) = b\\,x$ (the force is exactly proportional to displacement).",
+      "kind": "model"
+    }
+  ],
+  "algebra": {
+    "steps": [
+      {
+        "label": "What the algebra-based course hands you",
+        "latex": "W = F\\,d \\qquad(\\text{constant force}) \\qquad\\Longrightarrow\\qquad W = \\bar F\\,d,\\ \\ \\bar F = \\tfrac12 F_{\\max}",
+        "prose": "For a constant force, work is force times distance. When the force *varies*, the algebra course patches it with an average force — which is only exact here because the force happens to rise linearly. It can compute the number but cannot say *why* the answer is an area."
+      }
+    ],
+    "result": {
+      "work_done": {
+        "label": "Work done $W = \\tfrac12 b d^2$ (the shaded area)",
+        "unit": "J",
+        "symbolic_latex": "\\tfrac12 b\\,d^2",
+        "value": 9.0,
+        "display": "9"
+      },
+      "kinetic_energy": {
+        "label": "Kinetic energy gained $\\tfrac12 m v^2$",
+        "unit": "J",
+        "symbolic_latex": "\\tfrac12 m v^2",
+        "value": 9.0,
+        "display": "9"
+      },
+      "final_speed": {
+        "label": "Final speed $v = \\sqrt{b/m}\\,d$",
+        "unit": "m/s",
+        "symbolic_latex": "\\sqrt{b/m}\\,d",
+        "value": 3.0,
+        "display": "3"
+      },
+      "max_force": {
+        "label": "Maximum force $F_{\\max} = b\\,d$",
+        "unit": "N",
+        "symbolic_latex": "b\\,d",
+        "value": 12.0,
+        "display": "12"
+      }
+    }
+  },
+  "calculus": {
+    "steps": [
+      {
+        "label": "Work is the area under the force–displacement curve",
+        "latex": "W = \\int F\\,dx",
+        "prose": "Work is defined as the integral of force over displacement. For a constant force this integral is a rectangle (and gives $W = F d$); for any force it is the area under the $F$–$x$ curve. The algebra formula is the special case where the area is a rectangle."
+      },
+      {
+        "label": "Evaluate for the linear force $F(x) = b x$",
+        "latex": "W = \\int_0^{x} b\\,u\\,du = \\tfrac12 b\\,x^2",
+        "prose": "The area under a straight line from the origin is a triangle: $\\tfrac12\\,(\\text{base})\\,(\\text{height}) = \\tfrac12\\,x\\,(b x) = \\tfrac12 b x^2$. Its slope is $bx = F(x)$ — the force is the rate at which work accumulates."
+      },
+      {
+        "label": "The kinetic energy falls out of the same integral",
+        "latex": "\\int F\\,dx = \\int m\\,\\frac{dv}{dt}\\,dx = \\int m\\,v\\,dv = \\tfrac12 m v^2 \\ \\Longrightarrow\\ \\tfrac12 m v^2 = W",
+        "prose": "Substituting $F = m\\,dv/dt$ and $dx = v\\,dt$ turns the work integral into $\\int m v\\,dv$. The memorized $\\tfrac12 m v^2$ is not a separate fact — it is exactly the accumulated work. The area under the force curve IS the kinetic energy.",
+        "emphasis": true
+      },
+      {
+        "label": "So the speed follows from the area",
+        "latex": "\\boxed{\\,v(x) = \\sqrt{\\tfrac{2W}{m}} = \\sqrt{\\tfrac{b}{m}}\\;x\\,}",
+        "prose": "Read the work off the area, set it equal to $\\tfrac12 m v^2$, and the speed at any displacement follows. Drag the cursor: the shaded area and the kinetic energy move together because they are the same quantity."
+      }
+    ]
+  },
+  "proof": {
+    "kind": "integral",
+    "heading": "The work is the area under the force curve — and the kinetic energy falls out of the integral.",
+    "checked_by": "sympy",
+    "holds": true,
+    "detail": "check $\\tfrac{d}{dx}W = F$; check $W = \\int_0^x F\\,du$; back-substitute into $\\tfrac12 m v^2 = W$; collapse the constant-force case to $F\\,d$",
+    "checks": [
+      {
+        "key": "ftc_slope",
+        "claim": "The work's slope is the force: $W'(x) = F(x)$ — the area's rate of growth is the curve's height.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "area_is_integral",
+        "claim": "The accumulated work is exactly the area: $W(x) = \\int_0^x F\\,du$.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "work_energy",
+        "claim": "The kinetic energy equals the work: $\\tfrac12 m v^2 = W$ — the memorized $\\tfrac12 m v^2$ is the area.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "constant_force_echo",
+        "claim": "When the force is constant the integral collapses to $W = F\\,d$ — the algebra formula is the area of a rectangle (the quadrature).",
+        "holds": true,
+        "tier": "structural"
+      }
+    ]
+  },
+  "units_check": {
+    "checked_by": "sympy",
+    "holds": true
+  },
+  "graphs": [
+    {
+      "kind": "area",
+      "mode": "interactive",
+      "window": "fixed",
+      "annotate": [
+        "area_is_work",
+        "slope_is_force"
+      ],
+      "svg": "assets/graphs/work-variable-force-0.svg",
+      "series": {
+        "u": [
+          0.0,
+          0.033333333,
+          0.066666667,
+          0.1,
+          0.133333333,
+          0.166666667,
+          0.2,
+          0.233333333,
+          0.266666667,
+          0.3,
+          0.333333333,
+          0.366666667,
+          0.4,
+          0.433333333,
+          0.466666667,
+          0.5,
+          0.533333333,
+          0.566666667,
+          0.6,
+          0.633333333,
+          0.666666667,
+          0.7,
+          0.733333333,
+          0.766666667,
+          0.8,
+          0.833333333,
+          0.866666667,
+          0.9,
+          0.933333333,
+          0.966666667,
+          1.0,
+          1.033333333,
+          1.066666667,
+          1.1,
+          1.133333333,
+          1.166666667,
+          1.2,
+          1.233333333,
+          1.266666667,
+          1.3,
+          1.333333333,
+          1.366666667,
+          1.4,
+          1.433333333,
+          1.466666667,
+          1.5,
+          1.533333333,
+          1.566666667,
+          1.6,
+          1.633333333,
+          1.666666667,
+          1.7,
+          1.733333333,
+          1.766666667,
+          1.8,
+          1.833333333,
+          1.866666667,
+          1.9,
+          1.933333333,
+          1.966666667,
+          2.0
+        ],
+        "f": [
+          0.0,
+          0.266666664,
+          0.533333336,
+          0.8,
+          1.066666664,
+          1.333333336,
+          1.6,
+          1.866666664,
+          2.133333336,
+          2.4,
+          2.666666664,
+          2.933333336,
+          3.2,
+          3.466666664,
+          3.733333336,
+          4.0,
+          4.266666664,
+          4.533333336,
+          4.8,
+          5.066666664,
+          5.333333336,
+          5.6,
+          5.866666664,
+          6.133333336,
+          6.4,
+          6.666666664,
+          6.933333336,
+          7.2,
+          7.466666664,
+          7.733333336,
+          8.0,
+          8.266666664,
+          8.533333336,
+          8.8,
+          9.066666664,
+          9.333333336,
+          9.6,
+          9.866666664,
+          10.133333336,
+          10.4,
+          10.666666664,
+          10.933333336,
+          11.2,
+          11.466666664,
+          11.733333336,
+          12.0,
+          12.266666664,
+          12.533333336,
+          12.8,
+          13.066666664,
+          13.333333336,
+          13.6,
+          13.866666664,
+          14.133333336,
+          14.4,
+          14.666666664,
+          14.933333336,
+          15.2,
+          15.466666664,
+          15.733333336,
+          16.0
+        ],
+        "g": [
+          0.0,
+          0.0044444444,
+          0.017777778,
+          0.04,
+          0.0711111108,
+          0.1111111116,
+          0.16,
+          0.2177777772,
+          0.2844444452,
+          0.36,
+          0.4444444436,
+          0.5377777788,
+          0.64,
+          0.75111111,
+          0.8711111124,
+          1.0,
+          1.1377777764,
+          1.284444446,
+          1.44,
+          1.6044444428,
+          1.7777777796,
+          1.96,
+          2.1511111092,
+          2.3511111132,
+          2.56,
+          2.7777777756,
+          3.0044444468,
+          3.24,
+          3.484444442,
+          3.7377777804,
+          4.0,
+          4.2711111084,
+          4.551111114,
+          4.84,
+          5.1377777748,
+          5.4444444476,
+          5.76,
+          6.0844444412,
+          6.4177777812,
+          6.76,
+          7.1111111076,
+          7.4711111148,
+          7.84,
+          8.217777774,
+          8.6044444484,
+          9.0,
+          9.4044444404,
+          9.817777782,
+          10.24,
+          10.6711111068,
+          11.1111111156,
+          11.56,
+          12.0177777732,
+          12.4844444492,
+          12.96,
+          13.4444444396,
+          13.9377777828,
+          14.44,
+          14.951111106,
+          15.4711111164,
+          16.0
+        ],
+        "u_max": 2.0
+      },
+      "closed_form": {
+        "f": "b*u",
+        "g": "(1/2)*b*Math.pow(u, 2)"
+      },
+      "closed_form_params": [
+        "b",
+        "u"
+      ],
+      "params": {
+        "b": {
+          "min": 2.0,
+          "max": 16.0,
+          "default": 8.0
+        }
+      },
+      "cursor": {
+        "name": "u",
+        "label": "x  (m)",
+        "unit": "m",
+        "min": 0.0,
+        "max": 2.0,
+        "default": 1.5
+      },
+      "u_label": "x  (m)",
+      "f_label": "F  (N)",
+      "g_label": "W  (J)",
+      "u0": 0.0
+    }
+  ],
+  "misconception": {
+    "claim": "Work is the maximum force times the distance, $W = F_{\\max}\\,d$.",
+    "refuted_by": "The force is not constant — it climbs from $0$ to $F_{\\max} = b\\,d$. Work is the *area* under the $F$–$x$ line, a triangle of area $\\tfrac12 F_{\\max} d$ — exactly half the rectangle $F_{\\max} d$. Drag the cursor: the shaded triangle, not the enclosing rectangle, is the work, and it equals the kinetic energy gained."
+  },
+  "formulas_used": [
+    "en-work",
+    "en-kinetic"
+  ],
+  "provenance": {
+    "producer": "quadrature_producer",
+    "version": "0.1.0",
+    "sympy": "1.14.0",
+    "author": "Quadrature",
+    "created": "2026-06-26"
+  }
+}

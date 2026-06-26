@@ -7,10 +7,17 @@ from `JD.md`), then fill depth-first, and close with a doc sweep. Status lives h
 
 ## Status
 
-- **Phase 0 — vertical slice — COMPLETE, awaiting review** (built 2026-06-26). Producer, gates, player,
-  reference, and concept graph all working end-to-end and pushed to the private repo. Pages intentionally not
-  yet enabled. **Stop here for owner review before Phase 1.**
-- Phases 1–3 and the reference breadth-fill: not started.
+- **Phase 0 — vertical slice — COMPLETE, reviewed** (built 2026-06-26). Producer, gates, player, reference,
+  and concept graph all working end-to-end and pushed to the private repo. Pages intentionally not yet enabled.
+- **Phase 1 — full mechanics — IN PROGRESS.** Lessons: free fall (1), SHM (2), terminal velocity (2), damped
+  oscillator (2, sampled), **work–energy (2, area)**, **projectile drag-free (1) and quadratic drag (2,
+  numerical)**, **impulse–momentum (2, area on the time axis)**, **rotational kinematics (1, stack)**.
+  26-formula mechanics reference + concept graph. Engine now has the
+  **integral instrument** (ADR-0014) and the **2D trajectory instrument** (ADR-0015, drag-free exact +
+  quadratic-drag numerical with a new accuracy gate).
+- **Phase 3 — algebra-only domains — SEEDED.** The area instrument opened thermo early: an **isothermal
+  PV-work** lesson (`∫P dV`) + two thermo reference formulas, built on the proven instrument with no engine
+  change. Phase 2 (E&M) and the rest of Phase 3 breadth: not started.
 
 ---
 
@@ -57,8 +64,13 @@ of r. The producer moves from integrating constants to solving ODEs.
   conditions + a conserved/limit invariant + show the memorized result falling out. The proof block is
   generalized (`equivalence` | `governing`).
 
-**Status.** Regime-2 architecture being stood up this session, proven first on **SHM** (the regime-2 "stress
-node"), then **terminal velocity (drag)**; mechanics breadth + reference fill to follow.
+**Status.** Regime-2 architecture stood up: proven first on **SHM** (the regime-2 "stress node"), then
+**terminal velocity (drag)** and the **damped oscillator** (sampled). The **integral instrument** (ADR-0014)
+generalized the engine off the time axis (proven on **work–energy**), and the **2D trajectory instrument**
+(ADR-0015) added vector motion — drag-free (exact, regime 1) and **quadratic drag** (numerical, regime 2),
+the latter resolving the ADR-0012 no-closed-form question with RK4 + a producer/Node verification split.
+Remaining mechanics lessons (energy conservation, momentum/collisions, rotation, gravitation/orbits) + the
+rest of the reference fill to follow.
 
 **Definition of done.** The mechanics lessons run on the proven instrument; regime 2 is visibly the half where
 calculus does what algebra can't; the reference covers all mechanics formulas.
@@ -78,6 +90,11 @@ underpinnings only where clean.
 
 **Scope.** Fluids, thermodynamics, waves & optics, modern physics. Calculus underpinning optional and only
 where natural (e.g. work as `∫P dV` on a PV diagram). Do **not** force a dual register where one doesn't exist.
+
+**Seeded (2026-06-26).** The area instrument (ADR-0014) made the `∫P dV` underpinning clean to ship, so thermo
+got an early start: an **isothermal PV-work** lesson (regime 3, proof kind `integral`) + the ideal-gas law and
+isothermal-work reference formulas. The pattern (a regime-3 lesson that surfaces a clean calculus underpinning
+via the area instrument) is the template for the rest of Phase 3 where one exists.
 
 **Definition of done.** Algebra-level lessons + reference coverage for all four domains.
 

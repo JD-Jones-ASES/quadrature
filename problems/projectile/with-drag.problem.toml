@@ -1,0 +1,38 @@
+id = "projectile-drag"
+title = "Projectile with air resistance: when the parabola breaks"
+topic = "projectile"
+slug = "with-drag"
+model = "projectile"
+regime = 2
+author = "Quadrature"
+created = "2026-06-26"
+scenario = "The same launch — $v_0 = 30$ m/s at $\\theta = 45°$ — but now with quadratic air resistance $F = b\\,|v|\\,v$. There is no closed-form trajectory: the path is solved by numerical integration. Slide the drag up from zero and watch the clean parabola (dashed) deform — the range shrinks and the descent steepens."
+formulas_used = ["dyn-newton-2"]
+
+[parameters]
+v0 = 30                 # m/s, launch speed
+theta = 45              # degrees
+g = -10                 # m/s², house convention
+m = 1                   # kg
+b_values = [0, 0.005, 0.01, 0.02, 0.04]   # kg/m — the quadratic-drag sweep (b=0 recovers the parabola)
+
+[[assumptions]]
+claim = "Quadratic air resistance $F = b\\,|v|\\,v$ opposing the velocity vector (the author-asserted drag model)."
+kind = "model"
+
+[[assumptions]]
+claim = "$g = -10$ m/s², up positive; point mass launched from and landing at the same height."
+kind = "model"
+
+[[assumptions]]
+claim = "No closed form exists, so the path is solved by numerical (4th-order Runge–Kutta) integration — converged to better than 1 mm and machine-checked against the equation of motion."
+kind = "model"
+
+[[graphs]]
+kind = "trajectory"
+mode = "sampled"
+annotate = ["drag_shortens_range", "asymmetric_path"]
+
+[misconception]
+claim = "Air resistance just makes the projectile fall a bit short — the path is still a parabola."
+refuted_by = "With drag the path is *not* a parabola — it is asymmetric. The projectile loses speed to drag, so the descent is steeper and shorter than the ascent, and the peak shifts past the midpoint. Slide the drag up and watch the real path peel away from the dashed parabola; only at $b = 0$ do they coincide."
