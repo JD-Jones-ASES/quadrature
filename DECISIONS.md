@@ -150,3 +150,57 @@ CC BY-SA 4.0 (`LICENSE-content.md`). Cite, don't reproduce (fact extraction); no
 figures hosted. Citations + verification method per entry in `docs/SOURCES.md`.
 
 **Consequences.** Clear reuse terms; the verification-as-product stance extends to provenance.
+
+## ADR-0012 — Regime-2 interactivity policy: closed-form-in-JS by default; `sampled` mode only where there is no closed form (2026-06-26)
+
+**Context.** The brief (§7, §12) assumed most regime-2 graphs must be static because "the closed form
+isn't cheap past polynomials." That conflates two different things: *transcendental* (exp, cos, tanh, log)
+is JS-cheap, while *no elementary closed form* (needs numerical integration) is the real constraint. The
+purpose of interaction is to drive physical/mathematical intuition, not to add widgets.
+
+**Decision (owner-approved, 2026-06-26).** Three graph tiers, chosen per graph in the spec:
+1. **`interactive`** — a closed form the browser evaluates in JS. Used for **regime 1 AND the large part of
+   regime 2 with elementary closed forms** (linear drag → exp, terminal velocity → tanh, SHM → cos, RC/decay
+   → exp, underdamped → e^{−γt}cos). Same engine and parity oracle as Phase 0; no new machinery. Regime 2 is
+   **not** defaulted to static.
+2. **`sampled`** — precomputed sample points (a parameter grid) the player interpolates, for the minority with
+   **no elementary closed form** (2D quadratic-drag trajectories, anharmonic oscillators, non-1/r² orbits).
+   Deferred until a lesson needs it; it carries extra cost (see Consequences) so it must earn its place twice.
+3. **`static`** — a Matplotlib SVG: a single illustrative configuration, or where the curve barely changes
+   across the parameter range.
+
+Gate **every** interactive (any regime) on one sentence: *name the relationship the slider reveals* — an
+asymptote, a time-constant, a phase relationship, a qualitative transition, or a scaling law. If you can't,
+it is `static`. Highest-value regime-2 interactives to prioritize: the **damping transition**
+(under→critical→over), **terminal-velocity approach**, and **SHM phase/period**.
+
+**Consequences.** Most of regime 2 stays genuinely interactive for free. The `sampled` tier, when built, adds
+a real verification surface — "parity" becomes an *interpolation-error bound* between sample points (a new
+gate), plus an honesty disclosure that the curve is interpolated (it can hide stiffness/discontinuities
+between samples). We pay that only where the intuition payoff is high. Multi-parameter `sampled` grids risk a
+committed-data blowup; prefer a 1-parameter sweep or `static`.
+
+## ADR-0013 — Regime-2 verification model: back-substitution into the equation of motion (2026-06-26)
+
+**Context.** Regime 1's proof is `simplify(algebra − calculus) == 0` — but in regime 2 there is no algebra
+answer to equate; calculus is the only road in. We still need "verification is the product," so the proof
+must be redefined, not dropped.
+
+**Decision.** For a regime-2 scenario governed by an equation of motion (an ODE), the producer proves, via the
+same tiered checker (`prove.tiered_zero`):
+1. **The closed form solves the equation of motion** — substitute the proposed `x(t)` into the ODE residual;
+   it must reduce to zero (Mechanic's back-substitution move). This is the load-bearing check.
+2. **The initial conditions hold** — `x(0)=x₀`, `x'(0)=v₀`.
+3. **An invariant**, model-appropriate: for a conservative system, a **conserved quantity** (energy:
+   `d/dt(½mv² + ½kx²) == 0`); for a dissipative system, the **equilibrium / asymptotic limit** (terminal
+   velocity satisfies the force balance `mg = b·v_term`, i.e. `v'=0` there).
+4. Where the algebra-based course hands over a **memorized result** (period `T=2π√(m/k)`, `v_term=mg/b`), prove
+   that result **falls out of** the calculus solution — a regime-2 echo of the regime-1 equivalence.
+
+The shared proof block in the schema is generalized from `equivalence_proof` to **`proof`** with a `kind`
+(`equivalence` | `governing`) and a `heading`, so the player shows the right framing. Dimensional homogeneity
+is checked as in regime 1.
+
+**Consequences.** Regime 2 keeps a machine-checked proof shown to the reader — now "this closed form provably
+solves the equation of motion, and the memorized results fall out of it." The honesty axes are unchanged;
+modeling assumptions (linear vs quadratic drag, ideal spring) remain author-asserted and disclosed.

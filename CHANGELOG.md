@@ -3,9 +3,18 @@
 Notable changes, newest first. Architecture rationale lives in [`DECISIONS.md`](./DECISIONS.md); the phase
 plan in [`ROADMAP.md`](./ROADMAP.md).
 
-## [Unreleased] — Phase 0 vertical slice
+## [Unreleased] — Phase 1: full mechanics (in progress)
 
-Building the end-to-end instrument on one scenario: vertical motion under constant gravity.
+- Regime-2 architecture: generalized the producer to ODE models (a model registry), generalized the proof
+  block (`equivalence` | `governing`), and added the back-substitution verification model (ADR-0013).
+- Interactivity policy resolved (ADR-0012): regime 2 stays `interactive` where the closed form is JS-cheap;
+  `sampled` mode reserved for the no-closed-form minority.
+- Post-Phase-0 polish: fixed four Astro whitespace-gotcha dropped spaces; Matplotlib figure QC pass
+  (per-panel limits, annotation bboxes, a–t panel scaled to include y=0).
+
+## Phase 0 — vertical slice (complete, awaiting publish)
+
+The end-to-end instrument on one scenario: vertical motion under constant gravity.
 
 - Repo scaffold: Astro 7 + Svelte 5 + KaTeX player, a SymPy (uv) producer, Ajv + parity + scan Node gates,
   GitHub Pages workflow (Pages disabled until review).

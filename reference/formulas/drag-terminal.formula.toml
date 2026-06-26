@@ -1,0 +1,15 @@
+id = "drag-terminal"
+name = "Terminal velocity (linear drag)"
+domain = "mechanics"
+regime = 2
+expr = "m*g/b"
+lhs = 'v_{\text{term}}'
+result_unit = "m/s"
+assumptions = ["drag linear in speed", "constant gravity"]
+lessons = ["freefall-drag"]
+citations = []
+
+[variables]
+m = { unit = "kg", desc = "mass" }
+g = { unit = "m/s**2", desc = "gravitational acceleration (negative, up positive)" }
+b = { unit = "kg/s", desc = "linear drag coefficient" }

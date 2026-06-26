@@ -1,0 +1,422 @@
+{
+  "id": "freefall-drag",
+  "title": "Falling with air resistance",
+  "topic": "freefall",
+  "slug": "terminal-velocity",
+  "scenario": "An object is dropped from rest and feels air resistance proportional to its speed (m = 1 kg, drag b = 0.5 kg/s). Does it keep speeding up forever — and why can't the algebra formulas answer that?",
+  "regime": 2,
+  "constants": {
+    "m": 1.0,
+    "b": 0.5,
+    "g": -10.0
+  },
+  "initial_conditions": {
+    "x0": 0.0,
+    "v0": 0.0
+  },
+  "assumptions": [
+    {
+      "claim": "Air resistance is linear in speed (drag = -b·v). Real drag is often closer to quadratic; the linear model keeps the closed form clean.",
+      "kind": "model"
+    },
+    {
+      "claim": "g = -10 m/s^2, a clean-arithmetic simplification of -9.81 m/s^2.",
+      "kind": "model"
+    },
+    {
+      "claim": "The object is a point mass.",
+      "kind": "model"
+    }
+  ],
+  "algebra": {
+    "steps": [
+      {
+        "label": "Where the algebra-based course stops",
+        "latex": "x = x_0 + v_0 t + \\tfrac{1}{2}a t^2 \\;\\; \\text{(does NOT apply: } a \\text{ is not constant)}",
+        "prose": "With air resistance the acceleration changes as the object speeds up, so the constant-a formulas fail. At best you're handed the terminal velocity v = mg/b as a fact, with no path to it."
+      }
+    ],
+    "result": {
+      "terminal_velocity": {
+        "label": "Terminal velocity (mg/b)",
+        "unit": "m/s",
+        "symbolic_latex": "g \\tau",
+        "value": -20.0,
+        "display": "-20"
+      },
+      "time_constant": {
+        "label": "Time constant τ = m/b",
+        "unit": "s",
+        "symbolic_latex": "\\tau",
+        "value": 2.0,
+        "display": "2"
+      }
+    }
+  },
+  "calculus": {
+    "steps": [
+      {
+        "label": "Newton's second law with linear drag",
+        "latex": "m\\,v' = mg - b\\,v \\;\\;\\Longrightarrow\\;\\; v' = g - \\tfrac{v}{\\tau},\\quad \\tau = \\tfrac{m}{b}",
+        "prose": "Drag opposes motion and grows with speed, so the net force — and the acceleration — shrink as the object speeds up. This is a differential equation, not algebra."
+      },
+      {
+        "label": "Solve the linear ODE",
+        "latex": "v(t) = v_{\\text{term}} + (v_0 - v_{\\text{term}})\\,e^{-t/\\tau},\\quad v_{\\text{term}} = g\\tau = \\tfrac{mg}{b}",
+        "prose": "Velocity approaches the terminal value exponentially, with time constant τ."
+      },
+      {
+        "label": "Acceleration decays to zero",
+        "latex": "a(t) = \\frac{v_{\\text{term}} - v_0}{\\tau}\\,e^{-t/\\tau} \\;\\to\\; 0",
+        "prose": "Unlike free fall (where a is constant), here the acceleration decays: drag grows until it cancels gravity and there is no net force."
+      },
+      {
+        "label": "Terminal velocity emerges",
+        "latex": "\\boxed{\\,\\lim_{t\\to\\infty} v(t) = v_{\\text{term}} = \\dfrac{mg}{b}\\,}",
+        "prose": "The memorized terminal velocity is the long-time limit of the solution — and SymPy proves the limit.",
+        "emphasis": true
+      }
+    ]
+  },
+  "proof": {
+    "kind": "governing",
+    "heading": "The closed form provably solves the equation of motion — and terminal velocity falls out.",
+    "checked_by": "sympy",
+    "holds": true,
+    "detail": "back-substitute v(t) into v' = g − v/τ; check IC; check dx/dt = v; check lim v = g·τ",
+    "checks": [
+      {
+        "key": "solves_eom",
+        "claim": "The closed form solves the equation of motion v' = g − v/τ.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "ic_velocity",
+        "claim": "It matches the initial velocity v(0) = v₀.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "x_is_integral_of_v",
+        "claim": "Position is the integral of velocity (dx/dt = v).",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "terminal_limit",
+        "claim": "The terminal velocity falls out: v → g·τ = mg/b as t → ∞.",
+        "holds": true,
+        "tier": "structural"
+      }
+    ]
+  },
+  "units_check": {
+    "checked_by": "sympy",
+    "holds": true
+  },
+  "graphs": [
+    {
+      "kind": "stack",
+      "mode": "interactive",
+      "window": "fixed",
+      "annotate": [
+        "terminal_velocity",
+        "a_decays_to_zero"
+      ],
+      "svg": "assets/graphs/freefall-drag-0.svg",
+      "series": {
+        "t": [
+          0.0,
+          0.166666667,
+          0.333333333,
+          0.5,
+          0.666666667,
+          0.833333333,
+          1.0,
+          1.166666667,
+          1.333333333,
+          1.5,
+          1.666666667,
+          1.833333333,
+          2.0,
+          2.166666667,
+          2.333333333,
+          2.5,
+          2.666666667,
+          2.833333333,
+          3.0,
+          3.166666667,
+          3.333333333,
+          3.5,
+          3.666666667,
+          3.833333333,
+          4.0,
+          4.166666667,
+          4.333333333,
+          4.5,
+          4.666666667,
+          4.833333333,
+          5.0,
+          5.166666667,
+          5.333333333,
+          5.5,
+          5.666666667,
+          5.833333333,
+          6.0,
+          6.166666667,
+          6.333333333,
+          6.5,
+          6.666666667,
+          6.833333333,
+          7.0,
+          7.166666667,
+          7.333333333,
+          7.5,
+          7.666666667,
+          7.833333333,
+          8.0,
+          8.166666667,
+          8.333333333,
+          8.5,
+          8.666666667,
+          8.833333333,
+          9.0,
+          9.166666667,
+          9.333333333,
+          9.5,
+          9.666666667,
+          9.833333333,
+          10.0
+        ],
+        "x": [
+          0.0,
+          -0.135109919,
+          -0.5259356613,
+          -1.1520313229,
+          -1.9945857582,
+          -3.0362918724,
+          -4.2612263885,
+          -5.6547391671,
+          -7.2033514247,
+          -8.8946621096,
+          -10.7172616774,
+          -12.6606528365,
+          -14.7151776469,
+          -16.871950342,
+          -19.1227956187,
+          -21.4601918744,
+          -23.8772188629,
+          -26.367509647,
+          -28.9252064059,
+          -31.5449196418,
+          -34.2216907748,
+          -36.950957738,
+          -39.7285231821,
+          -42.5505253567,
+          -45.4134113295,
+          -48.3139121969,
+          -51.2490204205,
+          -54.2159689825,
+          -57.2122120539,
+          -60.235407357,
+          -63.283399945,
+          -66.3542071198,
+          -69.4460047094,
+          -72.5571144483,
+          -75.6859922053,
+          -78.8312173093,
+          -81.9914827347,
+          -85.1655859066,
+          -88.3524204007,
+          -91.5509683133,
+          -94.7602930737,
+          -97.9795329933,
+          -101.2078953369,
+          -104.444650698,
+          -107.6891279884,
+          -110.9407098342,
+          -114.1988281686,
+          -117.4629603432,
+          -120.7326255555,
+          -124.0073813903,
+          -127.2868208041,
+          -130.5705693564,
+          -133.8582824894,
+          -137.149643193,
+          -140.4443598615,
+          -143.7421641486,
+          -147.0428091621,
+          -150.3460678081,
+          -153.6517310939,
+          -156.9596067352,
+          -160.26951788
+        ],
+        "v": [
+          0.0,
+          -1.5991117105,
+          -3.0703654994,
+          -4.4239843386,
+          -5.6693737909,
+          -6.8151873938,
+          -7.8693868057,
+          -8.8392970865,
+          -9.7316576176,
+          -10.5526689452,
+          -11.3080358313,
+          -12.0030069118,
+          -12.6424111766,
+          -13.230691499,
+          -13.7719355207,
+          -14.2699040628,
+          -14.7280572386,
+          -15.1495785065,
+          -15.537396797,
+          -15.8942068491,
+          -16.2224879426,
+          -16.524521131,
+          -16.8024050789,
+          -17.0580706517,
+          -17.2932943353,
+          -17.5097105715,
+          -17.7088231198,
+          -17.8920155088,
+          -18.060560643,
+          -18.2156296515,
+          -18.3583000275,
+          -18.4895631101,
+          -18.6103309753,
+          -18.7214427759,
+          -18.8236705673,
+          -18.9177246754,
+          -19.0042586326,
+          -19.0838737167,
+          -19.1571231297,
+          -19.2245158434,
+          -19.2865201332,
+          -19.3435668334,
+          -19.3960523316,
+          -19.444341321,
+          -19.4887693358,
+          -19.5296450829,
+          -19.5672525857,
+          -19.6018531584,
+          -19.6336872222,
+          -19.6629759749,
+          -19.689922928,
+          -19.7147153218,
+          -19.7375254253,
+          -19.7585117335,
+          -19.7778200692,
+          -19.7955845957,
+          -19.8119287489,
+          -19.8269660959,
+          -19.8408011231,
+          -19.8535299624,
+          -19.86524106
+        ],
+        "a": [
+          -10.0,
+          -9.2004441448,
+          -8.4648172503,
+          -7.7880078307,
+          -7.1653131045,
+          -6.5924063031,
+          -6.0653065971,
+          -5.5803514568,
+          -5.1341711912,
+          -4.7236655274,
+          -4.3459820843,
+          -3.9984965441,
+          -3.6787944117,
+          -3.3846542505,
+          -3.1140322397,
+          -2.8650479686,
+          -2.6359713807,
+          -2.4252107468,
+          -2.2313016015,
+          -2.0528965755,
+          -1.8887560287,
+          -1.7377394345,
+          -1.5987974605,
+          -1.4709646742,
+          -1.3533528324,
+          -1.2451447142,
+          -1.1455884401,
+          -1.0539922456,
+          -0.9697196785,
+          -0.8921851742,
+          -0.8208499862,
+          -0.755218445,
+          -0.6948345123,
+          -0.6392786121,
+          -0.5881647163,
+          -0.5411376623,
+          -0.4978706837,
+          -0.4580631416,
+          -0.4214384352,
+          -0.3877420783,
+          -0.3567399334,
+          -0.3282165833,
+          -0.3019738342,
+          -0.2778293395,
+          -0.2556153321,
+          -0.2351774586,
+          -0.2163737072,
+          -0.1990734208,
+          -0.1831563889,
+          -0.1685120126,
+          -0.155038536,
+          -0.1426423391,
+          -0.1312372873,
+          -0.1207441333,
+          -0.1110899654,
+          -0.1022077022,
+          -0.0940356255,
+          -0.086516952,
+          -0.0795994385,
+          -0.0732350188,
+          -0.06737947
+        ],
+        "t_max": 10.0
+      },
+      "closed_form": {
+        "x": "-10*t*tau + tau*(1 - Math.exp(-t/tau))*(10*tau + v0)",
+        "v": "-10*tau + (10*tau + v0)*Math.exp(-t/tau)",
+        "a": "-(10*tau + v0)*Math.exp(-t/tau)/tau"
+      },
+      "closed_form_params": [
+        "t",
+        "tau",
+        "v0"
+      ],
+      "params": {
+        "tau": {
+          "min": 0.5,
+          "max": 6.0,
+          "default": 2.0
+        },
+        "v0": {
+          "min": -10.0,
+          "max": 10.0,
+          "default": 0.0
+        }
+      }
+    }
+  ],
+  "misconception": {
+    "claim": "A falling object keeps accelerating until it lands.",
+    "refuted_by": "With air resistance the acceleration decays toward zero as drag grows to cancel gravity, so the object approaches a constant terminal velocity. On the a-t graph, a → 0 — the opposite of constant-gravity free fall, where a stays at -10 the whole way."
+  },
+  "formulas_used": [
+    "drag-v-of-t",
+    "drag-terminal"
+  ],
+  "provenance": {
+    "producer": "quadrature_producer",
+    "version": "0.1.0",
+    "sympy": "1.14.0",
+    "author": "Quadrature",
+    "created": "2026-06-26"
+  }
+}

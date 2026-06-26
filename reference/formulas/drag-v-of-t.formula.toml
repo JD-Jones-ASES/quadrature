@@ -1,0 +1,26 @@
+id = "drag-v-of-t"
+name = "Velocity under linear drag"
+domain = "mechanics"
+regime = 2
+expr = "(m*g/b) + (v0 - m*g/b)*exp(-b*t/m)"
+lhs = "v"
+result_unit = "m/s"
+assumptions = ["drag linear in speed", "constant gravity"]
+lessons = ["freefall-drag"]
+citations = []
+
+[variables]
+m = { unit = "kg", desc = "mass" }
+g = { unit = "m/s**2", desc = "gravitational acceleration (negative, up positive)" }
+b = { unit = "kg/s", desc = "linear drag coefficient" }
+v0 = { unit = "m/s", desc = "initial velocity" }
+t = { unit = "s", desc = "time" }
+
+[[edges]]
+type = "related-to"
+target = "drag-terminal"
+gloss = "approaches the terminal velocity"
+[[edges]]
+type = "related-to"
+target = "kin-v-of-t"
+gloss = "as drag b→0 this reduces to the constant-acceleration velocity"

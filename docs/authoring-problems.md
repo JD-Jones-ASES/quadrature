@@ -11,6 +11,7 @@ id = "freefall-throw-up"          # stable, kebab-case, unique
 title = "A ball thrown straight up"
 topic = "freefall"                # directory under problems/ and derived/
 slug = "throw-up"                 # file stem; the page is /lessons/<slug>/
+model = "constant-accel"          # the producer model: constant-accel | shm | linear-drag (see producer/models/)
 regime = 1                        # 1 = algebra is calculus evaluated | 2 = calculus does more | 3 = algebra-only
 scenario = "A ball leaves your hand at 20 m/s upward from 1.5 m. How high does it go, and when does it land?"
 
@@ -32,7 +33,7 @@ unknowns = ["apex_time", "max_height", "flight_time", "impact_velocity"]   # wha
 
 [[graphs]]
 kind = "stack"                    # stacked x-t / v-t / a-t, shared time axis
-mode = "interactive"             # "static" -> Matplotlib SVG only | "interactive" -> closed form drives sliders
+mode = "interactive"             # static -> Matplotlib SVG | interactive -> JS closed form | sampled -> precomputed pts (ADR-0012)
 annotate = ["slope_of_x_is_v", "area_under_v_is_displacement", "a_nonzero_at_apex"]
 [graphs.params.v0]               # only for interactive graphs: the slider ranges
 min = 5
@@ -60,6 +61,16 @@ formulas_used = ["kin-x-of-t", "kin-v-of-t"]   # ids that link into the referenc
 - **Assumptions are disclosed, not discharged**: they describe the *model*, never the math, and never appear in
   the derivation record.
 - **Provider-agnostic**: no course/exam/standards-body names anywhere (`scan-text.mjs`).
+
+## Regime-2 scenarios (non-constant acceleration)
+
+Set `model` to a regime-2 model and `regime = 2`. The spec carries that model's parameters instead of
+`constants`/`initial_conditions` only — see the model module in `producer/models/` for its required fields
+(e.g. `shm` takes `m`, `k`, `x0`, `v0`; `linear-drag` takes `m`, `b`, `v0`). The producer then proves the
+**governing** way (ADR-0013): the closed form solves the equation of motion, the initial conditions hold, an
+invariant holds (energy conserved, or the terminal/equilibrium limit), and any memorized algebra result falls
+out of the calculus solution. Graphs are usually `interactive` (the closed forms are JS-cheap: cos, exp,
+tanh); reserve `sampled` for a model with no elementary closed form.
 
 ## Then wire the page
 

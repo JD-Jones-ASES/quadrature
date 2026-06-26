@@ -6,22 +6,40 @@
   },
   "nodes": [
     {
+      "id": "drag-terminal",
+      "label": "v_{\\text{term}}",
+      "name": "Terminal velocity (linear drag)",
+      "domain": "mechanics",
+      "degree": 1,
+      "x": 316.5,
+      "y": 40
+    },
+    {
+      "id": "drag-v-of-t",
+      "label": "v",
+      "name": "Velocity under linear drag",
+      "domain": "mechanics",
+      "degree": 2,
+      "x": 442.84,
+      "y": 62.09
+    },
+    {
       "id": "kin-a-const",
       "label": "a",
       "name": "Constant acceleration",
       "domain": "mechanics",
       "degree": 2,
-      "x": 219.25,
-      "y": 160.58
+      "x": 587.18,
+      "y": 273.89
     },
     {
       "id": "kin-v-of-t",
       "label": "v",
       "name": "Velocity under constant acceleration",
       "domain": "mechanics",
-      "degree": 4,
-      "x": 340.73,
-      "y": 219.19
+      "degree": 5,
+      "x": 462.1,
+      "y": 219.66
     },
     {
       "id": "kin-x-of-t",
@@ -29,11 +47,50 @@
       "name": "Position under constant acceleration",
       "domain": "mechanics",
       "degree": 2,
-      "x": 400.02,
-      "y": 340.24
+      "x": 419.32,
+      "y": 352.56
+    },
+    {
+      "id": "shm-omega",
+      "label": "\\omega",
+      "name": "Angular frequency of a spring–mass oscillator",
+      "domain": "mechanics",
+      "degree": 2,
+      "x": 183.1,
+      "y": 310.22
+    },
+    {
+      "id": "shm-period",
+      "label": "T",
+      "name": "Period of a spring–mass oscillator",
+      "domain": "mechanics",
+      "degree": 2,
+      "x": 103.18,
+      "y": 424.99
+    },
+    {
+      "id": "shm-x-of-t",
+      "label": "x",
+      "name": "Position in simple harmonic motion",
+      "domain": "mechanics",
+      "degree": 2,
+      "x": 45.78,
+      "y": 292.15
     }
   ],
   "edges": [
+    {
+      "source": "drag-v-of-t",
+      "target": "drag-terminal",
+      "type": "related-to",
+      "gloss": "approaches the terminal velocity"
+    },
+    {
+      "source": "drag-v-of-t",
+      "target": "kin-v-of-t",
+      "type": "related-to",
+      "gloss": "as drag b→0 this reduces to the constant-acceleration velocity"
+    },
     {
       "source": "kin-v-of-t",
       "target": "kin-a-const",
@@ -57,6 +114,24 @@
       "target": "kin-x-of-t",
       "type": "derivative-of",
       "gloss": "x is the running area under the v-t graph"
+    },
+    {
+      "source": "shm-period",
+      "target": "shm-omega",
+      "type": "related-to",
+      "gloss": "T = 2π/ω = 2π√(m/k)"
+    },
+    {
+      "source": "shm-x-of-t",
+      "target": "shm-omega",
+      "type": "related-to",
+      "gloss": "its angular frequency"
+    },
+    {
+      "source": "shm-x-of-t",
+      "target": "shm-period",
+      "type": "related-to",
+      "gloss": "repeats every period T"
     }
   ]
 }

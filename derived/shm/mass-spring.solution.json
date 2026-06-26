@@ -1,0 +1,448 @@
+{
+  "id": "spring-shm",
+  "title": "A mass on a spring",
+  "topic": "shm",
+  "slug": "mass-spring",
+  "scenario": "A 1 kg mass on a spring (k = 4 N/m) is pulled 0.3 m from equilibrium and released from rest. How does it move — and where does the period the algebra course made you memorize actually come from?",
+  "regime": 2,
+  "constants": {
+    "m": 1.0,
+    "k": 4.0
+  },
+  "initial_conditions": {
+    "x0": 0.3,
+    "v0": 0.0
+  },
+  "assumptions": [
+    {
+      "claim": "Ideal spring obeying Hooke's law: the restoring force is proportional to displacement.",
+      "kind": "model"
+    },
+    {
+      "claim": "No friction or air resistance (undamped motion).",
+      "kind": "model"
+    },
+    {
+      "claim": "The mass is a point and the spring is massless.",
+      "kind": "model"
+    }
+  ],
+  "algebra": {
+    "steps": [
+      {
+        "label": "What the algebra-based course hands you (memorized, no derivation)",
+        "latex": "T = 2\\pi\\sqrt{\\tfrac{m}{k}} \\qquad v_{\\max} = \\omega A",
+        "prose": "You are told the motion is sinusoidal and given the period to memorize — but not *why* the motion is a cosine, or where the period comes from. Calculus is the only road to the why."
+      }
+    ],
+    "result": {
+      "angular_frequency": {
+        "label": "Angular frequency ω = √(k/m)",
+        "unit": "rad/s",
+        "symbolic_latex": "\\omega",
+        "value": 2.0,
+        "display": "2"
+      },
+      "period": {
+        "label": "Period T = 2π/ω",
+        "unit": "s",
+        "symbolic_latex": "\\frac{2 \\pi}{\\omega}",
+        "value": 3.141593,
+        "display": "3.142"
+      },
+      "amplitude": {
+        "label": "Amplitude",
+        "unit": "m",
+        "symbolic_latex": "\\sqrt{x_{0}^{2} + \\frac{v_{0}^{2}}{\\omega^{2}}}",
+        "value": 0.3,
+        "display": "0.3"
+      },
+      "max_speed": {
+        "label": "Maximum speed (ωA)",
+        "unit": "m/s",
+        "symbolic_latex": "\\omega \\sqrt{x_{0}^{2} + \\frac{v_{0}^{2}}{\\omega^{2}}}",
+        "value": 0.6,
+        "display": "0.6"
+      }
+    }
+  },
+  "calculus": {
+    "steps": [
+      {
+        "label": "Newton's second law with Hooke's law",
+        "latex": "m\\,x'' = -k\\,x \\;\\;\\Longrightarrow\\;\\; x'' = -\\omega^2 x,\\quad \\omega^2 = \\tfrac{k}{m}",
+        "prose": "The spring force is proportional to displacement and points back toward equilibrium. This is the equation of motion — a differential equation, not an algebra formula."
+      },
+      {
+        "label": "Solve the equation of motion",
+        "latex": "x(t) = x_0\\cos\\omega t + \\tfrac{v_0}{\\omega}\\sin\\omega t",
+        "prose": "The function whose second derivative is −ω² times itself is a sinusoid. The two constants are fixed by the initial position and velocity."
+      },
+      {
+        "label": "Differentiate for velocity and acceleration",
+        "latex": "v(t) = -x_0\\,\\omega\\sin\\omega t + v_0\\cos\\omega t,\\qquad a(t) = -\\omega^2 x(t)",
+        "prose": "Acceleration is always −ω² times the displacement: largest at the extremes, zero at equilibrium. On the stacked graph, v leads x by a quarter period."
+      },
+      {
+        "label": "The memorized period emerges",
+        "latex": "\\boxed{\\,T = \\dfrac{2\\pi}{\\omega} = 2\\pi\\sqrt{\\dfrac{m}{k}}\\,}",
+        "prose": "The cosine repeats every 2π/ω — and SymPy proves x(t+T) = x(t). The result the algebra course made you memorize is exactly the period of the solution.",
+        "emphasis": true
+      }
+    ]
+  },
+  "proof": {
+    "kind": "governing",
+    "heading": "The closed form provably solves the equation of motion — and the memorized period falls out.",
+    "checked_by": "sympy",
+    "holds": true,
+    "detail": "back-substitute x(t) into x'' = −ω²x; check ICs; check d/dt(energy) = 0; check periodicity",
+    "checks": [
+      {
+        "key": "solves_eom",
+        "claim": "The closed form solves the equation of motion x'' = −ω²x.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "ic_position",
+        "claim": "It matches the initial position x(0) = x₀.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "ic_velocity",
+        "claim": "It matches the initial velocity x'(0) = v₀.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "energy_conserved",
+        "claim": "Total energy ½v² + ½ω²x² is conserved (its time-derivative is zero).",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "period_falls_out",
+        "claim": "The memorized period T = 2π/ω falls out: x(t+T) = x(t).",
+        "holds": true,
+        "tier": "structural"
+      }
+    ]
+  },
+  "units_check": {
+    "checked_by": "sympy",
+    "holds": true
+  },
+  "graphs": [
+    {
+      "kind": "stack",
+      "mode": "interactive",
+      "window": "fixed",
+      "annotate": [
+        "x_v_a_phase",
+        "period"
+      ],
+      "svg": "assets/graphs/spring-shm-0.svg",
+      "series": {
+        "t": [
+          0.0,
+          0.104719755,
+          0.20943951,
+          0.314159265,
+          0.41887902,
+          0.523598776,
+          0.628318531,
+          0.733038286,
+          0.837758041,
+          0.942477796,
+          1.047197551,
+          1.151917306,
+          1.256637061,
+          1.361356817,
+          1.466076572,
+          1.570796327,
+          1.675516082,
+          1.780235837,
+          1.884955592,
+          1.989675347,
+          2.094395102,
+          2.199114858,
+          2.303834613,
+          2.408554368,
+          2.513274123,
+          2.617993878,
+          2.722713633,
+          2.827433388,
+          2.932153143,
+          3.036872898,
+          3.141592654,
+          3.246312409,
+          3.351032164,
+          3.455751919,
+          3.560471674,
+          3.665191429,
+          3.769911184,
+          3.874630939,
+          3.979350695,
+          4.08407045,
+          4.188790205,
+          4.29350996,
+          4.398229715,
+          4.50294947,
+          4.607669225,
+          4.71238898,
+          4.817108736,
+          4.921828491,
+          5.026548246,
+          5.131268001,
+          5.235987756,
+          5.340707511,
+          5.445427266,
+          5.550147021,
+          5.654866776,
+          5.759586532,
+          5.864306287,
+          5.969026042,
+          6.073745797,
+          6.178465552,
+          6.283185307
+        ],
+        "x": [
+          0.3,
+          0.2934442802,
+          0.2740636374,
+          0.2427050984,
+          0.2007391821,
+          0.1499999998,
+          0.0927050982,
+          0.0313585389,
+          -0.031358539,
+          -0.0927050983,
+          -0.1499999999,
+          -0.2007391818,
+          -0.2427050982,
+          -0.2740636374,
+          -0.2934442803,
+          -0.3,
+          -0.2934442802,
+          -0.2740636373,
+          -0.2427050984,
+          -0.200739182,
+          -0.1500000002,
+          -0.092705098,
+          -0.0313585388,
+          0.0313585391,
+          0.0927050984,
+          0.15,
+          0.2007391819,
+          0.2427050982,
+          0.2740636372,
+          0.2934442802,
+          0.3,
+          0.2934442802,
+          0.2740636373,
+          0.2427050983,
+          0.2007391819,
+          0.1500000001,
+          0.0927050985,
+          0.0313585392,
+          -0.0313585393,
+          -0.0927050985,
+          -0.1500000001,
+          -0.2007391819,
+          -0.2427050983,
+          -0.2740636373,
+          -0.2934442802,
+          -0.3,
+          -0.2934442802,
+          -0.2740636372,
+          -0.2427050982,
+          -0.2007391818,
+          -0.15,
+          -0.0927050984,
+          -0.0313585391,
+          0.0313585388,
+          0.092705098,
+          0.1500000002,
+          0.200739182,
+          0.2427050984,
+          0.2740636373,
+          0.2934442802,
+          0.3
+        ],
+        "v": [
+          0.0,
+          -0.1247470144,
+          -0.2440419856,
+          -0.352671151,
+          -0.4458868949,
+          -0.5196152425,
+          -0.5706339099,
+          -0.5967131372,
+          -0.5967131372,
+          -0.5706339098,
+          -0.5196152424,
+          -0.4458868955,
+          -0.3526711518,
+          -0.2440419854,
+          -0.1247470141,
+          2e-10,
+          0.1247470146,
+          0.2440419858,
+          0.3526711512,
+          0.4458868951,
+          0.519615242,
+          0.57063391,
+          0.5967131373,
+          0.5967131372,
+          0.5706339097,
+          0.5196152423,
+          0.4458868954,
+          0.3526711516,
+          0.2440419862,
+          0.124747015,
+          -5e-10,
+          -0.1247470148,
+          -0.244041986,
+          -0.3526711514,
+          -0.4458868952,
+          -0.5196152422,
+          -0.5706339097,
+          -0.5967131372,
+          -0.5967131372,
+          -0.5706339097,
+          -0.5196152421,
+          -0.4458868952,
+          -0.3526711514,
+          -0.244041986,
+          -0.1247470148,
+          -5e-10,
+          0.1247470151,
+          0.2440419863,
+          0.3526711516,
+          0.4458868954,
+          0.5196152423,
+          0.5706339097,
+          0.5967131372,
+          0.5967131373,
+          0.5706339099,
+          0.519615242,
+          0.445886895,
+          0.3526711512,
+          0.2440419858,
+          0.1247470146,
+          2e-10
+        ],
+        "a": [
+          -1.2,
+          -1.1737771209,
+          -1.0962545494,
+          -0.9708203938,
+          -0.8029567285,
+          -0.5999999992,
+          -0.3708203926,
+          -0.1254341555,
+          0.125434156,
+          0.3708203931,
+          0.5999999996,
+          0.8029567271,
+          0.9708203926,
+          1.0962545496,
+          1.173777121,
+          1.2,
+          1.1737771208,
+          1.0962545492,
+          0.9708203935,
+          0.8029567281,
+          0.6000000008,
+          0.3708203921,
+          0.125434155,
+          -0.1254341565,
+          -0.3708203935,
+          -0.6,
+          -0.8029567274,
+          -0.9708203929,
+          -1.0962545488,
+          -1.1737771206,
+          -1.2,
+          -1.1737771207,
+          -1.096254549,
+          -0.9708203932,
+          -0.8029567278,
+          -0.6000000004,
+          -0.370820394,
+          -0.1254341569,
+          0.125434157,
+          0.370820394,
+          0.6000000004,
+          0.8029567278,
+          0.9708203932,
+          1.096254549,
+          1.1737771207,
+          1.2,
+          1.1737771206,
+          1.0962545488,
+          0.9708203929,
+          0.8029567274,
+          0.6,
+          0.3708203935,
+          0.1254341565,
+          -0.1254341551,
+          -0.3708203922,
+          -0.6000000009,
+          -0.8029567282,
+          -0.9708203935,
+          -1.0962545492,
+          -1.1737771209,
+          -1.2
+        ],
+        "t_max": 6.283185307
+      },
+      "closed_form": {
+        "x": "x0*Math.cos(omega*t) + v0*Math.sin(omega*t)/omega",
+        "v": "-omega*x0*Math.sin(omega*t) + v0*Math.cos(omega*t)",
+        "a": "-Math.pow(omega, 2)*x0*Math.cos(omega*t) - omega*v0*Math.sin(omega*t)"
+      },
+      "closed_form_params": [
+        "omega",
+        "t",
+        "v0",
+        "x0"
+      ],
+      "params": {
+        "omega": {
+          "min": 0.5,
+          "max": 5.0,
+          "default": 2.0
+        },
+        "x0": {
+          "min": -0.6,
+          "max": 0.6,
+          "default": 0.3
+        },
+        "v0": {
+          "min": -1.5,
+          "max": 1.5,
+          "default": 0.0
+        }
+      }
+    }
+  ],
+  "misconception": {
+    "claim": "The mass moves fastest at the ends of its swing (the turning points).",
+    "refuted_by": "At a turning point the speed is zero — that is where it reverses. It moves fastest through equilibrium (x = 0), where the v-t graph peaks a quarter-period out of phase with x-t. Acceleration, a = -ω²x, is largest at the ends and zero in the middle."
+  },
+  "formulas_used": [
+    "shm-x-of-t",
+    "shm-period",
+    "shm-omega"
+  ],
+  "provenance": {
+    "producer": "quadrature_producer",
+    "version": "0.1.0",
+    "sympy": "1.14.0",
+    "author": "Quadrature",
+    "created": "2026-06-26"
+  }
+}

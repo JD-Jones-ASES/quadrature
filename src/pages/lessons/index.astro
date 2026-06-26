@@ -1,0 +1,48 @@
+---
+import Base from "../../layouts/Base.astro";
+import { withBase } from "../../lib/withBase.js";
+
+const mods = import.meta.glob("../../../derived/**/*.solution.json", { eager: true });
+const lessons = Object.values(mods)
+  .map((m) => m.default)
+  .sort((a, b) => a.regime - b.regime || a.title.localeCompare(b.title));
+
+const REGIME = {
+  1: "algebra is calculus, evaluated",
+  2: "calculus does what algebra cannot",
+  3: "algebra-only",
+};
+---
+
+<Base title="Lessons — Quadrature">
+  <h1>Lessons</h1>
+  <p class="muted lede">
+    A small number of deeply-built lessons; breadth lives in the
+    <a href={withBase("/reference/")}>reference</a>. Each lesson is SymPy-verified end to end.
+  </p>
+
+  <ul class="lessons">
+    {lessons.map((l) => (
+      <li>
+        <a href={withBase(`/lessons/${l.slug}/`)}>
+          <div class="row">
+            <span class="title">{l.title}</span>
+            <span class="badge regime">regime {l.regime} · {REGIME[l.regime]}</span>
+          </div>
+          <p class="scenario">{l.scenario}</p>
+        </a>
+      </li>
+    ))}
+  </ul>
+
+  <style>
+    h1 { font-size: 1.9rem; }
+    .lede { max-width: 46rem; }
+    .lessons { list-style: none; padding: 0; display: grid; gap: 0.8rem; }
+    .lessons a { display: block; background: var(--paper-2); border: 1px solid var(--line); border-radius: var(--radius); padding: 1rem 1.2rem; color: inherit; }
+    .lessons a:hover { text-decoration: none; border-color: var(--accent); }
+    .row { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+    .title { font-size: 1.1rem; font-weight: 600; color: var(--ink); }
+    .scenario { color: var(--ink-2); margin: 0.4rem 0 0; font-size: 0.95rem; }
+  </style>
+</Base>

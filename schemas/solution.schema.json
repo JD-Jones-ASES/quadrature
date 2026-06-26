@@ -6,7 +6,7 @@
   "additionalProperties": false,
   "required": [
     "id", "title", "topic", "slug", "scenario", "regime", "constants",
-    "assumptions", "algebra", "calculus", "equivalence_proof", "units_check",
+    "assumptions", "algebra", "calculus", "proof", "units_check",
     "graphs", "formulas_used", "provenance"
   ],
   "properties": {
@@ -61,11 +61,13 @@
         "steps": { "type": "array", "items": { "$ref": "#/$defs/step" } }
       }
     },
-    "equivalence_proof": {
+    "proof": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["checked_by", "holds", "detail", "checks"],
+      "required": ["kind", "heading", "checked_by", "holds", "detail", "checks"],
       "properties": {
+        "kind": { "enum": ["equivalence", "governing"] },
+        "heading": { "type": "string" },
         "checked_by": { "const": "sympy" },
         "holds": { "type": "boolean" },
         "detail": { "type": "string" },
@@ -161,7 +163,8 @@
       "required": ["kind", "mode", "series", "closed_form", "closed_form_params"],
       "properties": {
         "kind": { "type": "string" },
-        "mode": { "enum": ["static", "interactive"] },
+        "mode": { "enum": ["static", "interactive", "sampled"] },
+        "window": { "enum": ["landing", "fixed"] },
         "annotate": { "type": "array", "items": { "type": "string" } },
         "svg": { "type": "string" },
         "series": {

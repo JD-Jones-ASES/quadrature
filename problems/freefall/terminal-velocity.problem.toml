@@ -1,0 +1,38 @@
+id = "freefall-drag"
+title = "Falling with air resistance"
+topic = "freefall"
+slug = "terminal-velocity"
+model = "linear-drag"
+regime = 2
+author = "Quadrature"
+created = "2026-06-26"
+scenario = "An object is dropped from rest and feels air resistance proportional to its speed (m = 1 kg, drag b = 0.5 kg/s). Does it keep speeding up forever — and why can't the algebra formulas answer that?"
+formulas_used = ["drag-v-of-t", "drag-terminal"]
+
+[parameters]
+m = 1                  # kg
+b = 0.5                # kg/s, linear drag coefficient
+x0 = 0                 # m
+v0 = 0                 # m/s, dropped from rest
+g = -10                # m/s^2, up positive
+
+[[assumptions]]
+claim = "Air resistance is linear in speed (drag = -b·v). Real drag is often closer to quadratic; the linear model keeps the closed form clean."
+kind = "model"
+
+[[assumptions]]
+claim = "g = -10 m/s^2, a clean-arithmetic simplification of -9.81 m/s^2."
+kind = "model"
+
+[[assumptions]]
+claim = "The object is a point mass."
+kind = "model"
+
+[[graphs]]
+kind = "stack"
+mode = "interactive"
+annotate = ["terminal_velocity", "a_decays_to_zero"]
+
+[misconception]
+claim = "A falling object keeps accelerating until it lands."
+refuted_by = "With air resistance the acceleration decays toward zero as drag grows to cancel gravity, so the object approaches a constant terminal velocity. On the a-t graph, a → 0 — the opposite of constant-gravity free fall, where a stays at -10 the whole way."

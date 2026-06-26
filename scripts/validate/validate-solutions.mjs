@@ -72,10 +72,10 @@ for (const file of files.sort()) {
     fail(`${rel}: file path does not match topic/slug '${data.topic}/${data.slug}'`);
 
   // honesty cross-checks
-  if (!(data.equivalence_proof.checked_by === "sympy" && data.equivalence_proof.holds === true))
-    fail(`${rel}: equivalence_proof must be checked_by 'sympy' and hold`);
-  if (data.equivalence_proof.checks.some((c) => c.holds !== true))
-    fail(`${rel}: an equivalence identity does not hold`);
+  if (!(data.proof.checked_by === "sympy" && data.proof.holds === true))
+    fail(`${rel}: proof must be checked_by 'sympy' and hold`);
+  if (data.proof.checks.some((c) => c.holds !== true))
+    fail(`${rel}: a proof check does not hold`);
   if (!(data.units_check.checked_by === "sympy" && data.units_check.holds === true))
     fail(`${rel}: units_check must be checked_by 'sympy' and hold`);
   for (const a of data.assumptions)

@@ -16,8 +16,13 @@
 
   const call = (fn, t) => fn(...cfp.map((p) => (p === "t" ? t : vals[p])));
 
-  // landing: first downward zero-crossing of x after launch (numeric, no physics knowledge)
+  const windowMode = graph.window ?? "fixed";
+  const baseWindow = graph.series?.t_max ?? 5;
+
+  // "landing" (projectile): clip at the first downward zero-crossing of x, which adapts to the
+  // launch parameters. "fixed" (oscillator / decay): use the model's authored window.
   const tmax = $derived.by(() => {
+    if (windowMode !== "landing") return baseWindow;
     let prev = call(fx, 0);
     for (let t = 0.02; t <= 40; t += 0.02) {
       const cur = call(fx, t);
@@ -28,7 +33,7 @@
       }
       prev = cur;
     }
-    return 5;
+    return baseWindow;
   });
 
   const apexT = $derived.by(() => {
@@ -37,6 +42,8 @@
     for (let k = 0; k < 44; k++) { const m = (lo + hi) / 2; if (call(fv, lo) * call(fv, m) <= 0) hi = m; else lo = m; }
     return (lo + hi) / 2;
   });
+  // the apex marker / area-to-apex shading only make sense for a projectile (one turning point)
+  const showApex = $derived(windowMode === "landing" && apexT != null);
 
   const N = 140;
   const samples = $derived.by(() => {
@@ -99,21 +106,21 @@
       <text x="6" y={band(p.i) + 14} class="axlabel">{p.label}</text>
       <!-- zero axis -->
       <line x1={PADL} y1={zeroY} x2={W - PADR} y2={zeroY} class="zero" />
-      <!-- apex guide across all panels -->
-      {#if apexT != null}
+      <!-- apex guide across all panels (projectile only) -->
+      {#if showApex}
         <line x1={px(apexT)} y1={band(p.i)} x2={px(apexT)} y2={band(p.i) + H} class="apexline" />
       {/if}
-      <!-- area under v -->
-      {#if p.key === "v" && areaPoly}
+      <!-- area under v to the apex (projectile only) -->
+      {#if showApex && p.key === "v" && areaPoly}
         <polygon points={areaPoly} class="area" />
       {/if}
       <!-- the curve -->
       <polyline points={poly(p.arr(), rng, p.i)} class={`curve ${p.key}`} />
       <!-- apex marker on x and v -->
-      {#if apexT != null && p.key === "x"}
+      {#if showApex && p.key === "x"}
         <circle cx={px(apexT)} cy={py(apexX, rng, p.i)} r="4" class="mark" />
       {/if}
-      {#if apexT != null && p.key === "v"}
+      {#if showApex && p.key === "v"}
         <circle cx={px(apexT)} cy={py(0, rng, p.i)} r="4" class="mark" />
       {/if}
     {/each}
@@ -123,10 +130,14 @@
   </svg>
 
   <div class="annot">
-    {#if apexT != null}
+    {#if showApex}
       <p><strong>Apex</strong> at t = {apexT.toFixed(2)} s, x = {apexX.toFixed(2)} m: on v–t the line crosses
         zero but its <em>slope never changes</em> — that slope is a, and a is never zero. The shaded area
         under v from 0 to the apex is exactly the rise in x.</p>
+    {:else}
+      <p>The three panels share a time axis: the <strong>slope</strong> of each graph is the value of the one
+        below it, and the <strong>area</strong> under each is the change in the one above. Drag the sliders and
+        watch them move together.</p>
     {/if}
   </div>
 

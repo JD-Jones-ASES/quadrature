@@ -1,0 +1,18 @@
+id = "shm-period"
+name = "Period of a spring–mass oscillator"
+domain = "mechanics"
+regime = 2
+expr = "2*pi/omega"
+lhs = "T"
+result_unit = "s"
+assumptions = ["ideal Hooke's-law spring", "no damping"]
+lessons = ["spring-shm"]
+citations = []
+
+[variables]
+omega = { unit = "1/s", desc = "angular frequency" }
+
+[[edges]]
+type = "related-to"
+target = "shm-omega"
+gloss = "T = 2π/ω = 2π√(m/k)"

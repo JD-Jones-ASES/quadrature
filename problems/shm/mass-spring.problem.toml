@@ -1,0 +1,37 @@
+id = "spring-shm"
+title = "A mass on a spring"
+topic = "shm"
+slug = "mass-spring"
+model = "shm"
+regime = 2
+author = "Quadrature"
+created = "2026-06-26"
+scenario = "A 1 kg mass on a spring (k = 4 N/m) is pulled 0.3 m from equilibrium and released from rest. How does it move — and where does the period the algebra course made you memorize actually come from?"
+formulas_used = ["shm-x-of-t", "shm-period", "shm-omega"]
+
+[parameters]
+m = 1                  # kg
+k = 4                  # N/m
+x0 = 0.3               # m, initial displacement
+v0 = 0                 # m/s, released from rest
+
+[[assumptions]]
+claim = "Ideal spring obeying Hooke's law: the restoring force is proportional to displacement."
+kind = "model"
+
+[[assumptions]]
+claim = "No friction or air resistance (undamped motion)."
+kind = "model"
+
+[[assumptions]]
+claim = "The mass is a point and the spring is massless."
+kind = "model"
+
+[[graphs]]
+kind = "stack"
+mode = "interactive"
+annotate = ["x_v_a_phase", "period"]
+
+[misconception]
+claim = "The mass moves fastest at the ends of its swing (the turning points)."
+refuted_by = "At a turning point the speed is zero — that is where it reverses. It moves fastest through equilibrium (x = 0), where the v-t graph peaks a quarter-period out of phase with x-t. Acceleration, a = -ω²x, is largest at the ends and zero in the middle."

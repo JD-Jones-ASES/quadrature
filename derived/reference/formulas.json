@@ -2,6 +2,90 @@
   "schema_version": 1,
   "formulas": [
     {
+      "id": "drag-terminal",
+      "name": "Terminal velocity (linear drag)",
+      "domain": "mechanics",
+      "regime": 2,
+      "lhs": "v_{\\text{term}}",
+      "expr": "m*g/b",
+      "expr_srepr": "Mul(Pow(Symbol('b', real=True), Integer(-1)), Symbol('g', real=True), Symbol('m', real=True))",
+      "latex": "v_{\\text{term}} = \\frac{g m}{b}",
+      "result_unit": "m/s",
+      "variables": {
+        "m": {
+          "unit": "kg",
+          "desc": "mass"
+        },
+        "g": {
+          "unit": "m/s**2",
+          "desc": "gravitational acceleration (negative, up positive)"
+        },
+        "b": {
+          "unit": "kg/s",
+          "desc": "linear drag coefficient"
+        }
+      },
+      "assumptions": [
+        "drag linear in speed",
+        "constant gravity"
+      ],
+      "derivation": null,
+      "lessons": [
+        "freefall-drag"
+      ],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "drag-v-of-t",
+      "name": "Velocity under linear drag",
+      "domain": "mechanics",
+      "regime": 2,
+      "lhs": "v",
+      "expr": "(m*g/b) + (v0 - m*g/b)*exp(-b*t/m)",
+      "expr_srepr": "Add(Mul(Add(Symbol('v0', real=True), Mul(Integer(-1), Pow(Symbol('b', real=True), Integer(-1)), Symbol('g', real=True), Symbol('m', real=True))), exp(Mul(Integer(-1), Symbol('b', real=True), Pow(Symbol('m', real=True), Integer(-1)), Symbol('t', real=True)))), Mul(Pow(Symbol('b', real=True), Integer(-1)), Symbol('g', real=True), Symbol('m', real=True)))",
+      "latex": "v = \\left(v_{0} - \\frac{g m}{b}\\right) e^{- \\frac{b t}{m}} + \\frac{g m}{b}",
+      "result_unit": "m/s",
+      "variables": {
+        "m": {
+          "unit": "kg",
+          "desc": "mass"
+        },
+        "g": {
+          "unit": "m/s**2",
+          "desc": "gravitational acceleration (negative, up positive)"
+        },
+        "b": {
+          "unit": "kg/s",
+          "desc": "linear drag coefficient"
+        },
+        "v0": {
+          "unit": "m/s",
+          "desc": "initial velocity"
+        },
+        "t": {
+          "unit": "s",
+          "desc": "time"
+        }
+      },
+      "assumptions": [
+        "drag linear in speed",
+        "constant gravity"
+      ],
+      "derivation": null,
+      "lessons": [
+        "freefall-drag"
+      ],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
       "id": "kin-a-const",
       "name": "Constant acceleration",
       "domain": "mechanics",
@@ -114,6 +198,112 @@
       "verified": {
         "units": true,
         "derivation": true
+      }
+    },
+    {
+      "id": "shm-omega",
+      "name": "Angular frequency of a spring–mass oscillator",
+      "domain": "mechanics",
+      "regime": 2,
+      "lhs": "\\omega",
+      "expr": "sqrt(k/m)",
+      "expr_srepr": "Pow(Mul(Symbol('k', real=True), Pow(Symbol('m', real=True), Integer(-1))), Rational(1, 2))",
+      "latex": "\\omega = \\sqrt{\\frac{k}{m}}",
+      "result_unit": "1/s",
+      "variables": {
+        "k": {
+          "unit": "N/m",
+          "desc": "spring constant"
+        },
+        "m": {
+          "unit": "kg",
+          "desc": "mass"
+        }
+      },
+      "assumptions": [
+        "ideal Hooke's-law spring",
+        "no damping"
+      ],
+      "derivation": null,
+      "lessons": [
+        "spring-shm"
+      ],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "shm-period",
+      "name": "Period of a spring–mass oscillator",
+      "domain": "mechanics",
+      "regime": 2,
+      "lhs": "T",
+      "expr": "2*pi/omega",
+      "expr_srepr": "Mul(Integer(2), pi, Pow(Symbol('omega', real=True), Integer(-1)))",
+      "latex": "T = \\frac{2 \\pi}{\\omega}",
+      "result_unit": "s",
+      "variables": {
+        "omega": {
+          "unit": "1/s",
+          "desc": "angular frequency"
+        }
+      },
+      "assumptions": [
+        "ideal Hooke's-law spring",
+        "no damping"
+      ],
+      "derivation": null,
+      "lessons": [
+        "spring-shm"
+      ],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "shm-x-of-t",
+      "name": "Position in simple harmonic motion",
+      "domain": "mechanics",
+      "regime": 2,
+      "lhs": "x",
+      "expr": "x0*cos(omega*t) + (v0/omega)*sin(omega*t)",
+      "expr_srepr": "Add(Mul(Symbol('x0', real=True), cos(Mul(Symbol('omega', real=True), Symbol('t', real=True)))), Mul(Pow(Symbol('omega', real=True), Integer(-1)), Symbol('v0', real=True), sin(Mul(Symbol('omega', real=True), Symbol('t', real=True)))))",
+      "latex": "x = x_{0} \\cos{\\left(\\omega t \\right)} + \\frac{v_{0} \\sin{\\left(\\omega t \\right)}}{\\omega}",
+      "result_unit": "m",
+      "variables": {
+        "x0": {
+          "unit": "m",
+          "desc": "initial displacement"
+        },
+        "v0": {
+          "unit": "m/s",
+          "desc": "initial velocity"
+        },
+        "omega": {
+          "unit": "1/s",
+          "desc": "angular frequency"
+        },
+        "t": {
+          "unit": "s",
+          "desc": "time"
+        }
+      },
+      "assumptions": [
+        "ideal Hooke's-law spring",
+        "no damping"
+      ],
+      "derivation": null,
+      "lessons": [
+        "spring-shm"
+      ],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
       }
     }
   ]

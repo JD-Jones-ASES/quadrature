@@ -1,0 +1,25 @@
+id = "shm-x-of-t"
+name = "Position in simple harmonic motion"
+domain = "mechanics"
+regime = 2
+expr = "x0*cos(omega*t) + (v0/omega)*sin(omega*t)"
+lhs = "x"
+result_unit = "m"
+assumptions = ["ideal Hooke's-law spring", "no damping"]
+lessons = ["spring-shm"]
+citations = []
+
+[variables]
+x0 = { unit = "m", desc = "initial displacement" }
+v0 = { unit = "m/s", desc = "initial velocity" }
+omega = { unit = "1/s", desc = "angular frequency" }
+t = { unit = "s", desc = "time" }
+
+[[edges]]
+type = "related-to"
+target = "shm-omega"
+gloss = "its angular frequency"
+[[edges]]
+type = "related-to"
+target = "shm-period"
+gloss = "repeats every period T"

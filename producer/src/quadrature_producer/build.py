@@ -4,8 +4,9 @@ Two console entry points (pyproject.toml):
   build-problems   problems/**/*.problem.toml -> derived/<topic>/<slug>.solution.json (+ static SVGs)
   build-reference  reference/formulas/*.formula.toml -> derived/reference/{formulas,concept-graph}.json
 
-The producer REFUSES TO EMIT on a failed equivalence proof or unit check (the local
-"verification breaks the build"). Schema conformance is then enforced by the Node gates.
+Dispatches on the spec's `model` field to a model in models/ (constant-accel | shm | linear-drag), which
+returns a generic Scenario. The model REFUSES TO EMIT on a failed proof; here we add the dimensional check
+and assemble the schema-shaped solution. Schema conformance is then enforced by the Node gates.
 """
 
 from __future__ import annotations
@@ -18,13 +19,11 @@ from pathlib import Path
 import sympy as sp
 
 from . import BuildError, __version__
-from .derive import calculus_register
 from .dims import check_homogeneous, parse_unit
 from .emit import closed_form, closed_form_params, sample_series
 from .graph import render_stack
-from .kinematics import a, build_model, prove_equivalence, t, v0, x0
+from .models import MODELS
 from .reference import build_reference
-from .solve import algebra_register
 
 
 def _write_json(path: Path, obj: dict) -> None:
@@ -33,79 +32,39 @@ def _write_json(path: Path, obj: dict) -> None:
     path.write_text(text + "\n", encoding="utf-8")
 
 
-def _sign(value: float) -> str:
-    return "+" if value > 1e-12 else ("-" if value < -1e-12 else "0")
-
-
-def _sign_analysis(model, apex_time: float, flight_time: float) -> dict:
-    """Sign-rigor: speeding up ⟺ v and a share a sign. Signs are evaluated from the model."""
-    subs = model.subs
-    a_sign = _sign(float(model.subs[a]))
-
-    def v_at(tt: float) -> float:
-        return float(sp.N(model.v_expr.subs({**subs, t: sp.nsimplify(tt)})))
-
-    rising_mid = apex_time / 2
-    falling_mid = (apex_time + flight_time) / 2
-    segs = [
-        {"phase": "rising", "t_range": [0.0, round(apex_time, 6)],
-         "v_sign": _sign(v_at(rising_mid)), "a_sign": a_sign, "state": "slowing down"},
-        {"phase": "apex", "t": round(apex_time, 6),
-         "v_sign": "0", "a_sign": a_sign, "state": "v = 0, but a ≠ 0"},
-        {"phase": "falling", "t_range": [round(apex_time, 6), round(flight_time, 6)],
-         "v_sign": _sign(v_at(falling_mid)), "a_sign": a_sign, "state": "speeding up"},
-    ]
-    return {"rule": "speeding up ⟺ sign(v·a) > 0; slowing down ⟺ sign(v·a) < 0", "segments": segs}
-
-
 def build_problem(path: Path, root: Path) -> tuple[dict, str]:
     spec = tomllib.loads(path.read_text(encoding="utf-8"))
     ctx = spec.get("id", path.stem)
-    consts = spec.get("constants", {})
-    ics = spec.get("initial_conditions", {})
-    if "g" not in consts:
-        raise BuildError(f"{ctx}: constants.g is required (house convention g = -10)")
-    a_value = consts["g"]
-    x0_value = ics.get("x0", 0.0)
-    v0_value = ics.get("v0", 0.0)
+    model_name = spec.get("model", "constant-accel")
+    if model_name not in MODELS:
+        raise BuildError(f"{ctx}: unknown model '{model_name}' (have {sorted(MODELS)})")
 
-    model = build_model(a_value, x0_value, v0_value, ground=0.0)
+    scn = MODELS[model_name](spec)  # runs the model's proof; raises on failure
 
-    # unit check (raises on a dimensional contradiction)
-    unit_map = {x0: parse_unit("m", ctx), v0: parse_unit("m/s", ctx),
-                a: parse_unit("m/s**2", ctx), t: parse_unit("s", ctx)}
-    for name, expr in (("v(t)", model.v_expr), ("x(t)", model.x_expr)):
-        check_homogeneous(expr, unit_map, f"{ctx}: {name}")
+    # dimensional homogeneity (raises on a contradiction) — the units_check
+    umap = {s: parse_unit(u, ctx) for s, u in scn.unit_map.items()}
+    for name, expr in (("x(t)", scn.x_expr), ("v(t)", scn.v_expr), ("a(t)", scn.a_expr)):
+        check_homogeneous(expr, umap, f"{ctx}: {name}")
 
-    # the equivalence proof (raises on failure — refuses to emit)
-    proof = prove_equivalence(model, ctx)
-
-    algebra = algebra_register(model, spec.get("unknowns", list(model.unknowns)))
-    calculus = calculus_register(model)
-
-    flight_time = algebra["result"]["flight_time"]["value"] if "flight_time" in algebra["result"] \
-        else float(sp.N(model.unknowns["flight_time"].subs(model.subs)))
-    apex_time = float(sp.N(model.unknowns["apex_time"].subs(model.subs)))
-
-    # graphs
     graphs = []
-    for i, g in enumerate(spec.get("graphs", [])):
-        mode = g.get("mode", "static")
+    for i, gentry in enumerate(spec.get("graphs", [])):
+        mode = gentry.get("mode", "static")
         svg_rel = f"assets/graphs/{ctx}-{i}.svg"
-        render_stack(model, root / "derived" / svg_rel, t_max=flight_time)
+        render_stack(scn, root / "derived" / svg_rel, scn.t_window)
         gobj = {
-            "kind": g.get("kind", "stack"),
+            "kind": gentry.get("kind", "stack"),
             "mode": mode,
-            "annotate": g.get("annotate", []),
+            "window": scn.window_mode,
+            "annotate": gentry.get("annotate", []),
             "svg": svg_rel,
-            "series": sample_series(model, flight_time),
-            "closed_form": closed_form(model),
-            "closed_form_params": closed_form_params(model),
+            "series": sample_series(scn, scn.t_window),
+            "closed_form": closed_form(scn),
+            "closed_form_params": closed_form_params(scn),
         }
-        if mode == "interactive":
-            if "params" not in g:
-                raise BuildError(f"{ctx}: interactive graph needs [graphs.params.*] ranges")
-            gobj["params"] = g["params"]
+        if mode in ("interactive", "sampled"):
+            gobj["params"] = {
+                sl.name: {"min": sl.min, "max": sl.max, "default": sl.default} for sl in scn.sliders
+            }
         graphs.append(gobj)
 
     solution = {
@@ -114,15 +73,14 @@ def build_problem(path: Path, root: Path) -> tuple[dict, str]:
         "topic": spec["topic"],
         "slug": spec["slug"],
         "scenario": spec["scenario"],
-        "regime": spec["regime"],
-        "constants": consts,
-        "initial_conditions": ics,
+        "regime": scn.regime,
+        "constants": scn.constants_export,
+        "initial_conditions": scn.initial_conditions,
         "assumptions": spec.get("assumptions", []),
-        "algebra": algebra,
-        "calculus": calculus,
-        "equivalence_proof": proof,
+        "algebra": scn.algebra,
+        "calculus": scn.calculus,
+        "proof": scn.proof,
         "units_check": {"checked_by": "sympy", "holds": True},
-        "sign_analysis": _sign_analysis(model, apex_time, flight_time),
         "graphs": graphs,
         "misconception": spec.get("misconception"),
         "formulas_used": spec.get("formulas_used", []),
@@ -134,6 +92,9 @@ def build_problem(path: Path, root: Path) -> tuple[dict, str]:
             "created": spec.get("created", ""),
         },
     }
+    if scn.sign_analysis is not None:
+        solution["sign_analysis"] = scn.sign_analysis
+
     out_rel = f"{spec['topic']}/{spec['slug']}.solution.json"
     return solution, out_rel
 
@@ -150,8 +111,7 @@ def build_problems_main(argv: list[str] | None = None) -> int:
         except BuildError as e:
             print(f"BUILD FAILED — {e}", file=sys.stderr)
             return 1
-        out = root / "derived" / out_rel
-        _write_json(out, solution)
+        _write_json(root / "derived" / out_rel, solution)
         print(f"  built {path.relative_to(root).as_posix()} -> derived/{out_rel}")
     return 0
 

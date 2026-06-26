@@ -78,17 +78,17 @@
     <GraphStack graph={s.graphs[0]} />
   {/if}
 
-  <!-- the equivalence proof, SHOWN not asserted -->
+  <!-- the proof, SHOWN not asserted (equivalence for regime 1; governing for regime 2) -->
   <div class="proof">
     <button class="proof-head" onclick={() => (showProof = !showProof)} aria-expanded={showProof}>
       <span class="badge machine"><span class="dot"></span>SymPy proof</span>
-      <strong>The algebra and the calculus agree — proven, not asserted.</strong>
+      <strong>{s.proof.heading}</strong>
       <span class="chev">{showProof ? "▾" : "▸"}</span>
     </button>
     {#if showProof}
-      <p class="faint detail">{s.equivalence_proof.detail}</p>
+      <p class="faint detail">{s.proof.detail}</p>
       <ul class="checks">
-        {#each s.equivalence_proof.checks as c}
+        {#each s.proof.checks as c}
           <li><span class="tick">✓</span> {c.claim} <span class="tier">[{c.tier}]</span></li>
         {/each}
       </ul>

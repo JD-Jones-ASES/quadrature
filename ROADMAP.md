@@ -48,10 +48,17 @@ in the v–t slope, with the one formula entry fully linked into the reference. 
 drag → terminal velocity (exponential approach), a spring (`x''=−ω²x → x=A cos ωt`), gravitation as a function
 of r. The producer moves from integrating constants to solving ODEs.
 
-**Open questions to resolve at the top of Phase 1 (brief §12).**
-- **ODE strategy.** Most regime-2 closed forms aren't cheap polynomials, so most regime-2 graphs are static by
-  the ADR-0009 policy. Confirm that, or add a small **precomputed-sample-points** export to drive a limited set
-  of regime-2 interactives (a third graph mode between `static` and polynomial `interactive`).
+**Resolved (ADR-0012, ADR-0013, 2026-06-26).**
+- **Interactivity:** regime 2 is *not* defaulted to static — the large part with elementary closed forms
+  (drag→exp, terminal velocity→tanh, SHM→cos, damped→e^{−γt}cos) stays `interactive` on the Phase-0 engine.
+  The `sampled` mode (precomputed points + interpolation gate) is reserved for the no-closed-form minority and
+  built only when a lesson needs it.
+- **Verification:** regime-2 proof = back-substitute the closed form into the equation of motion + initial
+  conditions + a conserved/limit invariant + show the memorized result falling out. The proof block is
+  generalized (`equivalence` | `governing`).
+
+**Status.** Regime-2 architecture being stood up this session, proven first on **SHM** (the regime-2 "stress
+node"), then **terminal velocity (drag)**; mechanics breadth + reference fill to follow.
 
 **Definition of done.** The mechanics lessons run on the proven instrument; regime 2 is visibly the half where
 calculus does what algebra can't; the reference covers all mechanics formulas.

@@ -4,6 +4,7 @@ id = "freefall-throw-up"
 title = "A ball thrown straight up"
 topic = "freefall"
 slug = "throw-up"
+model = "constant-accel"
 regime = 1
 author = "Quadrature"
 created = "2026-06-26"
@@ -32,18 +33,8 @@ kind = "model"
 
 [[graphs]]
 kind = "stack"
-mode = "interactive"
+mode = "interactive"               # slider ranges come from the model (ADR-0012)
 annotate = ["slope_of_x_is_v", "area_under_v_is_displacement", "a_nonzero_at_apex"]
-
-[graphs.params.v0]
-min = 5
-max = 30
-default = 20
-
-[graphs.params.x0]
-min = 0
-max = 5
-default = 1.5
 
 [misconception]
 claim = "At the top of the trajectory, the acceleration is zero (the ball 'stops')."

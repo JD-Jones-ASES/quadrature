@@ -1,0 +1,14 @@
+id = "shm-omega"
+name = "Angular frequency of a spring–mass oscillator"
+domain = "mechanics"
+regime = 2
+expr = "sqrt(k/m)"
+lhs = '\omega'
+result_unit = "1/s"
+assumptions = ["ideal Hooke's-law spring", "no damping"]
+lessons = ["spring-shm"]
+citations = []
+
+[variables]
+k = { unit = "N/m", desc = "spring constant" }
+m = { unit = "kg", desc = "mass" }
