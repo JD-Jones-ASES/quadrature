@@ -7,7 +7,9 @@ from `JD.md`), then fill depth-first, and close with a doc sweep. Status lives h
 
 ## Status
 
-- **Phase 0 — vertical slice — IN PROGRESS** (first build session, 2026-06-26).
+- **Phase 0 — vertical slice — COMPLETE, awaiting review** (built 2026-06-26). Producer, gates, player,
+  reference, and concept graph all working end-to-end and pushed to the private repo. Pages intentionally not
+  yet enabled. **Stop here for owner review before Phase 1.**
 - Phases 1–3 and the reference breadth-fill: not started.
 
 ---
