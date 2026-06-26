@@ -121,8 +121,9 @@ Sign rigor: an object speeds up exactly when v and a share a sign (`sign(v·a) >
 ## Deploy
 
 Push to `main` → GitHub Actions runs the Node gates + `astro build` → GitHub Pages. Project base path is
-`/quadrature`. The repo is private and Pages is **not yet enabled**; turn it on in repo Settings → Pages
-(Source: GitHub Actions) when the owner is ready to go public.
+`/quadrature` (the repo is named lowercase `quadrature` so the Pages path matches exactly). The repo is
+**public** and Pages is **live** at https://jd-jones-ases.github.io/quadrature/ — every push to `main`
+auto-deploys (the deploy fails loud if any gate fails).
 
 ## Extending Quadrature
 
@@ -159,13 +160,15 @@ The producer engine should rarely change. If it must, add a physics cross-check 
 ## Current state
 
 See [`ROADMAP.md`](./ROADMAP.md) and the latest [`docs/sessions/`](./docs/sessions/) log. **Phase 0 is
-complete and reviewed**; **Phase 1 (mechanics)** is in progress and **Phase 3 (thermo) is seeded**. Shipped:
-10 lessons — free fall, **projectile (drag-free)**, and **rotational kinematics** (regime 1); SHM, terminal
-velocity, the damped oscillator, **work–energy**, **projectile with quadratic drag**, and
-**impulse–momentum** (regime 2); and **isothermal PV-work** (regime 3) — plus a 28-formula reference
-(mechanics + two thermo) and concept graph, all SymPy-verified. The producer is a model registry
+complete and reviewed**; **Phase 1 (mechanics)** is in progress and **Phase 3 (thermo) is seeded**. The site
+is **live and public** at https://jd-jones-ases.github.io/quadrature/ (push to `main` auto-deploys). Shipped:
+11 lessons — free fall, **projectile (drag-free)**, and **rotational kinematics** (regime 1); SHM, terminal
+velocity, the damped oscillator, **work–energy**, **projectile with quadratic drag**, **impulse–momentum**,
+and **gravitational potential energy** (regime 2); and **isothermal PV-work** (regime 3) — plus a 28-formula
+reference (mechanics + two thermo) and concept graph, all SymPy-verified. The producer is a model registry
 (`constant-accel`, `shm`, `linear-drag`, `damped-shm`, `work-energy`, `pv-work`, `projectile`, `impulse`,
-`rotation`). Graphs come as the **temporal stack** (`kind:"stack"`, modes `static` | `interactive` |
+`rotation`, `gravity-pe`). The concept-graph nodes are click-to-select and drag-to-reposition. The site is
+public and auto-deploys on every push to `main`. Graphs come as the **temporal stack** (`kind:"stack"`, modes `static` | `interactive` |
 `sampled`), the **area/integral instrument** (`kind:"area"`, ADR-0014 — area under `f(u)` = the accumulated
 integral `g(u)`, off the time axis), or the **2D trajectory instrument** (`kind:"trajectory"`, ADR-0015 — the
 path y vs x; drag-free is exact/interactive, quadratic drag is numerically integrated). Proof kinds:

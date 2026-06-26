@@ -1,0 +1,37 @@
+id = "gravitational-pe"
+title = "Gravitational energy: why escape velocity is finite"
+topic = "gravitation"
+slug = "potential-energy"
+model = "gravity-pe"
+regime = 2
+author = "Quadrature"
+created = "2026-06-26"
+scenario = "Lifting a mass away from a planet ($\\mu = GM = 4\\times10^{14}$ m³/s², surface radius $R = 6.4\\times10^{6}$ m): the gravitational pull weakens as $F = GMm/r^2$. How much energy does it take to climb — and why is the energy to escape *finite*? Drag the cursor outward and watch the potential energy approach a ceiling as the area under $1/r^2$ converges."
+formulas_used = ["grav-newton", "en-work"]
+
+[parameters]
+mu = 4e14               # m³/s² — standard gravitational parameter GM (≈ Earth)
+R = 6.4e6               # m — surface radius (lower limit of the lift)
+m = 1                   # kg — the lifted mass (per-kilogram energies)
+r_window = 4.0e7        # m — how far out the cursor can travel (~6 surface radii)
+
+[[assumptions]]
+claim = "Spherically symmetric planet, so outside the surface the field is $GMm/r^2$ (point-mass equivalent)."
+kind = "model"
+
+[[assumptions]]
+claim = "Only gravity acts; the lift is quasi-static (no kinetic energy bookkeeping — this is the potential energy alone)."
+kind = "model"
+
+[[assumptions]]
+claim = "$\\mu = GM$ is used so the force is unit-clean; energies are shown per kilogram ($m = 1$ kg)."
+kind = "model"
+
+[[graphs]]
+kind = "area"
+mode = "interactive"
+annotate = ["area_is_pe", "escape_is_finite"]
+
+[misconception]
+claim = "It takes infinite energy to fully escape a planet's gravity, since gravity reaches out forever."
+refuted_by = "Gravity does reach out forever, but it *weakens* as $1/r^2$ — and the area under $1/r^2$ from the surface to infinity is *finite*. That finite area is the escape energy $GMm/R$; divide by the mass and you get the escape speed $\\sqrt{2GM/R}$. Drag the cursor out: the potential energy rises toward a ceiling, not without bound."

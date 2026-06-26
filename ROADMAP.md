@@ -7,12 +7,13 @@ from `JD.md`), then fill depth-first, and close with a doc sweep. Status lives h
 
 ## Status
 
-- **Phase 0 — vertical slice — COMPLETE, reviewed** (built 2026-06-26). Producer, gates, player, reference,
-  and concept graph all working end-to-end and pushed to the private repo. Pages intentionally not yet enabled.
+- **Phase 0 — vertical slice — COMPLETE, reviewed, PUBLISHED** (2026-06-26). Producer, gates, player,
+  reference, and concept graph end-to-end; the repo is public and the site is **live** at
+  https://jd-jones-ases.github.io/quadrature/ (every push to `main` auto-deploys).
 - **Phase 1 — full mechanics — IN PROGRESS.** Lessons: free fall (1), SHM (2), terminal velocity (2), damped
   oscillator (2, sampled), **work–energy (2, area)**, **projectile drag-free (1) and quadratic drag (2,
-  numerical)**, **impulse–momentum (2, area on the time axis)**, **rotational kinematics (1, stack)**.
-  26-formula mechanics reference + concept graph. Engine now has the
+  numerical)**, **impulse–momentum (2, area on the time axis)**, **rotational kinematics (1, stack)**,
+  **gravitational PE (2, area on the radial axis)**. 26-formula mechanics reference + concept graph. Engine now has the
   **integral instrument** (ADR-0014) and the **2D trajectory instrument** (ADR-0015, drag-free exact +
   quadratic-drag numerical with a new accuracy gate).
 - **Phase 3 — algebra-only domains — SEEDED.** The area instrument opened thermo early: an **isothermal

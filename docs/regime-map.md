@@ -20,7 +20,7 @@ what algebra cannot (non-constant forces; ODEs) · **3** = algebra-only (no calc
 | Mechanics | Momentum & impulse | dual | 1–2 | 1 | lesson (impulse: area ∫F dt) + ref |
 | Mechanics | Rotation / rigid bodies | dual | 1–2 | 1 | lesson (angular kinematics) + ref (partial) |
 | Mechanics | Simple harmonic motion | dual | 2 | 1 | lesson + ref |
-| Mechanics | Gravitation | dual | 2 | 1 | ref ✓ |
+| Mechanics | Gravitation | dual | 2 | 1 | lesson (PE: area ∫GMm/r² dr) + ref |
 | Mechanics | Circular motion | dual | 1 | 1 | ref ✓ |
 | E&M | Electrostatics (Coulomb, field) | dual | 1–2 | 2 | — |
 | E&M | Gauss / continuous charge | dual | 2 | 2 | — |

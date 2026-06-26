@@ -12,6 +12,9 @@ plan in [`ROADMAP.md`](./ROADMAP.md).
   - **Rotational kinematics** (regime 1, temporal stack with θ/ω/α labels): the rotational equations are the
     straight-line ones relabeled; the timeless equation $\omega^2=\omega_0^2+2\alpha\Delta\theta$ falls out of
     the integrals. Reuses `GraphStack`.
+  - **Gravitational potential energy** (regime 2, area instrument on the radial axis): PE is the area under
+    $F=GMm/r^2$, and because that area to infinity *converges*, the escape energy $GMm/R$ is finite (proven
+    via `sympy.limit`); near the surface it collapses to the $mgh$ rectangle. Reuses `AreaPlot`.
 - **The trajectory instrument — 2D projectile** (ADR-0015): a new `kind:"trajectory"` graph (the path y vs x,
   carried by a `TrajectoryPlot`), with a `Trajectory.svelte` island and `render_trajectory`.
   - **Drag-free lesson** (regime 1, exact): each component is constant-acceleration motion; the path is an

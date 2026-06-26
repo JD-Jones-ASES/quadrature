@@ -1,0 +1,363 @@
+{
+  "id": "gravitational-pe",
+  "title": "Gravitational energy: why escape velocity is finite",
+  "topic": "gravitation",
+  "slug": "potential-energy",
+  "scenario": "Lifting a mass away from a planet ($\\mu = GM = 4\\times10^{14}$ m³/s², surface radius $R = 6.4\\times10^{6}$ m): the gravitational pull weakens as $F = GMm/r^2$. How much energy does it take to climb — and why is the energy to escape *finite*? Drag the cursor outward and watch the potential energy approach a ceiling as the area under $1/r^2$ converges.",
+  "regime": 2,
+  "constants": {
+    "mu": 400000000000000.0,
+    "R": 6400000.0,
+    "m": 1.0
+  },
+  "initial_conditions": {},
+  "assumptions": [
+    {
+      "claim": "Spherically symmetric planet, so outside the surface the field is $GMm/r^2$ (point-mass equivalent).",
+      "kind": "model"
+    },
+    {
+      "claim": "Only gravity acts; the lift is quasi-static (no kinetic energy bookkeeping — this is the potential energy alone).",
+      "kind": "model"
+    },
+    {
+      "claim": "$\\mu = GM$ is used so the force is unit-clean; energies are shown per kilogram ($m = 1$ kg).",
+      "kind": "model"
+    }
+  ],
+  "algebra": {
+    "steps": [
+      {
+        "label": "What the algebra-based course hands you",
+        "latex": "\\Delta U = mgh \\quad(\\text{near the surface, } g \\text{ constant})",
+        "prose": "Close to the ground, gravity is treated as a constant $mg$, so the potential energy is $mgh$ — the area of a rectangle. But gravity weakens with distance ($F\\propto 1/r^2$), so this fails once $h$ is comparable to the planet's radius. There is no algebra formula for the energy to reach orbit or escape."
+      }
+    ],
+    "result": {
+      "pe_to_2R": {
+        "label": "PE gained reaching $r=2R$",
+        "unit": "J",
+        "symbolic_latex": "\\tfrac{GMm}{2R}",
+        "value": 31250000.0,
+        "display": "31250000"
+      },
+      "escape_energy": {
+        "label": "Escape energy $GMm/R$ (area to $\\infty$)",
+        "unit": "J",
+        "symbolic_latex": "\\tfrac{GMm}{R}",
+        "value": 62500000.0,
+        "display": "62500000"
+      },
+      "surface_force": {
+        "label": "Surface weight $F(R)=GMm/R^2=mg$",
+        "unit": "N",
+        "symbolic_latex": "\\tfrac{GMm}{R^2}",
+        "value": 9.765625,
+        "display": "9.766"
+      }
+    }
+  },
+  "calculus": {
+    "steps": [
+      {
+        "label": "Potential energy is the area under the force–distance curve",
+        "latex": "\\Delta U = \\int_R^r F\\,dr' = \\int_R^r \\frac{GMm}{r'^2}\\,dr'",
+        "prose": "The work to lift a mass against gravity is the integral of the force over distance — the area under the $F$–$r$ curve. For a constant force this is a rectangle ($mgh$); for the inverse-square force it is the area under a falling curve."
+      },
+      {
+        "label": "Evaluate the inverse-square integral",
+        "latex": "\\Delta U = GMm\\left(\\frac{1}{R} - \\frac{1}{r}\\right)",
+        "prose": "The area under $1/r^2$ from $R$ to $r$ is $GMm(1/R - 1/r)$. Its slope at any radius is $GMm/r^2 = F(r)$ — the force is the rate at which potential energy accumulates."
+      },
+      {
+        "label": "The escape energy is finite — the area converges",
+        "latex": "\\boxed{\\,\\lim_{r\\to\\infty}\\Delta U = \\frac{GMm}{R}\\,}",
+        "prose": "Push the cursor outward and the PE rises toward a *finite* ceiling, even as $r\\to\\infty$: the area under $1/r^2$ converges. That ceiling is the escape energy — and SymPy proves the limit. A constant force would give an infinite area; the inverse square does not.",
+        "emphasis": true
+      }
+    ]
+  },
+  "proof": {
+    "kind": "integral",
+    "heading": "Gravitational PE is the area under the force curve — and the area to infinity converges to a finite escape energy.",
+    "checked_by": "sympy",
+    "holds": true,
+    "detail": "check $\\tfrac{d}{dr}\\Delta U = F$; check $\\Delta U = \\int_R^r F\\,dr'$; check $\\lim_{r\\to\\infty}\\Delta U = GMm/R$; collapse the near-surface case to $mgh$",
+    "checks": [
+      {
+        "key": "ftc_slope",
+        "claim": "The PE's slope is the force: $U'(r) = F(r)$ — the area's rate of growth is the curve's height.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "area_is_integral",
+        "claim": "The accumulated PE is the area: $\\Delta U(r) = \\int_R^r F\\,dr'$.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "escape_is_finite",
+        "claim": "The area to infinity converges: the escape energy $\\to GMm/R$ is finite as $r\\to\\infty$.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "flat_earth_echo",
+        "claim": "Near the surface $F\\approx mg$ is constant, so $\\Delta U \\approx mgh$ — the area is a rectangle (the quadrature).",
+        "holds": true,
+        "tier": "structural"
+      }
+    ]
+  },
+  "units_check": {
+    "checked_by": "sympy",
+    "holds": true
+  },
+  "graphs": [
+    {
+      "kind": "area",
+      "mode": "interactive",
+      "window": "fixed",
+      "annotate": [
+        "area_is_pe",
+        "escape_is_finite"
+      ],
+      "svg": "assets/graphs/gravitational-pe-0.svg",
+      "series": {
+        "u": [
+          6400000.0,
+          6960000.0,
+          7520000.0,
+          8080000.0,
+          8640000.0,
+          9200000.0,
+          9760000.0,
+          10320000.0,
+          10880000.0,
+          11440000.0,
+          12000000.0,
+          12560000.0,
+          13120000.0,
+          13680000.0,
+          14240000.0,
+          14800000.0,
+          15360000.0,
+          15920000.0,
+          16480000.0,
+          17040000.0,
+          17600000.0,
+          18160000.0,
+          18720000.0,
+          19280000.0,
+          19840000.0,
+          20400000.0,
+          20960000.0,
+          21520000.0,
+          22080000.0,
+          22640000.0,
+          23200000.0,
+          23760000.0,
+          24320000.0,
+          24880000.0,
+          25440000.0,
+          26000000.0,
+          26560000.0,
+          27120000.0,
+          27680000.0,
+          28240000.0,
+          28800000.0,
+          29360000.0,
+          29920000.0,
+          30480000.0,
+          31040000.0,
+          31600000.0,
+          32160000.0,
+          32720000.0,
+          33280000.0,
+          33840000.0,
+          34400000.0,
+          34960000.0,
+          35520000.0,
+          36080000.0,
+          36640000.0,
+          37200000.0,
+          37760000.0,
+          38320000.0,
+          38880000.0,
+          39440000.0,
+          40000000.0
+        ],
+        "f": [
+          9.765625,
+          8.2573655701,
+          7.0733363513,
+          6.1268503088,
+          5.3583676269,
+          4.7258979206,
+          4.1991400161,
+          3.7557839072,
+          3.3791089965,
+          3.0563841753,
+          2.7777777778,
+          2.5355998215,
+          2.3237656157,
+          2.1374098013,
+          1.9726044691,
+          1.8261504748,
+          1.6954210069,
+          1.5782429737,
+          1.472806108,
+          1.3775926293,
+          1.291322314,
+          1.2129092356,
+          1.1414274235,
+          1.0760834008,
+          1.0161940687,
+          0.9611687812,
+          0.9104947264,
+          0.8637249347,
+          0.820468389,
+          0.7803818252,
+          0.7431629013,
+          0.7085444796,
+          0.6762898199,
+          0.6461885216,
+          0.6180530833,
+          0.5917159763,
+          0.5670271447,
+          0.5438518635,
+          0.5220688964,
+          0.5015689075,
+          0.4822530864,
+          0.4640319551,
+          0.4468243301,
+          0.4305564167,
+          0.415161016,
+          0.4005768306,
+          0.3867478528,
+          0.3736228263,
+          0.3611547707,
+          0.3493005606,
+          0.3380205516,
+          0.3272782493,
+          0.317040013,
+          0.3072747922,
+          0.297953891,
+          0.2890507573,
+          0.2805407929,
+          0.2724011837,
+          0.264610747,
+          0.2571497928,
+          0.25
+        ],
+        "g": [
+          0.0,
+          5028735.6321839085,
+          9308510.638297873,
+          12995049.504950495,
+          16203703.703703703,
+          19021739.13043478,
+          21516393.442622952,
+          23740310.07751938,
+          25735294.11764706,
+          27534965.034965035,
+          29166666.666666668,
+          30652866.242038216,
+          32012195.12195122,
+          33260233.918128654,
+          34410112.359550565,
+          35472972.972972974,
+          36458333.333333336,
+          37374371.859296486,
+          38228155.33980583,
+          39025821.596244134,
+          39772727.27272727,
+          40473568.28193833,
+          41132478.63247863,
+          41753112.03319502,
+          42338709.67741936,
+          42892156.8627451,
+          43416030.53435115,
+          43912639.40520446,
+          44384057.97101449,
+          44832155.477031805,
+          45258620.68965517,
+          45664983.16498317,
+          46052631.578947365,
+          46422829.58199357,
+          46776729.559748426,
+          47115384.615384616,
+          47439759.03614458,
+          47750737.463126846,
+          48049132.94797688,
+          48335694.0509915,
+          48611111.11111111,
+          48876021.79836512,
+          49131016.04278075,
+          49376640.419947505,
+          49613402.061855674,
+          49841772.151898734,
+          50062189.05472637,
+          50275061.12469438,
+          50480769.23076923,
+          50679669.03073286,
+          50872093.02325582,
+          51058352.40274599,
+          51238738.73873874,
+          51413525.49889135,
+          51582969.43231441,
+          51747311.82795699,
+          51906779.66101695,
+          52061586.6388309,
+          52211934.156378604,
+          52358012.1703854,
+          52500000.0
+        ],
+        "u_max": 40000000.0
+      },
+      "closed_form": {
+        "f": "400000000000000*m/Math.pow(u, 2)",
+        "g": "400000000000000*m*(1/6400000 - 1/u)"
+      },
+      "closed_form_params": [
+        "m",
+        "u"
+      ],
+      "params": {
+        "m": {
+          "min": 1.0,
+          "max": 500.0,
+          "default": 1.0
+        }
+      },
+      "cursor": {
+        "name": "u",
+        "label": "r  (m)",
+        "unit": "m",
+        "min": 6400000.0,
+        "max": 40000000.0,
+        "default": 12800000.0
+      },
+      "u_label": "r  (m)",
+      "f_label": "F  (N)",
+      "g_label": "ΔU  (J)",
+      "u0": 6400000.0
+    }
+  ],
+  "misconception": {
+    "claim": "It takes infinite energy to fully escape a planet's gravity, since gravity reaches out forever.",
+    "refuted_by": "Gravity does reach out forever, but it *weakens* as $1/r^2$ — and the area under $1/r^2$ from the surface to infinity is *finite*. That finite area is the escape energy $GMm/R$; divide by the mass and you get the escape speed $\\sqrt{2GM/R}$. Drag the cursor out: the potential energy rises toward a ceiling, not without bound."
+  },
+  "formulas_used": [
+    "grav-newton",
+    "en-work"
+  ],
+  "provenance": {
+    "producer": "quadrature_producer",
+    "version": "0.1.0",
+    "sympy": "1.14.0",
+    "author": "Quadrature",
+    "created": "2026-06-26"
+  }
+}
