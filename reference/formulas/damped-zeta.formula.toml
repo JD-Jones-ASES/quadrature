@@ -1,0 +1,20 @@
+id = "damped-zeta"
+name = "Damping ratio"
+domain = "mechanics"
+regime = 2
+expr = "b/(2*sqrt(k*m))"
+lhs = '\zeta'
+result_unit = "1"
+assumptions = ["linear damping"]
+lessons = ["spring-damped"]
+citations = []
+
+[variables]
+b = { unit = "kg/s", desc = "linear damping coefficient" }
+k = { unit = "N/m", desc = "spring constant" }
+m = { unit = "kg", desc = "mass" }
+
+[[edges]]
+type = "related-to"
+target = "damped-omega-d"
+gloss = "ζ < 1 underdamped, = 1 critical, > 1 overdamped"

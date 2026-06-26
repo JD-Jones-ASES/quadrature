@@ -82,12 +82,18 @@ for (const file of files.sort()) {
     if (a.kind !== "model") fail(`${rel}: assumption '${a.claim}' must be kind 'model'`);
 
   // graph integrity
+  const seriesLensOk = (s) => ["x", "v", "a"].every((k) => s[k].length === s.t.length);
   data.graphs.forEach((g, i) => {
     if (g.mode === "interactive" && !g.params)
       fail(`${rel}: graphs[${i}] is interactive but has no params`);
-    for (const k of ["x", "v", "a"])
-      if (g.series[k].length !== g.series.t.length)
-        fail(`${rel}: graphs[${i}].series.${k} length != t length`);
+    if (g.mode === "sampled") {
+      if (!g.frames?.length) fail(`${rel}: graphs[${i}] is sampled but has no frames`);
+      g.frames?.forEach((fr, fi) => {
+        if (!seriesLensOk(fr.series)) fail(`${rel}: graphs[${i}].frames[${fi}].series length mismatch`);
+      });
+    } else if (!seriesLensOk(g.series)) {
+      fail(`${rel}: graphs[${i}].series length mismatch (x/v/a vs t)`);
+    }
     if (g.svg && !existsSync(resolve(DERIVED, g.svg)))
       fail(`${rel}: graphs[${i}].svg '${g.svg}' not found in derived/`);
   });

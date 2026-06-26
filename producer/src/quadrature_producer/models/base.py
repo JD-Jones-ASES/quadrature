@@ -45,6 +45,18 @@ class Shade:
 
 
 @dataclass
+class Frame:
+    """One discrete stop of a `sampled` graph — an exact, parity-verified solution at a fixed parameter
+    value. The slider snaps between frames (the solution's functional form changes across the sweep, so it
+    cannot be a single closed form; each frame stays exact)."""
+    value: float
+    label: str
+    x_expr: sp.Expr   # functions of t only (all parameters fixed numerically)
+    v_expr: sp.Expr
+    a_expr: sp.Expr
+
+
+@dataclass
 class Scenario:
     regime: int
     t: sp.Symbol
@@ -66,6 +78,7 @@ class Scenario:
     sign_analysis: dict | None = None
     labels: tuple = ("x  (m)", "v  (m/s)", "a  (m/s²)")  # per-panel y-axis labels
     window_mode: str = "fixed"   # "landing" (clip at x returning to ground) | "fixed" (use t_window)
+    sampled: dict | None = None  # {"sweep": {name,label,unit,values:[...]}, "frames": [Frame, ...]}
 
 
 def make_result(expr: sp.Expr, subs: dict, unit: str, label: str) -> dict:

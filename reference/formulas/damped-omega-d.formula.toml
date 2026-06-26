@@ -1,0 +1,20 @@
+id = "damped-omega-d"
+name = "Damped angular frequency"
+domain = "mechanics"
+regime = 2
+expr = "sqrt(k/m - (b/(2*m))**2)"
+lhs = '\omega_d'
+result_unit = "1/s"
+assumptions = ["underdamped (b < 2√(km))", "linear damping"]
+lessons = ["spring-damped"]
+citations = []
+
+[variables]
+k = { unit = "N/m", desc = "spring constant" }
+m = { unit = "kg", desc = "mass" }
+b = { unit = "kg/s", desc = "linear damping coefficient" }
+
+[[edges]]
+type = "related-to"
+target = "shm-omega"
+gloss = "reduces to the undamped ω₀ when b = 0"

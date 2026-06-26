@@ -180,6 +180,15 @@ gate), plus an honesty disclosure that the curve is interpolated (it can hide st
 between samples). We pay that only where the intuition payoff is high. Multi-parameter `sampled` grids risk a
 committed-data blowup; prefer a 1-parameter sweep or `static`.
 
+**Implementation refinement (2026-06-26, damped oscillator).** Rather than *interpolating* between precomputed
+points (which would introduce interpolation error and force a "this curve is approximate" disclosure), the
+`sampled` mode ships **discrete exact frames**: one closed form per sweep value, each individually
+parity-verified (1e-9) like any `interactive` graph, and the slider *snaps* between them. This is honest —
+every displayed curve is an exact, verified solution — and it sidesteps the interpolation-error gate entirely.
+It fits the motivating case perfectly: the damped oscillator's solution *form* changes at critical damping, so
+a single closed form is impossible *by nature*, which is exactly why discrete exact stops (not one morphing
+formula) is the right model. The disclosure states the slider snaps between exact solutions.
+
 ## ADR-0013 — Regime-2 verification model: back-substitution into the equation of motion (2026-06-26)
 
 **Context.** Regime 1's proof is `simplify(algebra − calculus) == 0` — but in regime 2 there is no algebra

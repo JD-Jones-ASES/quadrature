@@ -1,0 +1,35 @@
+id = "spring-damped"
+title = "Damping: when the wobble dies"
+topic = "shm"
+slug = "damped"
+model = "damped-shm"
+regime = 2
+author = "Quadrature"
+created = "2026-06-26"
+scenario = "Add friction to the mass on a spring. As the damping grows the motion changes character — oscillating, then just barely returning, then crawling back. Where is the boundary, and what is the fastest a system can return to rest?"
+formulas_used = ["damped-omega-d", "damped-zeta", "shm-omega"]
+
+[parameters]
+m = 1                  # kg
+k = 16                 # N/m  (so omega_0 = 4 rad/s, critical damping b_c = 8 kg/s)
+x0 = 1                 # m, released from rest at x = 1
+v0 = 0                 # m/s
+t_window = 6           # s, shown for every damping value
+b_values = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 16]   # the damping sweep; 8 = critical
+
+[[assumptions]]
+claim = "Linear (viscous) damping: the resistive force is -b·x' (proportional to velocity)."
+kind = "model"
+
+[[assumptions]]
+claim = "Ideal Hooke's-law spring; the mass is a point."
+kind = "model"
+
+[[graphs]]
+kind = "stack"
+mode = "sampled"
+annotate = ["damping_transition"]
+
+[misconception]
+claim = "More damping always makes a system return to rest faster."
+refuted_by = "Past critical damping, adding more damping makes the return SLOWER — the overdamped system crawls back to equilibrium. The quickest return without overshoot is exactly at critical damping (ζ = 1); that is why door closers and instrument needles are tuned to it."

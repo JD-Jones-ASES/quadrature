@@ -157,28 +157,29 @@
         "emphasis": { "type": "boolean" }
       }
     },
+    "series": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["t", "x", "v", "a", "t_max"],
+      "properties": {
+        "t": { "type": "array", "items": { "type": "number" } },
+        "x": { "type": "array", "items": { "type": "number" } },
+        "v": { "type": "array", "items": { "type": "number" } },
+        "a": { "type": "array", "items": { "type": "number" } },
+        "t_max": { "type": "number" }
+      }
+    },
     "graph": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["kind", "mode", "series", "closed_form", "closed_form_params"],
+      "required": ["kind", "mode"],
       "properties": {
         "kind": { "type": "string" },
         "mode": { "enum": ["static", "interactive", "sampled"] },
         "window": { "enum": ["landing", "fixed"] },
         "annotate": { "type": "array", "items": { "type": "string" } },
         "svg": { "type": "string" },
-        "series": {
-          "type": "object",
-          "additionalProperties": false,
-          "required": ["t", "x", "v", "a", "t_max"],
-          "properties": {
-            "t": { "type": "array", "items": { "type": "number" } },
-            "x": { "type": "array", "items": { "type": "number" } },
-            "v": { "type": "array", "items": { "type": "number" } },
-            "a": { "type": "array", "items": { "type": "number" } },
-            "t_max": { "type": "number" }
-          }
-        },
+        "series": { "$ref": "#/$defs/series" },
         "closed_form": { "type": "object", "additionalProperties": { "type": "string" } },
         "closed_form_params": { "type": "array", "items": { "type": "string" } },
         "params": {
@@ -193,8 +194,43 @@
               "default": { "type": "number" }
             }
           }
+        },
+        "sweep": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["name", "label", "values"],
+          "properties": {
+            "name": { "type": "string" },
+            "label": { "type": "string" },
+            "unit": { "type": "string" },
+            "values": { "type": "array", "items": { "type": "number" } },
+            "critical": { "type": "number" }
+          }
+        },
+        "frames": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["value", "label", "closed_form", "closed_form_params", "series"],
+            "properties": {
+              "value": { "type": "number" },
+              "label": { "type": "string" },
+              "closed_form": { "type": "object", "additionalProperties": { "type": "string" } },
+              "closed_form_params": { "type": "array", "items": { "type": "string" } },
+              "series": { "$ref": "#/$defs/series" }
+            }
+          }
         }
-      }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "mode": { "const": "sampled" } } },
+          "then": { "required": ["sweep", "frames"] },
+          "else": { "required": ["series", "closed_form", "closed_form_params"] }
+        }
+      ]
     }
   }
 }

@@ -36,6 +36,30 @@ def closed_form_params(scn) -> list[str]:
     return sorted(syms)
 
 
+def closed_form_of(x_expr, v_expr, a_expr) -> dict[str, str]:
+    """JS for a frame whose parameters are already fixed (only t free)."""
+    out = {}
+    for name, expr in (("x", x_expr), ("v", v_expr), ("a", a_expr)):
+        try:
+            out[name] = jscode(expr)
+        except Exception as ex:
+            raise BuildError(f"frame closed_form.{name}: cannot emit JS for {sp.srepr(expr)}: {ex}") from ex
+    return out
+
+
+def sample_series_of(x_expr, v_expr, a_expr, t, t_max: float, n: int = 61) -> dict:
+    """Sample t-only frame expressions over [0, t_max] (rounded-t-then-evaluate, like sample_series)."""
+    ts, xs, vs, as_ = [], [], [], []
+    for i in range(n):
+        ti = round(float(sp.Rational(i, n - 1) * sp.nsimplify(t_max)), 9)
+        sub = {t: sp.Rational(str(ti))}
+        ts.append(ti)
+        xs.append(round(float(sp.N(x_expr.subs(sub), 30)), 10))
+        vs.append(round(float(sp.N(v_expr.subs(sub), 30)), 10))
+        as_.append(round(float(sp.N(a_expr.subs(sub), 30)), 10))
+    return {"t": ts, "x": xs, "v": vs, "a": as_, "t_max": round(float(t_max), 9)}
+
+
 def sample_series(scn, t_max: float, n: int = 61) -> dict:
     """SymPy's x/v/a at the default parameters over t in [0, t_max] — the parity truth.
 

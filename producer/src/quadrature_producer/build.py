@@ -20,7 +20,8 @@ import sympy as sp
 
 from . import BuildError, __version__
 from .dims import check_homogeneous, parse_unit
-from .emit import closed_form, closed_form_params, sample_series
+from .emit import (closed_form, closed_form_of, closed_form_params, sample_series,
+                   sample_series_of)
 from .graph import render_stack
 from .models import MODELS
 from .reference import build_reference
@@ -57,14 +58,29 @@ def build_problem(path: Path, root: Path) -> tuple[dict, str]:
             "window": scn.window_mode,
             "annotate": gentry.get("annotate", []),
             "svg": svg_rel,
-            "series": sample_series(scn, scn.t_window),
-            "closed_form": closed_form(scn),
-            "closed_form_params": closed_form_params(scn),
         }
-        if mode in ("interactive", "sampled"):
-            gobj["params"] = {
-                sl.name: {"min": sl.min, "max": sl.max, "default": sl.default} for sl in scn.sliders
-            }
+        if mode == "sampled":
+            if not scn.sampled:
+                raise BuildError(f"{ctx}: graph mode 'sampled' but the model produced no frames")
+            gobj["sweep"] = scn.sampled["sweep"]
+            gobj["frames"] = [
+                {
+                    "value": fr.value,
+                    "label": fr.label,
+                    "closed_form": closed_form_of(fr.x_expr, fr.v_expr, fr.a_expr),
+                    "closed_form_params": ["t"],
+                    "series": sample_series_of(fr.x_expr, fr.v_expr, fr.a_expr, scn.t, scn.t_window),
+                }
+                for fr in scn.sampled["frames"]
+            ]
+        else:
+            gobj["series"] = sample_series(scn, scn.t_window)
+            gobj["closed_form"] = closed_form(scn)
+            gobj["closed_form_params"] = closed_form_params(scn)
+            if mode == "interactive":
+                gobj["params"] = {
+                    sl.name: {"min": sl.min, "max": sl.max, "default": sl.default} for sl in scn.sliders
+                }
         graphs.append(gobj)
 
     solution = {

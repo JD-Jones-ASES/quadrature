@@ -32,40 +32,47 @@ function compile(expr, params) {
 }
 
 let count = 0;
+function checkUnit(label, closedForm, params, series, paramValue) {
+  const { t, t_max, ...rest } = series; // rest = {x, v, a}
+  for (const [name, expr] of Object.entries(closedForm)) {
+    if (!(name in rest)) continue;
+    let fn;
+    try {
+      fn = compile(expr, params);
+    } catch (e) {
+      fail(`${label}.closed_form.${name}: cannot compile '${expr}' — ${e.message}`);
+      continue;
+    }
+    const expected = rest[name];
+    for (let i = 0; i < t.length; i++) {
+      const args = params.map((p) => (p === "t" ? t[i] : paramValue(p)));
+      if (args.some((a) => a === undefined)) {
+        fail(`${label}.${name}: no value for a closed_form parameter`);
+        break;
+      }
+      const got = fn(...args);
+      const want = expected[i];
+      if (Math.abs(got - want) > ATOL + RTOL * Math.abs(want)) {
+        fail(`${label}.${name}[${i}] (t=${t[i]}): JS ${got} vs SymPy ${want} (Δ=${Math.abs(got - want).toExponential(2)})`);
+        break;
+      }
+      count++;
+    }
+  }
+}
+
 for (const file of walk(DERIVED).sort()) {
   const rel = relative(ROOT, file).replace(/\\/g, "/");
   const data = JSON.parse(readFileSync(file, "utf8"));
   const ic = data.initial_conditions ?? {};
   data.graphs.forEach((g, gi) => {
-    if (!g.closed_form || !g.series) return;
-    const params = g.closed_form_params;
-    const { t, t_max, ...rest } = g.series; // rest = {x, v, a}
-    for (const [name, expr] of Object.entries(g.closed_form)) {
-      if (!(name in rest)) continue;
-      let fn;
-      try {
-        fn = compile(expr, params);
-      } catch (e) {
-        fail(`${rel} graphs[${gi}].closed_form.${name}: cannot compile '${expr}' — ${e.message}`);
-        continue;
-      }
-      const expected = rest[name];
-      for (let i = 0; i < t.length; i++) {
-        const args = params.map((p) => (p === "t" ? t[i] : (ic[p] ?? g.params?.[p]?.default)));
-        if (args.some((a) => a === undefined)) {
-          fail(`${rel} graphs[${gi}].${name}: no value for a closed_form parameter`);
-          break;
-        }
-        const got = fn(...args);
-        const want = expected[i];
-        const diff = Math.abs(got - want);
-        if (diff > ATOL + RTOL * Math.abs(want)) {
-          fail(`${rel} graphs[${gi}].${name}[${i}] (t=${t[i]}): JS ${got} vs SymPy ${want} (Δ=${diff.toExponential(2)})`);
-          break;
-        }
-        count++;
-      }
-    }
+    if (g.closed_form && g.series)
+      checkUnit(`${rel} graphs[${gi}]`, g.closed_form, g.closed_form_params, g.series,
+                (p) => ic[p] ?? g.params?.[p]?.default);
+    if (g.frames)
+      g.frames.forEach((fr, fi) =>
+        checkUnit(`${rel} graphs[${gi}].frames[${fi}]`, fr.closed_form, fr.closed_form_params, fr.series,
+                  () => undefined));
   });
 }
 

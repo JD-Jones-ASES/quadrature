@@ -11,8 +11,12 @@ plan in [`ROADMAP.md`](./ROADMAP.md).
   `sampled` mode reserved for the no-closed-form minority.
 - Two regime-2 lessons, fully verified and interactive: **simple harmonic motion** and **terminal velocity
   (linear drag)**. Dynamic `[slug]` lesson route + a `/lessons/` index.
-- Reference breadth-fill (ADR-0007): 3 → 24 mechanics formulas (dynamics, momentum, energy, circular,
-  rotation, gravitation), each SymPy-unit-verified; concept graph now 24 nodes / 23 edges.
+- **Sampled graph mode** (ADR-0012 refinement) + the **damped oscillator** lesson: the under→critical→over
+  transition, where the solution's form changes at critical damping. The damping slider snaps between
+  discrete, exact, individually parity-verified frames. Governing proof covers all three forms + the energy
+  dissipation rate dE/dt = −b v².
+- Reference breadth-fill (ADR-0007): 3 → 26 mechanics formulas (dynamics, momentum, energy, circular,
+  rotation, gravitation, damping), each SymPy-unit-verified; concept graph now 26 nodes / 25 edges.
 - Post-Phase-0 polish: fixed four Astro whitespace-gotcha dropped spaces; Matplotlib figure QC pass
   (per-panel limits, annotation bboxes, a–t panel scaled to include y=0).
 

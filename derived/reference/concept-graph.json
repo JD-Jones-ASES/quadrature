@@ -11,8 +11,8 @@
       "name": "Centripetal acceleration",
       "domain": "mechanics",
       "degree": 1,
-      "x": 357.79,
-      "y": 363.19
+      "x": 343.64,
+      "y": 40
     },
     {
       "id": "circ-centripetal-force",
@@ -20,8 +20,26 @@
       "name": "Centripetal force",
       "domain": "mechanics",
       "degree": 2,
-      "x": 432.65,
-      "y": 440
+      "x": 366.56,
+      "y": 40
+    },
+    {
+      "id": "damped-omega-d",
+      "label": "\\omega_d",
+      "name": "Damped angular frequency",
+      "domain": "mechanics",
+      "degree": 2,
+      "x": 503.21,
+      "y": 222.55
+    },
+    {
+      "id": "damped-zeta",
+      "label": "\\zeta",
+      "name": "Damping ratio",
+      "domain": "mechanics",
+      "degree": 1,
+      "x": 529.16,
+      "y": 45.96
     },
     {
       "id": "drag-terminal",
@@ -29,7 +47,7 @@
       "name": "Terminal velocity (linear drag)",
       "domain": "mechanics",
       "degree": 1,
-      "x": 409.33,
+      "x": 600,
       "y": 40
     },
     {
@@ -38,8 +56,8 @@
       "name": "Velocity under linear drag",
       "domain": "mechanics",
       "degree": 2,
-      "x": 344.96,
-      "y": 40
+      "x": 600,
+      "y": 206.35
     },
     {
       "id": "dyn-friction-kinetic",
@@ -47,8 +65,8 @@
       "name": "Kinetic friction",
       "domain": "mechanics",
       "degree": 0,
-      "x": 600,
-      "y": 40
+      "x": 40,
+      "y": 440
     },
     {
       "id": "dyn-hookes-law",
@@ -56,8 +74,8 @@
       "name": "Hooke's law (spring force)",
       "domain": "mechanics",
       "degree": 2,
-      "x": 40,
-      "y": 198.98
+      "x": 200.21,
+      "y": 333.92
     },
     {
       "id": "dyn-newton-2",
@@ -65,8 +83,8 @@
       "name": "Newton's second law",
       "domain": "mechanics",
       "degree": 3,
-      "x": 274.24,
-      "y": 440
+      "x": 474.75,
+      "y": 137.85
     },
     {
       "id": "dyn-weight",
@@ -74,8 +92,8 @@
       "name": "Weight (gravitational force near Earth)",
       "domain": "mechanics",
       "degree": 2,
-      "x": 170.84,
-      "y": 440
+      "x": 600,
+      "y": 87.47
     },
     {
       "id": "en-kinetic",
@@ -83,8 +101,8 @@
       "name": "Kinetic energy",
       "domain": "mechanics",
       "degree": 4,
-      "x": 220.68,
-      "y": 237.83
+      "x": 40,
+      "y": 222.53
     },
     {
       "id": "en-power",
@@ -92,8 +110,8 @@
       "name": "Mechanical power (constant force)",
       "domain": "mechanics",
       "degree": 1,
-      "x": 558.67,
-      "y": 40
+      "x": 84.72,
+      "y": 97.66
     },
     {
       "id": "en-spring-pe",
@@ -101,8 +119,8 @@
       "name": "Elastic potential energy",
       "domain": "mechanics",
       "degree": 2,
-      "x": 102.11,
-      "y": 76.85
+      "x": 79.26,
+      "y": 389.1
     },
     {
       "id": "en-work",
@@ -110,8 +128,8 @@
       "name": "Work (constant force along displacement)",
       "domain": "mechanics",
       "degree": 2,
-      "x": 367.77,
-      "y": 139.8
+      "x": 40,
+      "y": 40
     },
     {
       "id": "grav-newton",
@@ -119,8 +137,8 @@
       "name": "Newton's law of universal gravitation",
       "domain": "mechanics",
       "degree": 1,
-      "x": 312.33,
-      "y": 440
+      "x": 600,
+      "y": 149.64
     },
     {
       "id": "kin-a-const",
@@ -128,8 +146,8 @@
       "name": "Constant acceleration",
       "domain": "mechanics",
       "degree": 2,
-      "x": 482.12,
-      "y": 40
+      "x": 600,
+      "y": 440
     },
     {
       "id": "kin-v-of-t",
@@ -137,8 +155,8 @@
       "name": "Velocity under constant acceleration",
       "domain": "mechanics",
       "degree": 5,
-      "x": 504.47,
-      "y": 40
+      "x": 600,
+      "y": 376.1
     },
     {
       "id": "kin-x-of-t",
@@ -146,8 +164,8 @@
       "name": "Position under constant acceleration",
       "domain": "mechanics",
       "degree": 2,
-      "x": 564.25,
-      "y": 113.86
+      "x": 561.81,
+      "y": 440
     },
     {
       "id": "mom-impulse",
@@ -155,8 +173,8 @@
       "name": "Impulse (constant force)",
       "domain": "mechanics",
       "degree": 1,
-      "x": 600,
-      "y": 304.03
+      "x": 40,
+      "y": 440
     },
     {
       "id": "mom-momentum",
@@ -164,8 +182,8 @@
       "name": "Linear momentum",
       "domain": "mechanics",
       "degree": 3,
-      "x": 435.03,
-      "y": 301.07
+      "x": 40,
+      "y": 382.03
     },
     {
       "id": "rot-angular-momentum",
@@ -173,8 +191,8 @@
       "name": "Angular momentum (rigid body)",
       "domain": "mechanics",
       "degree": 1,
-      "x": 352.66,
-      "y": 440
+      "x": 40,
+      "y": 317.97
     },
     {
       "id": "rot-kinetic",
@@ -182,8 +200,8 @@
       "name": "Rotational kinetic energy",
       "domain": "mechanics",
       "degree": 1,
-      "x": 64.86,
-      "y": 375.05
+      "x": 40,
+      "y": 108.1
     },
     {
       "id": "rot-torque",
@@ -191,17 +209,17 @@
       "name": "Torque (force at a lever arm)",
       "domain": "mechanics",
       "degree": 1,
-      "x": 128.27,
-      "y": 440
+      "x": 442.33,
+      "y": 337.09
     },
     {
       "id": "shm-omega",
       "label": "\\omega",
       "name": "Angular frequency of a spring–mass oscillator",
       "domain": "mechanics",
-      "degree": 3,
-      "x": 40,
-      "y": 145.11
+      "degree": 4,
+      "x": 335.28,
+      "y": 221.04
     },
     {
       "id": "shm-period",
@@ -209,8 +227,8 @@
       "name": "Period of a spring–mass oscillator",
       "domain": "mechanics",
       "degree": 2,
-      "x": 40,
-      "y": 282.58
+      "x": 211.05,
+      "y": 196.14
     },
     {
       "id": "shm-x-of-t",
@@ -218,8 +236,8 @@
       "name": "Position in simple harmonic motion",
       "domain": "mechanics",
       "degree": 2,
-      "x": 40.92,
-      "y": 153.61
+      "x": 297.67,
+      "y": 338.74
     }
   ],
   "edges": [
@@ -234,6 +252,18 @@
       "target": "dyn-newton-2",
       "type": "special-case-of",
       "gloss": "Newton's second law for the inward acceleration"
+    },
+    {
+      "source": "damped-omega-d",
+      "target": "shm-omega",
+      "type": "related-to",
+      "gloss": "reduces to the undamped ω₀ when b = 0"
+    },
+    {
+      "source": "damped-zeta",
+      "target": "damped-omega-d",
+      "type": "related-to",
+      "gloss": "ζ < 1 underdamped, = 1 critical, > 1 overdamped"
     },
     {
       "source": "drag-v-of-t",

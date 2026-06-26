@@ -68,6 +68,81 @@
       }
     },
     {
+      "id": "damped-omega-d",
+      "name": "Damped angular frequency",
+      "domain": "mechanics",
+      "regime": 2,
+      "lhs": "\\omega_d",
+      "expr": "sqrt(k/m - (b/(2*m))**2)",
+      "expr_srepr": "Pow(Add(Mul(Integer(-1), Rational(1, 4), Pow(Symbol('b', real=True), Integer(2)), Pow(Symbol('m', real=True), Integer(-2))), Mul(Symbol('k', real=True), Pow(Symbol('m', real=True), Integer(-1)))), Rational(1, 2))",
+      "latex": "\\omega_d = \\sqrt{- \\frac{b^{2}}{4 m^{2}} + \\frac{k}{m}}",
+      "result_unit": "1/s",
+      "variables": {
+        "k": {
+          "unit": "N/m",
+          "desc": "spring constant"
+        },
+        "m": {
+          "unit": "kg",
+          "desc": "mass"
+        },
+        "b": {
+          "unit": "kg/s",
+          "desc": "linear damping coefficient"
+        }
+      },
+      "assumptions": [
+        "underdamped (b < 2√(km))",
+        "linear damping"
+      ],
+      "derivation": null,
+      "lessons": [
+        "spring-damped"
+      ],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "damped-zeta",
+      "name": "Damping ratio",
+      "domain": "mechanics",
+      "regime": 2,
+      "lhs": "\\zeta",
+      "expr": "b/(2*sqrt(k*m))",
+      "expr_srepr": "Mul(Rational(1, 2), Symbol('b', real=True), Pow(Mul(Symbol('k', real=True), Symbol('m', real=True)), Rational(-1, 2)))",
+      "latex": "\\zeta = \\frac{b}{2 \\sqrt{k m}}",
+      "result_unit": "1",
+      "variables": {
+        "b": {
+          "unit": "kg/s",
+          "desc": "linear damping coefficient"
+        },
+        "k": {
+          "unit": "N/m",
+          "desc": "spring constant"
+        },
+        "m": {
+          "unit": "kg",
+          "desc": "mass"
+        }
+      },
+      "assumptions": [
+        "linear damping"
+      ],
+      "derivation": null,
+      "lessons": [
+        "spring-damped"
+      ],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
       "id": "drag-terminal",
       "name": "Terminal velocity (linear drag)",
       "domain": "mechanics",
