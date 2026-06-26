@@ -1,0 +1,18 @@
+id = "dyn-hookes-law"
+name = "Hooke's law (spring force)"
+domain = "mechanics"
+regime = 1
+expr = "-k*x"
+lhs = "F"
+result_unit = "N"
+assumptions = ["ideal spring", "within the elastic limit"]
+citations = []
+
+[variables]
+k = { unit = "N/m", desc = "spring constant" }
+x = { unit = "m", desc = "displacement from equilibrium" }
+
+[[edges]]
+type = "related-to"
+target = "shm-omega"
+gloss = "this restoring force is what produces SHM"

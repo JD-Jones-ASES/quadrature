@@ -1,0 +1,18 @@
+id = "mom-impulse"
+name = "Impulse (constant force)"
+domain = "mechanics"
+regime = 1
+expr = "F*t"
+lhs = "J"
+result_unit = "N*s"
+assumptions = ["constant force over the interval"]
+citations = []
+
+[variables]
+F = { unit = "N", desc = "force" }
+t = { unit = "s", desc = "time interval" }
+
+[[edges]]
+type = "related-to"
+target = "mom-momentum"
+gloss = "impulse equals the change in momentum (J = Δp)"

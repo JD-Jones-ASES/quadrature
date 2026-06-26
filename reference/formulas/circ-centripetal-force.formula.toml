@@ -1,0 +1,23 @@
+id = "circ-centripetal-force"
+name = "Centripetal force"
+domain = "mechanics"
+regime = 1
+expr = "m*v**2/r"
+lhs = "F_c"
+result_unit = "N"
+assumptions = ["uniform circular motion"]
+citations = []
+
+[variables]
+m = { unit = "kg", desc = "mass" }
+v = { unit = "m/s", desc = "speed" }
+r = { unit = "m", desc = "radius of the circular path" }
+
+[[edges]]
+type = "related-to"
+target = "circ-centripetal-accel"
+gloss = "F_c = m a_c"
+[[edges]]
+type = "special-case-of"
+target = "dyn-newton-2"
+gloss = "Newton's second law for the inward acceleration"

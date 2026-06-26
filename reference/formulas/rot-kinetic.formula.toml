@@ -1,0 +1,18 @@
+id = "rot-kinetic"
+name = "Rotational kinetic energy"
+domain = "mechanics"
+regime = 1
+expr = "I*omega**2/2"
+lhs = "K_{\\text{rot}}"
+result_unit = "J"
+assumptions = ["rotation about a fixed axis"]
+citations = []
+
+[variables]
+I = { unit = "kg*m**2", desc = "moment of inertia" }
+omega = { unit = "1/s", desc = "angular velocity" }
+
+[[edges]]
+type = "related-to"
+target = "en-kinetic"
+gloss = "the rotational analog of ½mv²"

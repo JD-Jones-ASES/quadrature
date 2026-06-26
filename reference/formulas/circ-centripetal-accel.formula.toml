@@ -1,0 +1,13 @@
+id = "circ-centripetal-accel"
+name = "Centripetal acceleration"
+domain = "mechanics"
+regime = 1
+expr = "v**2/r"
+lhs = "a_c"
+result_unit = "m/s**2"
+assumptions = ["uniform circular motion"]
+citations = []
+
+[variables]
+v = { unit = "m/s", desc = "speed" }
+r = { unit = "m", desc = "radius of the circular path" }

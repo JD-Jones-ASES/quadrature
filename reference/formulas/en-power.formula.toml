@@ -1,0 +1,18 @@
+id = "en-power"
+name = "Mechanical power (constant force)"
+domain = "mechanics"
+regime = 1
+expr = "F*v"
+lhs = "P"
+result_unit = "W"
+assumptions = ["force parallel to velocity"]
+citations = []
+
+[variables]
+F = { unit = "N", desc = "force" }
+v = { unit = "m/s", desc = "speed" }
+
+[[edges]]
+type = "related-to"
+target = "en-work"
+gloss = "power is the rate of doing work"

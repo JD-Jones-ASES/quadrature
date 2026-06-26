@@ -2,6 +2,72 @@
   "schema_version": 1,
   "formulas": [
     {
+      "id": "circ-centripetal-accel",
+      "name": "Centripetal acceleration",
+      "domain": "mechanics",
+      "regime": 1,
+      "lhs": "a_c",
+      "expr": "v**2/r",
+      "expr_srepr": "Mul(Pow(Symbol('r', real=True), Integer(-1)), Pow(Symbol('v', real=True), Integer(2)))",
+      "latex": "a_c = \\frac{v^{2}}{r}",
+      "result_unit": "m/s**2",
+      "variables": {
+        "v": {
+          "unit": "m/s",
+          "desc": "speed"
+        },
+        "r": {
+          "unit": "m",
+          "desc": "radius of the circular path"
+        }
+      },
+      "assumptions": [
+        "uniform circular motion"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "circ-centripetal-force",
+      "name": "Centripetal force",
+      "domain": "mechanics",
+      "regime": 1,
+      "lhs": "F_c",
+      "expr": "m*v**2/r",
+      "expr_srepr": "Mul(Symbol('m', real=True), Pow(Symbol('r', real=True), Integer(-1)), Pow(Symbol('v', real=True), Integer(2)))",
+      "latex": "F_c = \\frac{m v^{2}}{r}",
+      "result_unit": "N",
+      "variables": {
+        "m": {
+          "unit": "kg",
+          "desc": "mass"
+        },
+        "v": {
+          "unit": "m/s",
+          "desc": "speed"
+        },
+        "r": {
+          "unit": "m",
+          "desc": "radius of the circular path"
+        }
+      },
+      "assumptions": [
+        "uniform circular motion"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
       "id": "drag-terminal",
       "name": "Terminal velocity (linear drag)",
       "domain": "mechanics",
@@ -79,6 +145,298 @@
       "lessons": [
         "freefall-drag"
       ],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "dyn-friction-kinetic",
+      "name": "Kinetic friction",
+      "domain": "mechanics",
+      "regime": 1,
+      "lhs": "f_k",
+      "expr": "mu_k*F_N",
+      "expr_srepr": "Mul(Symbol('F_N', real=True), Symbol('mu_k', real=True))",
+      "latex": "f_k = F_{N} \\mu_{k}",
+      "result_unit": "N",
+      "variables": {
+        "mu_k": {
+          "unit": "1",
+          "desc": "coefficient of kinetic friction (dimensionless)"
+        },
+        "F_N": {
+          "unit": "N",
+          "desc": "normal force"
+        }
+      },
+      "assumptions": [
+        "surfaces sliding",
+        "Coulomb friction model"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "dyn-hookes-law",
+      "name": "Hooke's law (spring force)",
+      "domain": "mechanics",
+      "regime": 1,
+      "lhs": "F",
+      "expr": "-k*x",
+      "expr_srepr": "Mul(Integer(-1), Symbol('k', real=True), Symbol('x', real=True))",
+      "latex": "F = - k x",
+      "result_unit": "N",
+      "variables": {
+        "k": {
+          "unit": "N/m",
+          "desc": "spring constant"
+        },
+        "x": {
+          "unit": "m",
+          "desc": "displacement from equilibrium"
+        }
+      },
+      "assumptions": [
+        "ideal spring",
+        "within the elastic limit"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "dyn-newton-2",
+      "name": "Newton's second law",
+      "domain": "mechanics",
+      "regime": 1,
+      "lhs": "F_{\\text{net}}",
+      "expr": "m*a",
+      "expr_srepr": "Mul(Symbol('a', real=True), Symbol('m', real=True))",
+      "latex": "F_{\\text{net}} = a m",
+      "result_unit": "N",
+      "variables": {
+        "m": {
+          "unit": "kg",
+          "desc": "mass"
+        },
+        "a": {
+          "unit": "m/s**2",
+          "desc": "acceleration"
+        }
+      },
+      "assumptions": [
+        "F is the net force",
+        "m constant"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "dyn-weight",
+      "name": "Weight (gravitational force near Earth)",
+      "domain": "mechanics",
+      "regime": 1,
+      "lhs": "F_g",
+      "expr": "m*g",
+      "expr_srepr": "Mul(Symbol('g', real=True), Symbol('m', real=True))",
+      "latex": "F_g = g m",
+      "result_unit": "N",
+      "variables": {
+        "m": {
+          "unit": "kg",
+          "desc": "mass"
+        },
+        "g": {
+          "unit": "m/s**2",
+          "desc": "gravitational acceleration (signed; -10 in the house convention)"
+        }
+      },
+      "assumptions": [
+        "uniform gravitational field",
+        "g is the signed acceleration (up positive)"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "en-kinetic",
+      "name": "Kinetic energy",
+      "domain": "mechanics",
+      "regime": 1,
+      "lhs": "K",
+      "expr": "m*v**2/2",
+      "expr_srepr": "Mul(Rational(1, 2), Symbol('m', real=True), Pow(Symbol('v', real=True), Integer(2)))",
+      "latex": "K = \\frac{m v^{2}}{2}",
+      "result_unit": "J",
+      "variables": {
+        "m": {
+          "unit": "kg",
+          "desc": "mass"
+        },
+        "v": {
+          "unit": "m/s",
+          "desc": "speed"
+        }
+      },
+      "assumptions": [
+        "speeds well below light speed"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "en-power",
+      "name": "Mechanical power (constant force)",
+      "domain": "mechanics",
+      "regime": 1,
+      "lhs": "P",
+      "expr": "F*v",
+      "expr_srepr": "Mul(Symbol('F', real=True), Symbol('v', real=True))",
+      "latex": "P = F v",
+      "result_unit": "W",
+      "variables": {
+        "F": {
+          "unit": "N",
+          "desc": "force"
+        },
+        "v": {
+          "unit": "m/s",
+          "desc": "speed"
+        }
+      },
+      "assumptions": [
+        "force parallel to velocity"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "en-spring-pe",
+      "name": "Elastic potential energy",
+      "domain": "mechanics",
+      "regime": 1,
+      "lhs": "U_s",
+      "expr": "k*x**2/2",
+      "expr_srepr": "Mul(Rational(1, 2), Symbol('k', real=True), Pow(Symbol('x', real=True), Integer(2)))",
+      "latex": "U_s = \\frac{k x^{2}}{2}",
+      "result_unit": "J",
+      "variables": {
+        "k": {
+          "unit": "N/m",
+          "desc": "spring constant"
+        },
+        "x": {
+          "unit": "m",
+          "desc": "displacement from equilibrium"
+        }
+      },
+      "assumptions": [
+        "ideal spring (Hooke's law)"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "en-work",
+      "name": "Work (constant force along displacement)",
+      "domain": "mechanics",
+      "regime": 1,
+      "lhs": "W",
+      "expr": "F*d",
+      "expr_srepr": "Mul(Symbol('F', real=True), Symbol('d', real=True))",
+      "latex": "W = F d",
+      "result_unit": "J",
+      "variables": {
+        "F": {
+          "unit": "N",
+          "desc": "force component along the motion"
+        },
+        "d": {
+          "unit": "m",
+          "desc": "displacement"
+        }
+      },
+      "assumptions": [
+        "constant force parallel to displacement"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "grav-newton",
+      "name": "Newton's law of universal gravitation",
+      "domain": "mechanics",
+      "regime": 1,
+      "lhs": "F",
+      "expr": "G*m1*m2/r**2",
+      "expr_srepr": "Mul(Symbol('G', real=True), Symbol('m1', real=True), Symbol('m2', real=True), Pow(Symbol('r', real=True), Integer(-2)))",
+      "latex": "F = \\frac{G m_{1} m_{2}}{r^{2}}",
+      "result_unit": "N",
+      "variables": {
+        "G": {
+          "unit": "N*m**2/kg**2",
+          "desc": "gravitational constant"
+        },
+        "m1": {
+          "unit": "kg",
+          "desc": "first mass"
+        },
+        "m2": {
+          "unit": "kg",
+          "desc": "second mass"
+        },
+        "r": {
+          "unit": "m",
+          "desc": "separation between centers"
+        }
+      },
+      "assumptions": [
+        "point masses (or spherical bodies)",
+        "magnitude of the attractive force"
+      ],
+      "derivation": null,
+      "lessons": [],
       "citations": [],
       "verified": {
         "units": true,
@@ -198,6 +556,161 @@
       "verified": {
         "units": true,
         "derivation": true
+      }
+    },
+    {
+      "id": "mom-impulse",
+      "name": "Impulse (constant force)",
+      "domain": "mechanics",
+      "regime": 1,
+      "lhs": "J",
+      "expr": "F*t",
+      "expr_srepr": "Mul(Symbol('F', real=True), Symbol('t', real=True))",
+      "latex": "J = F t",
+      "result_unit": "N*s",
+      "variables": {
+        "F": {
+          "unit": "N",
+          "desc": "force"
+        },
+        "t": {
+          "unit": "s",
+          "desc": "time interval"
+        }
+      },
+      "assumptions": [
+        "constant force over the interval"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "mom-momentum",
+      "name": "Linear momentum",
+      "domain": "mechanics",
+      "regime": 1,
+      "lhs": "p",
+      "expr": "m*v",
+      "expr_srepr": "Mul(Symbol('m', real=True), Symbol('v', real=True))",
+      "latex": "p = m v",
+      "result_unit": "kg*m/s",
+      "variables": {
+        "m": {
+          "unit": "kg",
+          "desc": "mass"
+        },
+        "v": {
+          "unit": "m/s",
+          "desc": "velocity"
+        }
+      },
+      "assumptions": [
+        "speeds well below light speed"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "rot-angular-momentum",
+      "name": "Angular momentum (rigid body)",
+      "domain": "mechanics",
+      "regime": 1,
+      "lhs": "L",
+      "expr": "I*omega",
+      "expr_srepr": "Mul(Symbol('I', real=True), Symbol('omega', real=True))",
+      "latex": "L = I \\omega",
+      "result_unit": "kg*m**2/s",
+      "variables": {
+        "I": {
+          "unit": "kg*m**2",
+          "desc": "moment of inertia"
+        },
+        "omega": {
+          "unit": "1/s",
+          "desc": "angular velocity"
+        }
+      },
+      "assumptions": [
+        "rotation about a fixed axis"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "rot-kinetic",
+      "name": "Rotational kinetic energy",
+      "domain": "mechanics",
+      "regime": 1,
+      "lhs": "K_{\\text{rot}}",
+      "expr": "I*omega**2/2",
+      "expr_srepr": "Mul(Rational(1, 2), Symbol('I', real=True), Pow(Symbol('omega', real=True), Integer(2)))",
+      "latex": "K_{\\text{rot}} = \\frac{I \\omega^{2}}{2}",
+      "result_unit": "J",
+      "variables": {
+        "I": {
+          "unit": "kg*m**2",
+          "desc": "moment of inertia"
+        },
+        "omega": {
+          "unit": "1/s",
+          "desc": "angular velocity"
+        }
+      },
+      "assumptions": [
+        "rotation about a fixed axis"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "rot-torque",
+      "name": "Torque (force at a lever arm)",
+      "domain": "mechanics",
+      "regime": 1,
+      "lhs": "\\tau",
+      "expr": "r*F",
+      "expr_srepr": "Mul(Symbol('F', real=True), Symbol('r', real=True))",
+      "latex": "\\tau = F r",
+      "result_unit": "N*m",
+      "variables": {
+        "r": {
+          "unit": "m",
+          "desc": "lever arm"
+        },
+        "F": {
+          "unit": "N",
+          "desc": "force"
+        }
+      },
+      "assumptions": [
+        "force perpendicular to the lever arm"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
       }
     },
     {

@@ -1,0 +1,18 @@
+id = "en-kinetic"
+name = "Kinetic energy"
+domain = "mechanics"
+regime = 1
+expr = "m*v**2/2"
+lhs = "K"
+result_unit = "J"
+assumptions = ["speeds well below light speed"]
+citations = []
+
+[variables]
+m = { unit = "kg", desc = "mass" }
+v = { unit = "m/s", desc = "speed" }
+
+[[edges]]
+type = "related-to"
+target = "mom-momentum"
+gloss = "both built from mass and velocity (K = p²/2m)"

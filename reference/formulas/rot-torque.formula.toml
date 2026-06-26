@@ -1,0 +1,18 @@
+id = "rot-torque"
+name = "Torque (force at a lever arm)"
+domain = "mechanics"
+regime = 1
+expr = "r*F"
+lhs = '\tau'
+result_unit = "N*m"
+assumptions = ["force perpendicular to the lever arm"]
+citations = []
+
+[variables]
+r = { unit = "m", desc = "lever arm" }
+F = { unit = "N", desc = "force" }
+
+[[edges]]
+type = "related-to"
+target = "dyn-newton-2"
+gloss = "the rotational analog of force"

@@ -6,12 +6,30 @@
   },
   "nodes": [
     {
+      "id": "circ-centripetal-accel",
+      "label": "a_c",
+      "name": "Centripetal acceleration",
+      "domain": "mechanics",
+      "degree": 1,
+      "x": 357.79,
+      "y": 363.19
+    },
+    {
+      "id": "circ-centripetal-force",
+      "label": "F_c",
+      "name": "Centripetal force",
+      "domain": "mechanics",
+      "degree": 2,
+      "x": 432.65,
+      "y": 440
+    },
+    {
       "id": "drag-terminal",
       "label": "v_{\\text{term}}",
       "name": "Terminal velocity (linear drag)",
       "domain": "mechanics",
       "degree": 1,
-      "x": 316.5,
+      "x": 409.33,
       "y": 40
     },
     {
@@ -20,8 +38,89 @@
       "name": "Velocity under linear drag",
       "domain": "mechanics",
       "degree": 2,
-      "x": 442.84,
-      "y": 62.09
+      "x": 344.96,
+      "y": 40
+    },
+    {
+      "id": "dyn-friction-kinetic",
+      "label": "f_k",
+      "name": "Kinetic friction",
+      "domain": "mechanics",
+      "degree": 0,
+      "x": 600,
+      "y": 40
+    },
+    {
+      "id": "dyn-hookes-law",
+      "label": "F",
+      "name": "Hooke's law (spring force)",
+      "domain": "mechanics",
+      "degree": 2,
+      "x": 40,
+      "y": 198.98
+    },
+    {
+      "id": "dyn-newton-2",
+      "label": "F_{\\text{net}}",
+      "name": "Newton's second law",
+      "domain": "mechanics",
+      "degree": 3,
+      "x": 274.24,
+      "y": 440
+    },
+    {
+      "id": "dyn-weight",
+      "label": "F_g",
+      "name": "Weight (gravitational force near Earth)",
+      "domain": "mechanics",
+      "degree": 2,
+      "x": 170.84,
+      "y": 440
+    },
+    {
+      "id": "en-kinetic",
+      "label": "K",
+      "name": "Kinetic energy",
+      "domain": "mechanics",
+      "degree": 4,
+      "x": 220.68,
+      "y": 237.83
+    },
+    {
+      "id": "en-power",
+      "label": "P",
+      "name": "Mechanical power (constant force)",
+      "domain": "mechanics",
+      "degree": 1,
+      "x": 558.67,
+      "y": 40
+    },
+    {
+      "id": "en-spring-pe",
+      "label": "U_s",
+      "name": "Elastic potential energy",
+      "domain": "mechanics",
+      "degree": 2,
+      "x": 102.11,
+      "y": 76.85
+    },
+    {
+      "id": "en-work",
+      "label": "W",
+      "name": "Work (constant force along displacement)",
+      "domain": "mechanics",
+      "degree": 2,
+      "x": 367.77,
+      "y": 139.8
+    },
+    {
+      "id": "grav-newton",
+      "label": "F",
+      "name": "Newton's law of universal gravitation",
+      "domain": "mechanics",
+      "degree": 1,
+      "x": 312.33,
+      "y": 440
     },
     {
       "id": "kin-a-const",
@@ -29,8 +128,8 @@
       "name": "Constant acceleration",
       "domain": "mechanics",
       "degree": 2,
-      "x": 587.18,
-      "y": 273.89
+      "x": 482.12,
+      "y": 40
     },
     {
       "id": "kin-v-of-t",
@@ -38,8 +137,8 @@
       "name": "Velocity under constant acceleration",
       "domain": "mechanics",
       "degree": 5,
-      "x": 462.1,
-      "y": 219.66
+      "x": 504.47,
+      "y": 40
     },
     {
       "id": "kin-x-of-t",
@@ -47,17 +146,62 @@
       "name": "Position under constant acceleration",
       "domain": "mechanics",
       "degree": 2,
-      "x": 419.32,
-      "y": 352.56
+      "x": 564.25,
+      "y": 113.86
+    },
+    {
+      "id": "mom-impulse",
+      "label": "J",
+      "name": "Impulse (constant force)",
+      "domain": "mechanics",
+      "degree": 1,
+      "x": 600,
+      "y": 304.03
+    },
+    {
+      "id": "mom-momentum",
+      "label": "p",
+      "name": "Linear momentum",
+      "domain": "mechanics",
+      "degree": 3,
+      "x": 435.03,
+      "y": 301.07
+    },
+    {
+      "id": "rot-angular-momentum",
+      "label": "L",
+      "name": "Angular momentum (rigid body)",
+      "domain": "mechanics",
+      "degree": 1,
+      "x": 352.66,
+      "y": 440
+    },
+    {
+      "id": "rot-kinetic",
+      "label": "K_{\\text{rot}}",
+      "name": "Rotational kinetic energy",
+      "domain": "mechanics",
+      "degree": 1,
+      "x": 64.86,
+      "y": 375.05
+    },
+    {
+      "id": "rot-torque",
+      "label": "\\tau",
+      "name": "Torque (force at a lever arm)",
+      "domain": "mechanics",
+      "degree": 1,
+      "x": 128.27,
+      "y": 440
     },
     {
       "id": "shm-omega",
       "label": "\\omega",
       "name": "Angular frequency of a spring–mass oscillator",
       "domain": "mechanics",
-      "degree": 2,
-      "x": 183.1,
-      "y": 310.22
+      "degree": 3,
+      "x": 40,
+      "y": 145.11
     },
     {
       "id": "shm-period",
@@ -65,8 +209,8 @@
       "name": "Period of a spring–mass oscillator",
       "domain": "mechanics",
       "degree": 2,
-      "x": 103.18,
-      "y": 424.99
+      "x": 40,
+      "y": 282.58
     },
     {
       "id": "shm-x-of-t",
@@ -74,11 +218,23 @@
       "name": "Position in simple harmonic motion",
       "domain": "mechanics",
       "degree": 2,
-      "x": 45.78,
-      "y": 292.15
+      "x": 40.92,
+      "y": 153.61
     }
   ],
   "edges": [
+    {
+      "source": "circ-centripetal-force",
+      "target": "circ-centripetal-accel",
+      "type": "related-to",
+      "gloss": "F_c = m a_c"
+    },
+    {
+      "source": "circ-centripetal-force",
+      "target": "dyn-newton-2",
+      "type": "special-case-of",
+      "gloss": "Newton's second law for the inward acceleration"
+    },
     {
       "source": "drag-v-of-t",
       "target": "drag-terminal",
@@ -90,6 +246,54 @@
       "target": "kin-v-of-t",
       "type": "related-to",
       "gloss": "as drag b→0 this reduces to the constant-acceleration velocity"
+    },
+    {
+      "source": "dyn-hookes-law",
+      "target": "shm-omega",
+      "type": "related-to",
+      "gloss": "this restoring force is what produces SHM"
+    },
+    {
+      "source": "dyn-weight",
+      "target": "dyn-newton-2",
+      "type": "special-case-of",
+      "gloss": "Newton's second law with a = g"
+    },
+    {
+      "source": "en-kinetic",
+      "target": "mom-momentum",
+      "type": "related-to",
+      "gloss": "both built from mass and velocity (K = p²/2m)"
+    },
+    {
+      "source": "en-power",
+      "target": "en-work",
+      "type": "related-to",
+      "gloss": "power is the rate of doing work"
+    },
+    {
+      "source": "en-spring-pe",
+      "target": "dyn-hookes-law",
+      "type": "related-to",
+      "gloss": "the energy stored by the Hooke's-law force"
+    },
+    {
+      "source": "en-spring-pe",
+      "target": "en-kinetic",
+      "type": "related-to",
+      "gloss": "trades with kinetic energy over an oscillation"
+    },
+    {
+      "source": "en-work",
+      "target": "en-kinetic",
+      "type": "related-to",
+      "gloss": "net work equals the change in kinetic energy (work–energy theorem)"
+    },
+    {
+      "source": "grav-newton",
+      "target": "dyn-weight",
+      "type": "related-to",
+      "gloss": "near a planet's surface this reduces to F = mg"
     },
     {
       "source": "kin-v-of-t",
@@ -114,6 +318,30 @@
       "target": "kin-x-of-t",
       "type": "derivative-of",
       "gloss": "x is the running area under the v-t graph"
+    },
+    {
+      "source": "mom-impulse",
+      "target": "mom-momentum",
+      "type": "related-to",
+      "gloss": "impulse equals the change in momentum (J = Δp)"
+    },
+    {
+      "source": "rot-angular-momentum",
+      "target": "mom-momentum",
+      "type": "related-to",
+      "gloss": "the rotational analog of linear momentum"
+    },
+    {
+      "source": "rot-kinetic",
+      "target": "en-kinetic",
+      "type": "related-to",
+      "gloss": "the rotational analog of ½mv²"
+    },
+    {
+      "source": "rot-torque",
+      "target": "dyn-newton-2",
+      "type": "related-to",
+      "gloss": "the rotational analog of force"
     },
     {
       "source": "shm-period",

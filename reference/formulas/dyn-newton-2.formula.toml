@@ -1,0 +1,13 @@
+id = "dyn-newton-2"
+name = "Newton's second law"
+domain = "mechanics"
+regime = 1
+expr = "m*a"
+lhs = "F_{\\text{net}}"
+result_unit = "N"
+assumptions = ["F is the net force", "m constant"]
+citations = []
+
+[variables]
+m = { unit = "kg", desc = "mass" }
+a = { unit = "m/s**2", desc = "acceleration" }

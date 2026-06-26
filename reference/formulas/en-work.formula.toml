@@ -1,0 +1,18 @@
+id = "en-work"
+name = "Work (constant force along displacement)"
+domain = "mechanics"
+regime = 1
+expr = "F*d"
+lhs = "W"
+result_unit = "J"
+assumptions = ["constant force parallel to displacement"]
+citations = []
+
+[variables]
+F = { unit = "N", desc = "force component along the motion" }
+d = { unit = "m", desc = "displacement" }
+
+[[edges]]
+type = "related-to"
+target = "en-kinetic"
+gloss = "net work equals the change in kinetic energy (work–energy theorem)"

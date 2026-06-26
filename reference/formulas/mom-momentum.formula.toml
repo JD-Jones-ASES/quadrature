@@ -1,0 +1,13 @@
+id = "mom-momentum"
+name = "Linear momentum"
+domain = "mechanics"
+regime = 1
+expr = "m*v"
+lhs = "p"
+result_unit = "kg*m/s"
+assumptions = ["speeds well below light speed"]
+citations = []
+
+[variables]
+m = { unit = "kg", desc = "mass" }
+v = { unit = "m/s", desc = "velocity" }

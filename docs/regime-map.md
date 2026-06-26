@@ -12,14 +12,15 @@ what algebra cannot (non-constant forces; ODEs) · **3** = algebra-only (no calc
 
 | Domain | Topic | Register | Regimes | Phase | Status |
 |---|---|---|---|---|---|
-| Mechanics | Kinematics (constant a) | dual | 1 | 0–1 | slice (Phase 0) |
-| Mechanics | Kinematics (non-constant a, drag) | dual | 2 | 1 | — |
-| Mechanics | Dynamics / Newton's laws | dual | 1–2 | 1 | — |
-| Mechanics | Work & energy | dual | 1–2 | 1 | — |
-| Mechanics | Momentum & impulse | dual | 1–2 | 1 | — |
-| Mechanics | Rotation / rigid bodies | dual | 1–2 | 1 | — |
-| Mechanics | Simple harmonic motion | dual | 2 | 1 | — |
-| Mechanics | Gravitation | dual | 2 | 1 | — |
+| Mechanics | Kinematics (constant a) | dual | 1 | 0–1 | lesson + ref |
+| Mechanics | Kinematics (non-constant a, drag) | dual | 2 | 1 | lesson + ref |
+| Mechanics | Dynamics / Newton's laws | dual | 1–2 | 1 | ref ✓ |
+| Mechanics | Work & energy | dual | 1–2 | 1 | ref ✓ |
+| Mechanics | Momentum & impulse | dual | 1–2 | 1 | ref ✓ |
+| Mechanics | Rotation / rigid bodies | dual | 1–2 | 1 | ref (partial) |
+| Mechanics | Simple harmonic motion | dual | 2 | 1 | lesson + ref |
+| Mechanics | Gravitation | dual | 2 | 1 | ref ✓ |
+| Mechanics | Circular motion | dual | 1 | 1 | ref ✓ |
 | E&M | Electrostatics (Coulomb, field) | dual | 1–2 | 2 | — |
 | E&M | Gauss / continuous charge | dual | 2 | 2 | — |
 | E&M | Electric potential | dual | 1–2 | 2 | — |

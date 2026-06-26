@@ -1,0 +1,13 @@
+id = "dyn-friction-kinetic"
+name = "Kinetic friction"
+domain = "mechanics"
+regime = 1
+expr = "mu_k*F_N"
+lhs = "f_k"
+result_unit = "N"
+assumptions = ["surfaces sliding", "Coulomb friction model"]
+citations = []
+
+[variables]
+mu_k = { unit = "1", desc = "coefficient of kinetic friction (dimensionless)" }
+F_N = { unit = "N", desc = "normal force" }

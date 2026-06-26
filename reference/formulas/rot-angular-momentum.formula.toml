@@ -1,0 +1,18 @@
+id = "rot-angular-momentum"
+name = "Angular momentum (rigid body)"
+domain = "mechanics"
+regime = 1
+expr = "I*omega"
+lhs = "L"
+result_unit = "kg*m**2/s"
+assumptions = ["rotation about a fixed axis"]
+citations = []
+
+[variables]
+I = { unit = "kg*m**2", desc = "moment of inertia" }
+omega = { unit = "1/s", desc = "angular velocity" }
+
+[[edges]]
+type = "related-to"
+target = "mom-momentum"
+gloss = "the rotational analog of linear momentum"

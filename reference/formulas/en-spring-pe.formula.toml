@@ -1,0 +1,22 @@
+id = "en-spring-pe"
+name = "Elastic potential energy"
+domain = "mechanics"
+regime = 1
+expr = "k*x**2/2"
+lhs = "U_s"
+result_unit = "J"
+assumptions = ["ideal spring (Hooke's law)"]
+citations = []
+
+[variables]
+k = { unit = "N/m", desc = "spring constant" }
+x = { unit = "m", desc = "displacement from equilibrium" }
+
+[[edges]]
+type = "related-to"
+target = "dyn-hookes-law"
+gloss = "the energy stored by the Hooke's-law force"
+[[edges]]
+type = "related-to"
+target = "en-kinetic"
+gloss = "trades with kinetic energy over an oscillation"

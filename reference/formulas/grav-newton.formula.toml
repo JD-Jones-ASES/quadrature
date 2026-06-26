@@ -1,0 +1,20 @@
+id = "grav-newton"
+name = "Newton's law of universal gravitation"
+domain = "mechanics"
+regime = 1
+expr = "G*m1*m2/r**2"
+lhs = "F"
+result_unit = "N"
+assumptions = ["point masses (or spherical bodies)", "magnitude of the attractive force"]
+citations = []
+
+[variables]
+G = { unit = "N*m**2/kg**2", desc = "gravitational constant" }
+m1 = { unit = "kg", desc = "first mass" }
+m2 = { unit = "kg", desc = "second mass" }
+r = { unit = "m", desc = "separation between centers" }
+
+[[edges]]
+type = "related-to"
+target = "dyn-weight"
+gloss = "near a planet's surface this reduces to F = mg"
