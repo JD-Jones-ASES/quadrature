@@ -1,0 +1,62 @@
+---
+import Base from "../layouts/Base.astro";
+import { withBase } from "../lib/withBase.js";
+import { tex } from "../lib/katex.js";
+
+const lines = tex(String.raw`\begin{aligned}
+a(t) &= -10 && \text{(constant)} \\
+v(t) &= \textstyle\int a\,dt = v_0 - 10t && \text{(a line; its slope is } a) \\
+x(t) &= \textstyle\int v\,dt = x_0 + v_0 t - 5t^2 && \text{(a parabola; slope is } v\text{, area under } v \text{ is its change)}
+\end{aligned}`);
+---
+
+<Base title="Quadrature — algebra is calculus, evaluated">
+  <h1>Algebra is calculus, with the work already done.</h1>
+  <p class="lede muted">
+    Physics at whichever altitude you need. Learn algebra-based physics cleanly on its own terms — or see
+    the same physics as calculus, and watch the algebra formulas fall out of the integrals.
+  </p>
+
+  <div class="card math-hero">
+    <p class="faint">A ball thrown straight up (up positive, g = −10 m/s²):</p>
+    <div set:html={lines} />
+    <p class="muted">
+      The algebra formulas <em>v = v₀ + at</em> and <em>x = x₀ + v₀t + ½at²</em> are those integrals with
+      the acceleration frozen to a constant. <strong>Quadrature</strong> is the old word for evaluating an
+      integral — finding the area under a curve. The constant-acceleration formulas are quadratures.
+    </p>
+  </div>
+
+  <h2>The graph is the pivot</h2>
+  <p class="muted">
+    On a stacked x–t / v–t / a–t plot with a shared time axis, the <strong>slope</strong> of the upper graph
+    is the <strong>value</strong> of the lower, and the <strong>area</strong> under the lower is the
+    <strong>change</strong> in the upper. Slope is the derivative; area is the integral. That is where the
+    student with slope-and-area intuition meets the student with dx/dt and ∫v dt — and they turn out to be
+    the same student.
+  </p>
+
+  <div class="cta">
+    <a class="btn" href={withBase("/lessons/throw-up/")}>Open the lesson →</a>
+    <a class="btn ghost" href={withBase("/reference/")}>The formula reference</a>
+    <a class="btn ghost" href={withBase("/reference/graph/")}>The concept graph</a>
+  </div>
+
+  <h2>Verification is the product</h2>
+  <p class="muted">
+    One build-time SymPy program solves each scenario two ways and <strong>proves the two agree</strong>,
+    checks every formula is dimensionally sound, and exports a cheap closed form the browser evaluates for
+    the interactive graphs. You are never told the registers agree — it is proven, and the proof is shown.
+    Read <a href={withBase("/verification/")}>how it is verified</a>.
+  </p>
+
+  <style>
+    h1 { font-size: 2.1rem; letter-spacing: -0.02em; }
+    .lede { font-size: 1.15rem; max-width: 46rem; }
+    .math-hero { margin: 1.5rem 0; }
+    .cta { display: flex; flex-wrap: wrap; gap: 0.8rem; margin: 1.5rem 0; }
+    .btn { background: var(--accent); color: #fff; padding: 0.55rem 1.1rem; border-radius: 8px; font-weight: 600; }
+    .btn:hover { text-decoration: none; filter: brightness(1.05); }
+    .btn.ghost { background: var(--paper-2); color: var(--ink); border: 1px solid var(--line); }
+  </style>
+</Base>

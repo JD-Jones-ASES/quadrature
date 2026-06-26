@@ -1,0 +1,27 @@
+---
+import Base from "../../layouts/Base.astro";
+import { withBase } from "../../lib/withBase.js";
+import ConceptGraph from "../../islands/ConceptGraph.svelte";
+import { renderFormula } from "../../lib/view.js";
+import graph from "../../../derived/reference/concept-graph.json";
+import formulasData from "../../../derived/reference/formulas.json";
+
+const formulas = formulasData.formulas.map(renderFormula);
+---
+
+<Base title="Concept graph — Quadrature" description="The formula concept graph: typed, color-coded, frozen-layout.">
+  <h1>The concept graph</h1>
+  <p class="muted lede">
+    Formulas as nodes; typed edges as relations. The green arrows are the calculus spine —
+    <em>x is the integral of v is the integral of a</em>; reversed, they are the derivatives. This is the
+    same force-graph pattern as the sibling portal's concept lexicon, with the layout frozen at build time.
+    Pairs with the <a href={withBase("/reference/")}>reference sheet</a>.
+  </p>
+
+  <ConceptGraph graph={graph} formulas={formulas} client:visible />
+</Base>
+
+<style>
+  h1 { font-size: 1.9rem; }
+  .lede { max-width: 46rem; margin-bottom: 1.2rem; }
+</style>

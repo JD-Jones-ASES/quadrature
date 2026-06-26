@@ -1,0 +1,497 @@
+{
+  "id": "freefall-throw-up",
+  "title": "A ball thrown straight up",
+  "topic": "freefall",
+  "slug": "throw-up",
+  "scenario": "A ball leaves your hand at 20 m/s straight up, from a height of 1.5 m. How high does it go, when does it land, and how fast is it moving when it hits the ground?",
+  "regime": 1,
+  "constants": {
+    "g": -10
+  },
+  "initial_conditions": {
+    "x0": 1.5,
+    "v0": 20
+  },
+  "assumptions": [
+    {
+      "claim": "No air resistance (the ball is in free fall under gravity alone).",
+      "kind": "model"
+    },
+    {
+      "claim": "g = -10 m/s^2, a clean-arithmetic simplification of -9.81 m/s^2.",
+      "kind": "model"
+    },
+    {
+      "claim": "The ball is a point mass; its size and spin are ignored.",
+      "kind": "model"
+    }
+  ],
+  "algebra": {
+    "steps": [
+      {
+        "label": "Assert the constant-acceleration relations",
+        "latex": "v = v_0 + a t \\qquad x = x_0 + v_0 t + \\tfrac{1}{2} a t^2",
+        "prose": "These are the formulas the algebra-based course memorizes. (They are quadratures — we will see them fall out of the calculus.)"
+      },
+      {
+        "label": "Apex: the top is where velocity is zero",
+        "latex": "v = 0 \\;\\implies\\; t_{\\text{apex}} = - \\frac{v_{0}}{a}",
+        "prose": "Velocity is zero only for an instant — but acceleration is not. The ball is still being pulled down at g."
+      },
+      {
+        "label": "Maximum height from the timeless equation",
+        "latex": "0 = v_0^2 + 2a\\,(x - x_0) \\;\\implies\\; x_{\\max} = x_{0} - \\frac{v_{0}^{2}}{2 a}",
+        "prose": "Set v = 0 in v² = v₀² + 2a(x − x₀). No time needed — this is the equation an algebra student is handed without its derivation."
+      },
+      {
+        "label": "Time of flight: solve for when it returns to the ground",
+        "latex": "x_0 + v_0 t + \\tfrac{1}{2} a t^2 = 0 \\;\\implies\\; t_{\\text{flight}} = \\frac{- v_{0} - \\sqrt{- 2 a x_{0} + v_{0}^{2}}}{a}",
+        "prose": "The physical (later) root of the quadratic — the moment it lands."
+      },
+      {
+        "label": "Impact velocity at the ground",
+        "latex": "v_{\\text{impact}} = - \\sqrt{- 2 a x_{0} + v_{0}^{2}}",
+        "prose": "Negative because it is moving downward at impact (up is positive)."
+      }
+    ],
+    "result": {
+      "apex_time": {
+        "label": "Time to the apex",
+        "unit": "s",
+        "symbolic_latex": "- \\frac{v_{0}}{a}",
+        "value": 2.0,
+        "display": "2"
+      },
+      "max_height": {
+        "label": "Maximum height",
+        "unit": "m",
+        "symbolic_latex": "x_{0} - \\frac{v_{0}^{2}}{2 a}",
+        "value": 21.5,
+        "display": "21.5"
+      },
+      "flight_time": {
+        "label": "Time of flight",
+        "unit": "s",
+        "symbolic_latex": "\\frac{- v_{0} - \\sqrt{- 2 a x_{0} + v_{0}^{2}}}{a}",
+        "value": 4.073644,
+        "display": "4.074"
+      },
+      "impact_velocity": {
+        "label": "Velocity at impact",
+        "unit": "m/s",
+        "symbolic_latex": "- \\sqrt{- 2 a x_{0} + v_{0}^{2}}",
+        "value": -20.736441,
+        "display": "-20.74"
+      }
+    }
+  },
+  "calculus": {
+    "steps": [
+      {
+        "label": "Start from the acceleration",
+        "latex": "a(t) = a",
+        "prose": "Constant — the only force acting is gravity. On the stacked graph this is a flat line."
+      },
+      {
+        "label": "Velocity is the integral of acceleration",
+        "latex": "v(t) = \\int a \\, dt = v_0 + a t",
+        "prose": "The constant of integration is v₀ (the velocity at t = 0). The slope of the v–t graph is a; the area under the a–t graph is the change in v."
+      },
+      {
+        "label": "Position is the integral of velocity",
+        "latex": "x(t) = \\int v \\, dt = \\int (v_0 + a t)\\, dt = x_0 + v_0 t + \\tfrac{1}{2} a t^2",
+        "prose": "The constant of integration is x₀. The slope of the x–t graph is v; the area under the v–t graph is the change in x."
+      },
+      {
+        "label": "The algebra formula has emerged",
+        "latex": "\\boxed{\\,x = x_0 + v_0 t + \\tfrac{1}{2} a t^2\\,}",
+        "prose": "This is exactly the formula the algebra course memorizes — here it is the integral with the integrand (a) frozen to a constant. Freeze the integrand and the integral becomes multiply-and-add. That is the algebra.",
+        "emphasis": true
+      }
+    ]
+  },
+  "equivalence_proof": {
+    "checked_by": "sympy",
+    "holds": true,
+    "detail": "simplify(algebra - calculus) == 0 for each identity below",
+    "checks": [
+      {
+        "key": "v_formula_is_integral",
+        "claim": "The algebra velocity formula v = v₀ + at IS the integral ∫a dt with v(0)=v₀.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "x_formula_is_integral",
+        "claim": "The algebra position formula x = x₀ + v₀t + ½at² IS the integral ∫v dt with x(0)=x₀.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "apex_is_v_zero",
+        "claim": "Velocity really is zero at the apex time (so the apex time is correct).",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "max_height_agrees",
+        "claim": "Max height from the timeless equation equals the calculus trajectory at its apex.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "flight_time_lands",
+        "claim": "At the flight time the calculus trajectory really returns to the ground (so the time is correct).",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "impact_velocity_agrees",
+        "claim": "Impact velocity from the timeless equation equals the calculus velocity at landing.",
+        "holds": true,
+        "tier": "structural"
+      }
+    ]
+  },
+  "units_check": {
+    "checked_by": "sympy",
+    "holds": true
+  },
+  "sign_analysis": {
+    "rule": "speeding up ⟺ sign(v·a) > 0; slowing down ⟺ sign(v·a) < 0",
+    "segments": [
+      {
+        "phase": "rising",
+        "t_range": [
+          0.0,
+          2.0
+        ],
+        "v_sign": "+",
+        "a_sign": "-",
+        "state": "slowing down"
+      },
+      {
+        "phase": "apex",
+        "t": 2.0,
+        "v_sign": "0",
+        "a_sign": "-",
+        "state": "v = 0, but a ≠ 0"
+      },
+      {
+        "phase": "falling",
+        "t_range": [
+          2.0,
+          4.073644
+        ],
+        "v_sign": "-",
+        "a_sign": "-",
+        "state": "speeding up"
+      }
+    ]
+  },
+  "graphs": [
+    {
+      "kind": "stack",
+      "mode": "interactive",
+      "annotate": [
+        "slope_of_x_is_v",
+        "area_under_v_is_displacement",
+        "a_nonzero_at_apex"
+      ],
+      "svg": "assets/graphs/freefall-throw-up-0.svg",
+      "series": {
+        "t": [
+          0.0,
+          0.067894067,
+          0.135788133,
+          0.2036822,
+          0.271576267,
+          0.339470333,
+          0.4073644,
+          0.475258467,
+          0.543152533,
+          0.6110466,
+          0.678940667,
+          0.746834733,
+          0.8147288,
+          0.882622867,
+          0.950516933,
+          1.018411,
+          1.086305067,
+          1.154199133,
+          1.2220932,
+          1.289987267,
+          1.357881333,
+          1.4257754,
+          1.493669467,
+          1.561563533,
+          1.6294576,
+          1.697351667,
+          1.765245733,
+          1.8331398,
+          1.901033867,
+          1.968927933,
+          2.036822,
+          2.104716067,
+          2.172610133,
+          2.2405042,
+          2.308398267,
+          2.376292333,
+          2.4441864,
+          2.512080467,
+          2.579974533,
+          2.6478686,
+          2.715762667,
+          2.783656733,
+          2.8515508,
+          2.919444867,
+          2.987338933,
+          3.055233,
+          3.123127067,
+          3.191021133,
+          3.2589152,
+          3.326809267,
+          3.394703333,
+          3.4625974,
+          3.530491467,
+          3.598385533,
+          3.6662796,
+          3.734173667,
+          3.802067733,
+          3.8699618,
+          3.937855867,
+          4.005749933,
+          4.073644
+        ],
+        "x": [
+          1.5,
+          2.8348333183,
+          4.1235705747,
+          5.366211807,
+          6.562756996,
+          7.7132061251,
+          8.8175592281,
+          9.8758162877,
+          10.8879772895,
+          11.8540422631,
+          12.7740111935,
+          13.6478840679,
+          14.4756609123,
+          15.2573417132,
+          15.9929264604,
+          16.6824151754,
+          17.3258078471,
+          17.9231044669,
+          18.4743050526,
+          18.9794095949,
+          19.4384180875,
+          19.8513305438,
+          20.2181469568,
+          20.538867322,
+          20.813491649,
+          21.0420199327,
+          21.2244521706,
+          21.3607883683,
+          21.4510285226,
+          21.4951726333,
+          21.4932207016,
+          21.4451727266,
+          21.3510287099,
+          21.2107886489,
+          21.0244525446,
+          20.7920204006,
+          20.5134922103,
+          20.1888679766,
+          19.8181477054,
+          19.4013313857,
+          18.9384190226,
+          18.4294106241,
+          17.8743061751,
+          17.2731056827,
+          16.6258091569,
+          15.9324165786,
+          15.1929279569,
+          14.4073433037,
+          13.575662596,
+          12.697885845,
+          11.7740130646,
+          10.8040442276,
+          9.7879793472,
+          8.7258184395,
+          7.6175614731,
+          6.4632084634,
+          5.2627594284,
+          4.0162143327,
+          2.7235731937,
+          1.3848360314,
+          2.8063e-06
+        ],
+        "v": [
+          20.0,
+          19.32105933,
+          18.64211867,
+          17.963178,
+          17.28423733,
+          16.60529667,
+          15.926356,
+          15.24741533,
+          14.56847467,
+          13.889534,
+          13.21059333,
+          12.53165267,
+          11.852712,
+          11.17377133,
+          10.49483067,
+          9.81589,
+          9.13694933,
+          8.45800867,
+          7.779068,
+          7.10012733,
+          6.42118667,
+          5.742246,
+          5.06330533,
+          4.38436467,
+          3.705424,
+          3.02648333,
+          2.34754267,
+          1.668602,
+          0.98966133,
+          0.31072067,
+          -0.36822,
+          -1.04716067,
+          -1.72610133,
+          -2.405042,
+          -3.08398267,
+          -3.76292333,
+          -4.441864,
+          -5.12080467,
+          -5.79974533,
+          -6.478686,
+          -7.15762667,
+          -7.83656733,
+          -8.515508,
+          -9.19444867,
+          -9.87338933,
+          -10.55233,
+          -11.23127067,
+          -11.91021133,
+          -12.589152,
+          -13.26809267,
+          -13.94703333,
+          -14.625974,
+          -15.30491467,
+          -15.98385533,
+          -16.662796,
+          -17.34173667,
+          -18.02067733,
+          -18.699618,
+          -19.37855867,
+          -20.05749933,
+          -20.73644
+        ],
+        "a": [
+          -10.0,
+          -10.0,
+          -10.0,
+          -10.0,
+          -10.0,
+          -10.0,
+          -10.0,
+          -10.0,
+          -10.0,
+          -10.0,
+          -10.0,
+          -10.0,
+          -10.0,
+          -10.0,
+          -10.0,
+          -10.0,
+          -10.0,
+          -10.0,
+          -10.0,
+          -10.0,
+          -10.0,
+          -10.0,
+          -10.0,
+          -10.0,
+          -10.0,
+          -10.0,
+          -10.0,
+          -10.0,
+          -10.0,
+          -10.0,
+          -10.0,
+          -10.0,
+          -10.0,
+          -10.0,
+          -10.0,
+          -10.0,
+          -10.0,
+          -10.0,
+          -10.0,
+          -10.0,
+          -10.0,
+          -10.0,
+          -10.0,
+          -10.0,
+          -10.0,
+          -10.0,
+          -10.0,
+          -10.0,
+          -10.0,
+          -10.0,
+          -10.0,
+          -10.0,
+          -10.0,
+          -10.0,
+          -10.0,
+          -10.0,
+          -10.0,
+          -10.0,
+          -10.0,
+          -10.0,
+          -10.0
+        ],
+        "t_max": 4.073644
+      },
+      "closed_form": {
+        "x": "-5*Math.pow(t, 2) + t*v0 + x0",
+        "v": "-10*t + v0",
+        "a": "-10"
+      },
+      "closed_form_params": [
+        "t",
+        "v0",
+        "x0"
+      ],
+      "params": {
+        "v0": {
+          "min": 5,
+          "max": 30,
+          "default": 20
+        },
+        "x0": {
+          "min": 0,
+          "max": 5,
+          "default": 1.5
+        }
+      }
+    }
+  ],
+  "misconception": {
+    "claim": "At the top of the trajectory, the acceleration is zero (the ball 'stops').",
+    "refuted_by": "On the v-t graph the velocity passes through zero at the apex, but the line never bends: its slope is a = -10 m/s^2 the whole way. v = 0 for an instant; a is never zero."
+  },
+  "formulas_used": [
+    "kin-x-of-t",
+    "kin-v-of-t",
+    "kin-a-const"
+  ],
+  "provenance": {
+    "producer": "quadrature_producer",
+    "version": "0.1.0",
+    "sympy": "1.14.0",
+    "author": "Quadrature",
+    "created": "2026-06-26"
+  }
+}

@@ -1,0 +1,25 @@
+id = "kin-v-of-t"
+name = "Velocity under constant acceleration"
+domain = "mechanics"
+regime = 1
+expr = "v0 + a*t"
+lhs = "v"
+result_unit = "m/s"
+assumptions = ["acceleration is constant"]
+lessons = ["freefall-throw-up"]
+citations = []
+
+[variables]
+v0 = { unit = "m/s", desc = "initial velocity" }
+a  = { unit = "m/s**2", desc = "acceleration (constant)" }
+t  = { unit = "s", desc = "time" }
+
+[derivation]
+relationship = "integral-of"   # v(t) = ∫ a dt
+target = "kin-a-const"
+variable = "t"
+
+[[edges]]
+type = "integral-of"
+target = "kin-a-const"
+gloss = "v is the running area under the a-t graph"

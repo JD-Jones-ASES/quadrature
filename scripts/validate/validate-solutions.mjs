@@ -1,0 +1,107 @@
+// validate-solutions.mjs — the build gate for shipped solution objects. Validates every committed
+// derived/<topic>/<slug>.solution.json against schemas/solution.schema.json, then enforces the honesty
+// cross-checks that keep a polished, interactive page from implying a guarantee SymPy never produced:
+//   - the equivalence proof must be checked_by "sympy" and hold (every identity true);
+//   - the unit check must be checked_by "sympy" and hold;
+//   - every assumption is kind "model" (author-asserted, disclosed — never machine-derived);
+//   - interactive graphs carry params + a closed form; the file path matches the declared topic/slug.
+// Fails loud (exit 1).
+
+import { readdirSync, statSync, readFileSync, existsSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import { dirname, resolve, relative, join } from "node:path";
+import Ajv from "ajv/dist/2020.js";
+import addFormats from "ajv-formats";
+
+const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..", "..");
+const DERIVED = resolve(ROOT, "derived");
+
+const ajv = new Ajv({ allErrors: true });
+addFormats(ajv);
+const schema = JSON.parse(readFileSync(resolve(ROOT, "schemas/solution.schema.json"), "utf8"));
+const validate = ajv.compile(schema);
+
+const errors = [];
+const fail = (m) => errors.push(m);
+
+function walk(dir) {
+  const out = [];
+  for (const name of readdirSync(dir)) {
+    const p = join(dir, name);
+    if (statSync(p).isDirectory()) out.push(...walk(p));
+    else if (name.endsWith(".solution.json")) out.push(p);
+  }
+  return out;
+}
+
+// the reference, if built, lets us check formulas_used resolve
+let knownFormulaIds = null;
+const formulasPath = resolve(DERIVED, "reference/formulas.json");
+if (existsSync(formulasPath)) {
+  knownFormulaIds = new Set(JSON.parse(readFileSync(formulasPath, "utf8")).formulas.map((f) => f.id));
+}
+
+let files = [];
+try {
+  files = walk(DERIVED).filter((p) => !p.includes(`${join("reference")}`));
+} catch {
+  fail(`derived/ not found — run \`npm run produce\` first`);
+}
+if (files.length === 0 && errors.length === 0) fail("no *.solution.json found under derived/");
+
+const ids = new Map();
+for (const file of files.sort()) {
+  const rel = relative(ROOT, file).replace(/\\/g, "/");
+  let data;
+  try {
+    data = JSON.parse(readFileSync(file, "utf8"));
+  } catch (e) {
+    fail(`${rel}: invalid JSON — ${e.message}`);
+    continue;
+  }
+  if (!validate(data)) {
+    for (const e of validate.errors) fail(`${rel}${e.instancePath} ${e.message}`);
+    continue;
+  }
+
+  if (ids.has(data.id)) fail(`${rel}: duplicate id '${data.id}' (also in ${ids.get(data.id)})`);
+  else ids.set(data.id, rel);
+
+  // path matches declared topic/slug
+  if (!rel.endsWith(`derived/${data.topic}/${data.slug}.solution.json`))
+    fail(`${rel}: file path does not match topic/slug '${data.topic}/${data.slug}'`);
+
+  // honesty cross-checks
+  if (!(data.equivalence_proof.checked_by === "sympy" && data.equivalence_proof.holds === true))
+    fail(`${rel}: equivalence_proof must be checked_by 'sympy' and hold`);
+  if (data.equivalence_proof.checks.some((c) => c.holds !== true))
+    fail(`${rel}: an equivalence identity does not hold`);
+  if (!(data.units_check.checked_by === "sympy" && data.units_check.holds === true))
+    fail(`${rel}: units_check must be checked_by 'sympy' and hold`);
+  for (const a of data.assumptions)
+    if (a.kind !== "model") fail(`${rel}: assumption '${a.claim}' must be kind 'model'`);
+
+  // graph integrity
+  data.graphs.forEach((g, i) => {
+    if (g.mode === "interactive" && !g.params)
+      fail(`${rel}: graphs[${i}] is interactive but has no params`);
+    for (const k of ["x", "v", "a"])
+      if (g.series[k].length !== g.series.t.length)
+        fail(`${rel}: graphs[${i}].series.${k} length != t length`);
+    if (g.svg && !existsSync(resolve(DERIVED, g.svg)))
+      fail(`${rel}: graphs[${i}].svg '${g.svg}' not found in derived/`);
+  });
+
+  // formulas_used resolve (if the reference is built)
+  if (knownFormulaIds)
+    for (const fid of data.formulas_used)
+      if (!knownFormulaIds.has(fid))
+        fail(`${rel}: formulas_used '${fid}' has no reference entry`);
+}
+
+if (errors.length) {
+  console.error(`\nSOLUTION VALIDATION FAILED (${errors.length}):`);
+  for (const e of errors) console.error("  - " + e);
+  process.exit(1);
+}
+console.log(`OK: ${files.length} solution(s) valid (${ids.size} unique ids).`);

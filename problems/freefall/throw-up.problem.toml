@@ -1,0 +1,50 @@
+# Root keys first — in TOML, bare keys must precede any [table] / [[array-of-table]] header,
+# or they get absorbed into the preceding table.
+id = "freefall-throw-up"
+title = "A ball thrown straight up"
+topic = "freefall"
+slug = "throw-up"
+regime = 1
+author = "Quadrature"
+created = "2026-06-26"
+scenario = "A ball leaves your hand at 20 m/s straight up, from a height of 1.5 m. How high does it go, when does it land, and how fast is it moving when it hits the ground?"
+unknowns = ["apex_time", "max_height", "flight_time", "impact_velocity"]
+formulas_used = ["kin-x-of-t", "kin-v-of-t", "kin-a-const"]
+
+[constants]
+g = -10                # house convention: metric, up positive, so gravity is negative
+
+[initial_conditions]
+x0 = 1.5               # m, release height
+v0 = 20                # m/s, up positive
+
+[[assumptions]]
+claim = "No air resistance (the ball is in free fall under gravity alone)."
+kind = "model"
+
+[[assumptions]]
+claim = "g = -10 m/s^2, a clean-arithmetic simplification of -9.81 m/s^2."
+kind = "model"
+
+[[assumptions]]
+claim = "The ball is a point mass; its size and spin are ignored."
+kind = "model"
+
+[[graphs]]
+kind = "stack"
+mode = "interactive"
+annotate = ["slope_of_x_is_v", "area_under_v_is_displacement", "a_nonzero_at_apex"]
+
+[graphs.params.v0]
+min = 5
+max = 30
+default = 20
+
+[graphs.params.x0]
+min = 0
+max = 5
+default = 1.5
+
+[misconception]
+claim = "At the top of the trajectory, the acceleration is zero (the ball 'stops')."
+refuted_by = "On the v-t graph the velocity passes through zero at the apex, but the line never bends: its slope is a = -10 m/s^2 the whole way. v = 0 for an instant; a is never zero."

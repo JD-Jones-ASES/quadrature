@@ -1,0 +1,26 @@
+id = "kin-x-of-t"
+name = "Position under constant acceleration"
+domain = "mechanics"
+regime = 1
+expr = "x0 + v0*t + a*t**2/2"
+lhs = "x"
+result_unit = "m"
+assumptions = ["acceleration is constant"]
+lessons = ["freefall-throw-up"]
+citations = []
+
+[variables]
+x0 = { unit = "m", desc = "initial position" }
+v0 = { unit = "m/s", desc = "initial velocity" }
+a  = { unit = "m/s**2", desc = "acceleration (constant)" }
+t  = { unit = "s", desc = "time" }
+
+[derivation]
+relationship = "integral-of"   # x(t) = ∫ v dt; this is the quadrature the algebra formula evaluates
+target = "kin-v-of-t"
+variable = "t"
+
+[[edges]]
+type = "integral-of"
+target = "kin-v-of-t"
+gloss = "x is the running area under the v-t graph"

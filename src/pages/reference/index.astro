@@ -1,0 +1,78 @@
+---
+import Base from "../../layouts/Base.astro";
+import { withBase } from "../../lib/withBase.js";
+import { tex } from "../../lib/katex.js";
+import data from "../../../derived/reference/formulas.json";
+
+const DOMAIN_LABEL = {
+  mechanics: "Mechanics", em: "Electricity & magnetism", thermo: "Thermodynamics",
+  "waves-optics": "Waves & optics", modern: "Modern physics",
+};
+const byDomain = {};
+for (const f of data.formulas) (byDomain[f.domain] ??= []).push(f);
+---
+
+<Base title="Formula reference — Quadrature" description="A SymPy-verified, fully interlinked physics formula reference.">
+  <h1>The formula reference</h1>
+  <p class="muted lede">
+    Every entry's LaTeX is generated from the SymPy expression it was verified against — no transcription
+    typos. Units are dimensionally checked; declared derivations are machine-proven. Also browsable as a
+    <a href={withBase("/reference/graph/")}>concept graph</a>.
+  </p>
+
+  {Object.entries(byDomain).map(([domain, formulas]) => (
+    <section class="domain">
+      <h2>{DOMAIN_LABEL[domain] ?? domain}</h2>
+      <div class="grid">
+        {formulas.map((f) => (
+          <article class="formula" id={f.id}>
+            <header>
+              <h3>{f.name}</h3>
+              <span class="badge regime">regime {f.regime}</span>
+            </header>
+            <div class="math" set:html={tex(f.latex)} />
+            <table class="vars">
+              <tbody>
+                {Object.entries(f.variables).map(([sym, v]) => (
+                  <tr><td class="sym">{sym}</td><td class="unit">{v.unit}</td><td class="desc">{v.desc}</td></tr>
+                ))}
+              </tbody>
+            </table>
+            {f.assumptions?.length > 0 && (
+              <p class="assume"><strong>Valid when:</strong> {f.assumptions.join("; ")}</p>
+            )}
+            {f.derivation && (
+              <p class="deriv"><span class="badge machine"><span class="dot" /></span>
+                {f.derivation.relationship} <code>{f.derivation.target}</code> (d/d{f.derivation.variable}),
+                proven by SymPy</p>
+            )}
+            <footer>
+              <span class="badge machine"><span class="dot" />units checked</span>
+              {f.lessons?.length > 0 && <span class="faint">used in: {f.lessons.join(", ")}</span>}
+            </footer>
+          </article>
+        ))}
+      </div>
+    </section>
+  ))}
+
+  <style>
+    h1 { font-size: 1.9rem; }
+    .lede { max-width: 46rem; }
+    .domain { margin-top: 2rem; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); gap: 1rem; }
+    .formula { background: var(--paper-2); border: 1px solid var(--line); border-radius: var(--radius); padding: 1rem 1.1rem; }
+    .formula header { display: flex; align-items: baseline; justify-content: space-between; gap: 0.5rem; }
+    .formula h3 { font-size: 1.05rem; margin: 0 0 0.3rem; }
+    .math { overflow-x: auto; margin: 0.3rem 0 0.6rem; }
+    .vars { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+    .vars td { padding: 0.15rem 0.4rem; border-top: 1px solid var(--line); }
+    .vars .sym { font-family: var(--font-mono); color: var(--accent); width: 3rem; }
+    .vars .unit { font-family: var(--font-mono); color: var(--ink-2); width: 5rem; }
+    .vars .desc { color: var(--ink-2); }
+    .assume { font-size: 0.88rem; color: var(--ink-2); margin: 0.6rem 0 0.3rem; }
+    .deriv { font-size: 0.85rem; color: var(--ink-2); margin: 0.5rem 0; display: flex; align-items: center; gap: 0.4rem; }
+    .deriv code { background: var(--paper-sunk); padding: 0.1rem 0.35rem; border-radius: 5px; }
+    .formula footer { display: flex; align-items: center; gap: 0.6rem; margin-top: 0.6rem; font-size: 0.82rem; }
+  </style>
+</Base>

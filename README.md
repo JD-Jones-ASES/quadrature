@@ -1,0 +1,53 @@
+# Quadrature
+
+**A dual algebra-based / calculus-based physics course where the verification system is the product.**
+
+Physics is taught at whichever altitude the learner needs. If the goal is algebra-based physics, you get a
+clean, rigorous course on its own terms. If the goal is calculus-based physics, you *also* get to see the
+algebra as **calculus with the work already done** — and you leave with a sense for the physics and a sense for
+the calculus that grew up together.
+
+## The idea in three lines
+
+For a ball thrown straight up (up positive, `g = −10 m/s²`):
+
+```
+a(t) = −10                       (constant)
+v(t) = ∫a dt = v₀ − 10t          (a line; its slope is a)
+x(t) = ∫v dt = x₀ + v₀t − 5t²    (a parabola; its slope is v, the area under v is its change)
+```
+
+The algebra formulas `v = v₀ + at` and `x = x₀ + v₀t + ½at²` are those integrals with `a` frozen to a
+constant. *Quadrature* is the old word for evaluating an integral — finding the area under a curve. The
+constant-acceleration formulas are quadratures: integrals already evaluated.
+
+The **stacked x–t / v–t / a–t graph** is the pivot between the two registers: the slope of the upper graph is
+the value of the lower; the area under the lower is the change in the upper. That is the derivative/integral
+relationship made visible — and where a student with slope-and-area intuition meets the student with `dx/dt`
+and `∫v dt`, and they turn out to be the same student.
+
+## How it's verified
+
+One build-time **SymPy** program solves each scenario in the algebra register, derives it in the calculus
+register, **proves the two agree** (`simplify(algebra − calculus) == 0`), checks every expression is
+dimensionally homogeneous, and exports a cheap closed form the browser evaluates for the interactive graphs.
+The learner isn't *told* the registers agree — SymPy proves it, and the proof is the artifact. Two honest
+badges mark every claim: **machine-derived** (SymPy-checked math) versus **author-asserted** (the physics
+modeling assumptions — `g=−10`, "no air resistance" — disclosed, not hidden).
+
+## How it was made
+
+AI-authored under an owner-designed verification system. There is no human-review gate on the math by design —
+the verification *system* is the safeguard: a failed algebra=calculus proof, a non-homogeneous unit, a schema
+mismatch, or a closed form that doesn't reproduce SymPy's numbers all **break the build** rather than ship.
+
+## Stack
+
+Astro 7 (static) + Svelte 5 islands + KaTeX, a Python/SymPy producer (run locally via `uv`), Matplotlib for
+static figures, Ajv schema gates. No server, no database, no client-side Python. See
+[`AGENTS.md`](./AGENTS.md) to work the repo.
+
+## License
+
+Code: [MIT](./LICENSE). Course content (prose, solutions, reference, figures): [CC BY-SA
+4.0](./LICENSE-content.md).

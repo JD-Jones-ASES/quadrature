@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://quadrature/schemas/concept-graph.schema.json",
+  "title": "Quadrature concept graph",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "layout", "nodes", "edges"],
+  "properties": {
+    "schema_version": { "type": "integer" },
+    "layout": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["w", "h"],
+      "properties": { "w": { "type": "number" }, "h": { "type": "number" } }
+    },
+    "nodes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "label", "name", "domain", "degree", "x", "y"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+          "label": { "type": "string" },
+          "name": { "type": "string" },
+          "domain": { "enum": ["mechanics", "em", "thermo", "waves-optics", "modern"] },
+          "degree": { "type": "integer", "minimum": 0 },
+          "x": { "type": "number" },
+          "y": { "type": "number" }
+        }
+      }
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["source", "target", "type"],
+        "properties": {
+          "source": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+          "target": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+          "type": { "enum": ["derived-from", "integral-of", "derivative-of", "special-case-of", "assumes", "related-to"] },
+          "gloss": { "type": "string" }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,55 @@
+---
+import { readFileSync } from "node:fs";
+import Base from "../../layouts/Base.astro";
+import SolutionPlayer from "../../islands/SolutionPlayer.svelte";
+import { withBase } from "../../lib/withBase.js";
+import { renderSolution } from "../../lib/view.js";
+import solution from "../../../derived/freefall/throw-up.solution.json";
+
+const view = renderSolution(solution);
+const staticSvg = readFileSync(
+  new URL("../../../derived/assets/graphs/freefall-throw-up-0.svg", import.meta.url),
+  "utf8"
+);
+---
+
+<Base title={`${solution.title} — Quadrature`} description={solution.scenario}>
+  <p class="crumb faint"><a href={withBase("/")}>Home</a> · Mechanics · Kinematics</p>
+  <h1>{solution.title}</h1>
+
+  <p class="muted intro">
+    The simplest scenario in physics — a ball thrown straight up — and the one that shows the whole idea.
+    Work it in the algebra register, then in the calculus register, and watch the algebra formula emerge from
+    the integral. Everything below is verified by SymPy: the two registers are <em>proven</em> equal.
+  </p>
+
+  <SolutionPlayer solution={view} client:visible />
+
+  <section class="figure">
+    <h2>The stacked graph, fully annotated</h2>
+    <p class="muted">A static rendering (Matplotlib) of the same three views at the default launch — the
+      interactive version lives in the Graph tab above.</p>
+    <div class="svgwrap" set:html={staticSvg} />
+  </section>
+
+  <section class="links">
+    <h2>Formulas used</h2>
+    <p class="muted">Each links into the <a href={withBase("/reference/")}>reference</a> and the
+      <a href={withBase("/reference/graph/")}>concept graph</a>:</p>
+    <ul>
+      {solution.formulas_used.map((id) => <li><code>{id}</code></li>)}
+    </ul>
+  </section>
+
+  <style>
+    h1 { font-size: 1.9rem; }
+    .intro { max-width: 46rem; }
+    .crumb { margin-bottom: 0.3rem; }
+    .figure { margin-top: 2.5rem; }
+    .svgwrap { max-width: 32rem; margin-top: 1rem; }
+    .svgwrap :global(svg) { width: 100%; height: auto; }
+    .links { margin-top: 2rem; }
+    .links ul { list-style: none; padding: 0; display: flex; gap: 0.6rem; flex-wrap: wrap; }
+    .links code { background: var(--paper-sunk); padding: 0.2rem 0.5rem; border-radius: 6px; }
+  </style>
+</Base>

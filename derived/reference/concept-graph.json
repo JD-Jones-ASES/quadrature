@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "layout": {
+    "w": 640,
+    "h": 480
+  },
+  "nodes": [
+    {
+      "id": "kin-a-const",
+      "label": "a",
+      "name": "Constant acceleration",
+      "domain": "mechanics",
+      "degree": 2,
+      "x": 219.25,
+      "y": 160.58
+    },
+    {
+      "id": "kin-v-of-t",
+      "label": "v",
+      "name": "Velocity under constant acceleration",
+      "domain": "mechanics",
+      "degree": 4,
+      "x": 340.73,
+      "y": 219.19
+    },
+    {
+      "id": "kin-x-of-t",
+      "label": "x",
+      "name": "Position under constant acceleration",
+      "domain": "mechanics",
+      "degree": 2,
+      "x": 400.02,
+      "y": 340.24
+    }
+  ],
+  "edges": [
+    {
+      "source": "kin-v-of-t",
+      "target": "kin-a-const",
+      "type": "integral-of",
+      "gloss": "v is the running area under the a-t graph"
+    },
+    {
+      "source": "kin-a-const",
+      "target": "kin-v-of-t",
+      "type": "derivative-of",
+      "gloss": "v is the running area under the a-t graph"
+    },
+    {
+      "source": "kin-x-of-t",
+      "target": "kin-v-of-t",
+      "type": "integral-of",
+      "gloss": "x is the running area under the v-t graph"
+    },
+    {
+      "source": "kin-v-of-t",
+      "target": "kin-x-of-t",
+      "type": "derivative-of",
+      "gloss": "x is the running area under the v-t graph"
+    }
+  ]
+}

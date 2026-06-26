@@ -1,0 +1,197 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://quadrature/schemas/solution.schema.json",
+  "title": "Quadrature solution object",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id", "title", "topic", "slug", "scenario", "regime", "constants",
+    "assumptions", "algebra", "calculus", "equivalence_proof", "units_check",
+    "graphs", "formulas_used", "provenance"
+  ],
+  "properties": {
+    "id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+    "title": { "type": "string" },
+    "topic": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+    "slug": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+    "scenario": { "type": "string" },
+    "regime": { "enum": [1, 2, 3] },
+    "constants": { "type": "object" },
+    "initial_conditions": { "type": "object" },
+    "assumptions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["claim", "kind"],
+        "properties": {
+          "claim": { "type": "string" },
+          "kind": { "const": "model" }
+        }
+      }
+    },
+    "algebra": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["steps", "result"],
+      "properties": {
+        "steps": { "type": "array", "items": { "$ref": "#/$defs/step" } },
+        "result": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["label", "unit", "value", "display"],
+            "properties": {
+              "label": { "type": "string" },
+              "unit": { "type": "string" },
+              "symbolic_latex": { "type": "string" },
+              "value": { "type": "number" },
+              "display": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "calculus": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["steps"],
+      "properties": {
+        "steps": { "type": "array", "items": { "$ref": "#/$defs/step" } }
+      }
+    },
+    "equivalence_proof": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["checked_by", "holds", "detail", "checks"],
+      "properties": {
+        "checked_by": { "const": "sympy" },
+        "holds": { "type": "boolean" },
+        "detail": { "type": "string" },
+        "checks": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["key", "claim", "holds", "tier"],
+            "properties": {
+              "key": { "type": "string" },
+              "claim": { "type": "string" },
+              "holds": { "type": "boolean" },
+              "tier": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "units_check": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["checked_by", "holds"],
+      "properties": {
+        "checked_by": { "const": "sympy" },
+        "holds": { "type": "boolean" }
+      }
+    },
+    "sign_analysis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rule", "segments"],
+      "properties": {
+        "rule": { "type": "string" },
+        "segments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["phase", "v_sign", "a_sign", "state"],
+            "properties": {
+              "phase": { "type": "string" },
+              "t_range": { "type": "array", "items": { "type": "number" } },
+              "t": { "type": "number" },
+              "v_sign": { "type": "string" },
+              "a_sign": { "type": "string" },
+              "state": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "graphs": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/graph" } },
+    "misconception": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "required": ["claim", "refuted_by"],
+      "properties": {
+        "claim": { "type": "string" },
+        "refuted_by": { "type": "string" }
+      }
+    },
+    "formulas_used": { "type": "array", "items": { "type": "string", "pattern": "^[a-z0-9-]+$" } },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["producer", "version", "sympy"],
+      "properties": {
+        "producer": { "type": "string" },
+        "version": { "type": "string" },
+        "sympy": { "type": "string" },
+        "author": { "type": "string" },
+        "created": { "type": "string" }
+      }
+    }
+  },
+  "$defs": {
+    "step": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["label", "latex"],
+      "properties": {
+        "label": { "type": "string" },
+        "latex": { "type": "string" },
+        "prose": { "type": "string" },
+        "emphasis": { "type": "boolean" }
+      }
+    },
+    "graph": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "mode", "series", "closed_form", "closed_form_params"],
+      "properties": {
+        "kind": { "type": "string" },
+        "mode": { "enum": ["static", "interactive"] },
+        "annotate": { "type": "array", "items": { "type": "string" } },
+        "svg": { "type": "string" },
+        "series": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["t", "x", "v", "a", "t_max"],
+          "properties": {
+            "t": { "type": "array", "items": { "type": "number" } },
+            "x": { "type": "array", "items": { "type": "number" } },
+            "v": { "type": "array", "items": { "type": "number" } },
+            "a": { "type": "array", "items": { "type": "number" } },
+            "t_max": { "type": "number" }
+          }
+        },
+        "closed_form": { "type": "object", "additionalProperties": { "type": "string" } },
+        "closed_form_params": { "type": "array", "items": { "type": "string" } },
+        "params": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["min", "max", "default"],
+            "properties": {
+              "min": { "type": "number" },
+              "max": { "type": "number" },
+              "default": { "type": "number" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

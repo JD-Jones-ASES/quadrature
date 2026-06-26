@@ -1,0 +1,120 @@
+{
+  "schema_version": 1,
+  "formulas": [
+    {
+      "id": "kin-a-const",
+      "name": "Constant acceleration",
+      "domain": "mechanics",
+      "regime": 1,
+      "lhs": "a",
+      "expr": "a",
+      "expr_srepr": "Symbol('a', real=True)",
+      "latex": "a = a",
+      "result_unit": "m/s**2",
+      "variables": {
+        "a": {
+          "unit": "m/s**2",
+          "desc": "the (constant) acceleration"
+        }
+      },
+      "assumptions": [
+        "acceleration is constant"
+      ],
+      "derivation": null,
+      "lessons": [
+        "freefall-throw-up"
+      ],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "kin-v-of-t",
+      "name": "Velocity under constant acceleration",
+      "domain": "mechanics",
+      "regime": 1,
+      "lhs": "v",
+      "expr": "v0 + a*t",
+      "expr_srepr": "Add(Mul(Symbol('a', real=True), Symbol('t', real=True)), Symbol('v0', real=True))",
+      "latex": "v = a t + v_{0}",
+      "result_unit": "m/s",
+      "variables": {
+        "v0": {
+          "unit": "m/s",
+          "desc": "initial velocity"
+        },
+        "a": {
+          "unit": "m/s**2",
+          "desc": "acceleration (constant)"
+        },
+        "t": {
+          "unit": "s",
+          "desc": "time"
+        }
+      },
+      "assumptions": [
+        "acceleration is constant"
+      ],
+      "derivation": {
+        "relationship": "integral-of",
+        "target": "kin-a-const",
+        "variable": "t"
+      },
+      "lessons": [
+        "freefall-throw-up"
+      ],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": true
+      }
+    },
+    {
+      "id": "kin-x-of-t",
+      "name": "Position under constant acceleration",
+      "domain": "mechanics",
+      "regime": 1,
+      "lhs": "x",
+      "expr": "x0 + v0*t + a*t**2/2",
+      "expr_srepr": "Add(Mul(Rational(1, 2), Symbol('a', real=True), Pow(Symbol('t', real=True), Integer(2))), Mul(Symbol('t', real=True), Symbol('v0', real=True)), Symbol('x0', real=True))",
+      "latex": "x = \\frac{a t^{2}}{2} + t v_{0} + x_{0}",
+      "result_unit": "m",
+      "variables": {
+        "x0": {
+          "unit": "m",
+          "desc": "initial position"
+        },
+        "v0": {
+          "unit": "m/s",
+          "desc": "initial velocity"
+        },
+        "a": {
+          "unit": "m/s**2",
+          "desc": "acceleration (constant)"
+        },
+        "t": {
+          "unit": "s",
+          "desc": "time"
+        }
+      },
+      "assumptions": [
+        "acceleration is constant"
+      ],
+      "derivation": {
+        "relationship": "integral-of",
+        "target": "kin-v-of-t",
+        "variable": "t"
+      },
+      "lessons": [
+        "freefall-throw-up"
+      ],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": true
+      }
+    }
+  ]
+}

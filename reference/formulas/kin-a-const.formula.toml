@@ -1,0 +1,13 @@
+id = "kin-a-const"
+name = "Constant acceleration"
+domain = "mechanics"
+regime = 1
+expr = "a"
+lhs = "a"
+result_unit = "m/s**2"
+assumptions = ["acceleration is constant"]
+lessons = ["freefall-throw-up"]
+citations = []
+
+[variables]
+a = { unit = "m/s**2", desc = "the (constant) acceleration" }

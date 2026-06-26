@@ -1,0 +1,60 @@
+---
+import Base from "../layouts/Base.astro";
+import { withBase } from "../lib/withBase.js";
+---
+
+<Base title="How Quadrature is verified" description="The two-axis honesty model and what the build gates check.">
+  <h1>How this is verified</h1>
+  <p class="muted lede">
+    Quadrature is AI-authored under an owner-designed verification system. There is no human-review gate on
+    the mathematics by design — the verification <em>system</em> is the safeguard, and the build fails rather
+    than ships when a claim does not hold.
+  </p>
+
+  <h2>Two honest axes</h2>
+  <div class="axes">
+    <div class="card">
+      <span class="badge machine"><span class="dot" />Machine-derived</span>
+      <p>The algebra solution, the calculus derivation, the proof that the two agree, the dimensional
+        check, and the closed form the graphs run on are all produced and checked by SymPy. The proof is
+        <strong>shown</strong>, not asserted — see the proof panel in any <a href={withBase("/lessons/throw-up/")}>lesson</a>.</p>
+    </div>
+    <div class="card">
+      <span class="badge model"><span class="dot" />Author-asserted</span>
+      <p>The physics <em>modeling</em> assumptions — g = −10 (a clean-arithmetic simplification of 9.81),
+        "no air resistance," "point mass" — are an author's claims. They are <strong>disclosed, not
+        discharged</strong>: you can check the math against SymPy, but you take the model on a textbook's
+        footing. They never enter the derivation record.</p>
+    </div>
+  </div>
+
+  <h2>What breaks the build</h2>
+  <ul class="gates">
+    <li><strong>A failed algebra = calculus proof.</strong> Each identity must reduce to zero
+      (<code>simplify(algebra − calculus) == 0</code>) via a tiered symbolic + high-precision numeric checker.</li>
+    <li><strong>A non-homogeneous unit.</strong> Every expression's dimensions must balance.</li>
+    <li><strong>A schema mismatch.</strong> Every shipped object is validated against a strict JSON Schema.</li>
+    <li><strong>A closed form that drifts from SymPy.</strong> The JS the browser runs must reproduce
+      SymPy's own sample values to within one part in a billion (the parity oracle).</li>
+    <li><strong>Math that will not render.</strong> Every LaTeX string must render with KaTeX.</li>
+    <li><strong>A platform-specific name.</strong> A scan gate keeps the course provider-agnostic.</li>
+  </ul>
+
+  <h2>The three regimes</h2>
+  <p class="muted">
+    "Algebra is just calculus done" is only true for constant acceleration. Every topic declares which of
+    three relationships it is: <strong>(1)</strong> algebra is calculus evaluated; <strong>(2)</strong>
+    calculus does what algebra cannot (non-constant forces); <strong>(3)</strong> algebra-only. A learner
+    always knows which one they are looking at.
+  </p>
+
+  <style>
+    h1 { font-size: 1.9rem; }
+    .lede { max-width: 46rem; }
+    .axes { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0; }
+    @media (max-width: 640px) { .axes { grid-template-columns: 1fr; } }
+    .axes .card p { margin: 0.5rem 0 0; color: var(--ink-2); font-size: 0.95rem; }
+    .gates { line-height: 1.8; }
+    .gates code { background: var(--paper-sunk); padding: 0.1rem 0.35rem; border-radius: 5px; }
+  </style>
+</Base>
