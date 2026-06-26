@@ -93,7 +93,7 @@ schemas/             JSON-Schema contracts (draft 2020-12, additionalProperties:
 scripts/validate/    Node gates: validate-solutions, validate-reference, check-parity, check-katex, scan-text
 src/                 Astro app: pages/, layouts/, components/, islands/ (Svelte), lib/, styles/
 docs/                architecture, authoring-problems, authoring-formulas, regime-map, house-conventions, SOURCES, sessions/
-.github/workflows/deploy.yml   push to main -> Node gates + astro build -> GitHub Pages (Pages disabled until reviewed)
+.github/workflows/deploy.yml   push to main -> Node gates + astro build -> GitHub Pages (LIVE, auto-deploys)
 ```
 
 ## Honesty model (two axes, non-negotiable)
@@ -167,33 +167,41 @@ velocity, the damped oscillator, **work–energy**, **projectile with quadratic 
 and **gravitational potential energy** (regime 2); and **isothermal PV-work** (regime 3) — plus a 28-formula
 reference (mechanics + two thermo) and concept graph, all SymPy-verified. The producer is a model registry
 (`constant-accel`, `shm`, `linear-drag`, `damped-shm`, `work-energy`, `pv-work`, `projectile`, `impulse`,
-`rotation`, `gravity-pe`). The concept-graph nodes are click-to-select and drag-to-reposition. The site is
-public and auto-deploys on every push to `main`. Graphs come as the **temporal stack** (`kind:"stack"`, modes `static` | `interactive` |
+`rotation`, `gravity-pe`). The concept-graph nodes are click-to-select and drag-to-reposition.
+
+Graphs come in three instruments: the **temporal stack** (`kind:"stack"`, modes `static` | `interactive` |
 `sampled`), the **area/integral instrument** (`kind:"area"`, ADR-0014 — area under `f(u)` = the accumulated
-integral `g(u)`, off the time axis), or the **2D trajectory instrument** (`kind:"trajectory"`, ADR-0015 — the
+integral `g(u)`, off the time axis), and the **2D trajectory instrument** (`kind:"trajectory"`, ADR-0015 — the
 path y vs x; drag-free is exact/interactive, quadratic drag is numerically integrated). Proof kinds:
-`equivalence` (regime 1) · `governing` (regime-2 ODE / numerical motion) · `integral` (area instrument). Pages
-stays disabled until the owner publishes.
+`equivalence` (regime 1) · `governing` (regime-2 ODE / numerical motion) · `integral` (area instrument).
 
 ## Where this might go next (paths for a future session)
 
-Pick a track; each is independent and lands on the proven engine. Resume from the newest session log.
+Pick a track; each is independent and lands on the proven engine. Resume from the newest session log
+([`docs/sessions/2026-06-26.md`](./docs/sessions/), bottom). **Already done** (don't redo): work–energy,
+impulse, gravitational PE (area instrument); projectile drag-free + quadratic drag (trajectory); rotational
+kinematics (stack); isothermal PV-work (thermo). The engine is feature-complete for these shapes — the
+remaining work is breadth + a couple of small, well-scoped engine extensions, flagged below.
 
-1. **More area-instrument lessons (the cheap downstream of ADR-0014)** — the integral instrument now exists, so
-   any "area under a curve = accumulated integral" lesson is just a model + spec + test, no engine change:
-   gravitational PE (`∫F dr`), impulse–momentum (`∫F dt`), more thermo PV processes (isobaric, adiabatic), and
-   later E&M potential/field integrals (`∫E·dl`, `∫dq/r²`). This is the highest-leverage breadth track.
-2. **Reference breadth into other domains** — E&M, the rest of thermo, waves/optics, modern (ADR-0007, toward
+1. **Mechanics breadth that needs a SMALL engine extension** (highest-value next):
+   - **Orbits & uniform circular motion** — reuse the trajectory instrument, but the path *loops* (no
+     landing). Needs a small generalization: relax the projectile-specific bits (start-at-origin,
+     `check-trajectory.mjs`'s "lands at y≈0" + range-monotonic checks) so a closed orbit validates by
+     conserved energy / angular momentum instead. Orbits then reuse the RK4 numerical machinery directly.
+   - **Energy conservation & collisions** — these are not "area under a curve" or a path; they need a NEW small
+     viz (an energy-bar exchange KE↔PE over time/height, or a before/after momentum bar). Decide the viz first.
+2. **More area-instrument lessons (zero engine change — model + spec + test)** — more thermo PV processes
+   (isobaric, adiabatic), and later E&M potential/field integrals (`∫E·dl`, `∫dq/r²`). Copy `work_energy.py` /
+   `gravity_pe.py`.
+3. **Reference breadth into other domains** — E&M, the rest of thermo, waves/optics, modern (ADR-0007, toward
    the complete formula sheet). Pure authored+verified data: add `reference/formulas/*.formula.toml` with the
-   right `domain` (it color-codes the concept-graph node). No engine change.
-3. **More regime-1 / regime-2 mechanics lessons** — energy conservation, collisions/momentum, rotation,
-   gravitation/orbits. Reuse an existing model where the physics fits; the trajectory + numerical-RK4 pattern
-   (ADR-0015) now covers any new no-closed-form motion (anharmonic oscillators, non-1/r² orbits).
-4. **The §8 interlinking backbone** — hover-to-reference from any formula token in a lesson, and formula→lesson
+   right `domain` (it color-codes the concept-graph node). No engine change. The thermo pair
+   (`thermo-ideal-gas`, `thermo-work-isothermal`) is the template for a new domain.
+4. **E&M (Phase 2)** — the second dual-register domain. RC circuits reuse the temporal stack (exponential);
+   field-of-a-charge-distribution reuses the area instrument (`∫dq/r²`); a Coulomb/field reference seeds it.
+5. **The §8 interlinking backbone** — hover-to-reference from any formula token in a lesson, and formula→lesson
    navigation, so the reference becomes the site's navigational spine (brief §8). Frontend work over the
    existing `formulas.json` + `concept-graph.json`.
-5. **Polish / publish prep** — when the owner is ready: enable GitHub Pages, run the deploy, write a `/about`
-   page, and do a `/ship`-style validation sweep.
 
 The ADR-0012 parked question (a no-closed-form `sampled` region) is **resolved** (ADR-0015): the
 quadratic-drag trajectory is numerically integrated by RK4, each frame producer-verified (converged + EOM

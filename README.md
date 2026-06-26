@@ -2,6 +2,8 @@
 
 **A dual algebra-based / calculus-based physics course where the verification system is the product.**
 
+**Live:** https://jd-jones-ases.github.io/quadrature/
+
 Physics is taught at whichever altitude the learner needs. If the goal is algebra-based physics, you get a
 clean, rigorous course on its own terms. If the goal is calculus-based physics, you *also* get to see the
 algebra as **calculus with the work already done** — and you leave with a sense for the physics and a sense for

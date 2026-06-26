@@ -5,6 +5,12 @@ plan in [`ROADMAP.md`](./ROADMAP.md).
 
 ## [Unreleased] — Phase 1: full mechanics (in progress)
 
+- **Published.** The repo is public and the site is **live** at https://jd-jones-ases.github.io/quadrature/
+  (GitHub Pages, GitHub Actions source). Every push to `main` runs the Node gates + `astro build` and
+  auto-deploys; a gate failure fails the deploy. (Repo renamed to lowercase `quadrature` so the Pages path
+  matches the Astro `base`.)
+- **Concept-graph nodes are click-to-select AND drag-to-reposition** (pointer events; the frozen build-time
+  layout is the initial state, so SSR is unchanged).
 - **Mechanics breadth on the proven instruments (no engine change — model + spec + test):**
   - **Impulse–momentum** (regime 2, area instrument on the *time* axis): the shaded area under a force–time
     pulse is the impulse $\int F\,dt$, whose slope is the force and which equals the change in momentum — the
