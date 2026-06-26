@@ -1,0 +1,18 @@
+id = "optics-thin-lens"
+name = "Thin-lens equation"
+domain = "waves-optics"
+regime = 3
+expr = "1/do + 1/di"
+lhs = "\\frac{1}{f}"
+result_unit = "1/m"
+assumptions = ["thin lens, paraxial rays", "sign convention: real images at positive dᵢ"]
+citations = []
+
+[variables]
+do = { unit = "m", desc = "object distance" }
+di = { unit = "m", desc = "image distance" }
+
+[[edges]]
+type = "related-to"
+target = "optics-magnification"
+gloss = "the image distance dᵢ sets the magnification m = −dᵢ/dₒ"

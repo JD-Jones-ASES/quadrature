@@ -1,0 +1,19 @@
+id = "em-efield-point"
+name = "Electric field of a point charge"
+domain = "em"
+regime = 1
+expr = "k*q/r**2"
+lhs = "E"
+result_unit = "N/C"
+assumptions = ["point charge (or spherical charge)", "magnitude of the radial field; points away from a positive charge"]
+citations = []
+
+[variables]
+k = { unit = "N*m**2/C**2", desc = "Coulomb constant 1/(4πε₀)" }
+q = { unit = "C", desc = "source charge" }
+r = { unit = "m", desc = "distance from the charge" }
+
+[[edges]]
+type = "related-to"
+target = "em-potential-point"
+gloss = "the field is minus the gradient of the potential, E = −dV/dr"

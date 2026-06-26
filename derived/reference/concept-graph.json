@@ -11,8 +11,8 @@
       "name": "Centripetal acceleration",
       "domain": "mechanics",
       "degree": 1,
-      "x": 365.47,
-      "y": 40
+      "x": 40,
+      "y": 46.78
     },
     {
       "id": "circ-centripetal-force",
@@ -20,8 +20,8 @@
       "name": "Centripetal force",
       "domain": "mechanics",
       "degree": 2,
-      "x": 446.01,
-      "y": 40
+      "x": 40,
+      "y": 183.83
     },
     {
       "id": "damped-omega-d",
@@ -29,8 +29,8 @@
       "name": "Damped angular frequency",
       "domain": "mechanics",
       "degree": 2,
-      "x": 427.67,
-      "y": 197.88
+      "x": 600,
+      "y": 304.29
     },
     {
       "id": "damped-zeta",
@@ -38,8 +38,8 @@
       "name": "Damping ratio",
       "domain": "mechanics",
       "degree": 1,
-      "x": 426.31,
-      "y": 51.97
+      "x": 600,
+      "y": 143.78
     },
     {
       "id": "drag-terminal",
@@ -47,17 +47,17 @@
       "name": "Terminal velocity (linear drag)",
       "domain": "mechanics",
       "degree": 1,
-      "x": 600,
-      "y": 69.25
+      "x": 460.1,
+      "y": 40
     },
     {
       "id": "drag-v-of-t",
       "label": "v",
       "name": "Velocity under linear drag",
       "domain": "mechanics",
-      "degree": 2,
-      "x": 600,
-      "y": 208.39
+      "degree": 3,
+      "x": 289.9,
+      "y": 40
     },
     {
       "id": "dyn-friction-kinetic",
@@ -74,8 +74,8 @@
       "name": "Hooke's law (spring force)",
       "domain": "mechanics",
       "degree": 2,
-      "x": 281.56,
-      "y": 440
+      "x": 471.75,
+      "y": 141.21
     },
     {
       "id": "dyn-newton-2",
@@ -83,62 +83,179 @@
       "name": "Newton's second law",
       "domain": "mechanics",
       "degree": 3,
-      "x": 539.77,
-      "y": 76.78
+      "x": 40,
+      "y": 265.57
     },
     {
       "id": "dyn-weight",
       "label": "F_g",
       "name": "Weight (gravitational force near Earth)",
       "domain": "mechanics",
+      "degree": 3,
+      "x": 224.94,
+      "y": 389.14
+    },
+    {
+      "id": "em-capacitance",
+      "label": "C",
+      "name": "Capacitance",
+      "domain": "em",
+      "degree": 4,
+      "x": 40,
+      "y": 40
+    },
+    {
+      "id": "em-capacitor-energy",
+      "label": "U",
+      "name": "Energy stored in a capacitor",
+      "domain": "em",
+      "degree": 3,
+      "x": 40,
+      "y": 40
+    },
+    {
+      "id": "em-coulomb",
+      "label": "F",
+      "name": "Coulomb's law",
+      "domain": "em",
+      "degree": 3,
+      "x": 552.76,
+      "y": 440
+    },
+    {
+      "id": "em-efield-point",
+      "label": "E",
+      "name": "Electric field of a point charge",
+      "domain": "em",
       "degree": 2,
       "x": 600,
-      "y": 119.89
+      "y": 371.02
+    },
+    {
+      "id": "em-ohms-law",
+      "label": "V",
+      "name": "Ohm's law",
+      "domain": "em",
+      "degree": 2,
+      "x": 225.14,
+      "y": 440
+    },
+    {
+      "id": "em-potential-energy",
+      "label": "U",
+      "name": "Electric potential energy of two charges",
+      "domain": "em",
+      "degree": 3,
+      "x": 341.95,
+      "y": 440
+    },
+    {
+      "id": "em-potential-point",
+      "label": "V",
+      "name": "Electric potential of a point charge",
+      "domain": "em",
+      "degree": 3,
+      "x": 435.11,
+      "y": 348.38
+    },
+    {
+      "id": "em-power-electric",
+      "label": "P",
+      "name": "Electrical power",
+      "domain": "em",
+      "degree": 3,
+      "x": 91.86,
+      "y": 440
+    },
+    {
+      "id": "em-rc-time-constant",
+      "label": "\\tau",
+      "name": "RC time constant",
+      "domain": "em",
+      "degree": 3,
+      "x": 85.59,
+      "y": 40
     },
     {
       "id": "en-kinetic",
       "label": "K",
       "name": "Kinetic energy",
       "domain": "mechanics",
-      "degree": 4,
-      "x": 40,
-      "y": 330.27
+      "degree": 5,
+      "x": 172.78,
+      "y": 147.25
     },
     {
       "id": "en-power",
       "label": "P",
       "name": "Mechanical power (constant force)",
       "domain": "mechanics",
-      "degree": 1,
-      "x": 43.55,
-      "y": 81.13
+      "degree": 2,
+      "x": 40,
+      "y": 440
     },
     {
       "id": "en-spring-pe",
       "label": "U_s",
       "name": "Elastic potential energy",
       "domain": "mechanics",
-      "degree": 2,
-      "x": 129.92,
-      "y": 440
+      "degree": 3,
+      "x": 171.46,
+      "y": 40
     },
     {
       "id": "en-work",
       "label": "W",
       "name": "Work (constant force along displacement)",
       "domain": "mechanics",
+      "degree": 4,
+      "x": 186.21,
+      "y": 291.48
+    },
+    {
+      "id": "fluid-bernoulli",
+      "label": "P_0",
+      "name": "Bernoulli's equation (total pressure)",
+      "domain": "mechanics",
+      "degree": 4,
+      "x": 40,
+      "y": 150.76
+    },
+    {
+      "id": "fluid-buoyancy",
+      "label": "F_b",
+      "name": "Buoyant force (Archimedes' principle)",
+      "domain": "mechanics",
       "degree": 3,
-      "x": 153.91,
-      "y": 164.74
+      "x": 40,
+      "y": 402.58
+    },
+    {
+      "id": "fluid-continuity",
+      "label": "Q",
+      "name": "Continuity (volume flow rate)",
+      "domain": "mechanics",
+      "degree": 2,
+      "x": 40,
+      "y": 40
+    },
+    {
+      "id": "fluid-hydrostatic-pressure",
+      "label": "P",
+      "name": "Hydrostatic pressure with depth",
+      "domain": "mechanics",
+      "degree": 3,
+      "x": 40,
+      "y": 349.56
     },
     {
       "id": "grav-newton",
       "label": "F",
       "name": "Newton's law of universal gravitation",
       "domain": "mechanics",
-      "degree": 1,
-      "x": 600,
-      "y": 40
+      "degree": 3,
+      "x": 443.08,
+      "y": 440
     },
     {
       "id": "kin-a-const",
@@ -146,8 +263,8 @@
       "name": "Constant acceleration",
       "domain": "mechanics",
       "degree": 2,
-      "x": 600,
-      "y": 440
+      "x": 326.44,
+      "y": 274.5
     },
     {
       "id": "kin-v-of-t",
@@ -155,8 +272,8 @@
       "name": "Velocity under constant acceleration",
       "domain": "mechanics",
       "degree": 5,
-      "x": 600,
-      "y": 371.29
+      "x": 455.46,
+      "y": 211.31
     },
     {
       "id": "kin-x-of-t",
@@ -164,8 +281,44 @@
       "name": "Position under constant acceleration",
       "domain": "mechanics",
       "degree": 2,
-      "x": 570.61,
-      "y": 440
+      "x": 568.64,
+      "y": 309.95
+    },
+    {
+      "id": "modern-de-broglie",
+      "label": "\\lambda",
+      "name": "de Broglie wavelength",
+      "domain": "modern",
+      "degree": 3,
+      "x": 538.73,
+      "y": 75.8
+    },
+    {
+      "id": "modern-mass-energy",
+      "label": "E",
+      "name": "Mass–energy equivalence",
+      "domain": "modern",
+      "degree": 1,
+      "x": 239.18,
+      "y": 88.21
+    },
+    {
+      "id": "modern-photoelectric",
+      "label": "K_{\\max}",
+      "name": "Photoelectric effect",
+      "domain": "modern",
+      "degree": 1,
+      "x": 565.93,
+      "y": 40
+    },
+    {
+      "id": "modern-photon-energy",
+      "label": "E",
+      "name": "Photon energy",
+      "domain": "modern",
+      "degree": 5,
+      "x": 401.69,
+      "y": 191.18
     },
     {
       "id": "mom-impulse",
@@ -173,17 +326,35 @@
       "name": "Impulse (constant force)",
       "domain": "mechanics",
       "degree": 1,
-      "x": 40,
-      "y": 440
+      "x": 359.71,
+      "y": 40
     },
     {
       "id": "mom-momentum",
       "label": "p",
       "name": "Linear momentum",
       "domain": "mechanics",
-      "degree": 3,
-      "x": 40,
-      "y": 416.2
+      "degree": 4,
+      "x": 418.5,
+      "y": 40
+    },
+    {
+      "id": "optics-magnification",
+      "label": "m",
+      "name": "Magnification (thin lens or mirror)",
+      "domain": "waves-optics",
+      "degree": 2,
+      "x": 339.71,
+      "y": 440
+    },
+    {
+      "id": "optics-thin-lens",
+      "label": "\\frac{1}{f}",
+      "name": "Thin-lens equation",
+      "domain": "waves-optics",
+      "degree": 2,
+      "x": 208.83,
+      "y": 440
     },
     {
       "id": "rot-angular-momentum",
@@ -191,8 +362,8 @@
       "name": "Angular momentum (rigid body)",
       "domain": "mechanics",
       "degree": 1,
-      "x": 40,
-      "y": 334.4
+      "x": 600,
+      "y": 40
     },
     {
       "id": "rot-kinetic",
@@ -200,8 +371,8 @@
       "name": "Rotational kinetic energy",
       "domain": "mechanics",
       "degree": 1,
-      "x": 40,
-      "y": 201.01
+      "x": 137.45,
+      "y": 383.45
     },
     {
       "id": "rot-torque",
@@ -209,8 +380,8 @@
       "name": "Torque (force at a lever arm)",
       "domain": "mechanics",
       "degree": 1,
-      "x": 514.37,
-      "y": 268.67
+      "x": 40,
+      "y": 259.19
     },
     {
       "id": "shm-omega",
@@ -218,17 +389,17 @@
       "name": "Angular frequency of a spring–mass oscillator",
       "domain": "mechanics",
       "degree": 4,
-      "x": 301.29,
-      "y": 296.59
+      "x": 600,
+      "y": 402.57
     },
     {
       "id": "shm-period",
       "label": "T",
       "name": "Period of a spring–mass oscillator",
       "domain": "mechanics",
-      "degree": 2,
-      "x": 138.0,
-      "y": 260.75
+      "degree": 3,
+      "x": 600,
+      "y": 440
     },
     {
       "id": "shm-x-of-t",
@@ -236,16 +407,70 @@
       "name": "Position in simple harmonic motion",
       "domain": "mechanics",
       "degree": 2,
-      "x": 194.54,
-      "y": 368.34
+      "x": 600,
+      "y": 440
+    },
+    {
+      "id": "thermo-adiabatic-relation",
+      "label": "P_2",
+      "name": "Adiabatic relation (PVγ = const)",
+      "domain": "thermo",
+      "degree": 3,
+      "x": 324.47,
+      "y": 40
+    },
+    {
+      "id": "thermo-adiabatic-work",
+      "label": "W",
+      "name": "Adiabatic work",
+      "domain": "thermo",
+      "degree": 3,
+      "x": 237.08,
+      "y": 40
+    },
+    {
+      "id": "thermo-efficiency-carnot",
+      "label": "\\eta",
+      "name": "Carnot efficiency",
+      "domain": "thermo",
+      "degree": 1,
+      "x": 562.99,
+      "y": 411.28
+    },
+    {
+      "id": "thermo-first-law",
+      "label": "\\Delta U",
+      "name": "First law of thermodynamics",
+      "domain": "thermo",
+      "degree": 5,
+      "x": 556.21,
+      "y": 174.77
+    },
+    {
+      "id": "thermo-heat-capacity",
+      "label": "Q",
+      "name": "Heat and specific heat",
+      "domain": "thermo",
+      "degree": 1,
+      "x": 600,
+      "y": 178.12
     },
     {
       "id": "thermo-ideal-gas",
       "label": "P",
       "name": "Ideal-gas law (pressure form)",
       "domain": "thermo",
-      "degree": 1,
-      "x": 185.06,
+      "degree": 3,
+      "x": 383.07,
+      "y": 40
+    },
+    {
+      "id": "thermo-internal-energy",
+      "label": "U",
+      "name": "Internal energy of a monatomic ideal gas",
+      "domain": "thermo",
+      "degree": 3,
+      "x": 451.54,
       "y": 40
     },
     {
@@ -253,9 +478,36 @@
       "label": "W",
       "name": "Isothermal work (ideal gas)",
       "domain": "thermo",
+      "degree": 4,
+      "x": 320.95,
+      "y": 40.19
+    },
+    {
+      "id": "wave-period",
+      "label": "T",
+      "name": "Period and frequency",
+      "domain": "waves-optics",
+      "degree": 4,
+      "x": 451.97,
+      "y": 440
+    },
+    {
+      "id": "wave-speed",
+      "label": "v",
+      "name": "Wave speed",
+      "domain": "waves-optics",
+      "degree": 4,
+      "x": 360.7,
+      "y": 440
+    },
+    {
+      "id": "wave-string-speed",
+      "label": "v",
+      "name": "Speed of a wave on a string",
+      "domain": "waves-optics",
       "degree": 2,
-      "x": 272.5,
-      "y": 68.6
+      "x": 219.76,
+      "y": 440
     }
   ],
   "edges": [
@@ -308,6 +560,102 @@
       "gloss": "Newton's second law with a = g"
     },
     {
+      "source": "em-capacitance",
+      "target": "em-capacitor-energy",
+      "type": "related-to",
+      "gloss": "the charge–voltage relation whose area is the stored energy"
+    },
+    {
+      "source": "em-capacitance",
+      "target": "em-rc-time-constant",
+      "type": "related-to",
+      "gloss": "with a resistor, RC sets how fast it charges"
+    },
+    {
+      "source": "em-capacitor-energy",
+      "target": "em-capacitance",
+      "type": "related-to",
+      "gloss": "uses Q = CV; the energy is the area under V(q) = q/C"
+    },
+    {
+      "source": "em-capacitor-energy",
+      "target": "en-spring-pe",
+      "type": "related-to",
+      "gloss": "the same ½(stiffness)(displacement)² shape as a spring — energy is a triangle's area"
+    },
+    {
+      "source": "em-coulomb",
+      "target": "grav-newton",
+      "type": "related-to",
+      "gloss": "the same inverse-square form as gravitation, with charge in place of mass"
+    },
+    {
+      "source": "em-coulomb",
+      "target": "em-efield-point",
+      "type": "related-to",
+      "gloss": "the force per unit charge is the field, F = qE"
+    },
+    {
+      "source": "em-efield-point",
+      "target": "em-potential-point",
+      "type": "related-to",
+      "gloss": "the field is minus the gradient of the potential, E = −dV/dr"
+    },
+    {
+      "source": "em-ohms-law",
+      "target": "em-power-electric",
+      "type": "related-to",
+      "gloss": "combine with P = IV to get P = I²R = V²/R"
+    },
+    {
+      "source": "em-potential-energy",
+      "target": "en-work",
+      "type": "related-to",
+      "gloss": "the work done against the Coulomb force, ∫F dr — the area under the force–distance curve"
+    },
+    {
+      "source": "em-potential-energy",
+      "target": "em-coulomb",
+      "type": "related-to",
+      "gloss": "its slope is the Coulomb force, −dU/dr = F"
+    },
+    {
+      "source": "em-potential-point",
+      "target": "em-potential-energy",
+      "type": "related-to",
+      "gloss": "the potential energy per unit test charge, U = qV"
+    },
+    {
+      "source": "em-potential-point",
+      "target": "grav-newton",
+      "type": "related-to",
+      "gloss": "like gravitation, the 1/r potential is the convergent integral of an inverse-square field"
+    },
+    {
+      "source": "em-power-electric",
+      "target": "en-power",
+      "type": "related-to",
+      "gloss": "the same power = energy/time, here electrical"
+    },
+    {
+      "source": "em-power-electric",
+      "target": "em-ohms-law",
+      "type": "related-to",
+      "gloss": "substitute V = IR to get the resistor forms I²R and V²/R"
+    },
+    {
+      "source": "em-rc-time-constant",
+      "target": "drag-v-of-t",
+      "type": "related-to",
+      "gloss": "the same exponential approach as a velocity under linear drag — RC plays the role of the mechanical time constant"
+    },
+    {
+      "source": "em-rc-time-constant",
+      "target": "em-capacitance",
+      "type": "related-to",
+      "gloss": "sets the e-folding time for charging the capacitance C"
+    },
+    {
       "source": "en-kinetic",
       "target": "mom-momentum",
       "type": "related-to",
@@ -336,6 +684,48 @@
       "target": "en-kinetic",
       "type": "related-to",
       "gloss": "net work equals the change in kinetic energy (work–energy theorem)"
+    },
+    {
+      "source": "fluid-bernoulli",
+      "target": "en-kinetic",
+      "type": "related-to",
+      "gloss": "the ½ρv² term is kinetic energy per unit volume"
+    },
+    {
+      "source": "fluid-bernoulli",
+      "target": "fluid-continuity",
+      "type": "related-to",
+      "gloss": "pair with continuity to relate speed and pressure between two points"
+    },
+    {
+      "source": "fluid-buoyancy",
+      "target": "dyn-weight",
+      "type": "related-to",
+      "gloss": "equals the weight mg of the displaced fluid"
+    },
+    {
+      "source": "fluid-buoyancy",
+      "target": "fluid-hydrostatic-pressure",
+      "type": "related-to",
+      "gloss": "arises from pressure increasing with depth across the body"
+    },
+    {
+      "source": "fluid-continuity",
+      "target": "fluid-bernoulli",
+      "type": "related-to",
+      "gloss": "continuity sets the speed v that appears in Bernoulli's ½ρv² term"
+    },
+    {
+      "source": "fluid-hydrostatic-pressure",
+      "target": "fluid-buoyancy",
+      "type": "related-to",
+      "gloss": "the depth-pressure difference across a submerged body is what buoys it up"
+    },
+    {
+      "source": "fluid-hydrostatic-pressure",
+      "target": "fluid-bernoulli",
+      "type": "related-to",
+      "gloss": "the ρgh term in Bernoulli's equation"
     },
     {
       "source": "grav-newton",
@@ -368,10 +758,58 @@
       "gloss": "x is the running area under the v-t graph"
     },
     {
+      "source": "modern-de-broglie",
+      "target": "mom-momentum",
+      "type": "related-to",
+      "gloss": "the momentum p = mv that sets the matter wavelength"
+    },
+    {
+      "source": "modern-de-broglie",
+      "target": "modern-photon-energy",
+      "type": "related-to",
+      "gloss": "the wave–particle pair: wavelength from momentum, energy from frequency"
+    },
+    {
+      "source": "modern-mass-energy",
+      "target": "modern-photon-energy",
+      "type": "related-to",
+      "gloss": "energy and mass are the same currency; a photon carries energy with zero rest mass"
+    },
+    {
+      "source": "modern-photoelectric",
+      "target": "modern-photon-energy",
+      "type": "related-to",
+      "gloss": "the photon's energy hf minus the work function φ"
+    },
+    {
+      "source": "modern-photon-energy",
+      "target": "wave-period",
+      "type": "related-to",
+      "gloss": "ties a wave's frequency to a particle's energy"
+    },
+    {
+      "source": "modern-photon-energy",
+      "target": "modern-de-broglie",
+      "type": "related-to",
+      "gloss": "the wave–particle pair: energy from frequency, wavelength from momentum"
+    },
+    {
       "source": "mom-impulse",
       "target": "mom-momentum",
       "type": "related-to",
       "gloss": "impulse equals the change in momentum (J = Δp)"
+    },
+    {
+      "source": "optics-magnification",
+      "target": "optics-thin-lens",
+      "type": "related-to",
+      "gloss": "uses the dₒ, dᵢ from the thin-lens equation"
+    },
+    {
+      "source": "optics-thin-lens",
+      "target": "optics-magnification",
+      "type": "related-to",
+      "gloss": "the image distance dᵢ sets the magnification m = −dᵢ/dₒ"
     },
     {
       "source": "rot-angular-momentum",
@@ -410,16 +848,106 @@
       "gloss": "repeats every period T"
     },
     {
+      "source": "thermo-adiabatic-relation",
+      "target": "thermo-adiabatic-work",
+      "type": "related-to",
+      "gloss": "the pressure law that makes the adiabatic area steeper than the isotherm"
+    },
+    {
+      "source": "thermo-adiabatic-relation",
+      "target": "thermo-ideal-gas",
+      "type": "related-to",
+      "gloss": "combine with PV = nRT to get the cooling TVγ⁻¹ = const"
+    },
+    {
+      "source": "thermo-adiabatic-work",
+      "target": "thermo-work-isothermal",
+      "type": "related-to",
+      "gloss": "the adiabatic sibling of the isothermal area ∫P dV — a steeper curve, less work"
+    },
+    {
+      "source": "thermo-adiabatic-work",
+      "target": "thermo-adiabatic-relation",
+      "type": "related-to",
+      "gloss": "uses PVγ = const to set the final pressure and temperature"
+    },
+    {
+      "source": "thermo-efficiency-carnot",
+      "target": "thermo-first-law",
+      "type": "related-to",
+      "gloss": "the ceiling on work per unit heat set by the second law"
+    },
+    {
+      "source": "thermo-first-law",
+      "target": "thermo-work-isothermal",
+      "type": "related-to",
+      "gloss": "W is the area under the P–V curve, ∫P dV"
+    },
+    {
+      "source": "thermo-first-law",
+      "target": "thermo-internal-energy",
+      "type": "related-to",
+      "gloss": "ΔU is the change in internal energy"
+    },
+    {
+      "source": "thermo-heat-capacity",
+      "target": "thermo-first-law",
+      "type": "related-to",
+      "gloss": "the heat Q that enters the first law"
+    },
+    {
       "source": "thermo-ideal-gas",
       "target": "thermo-work-isothermal",
       "type": "related-to",
       "gloss": "integrating this pressure over volume at constant T gives the isothermal work"
     },
     {
+      "source": "thermo-internal-energy",
+      "target": "thermo-ideal-gas",
+      "type": "related-to",
+      "gloss": "internal energy depends only on T for an ideal gas"
+    },
+    {
+      "source": "thermo-internal-energy",
+      "target": "thermo-first-law",
+      "type": "related-to",
+      "gloss": "ΔU = (3/2)nR ΔT is the internal-energy change in the first law"
+    },
+    {
       "source": "thermo-work-isothermal",
       "target": "en-work",
       "type": "related-to",
       "gloss": "the same area-under-the-curve idea as mechanical work, here W = ∫P dV on the P–V diagram"
+    },
+    {
+      "source": "wave-period",
+      "target": "shm-period",
+      "type": "related-to",
+      "gloss": "the same reciprocal relation as simple harmonic motion, T = 1/f = 2π/ω"
+    },
+    {
+      "source": "wave-period",
+      "target": "wave-speed",
+      "type": "related-to",
+      "gloss": "feeds the wave-speed relation v = fλ"
+    },
+    {
+      "source": "wave-speed",
+      "target": "wave-period",
+      "type": "related-to",
+      "gloss": "frequency is the reciprocal of the period, f = 1/T"
+    },
+    {
+      "source": "wave-speed",
+      "target": "wave-string-speed",
+      "type": "related-to",
+      "gloss": "for a string, v is fixed by tension and mass density"
+    },
+    {
+      "source": "wave-string-speed",
+      "target": "wave-speed",
+      "type": "related-to",
+      "gloss": "fixes the v that appears in v = fλ for a string"
     }
   ]
 }

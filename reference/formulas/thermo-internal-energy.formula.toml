@@ -1,0 +1,24 @@
+id = "thermo-internal-energy"
+name = "Internal energy of a monatomic ideal gas"
+domain = "thermo"
+regime = 3
+expr = "3*n*R*T/2"
+lhs = "U"
+result_unit = "J"
+assumptions = ["ideal gas", "monatomic (3 translational degrees of freedom); use 5/2 for diatomic"]
+citations = []
+
+[variables]
+n = { unit = "mol", desc = "amount of substance" }
+R = { unit = "J/(mol*K)", desc = "ideal-gas constant" }
+T = { unit = "K", desc = "absolute temperature" }
+
+[[edges]]
+type = "related-to"
+target = "thermo-ideal-gas"
+gloss = "internal energy depends only on T for an ideal gas"
+
+[[edges]]
+type = "related-to"
+target = "thermo-first-law"
+gloss = "ΔU = (3/2)nR ΔT is the internal-energy change in the first law"

@@ -1,0 +1,26 @@
+id = "thermo-adiabatic-relation"
+name = "Adiabatic relation (PVγ = const)"
+domain = "thermo"
+regime = 3
+expr = "P1*(V1/V2)**gamma"
+lhs = "P_2"
+result_unit = "Pa"
+assumptions = ["reversible adiabatic process: PVγ = const", "ideal gas with constant heat-capacity ratio γ = Cp/Cv"]
+lessons = ["adiabatic-work"]
+citations = []
+
+[variables]
+P1 = { unit = "Pa", desc = "initial pressure" }
+V1 = { unit = "m**3", desc = "initial volume" }
+V2 = { unit = "m**3", desc = "final volume" }
+gamma = { unit = "1", desc = "heat-capacity ratio Cp/Cv" }
+
+[[edges]]
+type = "related-to"
+target = "thermo-adiabatic-work"
+gloss = "the pressure law that makes the adiabatic area steeper than the isotherm"
+
+[[edges]]
+type = "related-to"
+target = "thermo-ideal-gas"
+gloss = "combine with PV = nRT to get the cooling TVγ⁻¹ = const"

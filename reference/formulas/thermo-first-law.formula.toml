@@ -1,0 +1,23 @@
+id = "thermo-first-law"
+name = "First law of thermodynamics"
+domain = "thermo"
+regime = 3
+expr = "Q - W"
+lhs = "\\Delta U"
+result_unit = "J"
+assumptions = ["energy conservation for a closed system", "sign convention: Q added to the gas positive, W done by the gas positive"]
+citations = []
+
+[variables]
+Q = { unit = "J", desc = "heat added to the system" }
+W = { unit = "J", desc = "work done by the system" }
+
+[[edges]]
+type = "related-to"
+target = "thermo-work-isothermal"
+gloss = "W is the area under the P–V curve, ∫P dV"
+
+[[edges]]
+type = "related-to"
+target = "thermo-internal-energy"
+gloss = "ΔU is the change in internal energy"

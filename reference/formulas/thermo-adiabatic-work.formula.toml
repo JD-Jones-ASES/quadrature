@@ -1,0 +1,29 @@
+id = "thermo-adiabatic-work"
+name = "Adiabatic work"
+domain = "thermo"
+regime = 3
+expr = "n*Cv*(T1 - T2)"
+lhs = "W"
+result_unit = "J"
+assumptions = [
+  "adiabatic process: no heat exchanged (Q = 0), so W = −ΔU = nCv(T₁−T₂)",
+  "equivalently W = (P₁V₁ − P₂V₂)/(γ−1); the gas cools as it does work",
+]
+lessons = ["adiabatic-work"]
+citations = []
+
+[variables]
+n = { unit = "mol", desc = "amount of substance" }
+Cv = { unit = "J/(mol*K)", desc = "molar heat capacity at constant volume" }
+T1 = { unit = "K", desc = "initial temperature" }
+T2 = { unit = "K", desc = "final temperature" }
+
+[[edges]]
+type = "related-to"
+target = "thermo-work-isothermal"
+gloss = "the adiabatic sibling of the isothermal area ∫P dV — a steeper curve, less work"
+
+[[edges]]
+type = "related-to"
+target = "thermo-adiabatic-relation"
+gloss = "uses PVγ = const to set the final pressure and temperature"

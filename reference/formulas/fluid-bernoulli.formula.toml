@@ -1,0 +1,26 @@
+id = "fluid-bernoulli"
+name = "Bernoulli's equation (total pressure)"
+domain = "mechanics"
+regime = 1
+expr = "P + rho*v**2/2 + rho*g*h"
+lhs = "P_0"
+result_unit = "Pa"
+assumptions = ["steady, incompressible, non-viscous flow along a streamline", "energy conservation per unit volume; P₀ is constant along the streamline"]
+citations = []
+
+[variables]
+P = { unit = "Pa", desc = "static pressure" }
+rho = { unit = "kg/m**3", desc = "fluid density" }
+v = { unit = "m/s", desc = "flow speed" }
+g = { unit = "m/s**2", desc = "gravitational field strength" }
+h = { unit = "m", desc = "height" }
+
+[[edges]]
+type = "related-to"
+target = "en-kinetic"
+gloss = "the ½ρv² term is kinetic energy per unit volume"
+
+[[edges]]
+type = "related-to"
+target = "fluid-continuity"
+gloss = "pair with continuity to relate speed and pressure between two points"

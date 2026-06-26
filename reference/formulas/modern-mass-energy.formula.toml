@@ -1,0 +1,18 @@
+id = "modern-mass-energy"
+name = "Mass–energy equivalence"
+domain = "modern"
+regime = 3
+expr = "m*c**2"
+lhs = "E"
+result_unit = "J"
+assumptions = ["rest energy of a mass m", "c is the speed of light"]
+citations = []
+
+[variables]
+m = { unit = "kg", desc = "rest mass" }
+c = { unit = "m/s", desc = "speed of light" }
+
+[[edges]]
+type = "related-to"
+target = "modern-photon-energy"
+gloss = "energy and mass are the same currency; a photon carries energy with zero rest mass"

@@ -22,23 +22,25 @@ what algebra cannot (non-constant forces; ODEs) · **3** = algebra-only (no calc
 | Mechanics | Simple harmonic motion | dual | 2 | 1 | lesson + ref |
 | Mechanics | Gravitation | dual | 2 | 1 | lesson (PE: area ∫GMm/r² dr) + ref |
 | Mechanics | Circular motion | dual | 1 | 1 | ref ✓ |
-| E&M | Electrostatics (Coulomb, field) | dual | 1–2 | 2 | — |
+| E&M | Electrostatics (Coulomb, field) | dual | 1–2 | 2 | ref ✓ (Coulomb, point-charge field) |
 | E&M | Gauss / continuous charge | dual | 2 | 2 | — |
-| E&M | Electric potential | dual | 1–2 | 2 | — |
-| E&M | DC circuits | dual | 1 | 2 | — |
-| E&M | Capacitors (incl. RC) | dual | 2 | 2 | — |
+| E&M | Electric potential | dual | 1–2 | 2 | ref ✓ (point-charge potential, electric PE) |
+| E&M | DC circuits | dual | 1 | 2 | ref ✓ (Ohm's law, electrical power) |
+| E&M | Capacitors (incl. RC) | dual | 2 | 2 | lesson (area: ∫V dq → ½CV²) + ref (capacitance, energy, RC) |
 | E&M | Magnetism & forces | dual | 1–2 | 2 | — |
 | E&M | Induction (Faraday/Lenz) | dual | 2 | 2 | — |
-| Fluids | Statics & dynamics | algebra | 3 | 3 | — |
-| Thermo | Temperature, heat, kinetic theory | algebra | 3 | 3 | — |
-| Thermo | Laws / PV work | algebra | 3 (∫P dV stretch) | 3 | lesson (area: isothermal ∫P dV) + ref (partial) |
-| Waves & optics | Waves, sound, superposition | algebra | 3 | 3 | — |
-| Waves & optics | Geometric & physical optics | algebra | 3 | 3 | — |
-| Modern | Quanta, atom, nuclear | algebra | 3 | 3 | — |
+| Fluids | Statics & dynamics | algebra | 3 | 3 | ref ✓ (pressure, buoyancy, continuity, Bernoulli — `mechanics` domain) |
+| Thermo | Temperature, heat, kinetic theory | algebra | 3 | 3 | ref ✓ (first law, specific heat, internal energy, Carnot) |
+| Thermo | Laws / PV work | algebra | 3 (∫P dV stretch) | 3 | lesson (area: isothermal + adiabatic ∫P dV) + ref (ideal gas, isothermal, adiabatic) |
+| Waves & optics | Waves, sound, superposition | algebra | 3 | 3 | ref ✓ (wave speed, period, string) |
+| Waves & optics | Geometric & physical optics | algebra | 3 | 3 | ref ✓ (thin lens, magnification) |
+| Modern | Quanta, atom, nuclear | algebra | 3 | 3 | ref ✓ (photon energy, de Broglie, E=mc², photoelectric) |
 
 Notes:
 - **Fluids** is algebra-only and is *not* in the calculus-based mechanics offering — keep it in the algebra
-  register (brief §9).
+  register (brief §9). The concept-graph `domain` enum has five values (`mechanics`, `em`, `thermo`,
+  `waves-optics`, `modern`); fluid formulas are tagged **`mechanics`** (pressure, buoyancy, and Bernoulli are
+  continuum mechanics / energy conservation), so they color with the mechanics nodes.
 - The "stretch" calculus underpinnings (e.g. work as `∫P dV`) are optional and only added where they are
   clean; do not force a dual register where one doesn't naturally exist. When they *are* clean, the **area
   instrument** (ADR-0014) is the vehicle: a regime-3 lesson can show the underpinning as the area under a

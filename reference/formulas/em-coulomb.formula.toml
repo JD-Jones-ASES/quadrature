@@ -1,0 +1,25 @@
+id = "em-coulomb"
+name = "Coulomb's law"
+domain = "em"
+regime = 1
+expr = "k*q1*q2/r**2"
+lhs = "F"
+result_unit = "N"
+assumptions = ["point charges (or spherical charge distributions)", "magnitude of the force; like charges repel, unlike attract"]
+citations = []
+
+[variables]
+k = { unit = "N*m**2/C**2", desc = "Coulomb constant 1/(4πε₀)" }
+q1 = { unit = "C", desc = "first charge" }
+q2 = { unit = "C", desc = "second charge" }
+r = { unit = "m", desc = "separation between charges" }
+
+[[edges]]
+type = "related-to"
+target = "grav-newton"
+gloss = "the same inverse-square form as gravitation, with charge in place of mass"
+
+[[edges]]
+type = "related-to"
+target = "em-efield-point"
+gloss = "the force per unit charge is the field, F = qE"

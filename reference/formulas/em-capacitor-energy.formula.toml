@@ -1,0 +1,24 @@
+id = "em-capacitor-energy"
+name = "Energy stored in a capacitor"
+domain = "em"
+regime = 2
+expr = "Q**2/(2*C)"
+lhs = "U"
+result_unit = "J"
+assumptions = ["ideal capacitor", "equals ½CV² = ½QV via Q = CV", "the area under the voltage–charge line (a triangle)"]
+lessons = ["capacitor-energy"]
+citations = []
+
+[variables]
+Q = { unit = "C", desc = "charge stored" }
+C = { unit = "F", desc = "capacitance" }
+
+[[edges]]
+type = "related-to"
+target = "em-capacitance"
+gloss = "uses Q = CV; the energy is the area under V(q) = q/C"
+
+[[edges]]
+type = "related-to"
+target = "en-spring-pe"
+gloss = "the same ½(stiffness)(displacement)² shape as a spring — energy is a triangle's area"

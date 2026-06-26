@@ -1,0 +1,368 @@
+{
+  "id": "adiabatic-work",
+  "title": "Adiabatic work: the same area, a steeper curve, a cooler gas",
+  "topic": "thermo",
+  "slug": "adiabatic-work",
+  "scenario": "A diatomic gas ($\\gamma = 1.4$) expands from $V_1 = 1$ L at $P_1 = 100$ kPa to $V_2 = 3$ L with **no heat exchanged** ($PV^\\gamma = $ const). How much work does it do, and what happens to its temperature? The work is again the area under the $P$–$V$ curve — but the adiabat falls off faster than an isotherm, so the gas does less work and *cools*. Drag the cursor out along the adiabat to watch the work accumulate; raise the initial pressure $P_1$ to lift the whole curve while its shape (and the cooling ratio) stays fixed by $\\gamma$.",
+  "regime": 3,
+  "constants": {
+    "P1": 100000.0,
+    "V1": 0.001,
+    "V2": 0.003,
+    "gamma": 1.4
+  },
+  "initial_conditions": {},
+  "assumptions": [
+    {
+      "claim": "Quasi-static, reversible adiabatic process: no heat crosses the boundary ($Q = 0$), so $PV^\\gamma = $ const holds at every step.",
+      "kind": "model"
+    },
+    {
+      "claim": "Ideal gas with constant $\\gamma$ over the temperature range (no vibrational modes switching on).",
+      "kind": "model"
+    }
+  ],
+  "algebra": {
+    "steps": [
+      {
+        "label": "What the algebra-based course hands you (a formula to memorize)",
+        "latex": "W = \\frac{P_1V_1 - P_2V_2}{\\gamma-1} \\qquad(\\text{adiabatic, }PV^\\gamma=\\text{const})",
+        "prose": "For an adiabatic process the algebra course hands you $W = (P_1V_1 - P_2V_2)/(\\gamma-1)$ with no account of where the $\\gamma$ or the denominator come from. It can compute the number but cannot show that the work is the area under a particular curve — or why that area is smaller than the isothermal one."
+      }
+    ],
+    "result": {
+      "adiabatic_work": {
+        "label": "Adiabatic work $W = \\dfrac{P_1V_1 - P_2V_2}{\\gamma-1}$ (the shaded area)",
+        "unit": "J",
+        "symbolic_latex": "\\tfrac{P_1V_1 - P_2V_2}{\\gamma-1}",
+        "value": 88.901496,
+        "display": "88.9"
+      },
+      "final_pressure": {
+        "label": "Final pressure $P_2 = P_1(V_1/V_2)^\\gamma$",
+        "unit": "Pa",
+        "symbolic_latex": "P_1\\!\\left(\\tfrac{V_1}{V_2}\\right)^{\\!\\gamma}",
+        "value": 21479.800499,
+        "display": "21480"
+      },
+      "isobaric_rectangle": {
+        "label": "If pressure stayed at $P_1$: $W = P_1\\,\\Delta V$ (the rectangle)",
+        "unit": "J",
+        "symbolic_latex": "P_1\\,\\Delta V",
+        "value": 200.0,
+        "display": "200"
+      },
+      "temperature_ratio": {
+        "label": "Temperature ratio $T_2/T_1 = (V_1/V_2)^{\\gamma-1}$ — the gas cools",
+        "unit": "",
+        "symbolic_latex": "\\left(\\tfrac{V_1}{V_2}\\right)^{\\!\\gamma-1}",
+        "value": 0.644394,
+        "display": "0.6444"
+      }
+    }
+  },
+  "calculus": {
+    "steps": [
+      {
+        "label": "Work is the area under the pressure–volume curve",
+        "latex": "W = \\int_{V_1}^{V_2} P\\,dV",
+        "prose": "As before, the work done by the gas is the integral of pressure over volume — the area under the $P$–$V$ curve. What changes from the isotherm is only the *shape* of $P(V)$."
+      },
+      {
+        "label": "Use the adiabatic law $PV^\\gamma = \\text{const}$",
+        "latex": "P = P_1\\!\\left(\\frac{V_1}{V}\\right)^{\\!\\gamma} \\ \\Longrightarrow\\ W = \\int_{V_1}^{V_2} P_1V_1^\\gamma\\,V^{-\\gamma}\\,dV = \\frac{P_1V_1 - P_2V_2}{\\gamma-1}",
+        "prose": "With no heat exchanged, $PV^\\gamma$ is constant, so $P\\propto V^{-\\gamma}$ — a steeper fall than the isotherm's $V^{-1}$. Integrating that power law gives the memorized adiabatic work exactly; its slope at any volume is $P(V)$. Because the curve drops faster, the area is *smaller* than the isothermal area between the same volumes.",
+        "emphasis": true
+      },
+      {
+        "label": "No heat in, so the gas cools",
+        "latex": "\\boxed{\\,\\frac{T_2}{T_1} = \\left(\\frac{V_1}{V_2}\\right)^{\\!\\gamma-1}\\,}",
+        "prose": "Since no heat enters, the work comes out of the gas's internal energy, so its temperature falls — combine $PV^\\gamma=\\text{const}$ with $PV = nRT$ and the temperature ratio is $(V_1/V_2)^{\\gamma-1}$. The isotherm holds $T$ fixed by drawing heat from a reservoir; the adiabat has no reservoir, so the area you can extract is bounded by the cooling. $P_1$ sets the curve's height, but $\\gamma$ alone fixes its shape and this cooling ratio."
+      }
+    ]
+  },
+  "proof": {
+    "kind": "integral",
+    "heading": "The adiabatic work is the area under a steeper P–V curve — and the memorized result falls out, with the gas cooling.",
+    "checked_by": "sympy",
+    "holds": true,
+    "detail": "check $\\tfrac{dW}{dV} = P$; check $W = \\int_{V_1}^{V} P\\,dV'$; recover $W = (P_1V_1 - P_2V_2)/(\\gamma-1)$; collapse the constant-pressure case to $P\\,\\Delta V$",
+    "checks": [
+      {
+        "key": "ftc_slope",
+        "claim": "The work's slope is the pressure: $\\tfrac{dW}{dV} = P$ — the area's rate of growth is the curve's height.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "area_is_integral",
+        "claim": "The accumulated work is the area: $W(V) = \\int_{V_1}^{V} P\\,dV'$.",
+        "holds": true,
+        "tier": "simplify"
+      },
+      {
+        "key": "adiabatic_falls_out",
+        "claim": "The memorized adiabatic work $W = \\dfrac{P_1V_1 - P_2V_2}{\\gamma-1}$ is exactly the area at $V_2$.",
+        "holds": true,
+        "tier": "simplify"
+      },
+      {
+        "key": "isobaric_echo",
+        "claim": "At constant pressure the integral collapses to $W = P\\,\\Delta V$ — the area is a rectangle (the quadrature).",
+        "holds": true,
+        "tier": "structural"
+      }
+    ]
+  },
+  "units_check": {
+    "checked_by": "sympy",
+    "holds": true
+  },
+  "graphs": [
+    {
+      "kind": "area",
+      "mode": "interactive",
+      "window": "fixed",
+      "annotate": [
+        "area_is_work",
+        "adiabat_vs_isotherm"
+      ],
+      "svg": "assets/graphs/adiabatic-work-0.svg",
+      "series": {
+        "u": [
+          0.001,
+          0.001040833,
+          0.001081667,
+          0.0011225,
+          0.001163333,
+          0.001204167,
+          0.001245,
+          0.001285833,
+          0.001326667,
+          0.0013675,
+          0.001408333,
+          0.001449167,
+          0.00149,
+          0.001530833,
+          0.001571667,
+          0.0016125,
+          0.001653333,
+          0.001694167,
+          0.001735,
+          0.001775833,
+          0.001816667,
+          0.0018575,
+          0.001898333,
+          0.001939167,
+          0.00198,
+          0.002020833,
+          0.002061667,
+          0.0021025,
+          0.002143333,
+          0.002184167,
+          0.002225,
+          0.002265833,
+          0.002306667,
+          0.0023475,
+          0.002388333,
+          0.002429167,
+          0.00247,
+          0.002510833,
+          0.002551667,
+          0.0025925,
+          0.002633333,
+          0.002674167,
+          0.002715,
+          0.002755833,
+          0.002796667,
+          0.0028375,
+          0.002878333,
+          0.002919167,
+          0.00296,
+          0.003000833,
+          0.003041667,
+          0.0030825,
+          0.003123333,
+          0.003164167,
+          0.003205,
+          0.003245833,
+          0.003286667,
+          0.0033275,
+          0.003368333,
+          0.003409167,
+          0.00345
+        ],
+        "f": [
+          100000.0,
+          94551.0868729728,
+          89591.9496664823,
+          85062.6895780204,
+          80912.260232177,
+          77097.1972498323,
+          73580.5293679256,
+          70330.1600273532,
+          67318.3252357039,
+          64521.0952551027,
+          61917.3701320342,
+          59488.6604641582,
+          57218.8630742601,
+          55093.5881359126,
+          53100.0893371764,
+          51227.1727186057,
+          49464.7173862289,
+          47803.6760589807,
+          46236.0504803869,
+          44754.5329214046,
+          43352.5394250829,
+          42024.218764181,
+          40764.1737091403,
+          39567.5084109803,
+          38429.8539210193,
+          37347.1447279163,
+          36315.67098135,
+          35332.1116172945,
+          34393.3507760929,
+          33496.5302139251,
+          32639.08524505,
+          31818.590934608,
+          31032.8124343606,
+          30279.7411821536,
+          29557.463968555,
+          28864.2101822425,
+          28198.3869257154,
+          27558.4660808696,
+          26943.0281049592,
+          26350.7953980998,
+          25780.5338207838,
+          25231.0930215547,
+          24701.4377699075,
+          24190.5612777914,
+          23697.5222103103,
+          23221.4739081299,
+          22761.5874915746,
+          22317.0857835407,
+          21887.270460551,
+          21471.4533661106,
+          21068.9876029582,
+          20679.2927120255,
+          20301.7929495612,
+          19935.9458072515,
+          19581.2653467723,
+          19237.2664400251,
+          18903.4909635458,
+          18579.5294265909,
+          18264.9703600142,
+          17959.4244130192,
+          17662.5444127101
+        ],
+        "g": [
+          0.0,
+          3.9702714919,
+          7.7283614503,
+          11.2928273717,
+          14.6802439183,
+          17.9052481982,
+          20.9806023423,
+          23.9178983539,
+          26.7274985363,
+          29.4185055966,
+          31.9993109246,
+          34.4774909528,
+          36.8597350484,
+          39.1522929828,
+          41.3608547293,
+          43.4904599781,
+          45.5458760242,
+          47.5314738555,
+          49.4511310413,
+          51.3085588465,
+          53.1071806506,
+          54.8500341138,
+          56.5400595755,
+          58.179983543,
+          59.772223091,
+          61.3191436951,
+          62.8229488872,
+          64.2855883116,
+          65.7089907526,
+          67.0949602306,
+          68.4450883244,
+          69.7609666172,
+          71.0440891012,
+          72.2957689372,
+          73.517333519,
+          74.7100328606,
+          75.8749607337,
+          77.0132348369,
+          78.1259107613,
+          79.2139073261,
+          80.2781738303,
+          81.3196091696,
+          82.3389911368,
+          83.3371323554,
+          84.3148041316,
+          85.2726694642,
+          86.2114289765,
+          87.1317491113,
+          88.0341985919,
+          88.9193854525,
+          89.7878892117,
+          90.640200538,
+          91.4768503037,
+          92.2983454073,
+          93.105111409,
+          93.8976143979,
+          94.6763001633,
+          95.4415395825,
+          96.1937439809,
+          96.9333073804,
+          97.6605544404
+        ],
+        "u_max": 0.00345
+      },
+      "closed_form": {
+        "f": "(1/100000)*Math.pow(10, 4/5)*P1/Math.pow(u, 7/5)",
+        "g": "-1/40000*Math.pow(10, 4/5)*P1*(-10*Math.pow(10, 1/5) + Math.pow(u, -2/5))"
+      },
+      "closed_form_params": [
+        "P1",
+        "u"
+      ],
+      "params": {
+        "P1": {
+          "min": 50000.0,
+          "max": 200000.0,
+          "default": 100000.0
+        }
+      },
+      "cursor": {
+        "name": "u",
+        "label": "V  (m³)",
+        "unit": "m³",
+        "min": 0.001,
+        "max": 0.00345,
+        "default": 0.003
+      },
+      "u_label": "V  (m³)",
+      "f_label": "P  (Pa)",
+      "g_label": "W  (J)",
+      "u0": 0.001
+    }
+  ],
+  "misconception": {
+    "claim": "An expanding gas always does the same work for a given change in volume.",
+    "refuted_by": "Work is the *area* under the $P$–$V$ curve, and the path sets the curve. An adiabat ($P\\propto V^{-\\gamma}$) falls faster than an isotherm ($P\\propto V^{-1}$), so for the same expansion it encloses less area and does less work. And because no heat flows in, that work is paid out of the gas's internal energy — so the gas cools, $T_2/T_1 = (V_1/V_2)^{\\gamma-1}$. Same volume change, different area, different work."
+  },
+  "formulas_used": [
+    "thermo-adiabatic-work",
+    "thermo-adiabatic-relation",
+    "thermo-ideal-gas"
+  ],
+  "provenance": {
+    "producer": "quadrature_producer",
+    "version": "0.1.0",
+    "sympy": "1.14.0",
+    "author": "Quadrature",
+    "created": "2026-06-26"
+  }
+}

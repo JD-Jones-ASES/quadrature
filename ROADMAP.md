@@ -13,12 +13,18 @@ from `JD.md`), then fill depth-first, and close with a doc sweep. Status lives h
 - **Phase 1 — full mechanics — IN PROGRESS.** Lessons: free fall (1), SHM (2), terminal velocity (2), damped
   oscillator (2, sampled), **work–energy (2, area)**, **projectile drag-free (1) and quadratic drag (2,
   numerical)**, **impulse–momentum (2, area on the time axis)**, **rotational kinematics (1, stack)**,
-  **gravitational PE (2, area on the radial axis)**. 26-formula mechanics reference + concept graph. Engine now has the
-  **integral instrument** (ADR-0014) and the **2D trajectory instrument** (ADR-0015, drag-free exact +
-  quadratic-drag numerical with a new accuracy gate).
-- **Phase 3 — algebra-only domains — SEEDED.** The area instrument opened thermo early: an **isothermal
-  PV-work** lesson (`∫P dV`) + two thermo reference formulas, built on the proven instrument with no engine
-  change. Phase 2 (E&M) and the rest of Phase 3 breadth: not started.
+  **gravitational PE (2, area on the radial axis)**. Engine has the **integral instrument** (ADR-0014) and the
+  **2D trajectory instrument** (ADR-0015, drag-free exact + quadratic-drag numerical with a new accuracy gate).
+- **Phase 2 — electricity & magnetism — OPENED.** First E&M lesson: **energy in a capacitor** (`∫V dq → ½CV²`,
+  regime 2, area instrument on the charge axis), built with no engine change. A 9-formula E&M reference cluster
+  (Coulomb, point-charge field & potential, electric PE, capacitance, capacitor energy, Ohm's law, electrical
+  power, RC time constant). Magnetism, induction, and continuous-charge integrals: not started.
+- **Phase 3 — algebra-only domains — SEEDED & DEEPENING.** Thermo: **isothermal** and **adiabatic** PV-work
+  lessons (`∫P dV`, regime 3, area instrument) + a 6-formula thermo reference (ideal gas, first law, specific
+  heat, internal energy, adiabatic work & relation, Carnot). Reference breadth seeded across the remaining
+  algebra-only domains too — **fluids** (pressure, buoyancy, continuity, Bernoulli), **waves & optics** (wave
+  speed, period, string, thin lens, magnification), **modern** (photon energy, de Broglie, E=mc², photoelectric).
+- **Reference: 56 formulas across all five domains**, all SymPy-unit-verified, 56-node / 73-edge concept graph.
 
 ---
 
@@ -82,6 +88,14 @@ calculus does what algebra can't; the reference covers all mechanics formulas.
 
 **Scope.** Electrostatics, fields, potential, circuits, capacitors, magnetism, induction.
 
+**Opened (2026-06-26).** The area instrument made the first E&M lesson clean to ship with no engine change:
+**energy in a capacitor** (`∫V dq → ½CV²`, regime 2) — the stored energy is the triangle under the
+voltage–charge line, and SymPy proves the memorized `½CV²` falls out; the constant-voltage battery case is the
+rectangle `VQ` (twice the energy). A 9-formula E&M reference cluster seeds the rest (Coulomb ↔ gravitation, RC
+↔ linear-drag, capacitor ↔ spring edges tie it into the existing graph). Next: an RC-charging temporal lesson
+(needs a 2-panel stack or an area reframe — the stack is hard-wired to x/v/a), magnetism, induction, and a
+continuous-charge field integral on the area instrument.
+
 **Definition of done.** E&M dual-register lessons + full E&M reference coverage.
 
 ## Phase 3 — the algebra-only domains
@@ -92,10 +106,14 @@ underpinnings only where clean.
 **Scope.** Fluids, thermodynamics, waves & optics, modern physics. Calculus underpinning optional and only
 where natural (e.g. work as `∫P dV` on a PV diagram). Do **not** force a dual register where one doesn't exist.
 
-**Seeded (2026-06-26).** The area instrument (ADR-0014) made the `∫P dV` underpinning clean to ship, so thermo
-got an early start: an **isothermal PV-work** lesson (regime 3, proof kind `integral`) + the ideal-gas law and
-isothermal-work reference formulas. The pattern (a regime-3 lesson that surfaces a clean calculus underpinning
-via the area instrument) is the template for the rest of Phase 3 where one exists.
+**Seeded & deepening (2026-06-26).** The area instrument (ADR-0014) made the `∫P dV` underpinning clean to
+ship, so thermo got an early start and now carries two lessons: **isothermal** and **adiabatic** PV-work
+(regime 3, proof kind `integral`) — the same instrument on the volume axis, isotherm `∝1/V` vs the steeper
+adiabat `∝V^{-γ}`, with the gas cooling on the adiabat. Reference coverage now reaches all four algebra-only
+domains: thermo (first law, specific heat, internal energy, adiabatic, Carnot), **fluids** (pressure, buoyancy,
+continuity, Bernoulli), **waves & optics** (wave speed, period, string, thin lens, magnification), and
+**modern** (photon energy, de Broglie, E=mc², photoelectric). The pattern (a regime-3 lesson that surfaces a
+clean calculus underpinning via the area instrument) is the template for the rest where one exists.
 
 **Definition of done.** Algebra-level lessons + reference coverage for all four domains.
 
@@ -105,6 +123,11 @@ After Phase 0 review, populate the §8 formula/concept reference **breadth-first
 offerings (ADR-0007), independent of which lessons exist. Tracked against
 [`docs/regime-map.md`](./docs/regime-map.md). Goal: the reference is a comprehensive, SymPy-verified, fully
 interlinked formula sheet early, while lessons trail depth-first.
+
+**Status (2026-06-26): the breadth-first pass now covers all five domains** — 56 formulas (mechanics incl.
+fluids, E&M, thermo, waves & optics, modern), a 56-node / 73-edge concept graph, every formula's LaTeX
+generated from its SymPy expression and unit-checked. Remaining is per-domain depth (E&M magnetism / induction
+/ Gauss, the rest of optics, nuclear), not new domains.
 
 ## Out of scope (v1)
 

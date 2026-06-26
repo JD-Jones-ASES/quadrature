@@ -1,0 +1,24 @@
+id = "em-potential-point"
+name = "Electric potential of a point charge"
+domain = "em"
+regime = 2
+expr = "k*q/r"
+lhs = "V"
+result_unit = "V"
+assumptions = ["point charge", "potential taken zero at infinity", "the area under the field to infinity converges (1/r²)"]
+citations = []
+
+[variables]
+k = { unit = "N*m**2/C**2", desc = "Coulomb constant 1/(4πε₀)" }
+q = { unit = "C", desc = "source charge" }
+r = { unit = "m", desc = "distance from the charge" }
+
+[[edges]]
+type = "related-to"
+target = "em-potential-energy"
+gloss = "the potential energy per unit test charge, U = qV"
+
+[[edges]]
+type = "related-to"
+target = "grav-newton"
+gloss = "like gravitation, the 1/r potential is the convergent integral of an inverse-square field"

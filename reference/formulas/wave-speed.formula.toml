@@ -1,0 +1,23 @@
+id = "wave-speed"
+name = "Wave speed"
+domain = "waves-optics"
+regime = 3
+expr = "f*lam"
+lhs = "v"
+result_unit = "m/s"
+assumptions = ["periodic wave", "v set by the medium; frequency and wavelength trade off at fixed v"]
+citations = []
+
+[variables]
+f = { unit = "Hz", desc = "frequency" }
+lam = { unit = "m", desc = "wavelength λ" }
+
+[[edges]]
+type = "related-to"
+target = "wave-period"
+gloss = "frequency is the reciprocal of the period, f = 1/T"
+
+[[edges]]
+type = "related-to"
+target = "wave-string-speed"
+gloss = "for a string, v is fixed by tension and mass density"

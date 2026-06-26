@@ -1,0 +1,23 @@
+id = "em-rc-time-constant"
+name = "RC time constant"
+domain = "em"
+regime = 2
+expr = "R*C"
+lhs = "\\tau"
+result_unit = "s"
+assumptions = ["series resistor and capacitor", "the charge approaches its final value as 1 − e^{−t/τ}"]
+citations = []
+
+[variables]
+R = { unit = "ohm", desc = "series resistance" }
+C = { unit = "F", desc = "capacitance" }
+
+[[edges]]
+type = "related-to"
+target = "drag-v-of-t"
+gloss = "the same exponential approach as a velocity under linear drag — RC plays the role of the mechanical time constant"
+
+[[edges]]
+type = "related-to"
+target = "em-capacitance"
+gloss = "sets the e-folding time for charging the capacitance C"

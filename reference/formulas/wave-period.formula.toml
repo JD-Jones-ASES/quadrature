@@ -1,0 +1,22 @@
+id = "wave-period"
+name = "Period and frequency"
+domain = "waves-optics"
+regime = 3
+expr = "1/f"
+lhs = "T"
+result_unit = "s"
+assumptions = ["periodic motion or wave", "period is the time for one cycle; frequency is cycles per second"]
+citations = []
+
+[variables]
+f = { unit = "Hz", desc = "frequency" }
+
+[[edges]]
+type = "related-to"
+target = "shm-period"
+gloss = "the same reciprocal relation as simple harmonic motion, T = 1/f = 2π/ω"
+
+[[edges]]
+type = "related-to"
+target = "wave-speed"
+gloss = "feeds the wave-speed relation v = fλ"

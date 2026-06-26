@@ -1,0 +1,25 @@
+id = "em-potential-energy"
+name = "Electric potential energy of two charges"
+domain = "em"
+regime = 2
+expr = "k*q1*q2/r"
+lhs = "U"
+result_unit = "J"
+assumptions = ["point charges", "energy taken zero at infinite separation", "the work to assemble the charges, ∫F dr"]
+citations = []
+
+[variables]
+k = { unit = "N*m**2/C**2", desc = "Coulomb constant 1/(4πε₀)" }
+q1 = { unit = "C", desc = "first charge" }
+q2 = { unit = "C", desc = "second charge" }
+r = { unit = "m", desc = "separation between charges" }
+
+[[edges]]
+type = "related-to"
+target = "en-work"
+gloss = "the work done against the Coulomb force, ∫F dr — the area under the force–distance curve"
+
+[[edges]]
+type = "related-to"
+target = "em-coulomb"
+gloss = "its slope is the Coulomb force, −dU/dr = F"

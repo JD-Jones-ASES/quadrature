@@ -1,0 +1,23 @@
+id = "em-capacitance"
+name = "Capacitance"
+domain = "em"
+regime = 1
+expr = "Q/V"
+lhs = "C"
+result_unit = "F"
+assumptions = ["linear capacitor: charge proportional to voltage", "C set by geometry, not by Q or V"]
+citations = []
+
+[variables]
+Q = { unit = "C", desc = "charge stored on one plate" }
+V = { unit = "V", desc = "voltage across the plates" }
+
+[[edges]]
+type = "related-to"
+target = "em-capacitor-energy"
+gloss = "the charge–voltage relation whose area is the stored energy"
+
+[[edges]]
+type = "related-to"
+target = "em-rc-time-constant"
+gloss = "with a resistor, RC sets how fast it charges"

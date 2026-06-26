@@ -1,0 +1,18 @@
+id = "wave-string-speed"
+name = "Speed of a wave on a string"
+domain = "waves-optics"
+regime = 3
+expr = "sqrt(FT/mu)"
+lhs = "v"
+result_unit = "m/s"
+assumptions = ["transverse wave on a uniform string", "small-amplitude (linear) waves"]
+citations = []
+
+[variables]
+FT = { unit = "N", desc = "tension in the string" }
+mu = { unit = "kg/m", desc = "linear mass density" }
+
+[[edges]]
+type = "related-to"
+target = "wave-speed"
+gloss = "fixes the v that appears in v = fλ for a string"

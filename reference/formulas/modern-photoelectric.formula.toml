@@ -1,0 +1,19 @@
+id = "modern-photoelectric"
+name = "Photoelectric effect"
+domain = "modern"
+regime = 3
+expr = "h*f - phi"
+lhs = "K_{\\max}"
+result_unit = "J"
+assumptions = ["one photon ejects one electron", "no current below the threshold frequency f = φ/h, regardless of intensity"]
+citations = []
+
+[variables]
+h = { unit = "J*s", desc = "Planck's constant" }
+f = { unit = "Hz", desc = "frequency of the light" }
+phi = { unit = "J", desc = "work function of the surface" }
+
+[[edges]]
+type = "related-to"
+target = "modern-photon-energy"
+gloss = "the photon's energy hf minus the work function φ"

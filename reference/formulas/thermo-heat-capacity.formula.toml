@@ -1,0 +1,19 @@
+id = "thermo-heat-capacity"
+name = "Heat and specific heat"
+domain = "thermo"
+regime = 3
+expr = "m*c*dT"
+lhs = "Q"
+result_unit = "J"
+assumptions = ["specific heat c constant over the temperature range", "no phase change"]
+citations = []
+
+[variables]
+m = { unit = "kg", desc = "mass" }
+c = { unit = "J/(kg*K)", desc = "specific heat capacity" }
+dT = { unit = "K", desc = "temperature change ΔT" }
+
+[[edges]]
+type = "related-to"
+target = "thermo-first-law"
+gloss = "the heat Q that enters the first law"

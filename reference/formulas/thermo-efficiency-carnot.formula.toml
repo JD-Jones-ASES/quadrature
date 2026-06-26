@@ -1,0 +1,18 @@
+id = "thermo-efficiency-carnot"
+name = "Carnot efficiency"
+domain = "thermo"
+regime = 3
+expr = "1 - Tc/Th"
+lhs = "\\eta"
+result_unit = "1"
+assumptions = ["reversible (Carnot) engine between two reservoirs", "the maximum efficiency any heat engine can reach between Tc and Th"]
+citations = []
+
+[variables]
+Tc = { unit = "K", desc = "cold-reservoir temperature" }
+Th = { unit = "K", desc = "hot-reservoir temperature" }
+
+[[edges]]
+type = "related-to"
+target = "thermo-first-law"
+gloss = "the ceiling on work per unit heat set by the second law"

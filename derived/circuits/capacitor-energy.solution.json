@@ -1,0 +1,369 @@
+{
+  "id": "capacitor-energy",
+  "title": "Energy in a capacitor: the area under the voltage–charge line",
+  "topic": "circuits",
+  "slug": "capacitor-energy",
+  "scenario": "A $C = 500\\ \\mu$F capacitor is charged until it holds $Q = 0.1$ C, reaching $V = 200$ V. How much energy is stored — and why is it $\\tfrac12 CV^2$ and not $CV^2$? As charge piles on, the voltage climbs as $V = q/C$; the energy is the area under that rising line. Drag the cursor and watch the stored energy grow as the triangle under $V(q)$.",
+  "regime": 2,
+  "constants": {
+    "C": 0.0005,
+    "Q": 0.1,
+    "V": 200.0
+  },
+  "initial_conditions": {
+    "q0": 0.0,
+    "V0": 0.0
+  },
+  "assumptions": [
+    {
+      "claim": "Ideal capacitor: fixed capacitance $C$, no leakage, charge spread uniformly so $V = q/C$ holds throughout.",
+      "kind": "model"
+    },
+    {
+      "claim": "The 'where did half the energy go' step assumes the charge is delivered through some resistance (any real wire); the dissipated half does not depend on how small that resistance is.",
+      "kind": "model"
+    }
+  ],
+  "algebra": {
+    "steps": [
+      {
+        "label": "What the algebra-based course hands you",
+        "latex": "U = \\tfrac12 C V^2 = \\tfrac12 Q V \\qquad(\\bar V = \\tfrac12 V,\\ \\text{the average voltage})",
+        "prose": "The energy in a capacitor is handed to you as $\\tfrac12 C V^2$, usually justified by an *average voltage*: the voltage ramps from $0$ to $V$, so on average the charge crosses $\\tfrac12 V$, giving $U = \\tfrac12 Q V$. That works — but only because the voltage rises *linearly*, and the algebra cannot say why the factor is $\\tfrac12$ rather than $1$."
+      }
+    ],
+    "result": {
+      "energy_stored": {
+        "label": "Energy stored $U = \\tfrac12 C V^2 = Q^2/2C$ (the shaded area)",
+        "unit": "J",
+        "symbolic_latex": "\\tfrac{Q^2}{2C}",
+        "value": 10.0,
+        "display": "10"
+      },
+      "final_voltage": {
+        "label": "Final voltage $V = Q/C$",
+        "unit": "V",
+        "symbolic_latex": "Q/C",
+        "value": 200.0,
+        "display": "200"
+      },
+      "battery_work": {
+        "label": "If the voltage were constant: $W = VQ$ (the rectangle — twice the energy)",
+        "unit": "J",
+        "symbolic_latex": "V\\,Q",
+        "value": 20.0,
+        "display": "20"
+      },
+      "final_charge": {
+        "label": "Charge delivered $Q = C V$",
+        "unit": "C",
+        "symbolic_latex": "C\\,V",
+        "value": 0.1,
+        "display": "0.1"
+      }
+    }
+  },
+  "calculus": {
+    "steps": [
+      {
+        "label": "Energy is the area under the voltage–charge line",
+        "latex": "U = \\int_0^Q V\\,dq",
+        "prose": "Pushing a charge $dq$ across the capacitor's voltage $V$ costs energy $V\\,dq$. The total stored energy is the integral of voltage over charge — the area under the $V$–$q$ graph. Because $V = q/C$ rises from zero, that area is a triangle, not a rectangle."
+      },
+      {
+        "label": "Evaluate for the linear law $V(q) = q/C$",
+        "latex": "U = \\int_0^{Q} \\frac{q}{C}\\,dq = \\frac{Q^2}{2C} = \\tfrac12 C V^2",
+        "prose": "The area under a straight line from the origin is $\\tfrac12\\,(\\text{base})\\,(\\text{height}) = \\tfrac12\\,Q\\,(Q/C) = Q^2/2C$. Substituting $Q = CV$ gives the memorized $\\tfrac12 C V^2$ — it is exactly the area, and its slope is $V(q)$.",
+        "emphasis": true
+      },
+      {
+        "label": "Where the other half went",
+        "latex": "\\boxed{\\,U = \\tfrac12 V Q \\quad\\text{but a battery does}\\quad W = V Q\\,}",
+        "prose": "If a battery had held the voltage at $V$ the whole time, it would have done $W = VQ$ — the full rectangle. The capacitor stores only the triangle $\\tfrac12 VQ$; the other half is dissipated as heat in the wire's resistance while the charge flows. The constant-voltage rectangle is the quadrature; the real charging is the area under a rising line."
+      }
+    ]
+  },
+  "proof": {
+    "kind": "integral",
+    "heading": "The stored energy is the area under the voltage–charge line — and the memorized ½CV² falls out of the integral.",
+    "checked_by": "sympy",
+    "holds": true,
+    "detail": "check $\\tfrac{dU}{dq} = V$; check $U = \\int_0^q V\\,dq'$; recover $\\tfrac12 C V^2$; the constant-voltage case is the rectangle $VQ$ (twice the energy)",
+    "checks": [
+      {
+        "key": "ftc_slope",
+        "claim": "The energy's slope is the voltage: $U'(q) = V(q)$ — the area's rate of growth is the curve's height.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "area_is_integral",
+        "claim": "The stored energy is exactly the area: $U(q) = \\int_0^q V\\,dq'$.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "half_cv2",
+        "claim": "The memorized $\\tfrac12 CV^2$ is the area at full charge: $\\tfrac12 C V^2 = U(Q)$ with $V = Q/C$.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "constant_voltage_echo",
+        "claim": "A battery holding the voltage constant would do $W = VQ$ — a rectangle, twice the stored energy (the quadrature).",
+        "holds": true,
+        "tier": "structural"
+      }
+    ]
+  },
+  "units_check": {
+    "checked_by": "sympy",
+    "holds": true
+  },
+  "graphs": [
+    {
+      "kind": "area",
+      "mode": "interactive",
+      "window": "fixed",
+      "annotate": [
+        "area_is_energy",
+        "half_cv2"
+      ],
+      "svg": "assets/graphs/capacitor-energy-0.svg",
+      "series": {
+        "u": [
+          0.0,
+          0.002,
+          0.004,
+          0.006,
+          0.008,
+          0.01,
+          0.012,
+          0.014,
+          0.016,
+          0.018,
+          0.02,
+          0.022,
+          0.024,
+          0.026,
+          0.028,
+          0.03,
+          0.032,
+          0.034,
+          0.036,
+          0.038,
+          0.04,
+          0.042,
+          0.044,
+          0.046,
+          0.048,
+          0.05,
+          0.052,
+          0.054,
+          0.056,
+          0.058,
+          0.06,
+          0.062,
+          0.064,
+          0.066,
+          0.068,
+          0.07,
+          0.072,
+          0.074,
+          0.076,
+          0.078,
+          0.08,
+          0.082,
+          0.084,
+          0.086,
+          0.088,
+          0.09,
+          0.092,
+          0.094,
+          0.096,
+          0.098,
+          0.1,
+          0.102,
+          0.104,
+          0.106,
+          0.108,
+          0.11,
+          0.112,
+          0.114,
+          0.116,
+          0.118,
+          0.12
+        ],
+        "f": [
+          0.0,
+          4.0,
+          8.0,
+          12.0,
+          16.0,
+          20.0,
+          24.0,
+          28.0,
+          32.0,
+          36.0,
+          40.0,
+          44.0,
+          48.0,
+          52.0,
+          56.0,
+          60.0,
+          64.0,
+          68.0,
+          72.0,
+          76.0,
+          80.0,
+          84.0,
+          88.0,
+          92.0,
+          96.0,
+          100.0,
+          104.0,
+          108.0,
+          112.0,
+          116.0,
+          120.0,
+          124.0,
+          128.0,
+          132.0,
+          136.0,
+          140.0,
+          144.0,
+          148.0,
+          152.0,
+          156.0,
+          160.0,
+          164.0,
+          168.0,
+          172.0,
+          176.0,
+          180.0,
+          184.0,
+          188.0,
+          192.0,
+          196.0,
+          200.0,
+          204.0,
+          208.0,
+          212.0,
+          216.0,
+          220.0,
+          224.0,
+          228.0,
+          232.0,
+          236.0,
+          240.0
+        ],
+        "g": [
+          0.0,
+          0.004,
+          0.016,
+          0.036,
+          0.064,
+          0.1,
+          0.144,
+          0.196,
+          0.256,
+          0.324,
+          0.4,
+          0.484,
+          0.576,
+          0.676,
+          0.784,
+          0.9,
+          1.024,
+          1.156,
+          1.296,
+          1.444,
+          1.6,
+          1.764,
+          1.936,
+          2.116,
+          2.304,
+          2.5,
+          2.704,
+          2.916,
+          3.136,
+          3.364,
+          3.6,
+          3.844,
+          4.096,
+          4.356,
+          4.624,
+          4.9,
+          5.184,
+          5.476,
+          5.776,
+          6.084,
+          6.4,
+          6.724,
+          7.056,
+          7.396,
+          7.744,
+          8.1,
+          8.464,
+          8.836,
+          9.216,
+          9.604,
+          10.0,
+          10.404,
+          10.816,
+          11.236,
+          11.664,
+          12.1,
+          12.544,
+          12.996,
+          13.456,
+          13.924,
+          14.4
+        ],
+        "u_max": 0.12
+      },
+      "closed_form": {
+        "f": "u/C",
+        "g": "(1/2)*Math.pow(u, 2)/C"
+      },
+      "closed_form_params": [
+        "C",
+        "u"
+      ],
+      "params": {
+        "C": {
+          "min": 0.0001,
+          "max": 0.002,
+          "default": 0.0005
+        }
+      },
+      "cursor": {
+        "name": "u",
+        "label": "q  (C)",
+        "unit": "C",
+        "min": 0.0,
+        "max": 0.12,
+        "default": 0.1
+      },
+      "u_label": "q  (C)",
+      "f_label": "V  (V)",
+      "g_label": "U  (J)",
+      "u0": 0.0
+    }
+  ],
+  "misconception": {
+    "claim": "Charging a capacitor to voltage $V$ with a battery of EMF $V$ stores all the energy the battery delivers.",
+    "refuted_by": "The battery delivers $W = VQ$ (it moves charge $Q$ across a fixed voltage $V$ — a *rectangle*). But the capacitor's voltage rises from zero as it fills, so it stores only the *triangle* under the $V$–$q$ line, $\\tfrac12 VQ = \\tfrac12 CV^2$. Exactly half the delivered energy is lost as heat in the charging resistance — and that fraction is independent of the resistance. The factor of $\\tfrac12$ is the area of a triangle, not a fudge."
+  },
+  "formulas_used": [
+    "em-capacitance",
+    "em-capacitor-energy"
+  ],
+  "provenance": {
+    "producer": "quadrature_producer",
+    "version": "0.1.0",
+    "sympy": "1.14.0",
+    "author": "Quadrature",
+    "created": "2026-06-26"
+  }
+}

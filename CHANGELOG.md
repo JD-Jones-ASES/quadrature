@@ -5,6 +5,34 @@ plan in [`ROADMAP.md`](./ROADMAP.md).
 
 ## [Unreleased] — Phase 1: full mechanics (in progress)
 
+- **Opened Phase 2 (E&M) and deepened Phase 3 (thermo) — two more area-instrument lessons, no engine change
+  (model + spec + test):**
+  - **Energy in a capacitor** (regime 2, E&M — *opens Phase 2*): the area instrument on the **charge** axis.
+    As charge accumulates the voltage rises as $V(q)=q/C$, and the shaded area under that line is the stored
+    energy $U=\int_0^Q V\,dq = \tfrac12 CV^2$ — a triangle, not a rectangle. SymPy proves the memorized
+    $\tfrac12 CV^2$ falls out of the integral; the constant-voltage (battery) case is the rectangle $VQ$,
+    twice the energy — the classic "where did half the energy go." Reuses `AreaPlot`. ($U=10$ J at $V=200$ V.)
+  - **Adiabatic PV-work** (regime 3, thermo): the same area instrument on the **volume** axis as the isotherm,
+    but along the steeper adiabat $P=P_1(V_1/V)^\gamma$. The area is the work $W=(P_1V_1-P_2V_2)/(\gamma-1)$,
+    which SymPy recovers (general $\gamma$, certified symbolically); because no heat enters, the gas cools,
+    $T_2/T_1=(V_1/V_2)^{\gamma-1}$. The cursor sweeps volume, the $P_1$ slider scales the curve. ($W\approx89$ J
+    for a $1\to3$ L diatomic expansion, less than the isotherm.)
+- **Reference breadth-fill across all remaining domains** (ADR-0007; pure authored + SymPy-verified data,
+  no engine change): **28 → 56 formulas**, concept graph **28 → 56 nodes / 73 edges**, lighting up the regime
+  map beyond mechanics —
+  - **E&M (9):** Coulomb's law, point-charge field & potential, electric PE, capacitance, capacitor energy,
+    Ohm's law, electrical power, the RC time constant.
+  - **Thermo (6):** first law, specific heat, monatomic internal energy, adiabatic work & the $PV^\gamma$
+    relation, Carnot efficiency.
+  - **Fluids (4, mechanics domain):** hydrostatic pressure, buoyancy, continuity, Bernoulli.
+  - **Waves & optics (5):** wave speed, period/frequency, wave on a string, the thin-lens equation,
+    magnification.
+  - **Modern (4):** photon energy, de Broglie wavelength, mass–energy, the photoelectric effect.
+  - Each formula's LaTeX is generated from its SymPy expression, its units are dimensionally checked, and its
+    typed concept-graph edges cross-link the domains (Coulomb↔gravitation, RC↔linear drag, capacitor↔spring,
+    de Broglie↔momentum, photon↔period).
+- **Producer**: model registry now 12 (`+capacitor-energy`, `+adiabatic`); 44 → 52 pytest cross-checks.
+  All six gates green (parity 4188 samples, KaTeX 530 strings, scan clean).
 - **Published.** The repo is public and the site is **live** at https://jd-jones-ases.github.io/quadrature/
   (GitHub Pages, GitHub Actions source). Every push to `main` runs the Node gates + `astro build` and
   auto-deploys; a gate failure fails the deploy. (Repo renamed to lowercase `quadrature` so the Pages path

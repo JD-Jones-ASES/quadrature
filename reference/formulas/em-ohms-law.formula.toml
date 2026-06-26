@@ -1,0 +1,18 @@
+id = "em-ohms-law"
+name = "Ohm's law"
+domain = "em"
+regime = 1
+expr = "I*R"
+lhs = "V"
+result_unit = "V"
+assumptions = ["ohmic conductor: resistance R independent of current", "steady current"]
+citations = []
+
+[variables]
+I = { unit = "A", desc = "current" }
+R = { unit = "ohm", desc = "resistance" }
+
+[[edges]]
+type = "related-to"
+target = "em-power-electric"
+gloss = "combine with P = IV to get P = I²R = V²/R"

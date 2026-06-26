@@ -1,0 +1,24 @@
+id = "fluid-buoyancy"
+name = "Buoyant force (Archimedes' principle)"
+domain = "mechanics"
+regime = 1
+expr = "rho*g*Vdisp"
+lhs = "F_b"
+result_unit = "N"
+assumptions = ["body fully or partly submerged in a fluid of density ρ", "buoyant force equals the weight of displaced fluid"]
+citations = []
+
+[variables]
+rho = { unit = "kg/m**3", desc = "fluid density" }
+g = { unit = "m/s**2", desc = "gravitational field strength" }
+Vdisp = { unit = "m**3", desc = "volume of fluid displaced" }
+
+[[edges]]
+type = "related-to"
+target = "dyn-weight"
+gloss = "equals the weight mg of the displaced fluid"
+
+[[edges]]
+type = "related-to"
+target = "fluid-hydrostatic-pressure"
+gloss = "arises from pressure increasing with depth across the body"

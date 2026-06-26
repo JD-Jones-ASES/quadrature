@@ -1,0 +1,23 @@
+id = "modern-de-broglie"
+name = "de Broglie wavelength"
+domain = "modern"
+regime = 3
+expr = "h/p"
+lhs = "\\lambda"
+result_unit = "m"
+assumptions = ["matter has a wavelength set by its momentum", "h is Planck's constant"]
+citations = []
+
+[variables]
+h = { unit = "J*s", desc = "Planck's constant" }
+p = { unit = "kg*m/s", desc = "momentum" }
+
+[[edges]]
+type = "related-to"
+target = "mom-momentum"
+gloss = "the momentum p = mv that sets the matter wavelength"
+
+[[edges]]
+type = "related-to"
+target = "modern-photon-energy"
+gloss = "the wave–particle pair: wavelength from momentum, energy from frequency"

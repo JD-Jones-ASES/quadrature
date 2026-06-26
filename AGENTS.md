@@ -160,14 +160,17 @@ The producer engine should rarely change. If it must, add a physics cross-check 
 ## Current state
 
 See [`ROADMAP.md`](./ROADMAP.md) and the latest [`docs/sessions/`](./docs/sessions/) log. **Phase 0 is
-complete and reviewed**; **Phase 1 (mechanics)** is in progress and **Phase 3 (thermo) is seeded**. The site
-is **live and public** at https://jd-jones-ases.github.io/quadrature/ (push to `main` auto-deploys). Shipped:
-11 lessons — free fall, **projectile (drag-free)**, and **rotational kinematics** (regime 1); SHM, terminal
-velocity, the damped oscillator, **work–energy**, **projectile with quadratic drag**, **impulse–momentum**,
-and **gravitational potential energy** (regime 2); and **isothermal PV-work** (regime 3) — plus a 28-formula
-reference (mechanics + two thermo) and concept graph, all SymPy-verified. The producer is a model registry
+complete and reviewed**; **Phase 1 (mechanics)** is in progress, **Phase 2 (E&M) is opened** (a lesson + a 9-formula
+reference cluster), and **Phase 3 (thermo) is seeded and deepening**. The site is **live and public** at
+https://jd-jones-ases.github.io/quadrature/ (push to `main` auto-deploys). Shipped: 13 lessons — free fall,
+**projectile (drag-free)**, and **rotational kinematics** (regime 1); SHM, terminal velocity, the damped
+oscillator, **work–energy**, **projectile with quadratic drag**, **impulse–momentum**, **gravitational
+potential energy**, and **energy in a capacitor** (regime 2, E&M); and **isothermal** and **adiabatic PV-work**
+(regime 3) — plus a **56-formula reference spanning all five domains** (mechanics incl. fluids, E&M, thermo,
+waves & optics, modern) and a 56-node concept graph, all SymPy-verified. The producer is a model registry
 (`constant-accel`, `shm`, `linear-drag`, `damped-shm`, `work-energy`, `pv-work`, `projectile`, `impulse`,
-`rotation`, `gravity-pe`). The concept-graph nodes are click-to-select and drag-to-reposition.
+`rotation`, `gravity-pe`, `capacitor-energy`, `adiabatic`). The concept-graph nodes are click-to-select and
+drag-to-reposition.
 
 Graphs come in three instruments: the **temporal stack** (`kind:"stack"`, modes `static` | `interactive` |
 `sampled`), the **area/integral instrument** (`kind:"area"`, ADR-0014 — area under `f(u)` = the accumulated
@@ -179,9 +182,11 @@ path y vs x; drag-free is exact/interactive, quadratic drag is numerically integ
 
 Pick a track; each is independent and lands on the proven engine. Resume from the newest session log
 ([`docs/sessions/2026-06-26.md`](./docs/sessions/), bottom). **Already done** (don't redo): work–energy,
-impulse, gravitational PE (area instrument); projectile drag-free + quadratic drag (trajectory); rotational
-kinematics (stack); isothermal PV-work (thermo). The engine is feature-complete for these shapes — the
-remaining work is breadth + a couple of small, well-scoped engine extensions, flagged below.
+impulse, gravitational PE, **energy in a capacitor** (area instrument); projectile drag-free + quadratic drag
+(trajectory); rotational kinematics (stack); **isothermal + adiabatic PV-work** (thermo). The **reference now
+spans all five domains** (56 formulas: mechanics incl. fluids, E&M, thermo, waves/optics, modern) — breadth-fill
+track 3 below is largely discharged; what remains is per-domain *depth* and a couple of small, well-scoped
+engine extensions, flagged below.
 
 1. **Mechanics breadth that needs a SMALL engine extension** (highest-value next):
    - **Orbits & uniform circular motion** — reuse the trajectory instrument, but the path *loops* (no
@@ -190,18 +195,26 @@ remaining work is breadth + a couple of small, well-scoped engine extensions, fl
      conserved energy / angular momentum instead. Orbits then reuse the RK4 numerical machinery directly.
    - **Energy conservation & collisions** — these are not "area under a curve" or a path; they need a NEW small
      viz (an energy-bar exchange KE↔PE over time/height, or a before/after momentum bar). Decide the viz first.
-2. **More area-instrument lessons (zero engine change — model + spec + test)** — more thermo PV processes
-   (isobaric, adiabatic), and later E&M potential/field integrals (`∫E·dl`, `∫dq/r²`). Copy `work_energy.py` /
-   `gravity_pe.py`.
-3. **Reference breadth into other domains** — E&M, the rest of thermo, waves/optics, modern (ADR-0007, toward
-   the complete formula sheet). Pure authored+verified data: add `reference/formulas/*.formula.toml` with the
-   right `domain` (it color-codes the concept-graph node). No engine change. The thermo pair
-   (`thermo-ideal-gas`, `thermo-work-isothermal`) is the template for a new domain.
-4. **E&M (Phase 2)** — the second dual-register domain. RC circuits reuse the temporal stack (exponential);
-   field-of-a-charge-distribution reuses the area instrument (`∫dq/r²`); a Coulomb/field reference seeds it.
+2. **More area-instrument lessons (zero engine change — model + spec + test)** — **isobaric** PV-work (the
+   trivial rectangle, completes the PV-process trio), Coulomb PE (`∫kq²/r²` — the E&M twin of gravity-pe), and
+   later E&M field integrals (`∫E·dl`, `∫dq/r²`), moment of inertia (`∫r² dm`). Copy `work_energy.py` /
+   `capacitor_energy.py` / `gravity_pe.py`. **Watch the dimensionless-parameter trap**: a free dimensionless
+   slider that lands in a denominator (e.g. `1/(γ−1)`) makes the build-time `check_homogeneous` divide by zero
+   when it collapses units — bake such a parameter to its value and slide a *dimensionful* one instead (see
+   `adiabatic.py`). Likewise, identities with a `symbol**symbol` power must certify in a *symbolic* tier
+   (`simplify`/`conds='none'`); the numeric proof tier exact-evaluates `Rational**Rational` and can `MemoryError`.
+3. **Reference breadth into other domains** — *largely done* (28 → 56). Remaining depth: E&M magnetism /
+   induction / Gauss, the rest of thermo & optics, nuclear. Pure authored+verified data: add
+   `reference/formulas/*.formula.toml` with the right `domain` (it color-codes the concept-graph node, all five
+   already supported in the frontend). No engine change.
+4. **E&M (Phase 2)** — *opened* (capacitor-energy lesson + the 9-formula E&M cluster: Coulomb, field, potential,
+   PE, capacitance, energy, Ohm, power, RC). Next dual-register lessons: an **RC charging** lesson — but the
+   temporal stack is hard-wired to three panels (x/v/a); RC is a two-quantity (Q, I) derivative pair, so it
+   needs either a 2-panel stack variant or a reframe onto the area instrument. Then magnetism, induction, and a
+   continuous-charge field integral (`∫dq/r²`) on the area instrument.
 5. **The §8 interlinking backbone** — hover-to-reference from any formula token in a lesson, and formula→lesson
    navigation, so the reference becomes the site's navigational spine (brief §8). Frontend work over the
-   existing `formulas.json` + `concept-graph.json`.
+   existing `formulas.json` + `concept-graph.json` (now 56 nodes — denser, more useful as a spine).
 
 The ADR-0012 parked question (a no-closed-form `sampled` region) is **resolved** (ADR-0015): the
 quadratic-drag trajectory is numerically integrated by RK4, each frame producer-verified (converged + EOM

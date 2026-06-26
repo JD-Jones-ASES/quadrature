@@ -1,0 +1,24 @@
+id = "fluid-hydrostatic-pressure"
+name = "Hydrostatic pressure with depth"
+domain = "mechanics"
+regime = 1
+expr = "rho*g*h"
+lhs = "P"
+result_unit = "Pa"
+assumptions = ["incompressible fluid of constant density", "gauge pressure (above the surface); add atmospheric for absolute"]
+citations = []
+
+[variables]
+rho = { unit = "kg/m**3", desc = "fluid density" }
+g = { unit = "m/s**2", desc = "gravitational field strength" }
+h = { unit = "m", desc = "depth below the surface" }
+
+[[edges]]
+type = "related-to"
+target = "fluid-buoyancy"
+gloss = "the depth-pressure difference across a submerged body is what buoys it up"
+
+[[edges]]
+type = "related-to"
+target = "fluid-bernoulli"
+gloss = "the ρgh term in Bernoulli's equation"

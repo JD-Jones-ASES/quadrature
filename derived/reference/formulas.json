@@ -355,6 +355,323 @@
       }
     },
     {
+      "id": "em-capacitance",
+      "name": "Capacitance",
+      "domain": "em",
+      "regime": 1,
+      "lhs": "C",
+      "expr": "Q/V",
+      "expr_srepr": "Mul(Symbol('Q', real=True), Pow(Symbol('V', real=True), Integer(-1)))",
+      "latex": "C = \\frac{Q}{V}",
+      "result_unit": "F",
+      "variables": {
+        "Q": {
+          "unit": "C",
+          "desc": "charge stored on one plate"
+        },
+        "V": {
+          "unit": "V",
+          "desc": "voltage across the plates"
+        }
+      },
+      "assumptions": [
+        "linear capacitor: charge proportional to voltage",
+        "C set by geometry, not by Q or V"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "em-capacitor-energy",
+      "name": "Energy stored in a capacitor",
+      "domain": "em",
+      "regime": 2,
+      "lhs": "U",
+      "expr": "Q**2/(2*C)",
+      "expr_srepr": "Mul(Rational(1, 2), Pow(Symbol('C', real=True), Integer(-1)), Pow(Symbol('Q', real=True), Integer(2)))",
+      "latex": "U = \\frac{Q^{2}}{2 C}",
+      "result_unit": "J",
+      "variables": {
+        "Q": {
+          "unit": "C",
+          "desc": "charge stored"
+        },
+        "C": {
+          "unit": "F",
+          "desc": "capacitance"
+        }
+      },
+      "assumptions": [
+        "ideal capacitor",
+        "equals ½CV² = ½QV via Q = CV",
+        "the area under the voltage–charge line (a triangle)"
+      ],
+      "derivation": null,
+      "lessons": [
+        "capacitor-energy"
+      ],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "em-coulomb",
+      "name": "Coulomb's law",
+      "domain": "em",
+      "regime": 1,
+      "lhs": "F",
+      "expr": "k*q1*q2/r**2",
+      "expr_srepr": "Mul(Symbol('k', real=True), Symbol('q1', real=True), Symbol('q2', real=True), Pow(Symbol('r', real=True), Integer(-2)))",
+      "latex": "F = \\frac{k q_{1} q_{2}}{r^{2}}",
+      "result_unit": "N",
+      "variables": {
+        "k": {
+          "unit": "N*m**2/C**2",
+          "desc": "Coulomb constant 1/(4πε₀)"
+        },
+        "q1": {
+          "unit": "C",
+          "desc": "first charge"
+        },
+        "q2": {
+          "unit": "C",
+          "desc": "second charge"
+        },
+        "r": {
+          "unit": "m",
+          "desc": "separation between charges"
+        }
+      },
+      "assumptions": [
+        "point charges (or spherical charge distributions)",
+        "magnitude of the force; like charges repel, unlike attract"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "em-efield-point",
+      "name": "Electric field of a point charge",
+      "domain": "em",
+      "regime": 1,
+      "lhs": "E",
+      "expr": "k*q/r**2",
+      "expr_srepr": "Mul(Symbol('k', real=True), Symbol('q', real=True), Pow(Symbol('r', real=True), Integer(-2)))",
+      "latex": "E = \\frac{k q}{r^{2}}",
+      "result_unit": "N/C",
+      "variables": {
+        "k": {
+          "unit": "N*m**2/C**2",
+          "desc": "Coulomb constant 1/(4πε₀)"
+        },
+        "q": {
+          "unit": "C",
+          "desc": "source charge"
+        },
+        "r": {
+          "unit": "m",
+          "desc": "distance from the charge"
+        }
+      },
+      "assumptions": [
+        "point charge (or spherical charge)",
+        "magnitude of the radial field; points away from a positive charge"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "em-ohms-law",
+      "name": "Ohm's law",
+      "domain": "em",
+      "regime": 1,
+      "lhs": "V",
+      "expr": "I*R",
+      "expr_srepr": "Mul(Symbol('I', real=True), Symbol('R', real=True))",
+      "latex": "V = I R",
+      "result_unit": "V",
+      "variables": {
+        "I": {
+          "unit": "A",
+          "desc": "current"
+        },
+        "R": {
+          "unit": "ohm",
+          "desc": "resistance"
+        }
+      },
+      "assumptions": [
+        "ohmic conductor: resistance R independent of current",
+        "steady current"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "em-potential-energy",
+      "name": "Electric potential energy of two charges",
+      "domain": "em",
+      "regime": 2,
+      "lhs": "U",
+      "expr": "k*q1*q2/r",
+      "expr_srepr": "Mul(Symbol('k', real=True), Symbol('q1', real=True), Symbol('q2', real=True), Pow(Symbol('r', real=True), Integer(-1)))",
+      "latex": "U = \\frac{k q_{1} q_{2}}{r}",
+      "result_unit": "J",
+      "variables": {
+        "k": {
+          "unit": "N*m**2/C**2",
+          "desc": "Coulomb constant 1/(4πε₀)"
+        },
+        "q1": {
+          "unit": "C",
+          "desc": "first charge"
+        },
+        "q2": {
+          "unit": "C",
+          "desc": "second charge"
+        },
+        "r": {
+          "unit": "m",
+          "desc": "separation between charges"
+        }
+      },
+      "assumptions": [
+        "point charges",
+        "energy taken zero at infinite separation",
+        "the work to assemble the charges, ∫F dr"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "em-potential-point",
+      "name": "Electric potential of a point charge",
+      "domain": "em",
+      "regime": 2,
+      "lhs": "V",
+      "expr": "k*q/r",
+      "expr_srepr": "Mul(Symbol('k', real=True), Symbol('q', real=True), Pow(Symbol('r', real=True), Integer(-1)))",
+      "latex": "V = \\frac{k q}{r}",
+      "result_unit": "V",
+      "variables": {
+        "k": {
+          "unit": "N*m**2/C**2",
+          "desc": "Coulomb constant 1/(4πε₀)"
+        },
+        "q": {
+          "unit": "C",
+          "desc": "source charge"
+        },
+        "r": {
+          "unit": "m",
+          "desc": "distance from the charge"
+        }
+      },
+      "assumptions": [
+        "point charge",
+        "potential taken zero at infinity",
+        "the area under the field to infinity converges (1/r²)"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "em-power-electric",
+      "name": "Electrical power",
+      "domain": "em",
+      "regime": 1,
+      "lhs": "P",
+      "expr": "I*V",
+      "expr_srepr": "Mul(Symbol('I', real=True), Symbol('V', real=True))",
+      "latex": "P = I V",
+      "result_unit": "W",
+      "variables": {
+        "I": {
+          "unit": "A",
+          "desc": "current through the element"
+        },
+        "V": {
+          "unit": "V",
+          "desc": "voltage across the element"
+        }
+      },
+      "assumptions": [
+        "power delivered to a circuit element",
+        "equals I²R = V²/R for a resistor (Ohm's law)"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "em-rc-time-constant",
+      "name": "RC time constant",
+      "domain": "em",
+      "regime": 2,
+      "lhs": "\\tau",
+      "expr": "R*C",
+      "expr_srepr": "Mul(Symbol('C', real=True), Symbol('R', real=True))",
+      "latex": "\\tau = C R",
+      "result_unit": "s",
+      "variables": {
+        "R": {
+          "unit": "ohm",
+          "desc": "series resistance"
+        },
+        "C": {
+          "unit": "F",
+          "desc": "capacitance"
+        }
+      },
+      "assumptions": [
+        "series resistor and capacitor",
+        "the charge approaches its final value as 1 − e^{−t/τ}"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
       "id": "en-kinetic",
       "name": "Kinetic energy",
       "domain": "mechanics",
@@ -469,6 +786,154 @@
       },
       "assumptions": [
         "constant force parallel to displacement"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "fluid-bernoulli",
+      "name": "Bernoulli's equation (total pressure)",
+      "domain": "mechanics",
+      "regime": 1,
+      "lhs": "P_0",
+      "expr": "P + rho*v**2/2 + rho*g*h",
+      "expr_srepr": "Add(Symbol('P', real=True), Mul(Symbol('g', real=True), Symbol('h', real=True), Symbol('rho', real=True)), Mul(Rational(1, 2), Symbol('rho', real=True), Pow(Symbol('v', real=True), Integer(2))))",
+      "latex": "P_0 = P + g h \\rho + \\frac{\\rho v^{2}}{2}",
+      "result_unit": "Pa",
+      "variables": {
+        "P": {
+          "unit": "Pa",
+          "desc": "static pressure"
+        },
+        "rho": {
+          "unit": "kg/m**3",
+          "desc": "fluid density"
+        },
+        "v": {
+          "unit": "m/s",
+          "desc": "flow speed"
+        },
+        "g": {
+          "unit": "m/s**2",
+          "desc": "gravitational field strength"
+        },
+        "h": {
+          "unit": "m",
+          "desc": "height"
+        }
+      },
+      "assumptions": [
+        "steady, incompressible, non-viscous flow along a streamline",
+        "energy conservation per unit volume; P₀ is constant along the streamline"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "fluid-buoyancy",
+      "name": "Buoyant force (Archimedes' principle)",
+      "domain": "mechanics",
+      "regime": 1,
+      "lhs": "F_b",
+      "expr": "rho*g*Vdisp",
+      "expr_srepr": "Mul(Symbol('Vdisp', real=True), Symbol('g', real=True), Symbol('rho', real=True))",
+      "latex": "F_b = Vdisp g \\rho",
+      "result_unit": "N",
+      "variables": {
+        "rho": {
+          "unit": "kg/m**3",
+          "desc": "fluid density"
+        },
+        "g": {
+          "unit": "m/s**2",
+          "desc": "gravitational field strength"
+        },
+        "Vdisp": {
+          "unit": "m**3",
+          "desc": "volume of fluid displaced"
+        }
+      },
+      "assumptions": [
+        "body fully or partly submerged in a fluid of density ρ",
+        "buoyant force equals the weight of displaced fluid"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "fluid-continuity",
+      "name": "Continuity (volume flow rate)",
+      "domain": "mechanics",
+      "regime": 1,
+      "lhs": "Q",
+      "expr": "A*v",
+      "expr_srepr": "Mul(Symbol('A', real=True), Symbol('v', real=True))",
+      "latex": "Q = A v",
+      "result_unit": "m**3/s",
+      "variables": {
+        "A": {
+          "unit": "m**2",
+          "desc": "cross-sectional area"
+        },
+        "v": {
+          "unit": "m/s",
+          "desc": "flow speed"
+        }
+      },
+      "assumptions": [
+        "incompressible fluid",
+        "Q = Av is conserved along a streamtube, so a narrower pipe means faster flow"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "fluid-hydrostatic-pressure",
+      "name": "Hydrostatic pressure with depth",
+      "domain": "mechanics",
+      "regime": 1,
+      "lhs": "P",
+      "expr": "rho*g*h",
+      "expr_srepr": "Mul(Symbol('g', real=True), Symbol('h', real=True), Symbol('rho', real=True))",
+      "latex": "P = g h \\rho",
+      "result_unit": "Pa",
+      "variables": {
+        "rho": {
+          "unit": "kg/m**3",
+          "desc": "fluid density"
+        },
+        "g": {
+          "unit": "m/s**2",
+          "desc": "gravitational field strength"
+        },
+        "h": {
+          "unit": "m",
+          "desc": "depth below the surface"
+        }
+      },
+      "assumptions": [
+        "incompressible fluid of constant density",
+        "gauge pressure (above the surface); add atmospheric for absolute"
       ],
       "derivation": null,
       "lessons": [],
@@ -634,6 +1099,138 @@
       }
     },
     {
+      "id": "modern-de-broglie",
+      "name": "de Broglie wavelength",
+      "domain": "modern",
+      "regime": 3,
+      "lhs": "\\lambda",
+      "expr": "h/p",
+      "expr_srepr": "Mul(Symbol('h', real=True), Pow(Symbol('p', real=True), Integer(-1)))",
+      "latex": "\\lambda = \\frac{h}{p}",
+      "result_unit": "m",
+      "variables": {
+        "h": {
+          "unit": "J*s",
+          "desc": "Planck's constant"
+        },
+        "p": {
+          "unit": "kg*m/s",
+          "desc": "momentum"
+        }
+      },
+      "assumptions": [
+        "matter has a wavelength set by its momentum",
+        "h is Planck's constant"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "modern-mass-energy",
+      "name": "Mass–energy equivalence",
+      "domain": "modern",
+      "regime": 3,
+      "lhs": "E",
+      "expr": "m*c**2",
+      "expr_srepr": "Mul(Pow(Symbol('c', real=True), Integer(2)), Symbol('m', real=True))",
+      "latex": "E = c^{2} m",
+      "result_unit": "J",
+      "variables": {
+        "m": {
+          "unit": "kg",
+          "desc": "rest mass"
+        },
+        "c": {
+          "unit": "m/s",
+          "desc": "speed of light"
+        }
+      },
+      "assumptions": [
+        "rest energy of a mass m",
+        "c is the speed of light"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "modern-photoelectric",
+      "name": "Photoelectric effect",
+      "domain": "modern",
+      "regime": 3,
+      "lhs": "K_{\\max}",
+      "expr": "h*f - phi",
+      "expr_srepr": "Add(Mul(Symbol('f', real=True), Symbol('h', real=True)), Mul(Integer(-1), Symbol('phi', real=True)))",
+      "latex": "K_{\\max} = f h - \\phi",
+      "result_unit": "J",
+      "variables": {
+        "h": {
+          "unit": "J*s",
+          "desc": "Planck's constant"
+        },
+        "f": {
+          "unit": "Hz",
+          "desc": "frequency of the light"
+        },
+        "phi": {
+          "unit": "J",
+          "desc": "work function of the surface"
+        }
+      },
+      "assumptions": [
+        "one photon ejects one electron",
+        "no current below the threshold frequency f = φ/h, regardless of intensity"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "modern-photon-energy",
+      "name": "Photon energy",
+      "domain": "modern",
+      "regime": 3,
+      "lhs": "E",
+      "expr": "h*f",
+      "expr_srepr": "Mul(Symbol('f', real=True), Symbol('h', real=True))",
+      "latex": "E = f h",
+      "result_unit": "J",
+      "variables": {
+        "h": {
+          "unit": "J*s",
+          "desc": "Planck's constant"
+        },
+        "f": {
+          "unit": "Hz",
+          "desc": "frequency of the light"
+        }
+      },
+      "assumptions": [
+        "light comes in quanta of energy hf",
+        "h is Planck's constant"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
       "id": "mom-impulse",
       "name": "Impulse (constant force)",
       "domain": "mechanics",
@@ -686,6 +1283,70 @@
       },
       "assumptions": [
         "speeds well below light speed"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "optics-magnification",
+      "name": "Magnification (thin lens or mirror)",
+      "domain": "waves-optics",
+      "regime": 3,
+      "lhs": "m",
+      "expr": "-di/do",
+      "expr_srepr": "Mul(Integer(-1), Symbol('di', real=True), Pow(Symbol('do', real=True), Integer(-1)))",
+      "latex": "m = - \\frac{di}{do}",
+      "result_unit": "1",
+      "variables": {
+        "di": {
+          "unit": "m",
+          "desc": "image distance"
+        },
+        "do": {
+          "unit": "m",
+          "desc": "object distance"
+        }
+      },
+      "assumptions": [
+        "thin lens or mirror, paraxial rays",
+        "negative m means an inverted image; |m| > 1 is enlarged"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "optics-thin-lens",
+      "name": "Thin-lens equation",
+      "domain": "waves-optics",
+      "regime": 3,
+      "lhs": "\\frac{1}{f}",
+      "expr": "1/do + 1/di",
+      "expr_srepr": "Add(Pow(Symbol('do', real=True), Integer(-1)), Pow(Symbol('di', real=True), Integer(-1)))",
+      "latex": "\\frac{1}{f} = \\frac{1}{do} + \\frac{1}{di}",
+      "result_unit": "1/m",
+      "variables": {
+        "do": {
+          "unit": "m",
+          "desc": "object distance"
+        },
+        "di": {
+          "unit": "m",
+          "desc": "image distance"
+        }
+      },
+      "assumptions": [
+        "thin lens, paraxial rays",
+        "sign convention: real images at positive dᵢ"
       ],
       "derivation": null,
       "lessons": [],
@@ -895,6 +1556,190 @@
       }
     },
     {
+      "id": "thermo-adiabatic-relation",
+      "name": "Adiabatic relation (PVγ = const)",
+      "domain": "thermo",
+      "regime": 3,
+      "lhs": "P_2",
+      "expr": "P1*(V1/V2)**gamma",
+      "expr_srepr": "Mul(Symbol('P1', real=True), Pow(Mul(Symbol('V1', real=True), Pow(Symbol('V2', real=True), Integer(-1))), Symbol('gamma', real=True)))",
+      "latex": "P_2 = P_{1} \\left(\\frac{V_{1}}{V_{2}}\\right)^{\\gamma}",
+      "result_unit": "Pa",
+      "variables": {
+        "P1": {
+          "unit": "Pa",
+          "desc": "initial pressure"
+        },
+        "V1": {
+          "unit": "m**3",
+          "desc": "initial volume"
+        },
+        "V2": {
+          "unit": "m**3",
+          "desc": "final volume"
+        },
+        "gamma": {
+          "unit": "1",
+          "desc": "heat-capacity ratio Cp/Cv"
+        }
+      },
+      "assumptions": [
+        "reversible adiabatic process: PVγ = const",
+        "ideal gas with constant heat-capacity ratio γ = Cp/Cv"
+      ],
+      "derivation": null,
+      "lessons": [
+        "adiabatic-work"
+      ],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "thermo-adiabatic-work",
+      "name": "Adiabatic work",
+      "domain": "thermo",
+      "regime": 3,
+      "lhs": "W",
+      "expr": "n*Cv*(T1 - T2)",
+      "expr_srepr": "Mul(Symbol('Cv', real=True), Symbol('n', real=True), Add(Symbol('T1', real=True), Mul(Integer(-1), Symbol('T2', real=True))))",
+      "latex": "W = Cv n \\left(T_{1} - T_{2}\\right)",
+      "result_unit": "J",
+      "variables": {
+        "n": {
+          "unit": "mol",
+          "desc": "amount of substance"
+        },
+        "Cv": {
+          "unit": "J/(mol*K)",
+          "desc": "molar heat capacity at constant volume"
+        },
+        "T1": {
+          "unit": "K",
+          "desc": "initial temperature"
+        },
+        "T2": {
+          "unit": "K",
+          "desc": "final temperature"
+        }
+      },
+      "assumptions": [
+        "adiabatic process: no heat exchanged (Q = 0), so W = −ΔU = nCv(T₁−T₂)",
+        "equivalently W = (P₁V₁ − P₂V₂)/(γ−1); the gas cools as it does work"
+      ],
+      "derivation": null,
+      "lessons": [
+        "adiabatic-work"
+      ],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "thermo-efficiency-carnot",
+      "name": "Carnot efficiency",
+      "domain": "thermo",
+      "regime": 3,
+      "lhs": "\\eta",
+      "expr": "1 - Tc/Th",
+      "expr_srepr": "Add(Mul(Integer(-1), Symbol('Tc', real=True), Pow(Symbol('Th', real=True), Integer(-1))), Integer(1))",
+      "latex": "\\eta = - \\frac{Tc}{Th} + 1",
+      "result_unit": "1",
+      "variables": {
+        "Tc": {
+          "unit": "K",
+          "desc": "cold-reservoir temperature"
+        },
+        "Th": {
+          "unit": "K",
+          "desc": "hot-reservoir temperature"
+        }
+      },
+      "assumptions": [
+        "reversible (Carnot) engine between two reservoirs",
+        "the maximum efficiency any heat engine can reach between Tc and Th"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "thermo-first-law",
+      "name": "First law of thermodynamics",
+      "domain": "thermo",
+      "regime": 3,
+      "lhs": "\\Delta U",
+      "expr": "Q - W",
+      "expr_srepr": "Add(Symbol('Q', real=True), Mul(Integer(-1), Symbol('W', real=True)))",
+      "latex": "\\Delta U = Q - W",
+      "result_unit": "J",
+      "variables": {
+        "Q": {
+          "unit": "J",
+          "desc": "heat added to the system"
+        },
+        "W": {
+          "unit": "J",
+          "desc": "work done by the system"
+        }
+      },
+      "assumptions": [
+        "energy conservation for a closed system",
+        "sign convention: Q added to the gas positive, W done by the gas positive"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "thermo-heat-capacity",
+      "name": "Heat and specific heat",
+      "domain": "thermo",
+      "regime": 3,
+      "lhs": "Q",
+      "expr": "m*c*dT",
+      "expr_srepr": "Mul(Symbol('c', real=True), Symbol('dT', real=True), Symbol('m', real=True))",
+      "latex": "Q = c dT m",
+      "result_unit": "J",
+      "variables": {
+        "m": {
+          "unit": "kg",
+          "desc": "mass"
+        },
+        "c": {
+          "unit": "J/(kg*K)",
+          "desc": "specific heat capacity"
+        },
+        "dT": {
+          "unit": "K",
+          "desc": "temperature change ΔT"
+        }
+      },
+      "assumptions": [
+        "specific heat c constant over the temperature range",
+        "no phase change"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
       "id": "thermo-ideal-gas",
       "name": "Ideal-gas law (pressure form)",
       "domain": "thermo",
@@ -924,6 +1769,42 @@
       },
       "assumptions": [
         "ideal gas (no intermolecular forces, point particles)"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "thermo-internal-energy",
+      "name": "Internal energy of a monatomic ideal gas",
+      "domain": "thermo",
+      "regime": 3,
+      "lhs": "U",
+      "expr": "3*n*R*T/2",
+      "expr_srepr": "Mul(Rational(3, 2), Symbol('R', real=True), Symbol('T', real=True), Symbol('n', real=True))",
+      "latex": "U = \\frac{3 R T n}{2}",
+      "result_unit": "J",
+      "variables": {
+        "n": {
+          "unit": "mol",
+          "desc": "amount of substance"
+        },
+        "R": {
+          "unit": "J/(mol*K)",
+          "desc": "ideal-gas constant"
+        },
+        "T": {
+          "unit": "K",
+          "desc": "absolute temperature"
+        }
+      },
+      "assumptions": [
+        "ideal gas",
+        "monatomic (3 translational degrees of freedom); use 5/2 for diatomic"
       ],
       "derivation": null,
       "lessons": [],
@@ -968,6 +1849,98 @@
       "assumptions": [
         "ideal gas at constant temperature (isothermal, reversible expansion)",
         "work is the area under the P–V curve, W = ∫P dV"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "wave-period",
+      "name": "Period and frequency",
+      "domain": "waves-optics",
+      "regime": 3,
+      "lhs": "T",
+      "expr": "1/f",
+      "expr_srepr": "Pow(Symbol('f', real=True), Integer(-1))",
+      "latex": "T = \\frac{1}{f}",
+      "result_unit": "s",
+      "variables": {
+        "f": {
+          "unit": "Hz",
+          "desc": "frequency"
+        }
+      },
+      "assumptions": [
+        "periodic motion or wave",
+        "period is the time for one cycle; frequency is cycles per second"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "wave-speed",
+      "name": "Wave speed",
+      "domain": "waves-optics",
+      "regime": 3,
+      "lhs": "v",
+      "expr": "f*lam",
+      "expr_srepr": "Mul(Symbol('f', real=True), Symbol('lam', real=True))",
+      "latex": "v = f lam",
+      "result_unit": "m/s",
+      "variables": {
+        "f": {
+          "unit": "Hz",
+          "desc": "frequency"
+        },
+        "lam": {
+          "unit": "m",
+          "desc": "wavelength λ"
+        }
+      },
+      "assumptions": [
+        "periodic wave",
+        "v set by the medium; frequency and wavelength trade off at fixed v"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "wave-string-speed",
+      "name": "Speed of a wave on a string",
+      "domain": "waves-optics",
+      "regime": 3,
+      "lhs": "v",
+      "expr": "sqrt(FT/mu)",
+      "expr_srepr": "Pow(Mul(Symbol('FT', real=True), Pow(Symbol('mu', real=True), Integer(-1))), Rational(1, 2))",
+      "latex": "v = \\sqrt{\\frac{FT}{\\mu}}",
+      "result_unit": "m/s",
+      "variables": {
+        "FT": {
+          "unit": "N",
+          "desc": "tension in the string"
+        },
+        "mu": {
+          "unit": "kg/m",
+          "desc": "linear mass density"
+        }
+      },
+      "assumptions": [
+        "transverse wave on a uniform string",
+        "small-amplitude (linear) waves"
       ],
       "derivation": null,
       "lessons": [],

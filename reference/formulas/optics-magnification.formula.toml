@@ -1,0 +1,18 @@
+id = "optics-magnification"
+name = "Magnification (thin lens or mirror)"
+domain = "waves-optics"
+regime = 3
+expr = "-di/do"
+lhs = "m"
+result_unit = "1"
+assumptions = ["thin lens or mirror, paraxial rays", "negative m means an inverted image; |m| > 1 is enlarged"]
+citations = []
+
+[variables]
+di = { unit = "m", desc = "image distance" }
+do = { unit = "m", desc = "object distance" }
+
+[[edges]]
+type = "related-to"
+target = "optics-thin-lens"
+gloss = "uses the dₒ, dᵢ from the thin-lens equation"

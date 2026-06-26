@@ -1,0 +1,32 @@
+id = "capacitor-energy"
+title = "Energy in a capacitor: the area under the voltage–charge line"
+topic = "circuits"
+slug = "capacitor-energy"
+model = "capacitor-energy"
+regime = 2
+author = "Quadrature"
+created = "2026-06-26"
+scenario = "A $C = 500\\ \\mu$F capacitor is charged until it holds $Q = 0.1$ C, reaching $V = 200$ V. How much energy is stored — and why is it $\\tfrac12 CV^2$ and not $CV^2$? As charge piles on, the voltage climbs as $V = q/C$; the energy is the area under that rising line. Drag the cursor and watch the stored energy grow as the triangle under $V(q)$."
+formulas_used = ["em-capacitance", "em-capacitor-energy"]
+
+[parameters]
+C = 5e-4                # F — capacitance (500 µF)
+Q = 0.1                 # C — final charge delivered
+q_window = 0.12         # C — how far the cursor can travel
+
+[[assumptions]]
+claim = "Ideal capacitor: fixed capacitance $C$, no leakage, charge spread uniformly so $V = q/C$ holds throughout."
+kind = "model"
+
+[[assumptions]]
+claim = "The 'where did half the energy go' step assumes the charge is delivered through some resistance (any real wire); the dissipated half does not depend on how small that resistance is."
+kind = "model"
+
+[[graphs]]
+kind = "area"
+mode = "interactive"
+annotate = ["area_is_energy", "half_cv2"]
+
+[misconception]
+claim = "Charging a capacitor to voltage $V$ with a battery of EMF $V$ stores all the energy the battery delivers."
+refuted_by = "The battery delivers $W = VQ$ (it moves charge $Q$ across a fixed voltage $V$ — a *rectangle*). But the capacitor's voltage rises from zero as it fills, so it stores only the *triangle* under the $V$–$q$ line, $\\tfrac12 VQ = \\tfrac12 CV^2$. Exactly half the delivered energy is lost as heat in the charging resistance — and that fraction is independent of the resistance. The factor of $\\tfrac12$ is the area of a triangle, not a fudge."

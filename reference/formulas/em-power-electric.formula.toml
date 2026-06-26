@@ -1,0 +1,23 @@
+id = "em-power-electric"
+name = "Electrical power"
+domain = "em"
+regime = 1
+expr = "I*V"
+lhs = "P"
+result_unit = "W"
+assumptions = ["power delivered to a circuit element", "equals I²R = V²/R for a resistor (Ohm's law)"]
+citations = []
+
+[variables]
+I = { unit = "A", desc = "current through the element" }
+V = { unit = "V", desc = "voltage across the element" }
+
+[[edges]]
+type = "related-to"
+target = "en-power"
+gloss = "the same power = energy/time, here electrical"
+
+[[edges]]
+type = "related-to"
+target = "em-ohms-law"
+gloss = "substitute V = IR to get the resistor forms I²R and V²/R"

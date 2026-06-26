@@ -1,0 +1,18 @@
+id = "fluid-continuity"
+name = "Continuity (volume flow rate)"
+domain = "mechanics"
+regime = 1
+expr = "A*v"
+lhs = "Q"
+result_unit = "m**3/s"
+assumptions = ["incompressible fluid", "Q = Av is conserved along a streamtube, so a narrower pipe means faster flow"]
+citations = []
+
+[variables]
+A = { unit = "m**2", desc = "cross-sectional area" }
+v = { unit = "m/s", desc = "flow speed" }
+
+[[edges]]
+type = "related-to"
+target = "fluid-bernoulli"
+gloss = "continuity sets the speed v that appears in Bernoulli's ½ρv² term"

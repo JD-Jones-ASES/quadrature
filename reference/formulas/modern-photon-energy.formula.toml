@@ -1,0 +1,23 @@
+id = "modern-photon-energy"
+name = "Photon energy"
+domain = "modern"
+regime = 3
+expr = "h*f"
+lhs = "E"
+result_unit = "J"
+assumptions = ["light comes in quanta of energy hf", "h is Planck's constant"]
+citations = []
+
+[variables]
+h = { unit = "J*s", desc = "Planck's constant" }
+f = { unit = "Hz", desc = "frequency of the light" }
+
+[[edges]]
+type = "related-to"
+target = "wave-period"
+gloss = "ties a wave's frequency to a particle's energy"
+
+[[edges]]
+type = "related-to"
+target = "modern-de-broglie"
+gloss = "the wave–particle pair: energy from frequency, wavelength from momentum"
