@@ -9,6 +9,10 @@ plan in [`ROADMAP.md`](./ROADMAP.md).
   block (`equivalence` | `governing`), and added the back-substitution verification model (ADR-0013).
 - Interactivity policy resolved (ADR-0012): regime 2 stays `interactive` where the closed form is JS-cheap;
   `sampled` mode reserved for the no-closed-form minority.
+- Two regime-2 lessons, fully verified and interactive: **simple harmonic motion** and **terminal velocity
+  (linear drag)**. Dynamic `[slug]` lesson route + a `/lessons/` index.
+- Reference breadth-fill (ADR-0007): 3 → 24 mechanics formulas (dynamics, momentum, energy, circular,
+  rotation, gravitation), each SymPy-unit-verified; concept graph now 24 nodes / 23 edges.
 - Post-Phase-0 polish: fixed four Astro whitespace-gotcha dropped spaces; Matplotlib figure QC pass
   (per-panel limits, annotation bboxes, a–t panel scaled to include y=0).
 
