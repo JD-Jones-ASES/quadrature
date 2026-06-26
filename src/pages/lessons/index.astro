@@ -1,6 +1,7 @@
 ---
 import Base from "../../layouts/Base.astro";
 import { withBase } from "../../lib/withBase.js";
+import { inline } from "../../lib/katex.js";
 
 const mods = import.meta.glob("../../../derived/**/*.solution.json", { eager: true });
 const lessons = Object.values(mods)
@@ -17,7 +18,7 @@ const REGIME = {
 <Base title="Lessons — Quadrature">
   <h1>Lessons</h1>
   <p class="muted lede">
-    A small number of deeply-built lessons; breadth lives in the
+    A small number of deeply-built lessons; breadth lives in the{" "}
     <a href={withBase("/reference/")}>reference</a>. Each lesson is SymPy-verified end to end.
   </p>
 
@@ -29,7 +30,7 @@ const REGIME = {
             <span class="title">{l.title}</span>
             <span class="badge regime">regime {l.regime} · {REGIME[l.regime]}</span>
           </div>
-          <p class="scenario">{l.scenario}</p>
+          <p class="scenario" set:html={inline(l.scenario)} />
         </a>
       </li>
     ))}

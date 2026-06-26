@@ -131,7 +131,7 @@
   <details class="assumptions">
     <summary><span class="badge model"><span class="dot"></span>Modeling assumptions</span> — author-asserted, disclosed not discharged</summary>
     <ul>
-      {#each s.assumptions as a}<li>{a.claim}</li>{/each}
+      {#each s.assumptions as a}<li>{@html a.claimHtml}</li>{/each}
     </ul>
   </details>
 </section>

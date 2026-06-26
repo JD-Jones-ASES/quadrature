@@ -14,6 +14,7 @@ const step = (st) => ({
 export function renderSolution(sol) {
   const s = structuredClone(sol);
   s.scenarioHtml = inline(s.scenario);
+  s.assumptions = (s.assumptions ?? []).map((a) => ({ ...a, claimHtml: inline(a.claim) }));
 
   s.algebra.steps = s.algebra.steps.map(step);
   s.calculus.steps = s.calculus.steps.map(step);

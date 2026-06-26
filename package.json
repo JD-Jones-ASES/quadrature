@@ -5,9 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "dev:preview": "set LOCAL_ROOT=1&& astro dev --port 4321",
+    "dev:preview": "set LOCAL_ROOT=1&& astro dev",
     "preview": "astro preview",
     "preview2": "astro preview --port 4322",
+    "preview:local": "set LOCAL_ROOT=1&& astro preview",
     "produce": "uv --project producer run build-problems && uv --project producer run build-reference",
     "validate:solutions": "node scripts/validate/validate-solutions.mjs",
     "validate:reference": "node scripts/validate/validate-reference.mjs",

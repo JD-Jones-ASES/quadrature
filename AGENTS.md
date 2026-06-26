@@ -154,6 +154,18 @@ prose / claim / label / scenario / misconception is written with `$...$` (e.g. `
 and rendered by KaTeX at build time. The `check:katex` gate validates **both**. Keep modeling-assumption
 prose in `$...$` too so it reads crisply.
 
+**Two frontend gotchas when rendering authored text** (both bit twice — check them on any new page/island that
+shows authored prose):
+- **Run prose through `inline()`** (from `src/lib/katex.js`), don't print it raw. The `check:katex` gate proves
+  the strings *render*, but it does **not** check that a given page actually calls the renderer — a page that
+  prints `{solution.scenario}` or `{a.claim}` directly will show literal `$…$`. The detail pages go through
+  `lib/view.js` (`renderSolution`), which `inline()`s scenario / steps / results / proof / misconception /
+  **assumptions**; any *other* surface (e.g. the lessons index) must call `inline()` itself and emit with
+  `set:html`.
+- **The Astro whitespace gotcha:** prose that wraps a line right before an inline element drops the joining
+  space — `…in the\n<a>reference</a>` renders as "thereference". Put `{" "}` before the wrapped element (or keep
+  it on the same line). Grep for a word at end-of-line followed by a line starting `<a`/`<strong>`/`<code>`/`{`.
+
 The producer engine should rarely change. If it must, add a physics cross-check in `producer/tests/` and keep
 `uv --project producer run pytest` green.
 

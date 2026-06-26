@@ -5,6 +5,13 @@ plan in [`ROADMAP.md`](./ROADMAP.md).
 
 ## [Unreleased] — Phase 1: full mechanics (in progress)
 
+- **Fixes — inline-math rendering + a whitespace gotcha:**
+  - The **lessons index** printed each scenario raw, so its `$…$` showed literally; it now renders through the
+    same build-time KaTeX path (`inline()`) as the detail pages.
+  - The **modeling-assumptions list** on every lesson page rendered `{a.claim}` raw, so authored `$…$` in
+    assumptions showed literally; `renderSolution` now builds `claimHtml` and the player emits it.
+  - Two **dropped spaces** from the Astro line-wrap-before-inline-element gotcha ("thereference" on the lessons
+    index, "thechange" on the home page) — fixed with `{" "}`. A durable note is now in AGENTS.md.
 - **Moment of inertia** (regime 2, rotation — area instrument on a *mass-distribution* axis, no engine change):
   the algebra course hands you a *table* of moments ($\tfrac13ML^2$, $\tfrac12MR^2$, $MR^2$); calculus makes
   them all from one integral $I=\int r^2\,dm$. With the rod's mass at density $\lambda=M/L$, the integrand is
