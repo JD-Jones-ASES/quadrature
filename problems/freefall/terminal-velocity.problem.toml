@@ -35,4 +35,4 @@ annotate = ["terminal_velocity", "a_decays_to_zero"]
 
 [misconception]
 claim = "A falling object keeps accelerating until it lands."
-refuted_by = "With air resistance the acceleration decays toward zero as drag grows to cancel gravity, so the object approaches a constant terminal velocity. On the a-t graph, a → 0 — the opposite of constant-gravity free fall, where a stays at -10 the whole way."
+refuted_by = "With air resistance the acceleration decays toward zero as drag grows to cancel gravity, so the object approaches a constant terminal velocity. On the a-t graph, $a \\to 0$ — the opposite of constant-gravity free fall, where $a$ stays at $-10$ the whole way."

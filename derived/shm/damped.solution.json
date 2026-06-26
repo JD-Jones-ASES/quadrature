@@ -29,19 +29,19 @@
       {
         "label": "What the algebra-based course can't give you",
         "latex": "\\zeta = \\frac{b}{2\\sqrt{km}} \\;:\\; \\zeta<1\\ \\text{under},\\ \\ \\zeta=1\\ \\text{critical},\\ \\ \\zeta>1\\ \\text{over}",
-        "prose": "Algebra can name the three cases and the critical damping b_c = 2√(km), but it cannot produce the motion — the acceleration depends on both position and velocity, so only the differential equation has the answer."
+        "prose": "Algebra can name the three cases and the critical damping $b_c = 2\\sqrt{km}$, but it cannot produce the motion — the acceleration depends on both position and velocity, so only the differential equation has the answer."
       }
     ],
     "result": {
       "natural_frequency": {
-        "label": "Natural angular frequency ω₀ = √(k/m)",
+        "label": "Natural angular frequency $\\omega_0 = \\sqrt{k/m}$",
         "unit": "1/s",
         "symbolic_latex": "4",
         "value": 4.0,
         "display": "4"
       },
       "critical_damping": {
-        "label": "Critical damping b_c = 2√(km)",
+        "label": "Critical damping $b_c = 2\\sqrt{km}$",
         "unit": "kg/s",
         "symbolic_latex": "8",
         "value": 8.0,
@@ -54,17 +54,17 @@
       {
         "label": "Newton's law with a spring and a drag force",
         "latex": "m\\,x'' = -k\\,x - b\\,x' \\;\\;\\Longrightarrow\\;\\; x'' + 2\\gamma x' + \\omega_0^2 x = 0",
-        "prose": "Restoring force −kx plus a velocity-dependent damping −bx'. Here γ = b/2m and ω₀² = k/m."
+        "prose": "Restoring force $-kx$ plus a velocity-dependent damping $-bx'$. Here $\\gamma = b/2m$ and $\\omega_0^2 = k/m$."
       },
       {
         "label": "The form of the solution depends on the damping",
         "latex": "\\zeta<1:\\ e^{-\\gamma t}\\cos\\omega_d t \\quad \\zeta=1:\\ (A+Bt)e^{-\\gamma t} \\quad \\zeta>1:\\ e^{-\\gamma t}\\cosh st",
-        "prose": "Underdamped: oscillation inside a decaying envelope, ω_d = √(ω₀²−γ²). Critically damped: the fastest return without overshoot. Overdamped: a slow, non-oscillating crawl back."
+        "prose": "Underdamped: oscillation inside a decaying envelope, $\\omega_d = \\sqrt{\\omega_0^2 - \\gamma^2}$. Critically damped: the fastest return without overshoot. Overdamped: a slow, non-oscillating crawl back."
       },
       {
         "label": "Energy leaks out",
         "latex": "\\frac{dE}{dt} = -b\\,v^2 \\le 0",
-        "prose": "Unlike the undamped oscillator (where energy is conserved), the damping removes energy at the rate b v² — and SymPy proves it."
+        "prose": "Unlike the undamped oscillator (where energy is conserved), the damping removes energy at the rate $b v^2$ — and SymPy proves it."
       },
       {
         "label": "The transition is the lesson",
@@ -79,41 +79,41 @@
     "heading": "All three damping regimes provably solve the equation of motion, and energy dissipates.",
     "checked_by": "sympy",
     "holds": true,
-    "detail": "back-substitute each form into m x'' + b x' + k x = 0; check ICs; check dE/dt = −b v²",
+    "detail": "back-substitute each form into $m x'' + b x' + k x = 0$; check the initial conditions; check $dE/dt = -b v^2$",
     "checks": [
       {
         "key": "underdamped_solves",
-        "claim": "Underdamped form e^{−γt}(cos, sin) solves x'' + 2γx' + ω₀²x = 0.",
+        "claim": "Underdamped form $e^{-\\gamma t}(\\cos,\\sin)$ solves $x'' + 2\\gamma x' + \\omega_0^2 x = 0$.",
         "holds": true,
         "tier": "structural"
       },
       {
         "key": "critical_solves",
-        "claim": "Critical form (x₀+…t)e^{−γt} solves x'' + 2γx' + γ²x = 0 (ω₀ = γ).",
+        "claim": "Critical form $(x_0 + \\dots\\,t)\\,e^{-\\gamma t}$ solves $x'' + 2\\gamma x' + \\gamma^2 x = 0$ (where $\\omega_0 = \\gamma$).",
         "holds": true,
         "tier": "structural"
       },
       {
         "key": "overdamped_solves",
-        "claim": "Overdamped form e^{−γt}(cosh, sinh) solves x'' + 2γx' + (γ²−s²)x = 0.",
+        "claim": "Overdamped form $e^{-\\gamma t}(\\cosh,\\sinh)$ solves $x'' + 2\\gamma x' + (\\gamma^2 - s^2)x = 0$.",
         "holds": true,
         "tier": "structural"
       },
       {
         "key": "ic_position",
-        "claim": "It matches the initial position x(0) = x₀.",
+        "claim": "It matches the initial position $x(0) = x_0$.",
         "holds": true,
         "tier": "structural"
       },
       {
         "key": "ic_velocity",
-        "claim": "It matches the initial velocity x'(0) = v₀.",
+        "claim": "It matches the initial velocity $x'(0) = v_0$.",
         "holds": true,
         "tier": "structural"
       },
       {
         "key": "energy_dissipates",
-        "claim": "Energy dissipates at exactly dE/dt = −b v² (here per unit mass, b/m = 2γ).",
+        "claim": "Energy dissipates at exactly $\\tfrac{dE}{dt} = -b v^2$ (here per unit mass, $b/m = 2\\gamma$).",
         "holds": true,
         "tier": "structural"
       }
@@ -3898,7 +3898,7 @@
   ],
   "misconception": {
     "claim": "More damping always makes a system return to rest faster.",
-    "refuted_by": "Past critical damping, adding more damping makes the return SLOWER — the overdamped system crawls back to equilibrium. The quickest return without overshoot is exactly at critical damping (ζ = 1); that is why door closers and instrument needles are tuned to it."
+    "refuted_by": "Past critical damping, adding more damping makes the return SLOWER — the overdamped system crawls back to equilibrium. The quickest return without overshoot is exactly at critical damping ($\\zeta = 1$); that is why door closers and instrument needles are tuned to it."
   },
   "formulas_used": [
     "damped-omega-d",

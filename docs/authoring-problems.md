@@ -72,8 +72,14 @@ invariant holds (energy conserved, or the terminal/equilibrium limit), and any m
 out of the calculus solution. Graphs are usually `interactive` (the closed forms are JS-cheap: cos, exp,
 tanh); reserve `sampled` for a model with no elementary closed form.
 
-## Then wire the page
+## The page is automatic
 
-Add `src/pages/lessons/<slug>.astro`: import the committed `solution.json`, mount the player
-(`<SolutionPlayer solution={...} client:visible />`), and write a short first-principles framing. The lesson
-links to its formulas via `formulas_used`.
+There is no per-lesson page to write: the dynamic route `src/pages/lessons/[slug].astro` renders every
+committed `solution.json`, and `/lessons/` lists them. Just author the spec, run `npm run prepare:data`, and
+the lesson appears. The page shows a regime-appropriate framing, the player, the static figure, and the
+`formulas_used` links.
+
+## Math in prose
+
+Write inline math in `scenario`, step prose, and `misconception` with `$...$` (e.g. `$v = v_0 + at$`); it is
+KaTeX-rendered at build time and validated by `check:katex`. Units like "m/s²" can stay as plain text.

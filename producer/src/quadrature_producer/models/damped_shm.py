@@ -37,15 +37,15 @@ _x_over = sp.exp(-gamma * t) * (x0 * sp.cosh(s * t) + (v0 + gamma * x0) / s * sp
 def _prove() -> dict:
     vu = sp.diff(_x_under, t)
     checks_spec = [
-        ("underdamped_solves", "Underdamped form e^{−γt}(cos, sin) solves x'' + 2γx' + ω₀²x = 0.",
+        ("underdamped_solves", r"Underdamped form $e^{-\gamma t}(\cos,\sin)$ solves $x'' + 2\gamma x' + \omega_0^2 x = 0$.",
          sp.diff(_x_under, t, 2) + 2 * gamma * sp.diff(_x_under, t) + (wd**2 + gamma**2) * _x_under),
-        ("critical_solves", "Critical form (x₀+…t)e^{−γt} solves x'' + 2γx' + γ²x = 0 (ω₀ = γ).",
+        ("critical_solves", r"Critical form $(x_0 + \dots\,t)\,e^{-\gamma t}$ solves $x'' + 2\gamma x' + \gamma^2 x = 0$ (where $\omega_0 = \gamma$).",
          sp.diff(_x_crit, t, 2) + 2 * gamma * sp.diff(_x_crit, t) + gamma**2 * _x_crit),
-        ("overdamped_solves", "Overdamped form e^{−γt}(cosh, sinh) solves x'' + 2γx' + (γ²−s²)x = 0.",
+        ("overdamped_solves", r"Overdamped form $e^{-\gamma t}(\cosh,\sinh)$ solves $x'' + 2\gamma x' + (\gamma^2 - s^2)x = 0$.",
          sp.diff(_x_over, t, 2) + 2 * gamma * sp.diff(_x_over, t) + (gamma**2 - s**2) * _x_over),
-        ("ic_position", "It matches the initial position x(0) = x₀.", _x_under.subs(t, 0) - x0),
-        ("ic_velocity", "It matches the initial velocity x'(0) = v₀.", vu.subs(t, 0) - v0),
-        ("energy_dissipates", "Energy dissipates at exactly dE/dt = −b v² (here per unit mass, b/m = 2γ).",
+        ("ic_position", r"It matches the initial position $x(0) = x_0$.", _x_under.subs(t, 0) - x0),
+        ("ic_velocity", r"It matches the initial velocity $x'(0) = v_0$.", vu.subs(t, 0) - v0),
+        ("energy_dissipates", r"Energy dissipates at exactly $\tfrac{dE}{dt} = -b v^2$ (here per unit mass, $b/m = 2\gamma$).",
          sp.diff(vu**2 / 2 + (wd**2 + gamma**2) * _x_under**2 / 2, t) + 2 * gamma * vu**2),
     ]
     checks = []
@@ -57,7 +57,7 @@ def _prove() -> dict:
         "heading": "All three damping regimes provably solve the equation of motion, and energy dissipates.",
         "checked_by": "sympy",
         "holds": True,
-        "detail": "back-substitute each form into m x'' + b x' + k x = 0; check ICs; check dE/dt = −b v²",
+        "detail": r"back-substitute each form into $m x'' + b x' + k x = 0$; check the initial conditions; check $dE/dt = -b v^2$",
         "checks": checks,
     }
 
@@ -110,8 +110,8 @@ def build(spec: dict) -> Scenario:
     wd_rep = sp.sqrt(sp.nsimplify(w0sq) - sp.nsimplify(g_rep) ** 2)
 
     result = {
-        "natural_frequency": make_result(sp.sqrt(sp.nsimplify(w0sq)), {}, "1/s", "Natural angular frequency ω₀ = √(k/m)"),
-        "critical_damping": make_result(sp.nsimplify(b_crit), {}, "kg/s", "Critical damping b_c = 2√(km)"),
+        "natural_frequency": make_result(sp.sqrt(sp.nsimplify(w0sq)), {}, "1/s", r"Natural angular frequency $\omega_0 = \sqrt{k/m}$"),
+        "critical_damping": make_result(sp.nsimplify(b_crit), {}, "kg/s", r"Critical damping $b_c = 2\sqrt{km}$"),
     }
 
     algebra = {
@@ -119,9 +119,9 @@ def build(spec: dict) -> Scenario:
             {
                 "label": "What the algebra-based course can't give you",
                 "latex": r"\zeta = \frac{b}{2\sqrt{km}} \;:\; \zeta<1\ \text{under},\ \ \zeta=1\ \text{critical},\ \ \zeta>1\ \text{over}",
-                "prose": "Algebra can name the three cases and the critical damping b_c = 2√(km), but it cannot "
-                         "produce the motion — the acceleration depends on both position and velocity, so only "
-                         "the differential equation has the answer.",
+                "prose": "Algebra can name the three cases and the critical damping $b_c = 2\\sqrt{km}$, but it "
+                         "cannot produce the motion — the acceleration depends on both position and velocity, so "
+                         "only the differential equation has the answer.",
             },
         ],
         "result": result,
@@ -131,19 +131,21 @@ def build(spec: dict) -> Scenario:
             {
                 "label": "Newton's law with a spring and a drag force",
                 "latex": r"m\,x'' = -k\,x - b\,x' \;\;\Longrightarrow\;\; x'' + 2\gamma x' + \omega_0^2 x = 0",
-                "prose": "Restoring force −kx plus a velocity-dependent damping −bx'. Here γ = b/2m and ω₀² = k/m.",
+                "prose": "Restoring force $-kx$ plus a velocity-dependent damping $-bx'$. Here $\\gamma = b/2m$ "
+                         "and $\\omega_0^2 = k/m$.",
             },
             {
                 "label": "The form of the solution depends on the damping",
                 "latex": r"\zeta<1:\ e^{-\gamma t}\cos\omega_d t \quad \zeta=1:\ (A+Bt)e^{-\gamma t} \quad \zeta>1:\ e^{-\gamma t}\cosh st",
-                "prose": "Underdamped: oscillation inside a decaying envelope, ω_d = √(ω₀²−γ²). Critically damped: "
-                         "the fastest return without overshoot. Overdamped: a slow, non-oscillating crawl back.",
+                "prose": "Underdamped: oscillation inside a decaying envelope, $\\omega_d = \\sqrt{\\omega_0^2 - \\gamma^2}$. "
+                         "Critically damped: the fastest return without overshoot. Overdamped: a slow, "
+                         "non-oscillating crawl back.",
             },
             {
                 "label": "Energy leaks out",
                 "latex": r"\frac{dE}{dt} = -b\,v^2 \le 0",
                 "prose": "Unlike the undamped oscillator (where energy is conserved), the damping removes energy "
-                         "at the rate b v² — and SymPy proves it.",
+                         "at the rate $b v^2$ — and SymPy proves it.",
             },
             {
                 "label": "The transition is the lesson",
@@ -171,7 +173,7 @@ def build(spec: dict) -> Scenario:
         calculus=calculus,
         t_window=t_window,
         markers=[
-            Marker("x", t_window * 0.5, "amplitude decays inside an e^{−γt} envelope", dy=-14, va="top", dot=False),
+            Marker("x", t_window * 0.5, r"amplitude decays inside an $e^{-\gamma t}$ envelope", dy=-14, va="top", dot=False),
         ],
         labels=("x  (m)", "v  (m/s)", "a  (m/s²)"),
         window_mode="fixed",

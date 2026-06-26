@@ -38,14 +38,14 @@
     ],
     "result": {
       "terminal_velocity": {
-        "label": "Terminal velocity (mg/b)",
+        "label": "Terminal velocity $mg/b$",
         "unit": "m/s",
         "symbolic_latex": "g \\tau",
         "value": -20.0,
         "display": "-20"
       },
       "time_constant": {
-        "label": "Time constant τ = m/b",
+        "label": "Time constant $\\tau = m/b$",
         "unit": "s",
         "symbolic_latex": "\\tau",
         "value": 2.0,
@@ -83,29 +83,29 @@
     "heading": "The closed form provably solves the equation of motion — and terminal velocity falls out.",
     "checked_by": "sympy",
     "holds": true,
-    "detail": "back-substitute v(t) into v' = g − v/τ; check IC; check dx/dt = v; check lim v = g·τ",
+    "detail": "back-substitute $v(t)$ into $v' = g - v/\\tau$; check the initial condition; check $dx/dt = v$; check $\\lim v = g\\tau$",
     "checks": [
       {
         "key": "solves_eom",
-        "claim": "The closed form solves the equation of motion v' = g − v/τ.",
+        "claim": "The closed form solves the equation of motion $v' = g - v/\\tau$.",
         "holds": true,
         "tier": "structural"
       },
       {
         "key": "ic_velocity",
-        "claim": "It matches the initial velocity v(0) = v₀.",
+        "claim": "It matches the initial velocity $v(0) = v_0$.",
         "holds": true,
         "tier": "structural"
       },
       {
         "key": "x_is_integral_of_v",
-        "claim": "Position is the integral of velocity (dx/dt = v).",
+        "claim": "Position is the integral of velocity ($dx/dt = v$).",
         "holds": true,
         "tier": "structural"
       },
       {
         "key": "terminal_limit",
-        "claim": "The terminal velocity falls out: v → g·τ = mg/b as t → ∞.",
+        "claim": "The terminal velocity falls out: $v \\to g\\tau = mg/b$ as $t \\to \\infty$.",
         "holds": true,
         "tier": "structural"
       }
@@ -406,7 +406,7 @@
   ],
   "misconception": {
     "claim": "A falling object keeps accelerating until it lands.",
-    "refuted_by": "With air resistance the acceleration decays toward zero as drag grows to cancel gravity, so the object approaches a constant terminal velocity. On the a-t graph, a → 0 — the opposite of constant-gravity free fall, where a stays at -10 the whole way."
+    "refuted_by": "With air resistance the acceleration decays toward zero as drag grows to cancel gravity, so the object approaches a constant terminal velocity. On the a-t graph, $a \\to 0$ — the opposite of constant-gravity free fall, where $a$ stays at $-10$ the whole way."
   },
   "formulas_used": [
     "drag-v-of-t",

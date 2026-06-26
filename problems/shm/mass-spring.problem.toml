@@ -34,4 +34,4 @@ annotate = ["x_v_a_phase", "period"]
 
 [misconception]
 claim = "The mass moves fastest at the ends of its swing (the turning points)."
-refuted_by = "At a turning point the speed is zero — that is where it reverses. It moves fastest through equilibrium (x = 0), where the v-t graph peaks a quarter-period out of phase with x-t. Acceleration, a = -ω²x, is largest at the ends and zero in the middle."
+refuted_by = "At a turning point the speed is zero — that is where it reverses. It moves fastest through equilibrium ($x = 0$), where the v-t graph peaks a quarter-period out of phase with x-t. Acceleration, $a = -\\omega^2 x$, is largest at the ends and zero in the middle."

@@ -44,12 +44,12 @@ def build(spec: dict) -> Scenario:
     a_expr = sp.diff(v_expr, t)
 
     checks_spec = [
-        ("solves_eom", "The closed form solves the equation of motion v' = g − v/τ.",
+        ("solves_eom", r"The closed form solves the equation of motion $v' = g - v/\tau$.",
          sp.diff(v_expr, t) - (g - v_expr / tau)),
-        ("ic_velocity", "It matches the initial velocity v(0) = v₀.", v_expr.subs(t, 0) - v0),
-        ("x_is_integral_of_v", "Position is the integral of velocity (dx/dt = v).",
+        ("ic_velocity", r"It matches the initial velocity $v(0) = v_0$.", v_expr.subs(t, 0) - v0),
+        ("x_is_integral_of_v", r"Position is the integral of velocity ($dx/dt = v$).",
          sp.diff(x_expr, t) - v_expr),
-        ("terminal_limit", "The terminal velocity falls out: v → g·τ = mg/b as t → ∞.",
+        ("terminal_limit", r"The terminal velocity falls out: $v \to g\tau = mg/b$ as $t \to \infty$.",
          sp.limit(v_expr, t, sp.oo) - vt),
     ]
     checks = []
@@ -61,14 +61,14 @@ def build(spec: dict) -> Scenario:
         "heading": "The closed form provably solves the equation of motion — and terminal velocity falls out.",
         "checked_by": "sympy",
         "holds": True,
-        "detail": "back-substitute v(t) into v' = g − v/τ; check IC; check dx/dt = v; check lim v = g·τ",
+        "detail": r"back-substitute $v(t)$ into $v' = g - v/\tau$; check the initial condition; check $dx/dt = v$; check $\lim v = g\tau$",
         "checks": checks,
     }
 
     rsubs = {g: g_val, tau: tau_val, v0: v0v}
     result = {
-        "terminal_velocity": make_result(vt, rsubs, "m/s", "Terminal velocity (mg/b)"),
-        "time_constant": make_result(tau, {tau: tau_val}, "s", "Time constant τ = m/b"),
+        "terminal_velocity": make_result(vt, rsubs, "m/s", r"Terminal velocity $mg/b$"),
+        "time_constant": make_result(tau, {tau: tau_val}, "s", r"Time constant $\tau = m/b$"),
     }
 
     algebra = {

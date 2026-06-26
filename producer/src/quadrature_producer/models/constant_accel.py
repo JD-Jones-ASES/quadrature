@@ -43,12 +43,12 @@ def build(spec: dict) -> Scenario:
         return float(sp.N(model.v_expr.subs({**model.subs, t: sp.nsimplify(tt)})))
 
     sign_analysis = {
-        "rule": "speeding up ⟺ sign(v·a) > 0; slowing down ⟺ sign(v·a) < 0",
+        "rule": r"speeding up $\iff \operatorname{sign}(v\cdot a) > 0$;  slowing down $\iff \operatorname{sign}(v\cdot a) < 0$",
         "segments": [
             {"phase": "rising", "t_range": [0.0, round(apex_t, 6)],
              "v_sign": _sign(v_at(apex_t / 2)), "a_sign": _sign(a_num), "state": "slowing down"},
             {"phase": "apex", "t": round(apex_t, 6),
-             "v_sign": "0", "a_sign": _sign(a_num), "state": "v = 0, but a ≠ 0"},
+             "v_sign": "0", "a_sign": _sign(a_num), "state": r"$v = 0$, but $a \ne 0$"},
             {"phase": "falling", "t_range": [round(apex_t, 6), round(flight, 6)],
              "v_sign": _sign(v_at((apex_t + flight) / 2)), "a_sign": _sign(a_num), "state": "speeding up"},
         ],

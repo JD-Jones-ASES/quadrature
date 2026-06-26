@@ -37,14 +37,14 @@
     ],
     "result": {
       "angular_frequency": {
-        "label": "Angular frequency ω = √(k/m)",
+        "label": "Angular frequency $\\omega = \\sqrt{k/m}$",
         "unit": "rad/s",
         "symbolic_latex": "\\omega",
         "value": 2.0,
         "display": "2"
       },
       "period": {
-        "label": "Period T = 2π/ω",
+        "label": "Period $T = 2\\pi/\\omega$",
         "unit": "s",
         "symbolic_latex": "\\frac{2 \\pi}{\\omega}",
         "value": 3.141593,
@@ -58,7 +58,7 @@
         "display": "0.3"
       },
       "max_speed": {
-        "label": "Maximum speed (ωA)",
+        "label": "Maximum speed $\\omega A$",
         "unit": "m/s",
         "symbolic_latex": "\\omega \\sqrt{x_{0}^{2} + \\frac{v_{0}^{2}}{\\omega^{2}}}",
         "value": 0.6,
@@ -96,35 +96,35 @@
     "heading": "The closed form provably solves the equation of motion — and the memorized period falls out.",
     "checked_by": "sympy",
     "holds": true,
-    "detail": "back-substitute x(t) into x'' = −ω²x; check ICs; check d/dt(energy) = 0; check periodicity",
+    "detail": "back-substitute $x(t)$ into $x'' = -\\omega^2 x$; check the initial conditions; check $\\tfrac{d}{dt}\\,\\mathrm{energy} = 0$; check periodicity",
     "checks": [
       {
         "key": "solves_eom",
-        "claim": "The closed form solves the equation of motion x'' = −ω²x.",
+        "claim": "The closed form solves the equation of motion $x'' = -\\omega^2 x$.",
         "holds": true,
         "tier": "structural"
       },
       {
         "key": "ic_position",
-        "claim": "It matches the initial position x(0) = x₀.",
+        "claim": "It matches the initial position $x(0) = x_0$.",
         "holds": true,
         "tier": "structural"
       },
       {
         "key": "ic_velocity",
-        "claim": "It matches the initial velocity x'(0) = v₀.",
+        "claim": "It matches the initial velocity $x'(0) = v_0$.",
         "holds": true,
         "tier": "structural"
       },
       {
         "key": "energy_conserved",
-        "claim": "Total energy ½v² + ½ω²x² is conserved (its time-derivative is zero).",
+        "claim": "Total energy $\\tfrac12 v^2 + \\tfrac12 \\omega^2 x^2$ is conserved (its time-derivative is zero).",
         "holds": true,
         "tier": "structural"
       },
       {
         "key": "period_falls_out",
-        "claim": "The memorized period T = 2π/ω falls out: x(t+T) = x(t).",
+        "claim": "The memorized period $T = 2\\pi/\\omega$ falls out: $x(t+T) = x(t)$.",
         "holds": true,
         "tier": "structural"
       }
@@ -431,7 +431,7 @@
   ],
   "misconception": {
     "claim": "The mass moves fastest at the ends of its swing (the turning points).",
-    "refuted_by": "At a turning point the speed is zero — that is where it reverses. It moves fastest through equilibrium (x = 0), where the v-t graph peaks a quarter-period out of phase with x-t. Acceleration, a = -ω²x, is largest at the ends and zero in the middle."
+    "refuted_by": "At a turning point the speed is zero — that is where it reverses. It moves fastest through equilibrium ($x = 0$), where the v-t graph peaks a quarter-period out of phase with x-t. Acceleration, $a = -\\omega^2 x$, is largest at the ends and zero in the middle."
   },
   "formulas_used": [
     "shm-x-of-t",

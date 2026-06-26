@@ -129,18 +129,50 @@ Push to `main` → GitHub Actions runs the Node gates + `astro build` → GitHub
 Two independent tracks (decoupled by design — see ADR-0007): **lessons** go deep, the **reference** goes
 broad. Adding either touches data, not the engine.
 
-- **A lesson** → author `problems/<topic>/<slug>.problem.toml`, run `npm run prepare:data`, add
-  `src/pages/lessons/<slug>.astro` (imports the committed `solution.json`, mounts the player). See
-  [`docs/authoring-problems.md`](./docs/authoring-problems.md).
+- **A lesson** → author `problems/<topic>/<slug>.problem.toml` (set its `model`), run `npm run prepare:data`.
+  The dynamic route `src/pages/lessons/[slug].astro` and the `/lessons/` index pick it up automatically — no
+  per-lesson page to write. See [`docs/authoring-problems.md`](./docs/authoring-problems.md).
 - **A reference formula** → author `reference/formulas/<id>.formula.toml` (+ its typed edges), run
   `npm run prepare:data`. The reference sheet and concept graph regenerate from SymPy. See
   [`docs/authoring-formulas.md`](./docs/authoring-formulas.md).
+- **A new physics model** (e.g. projectile-2D, collisions) → add `producer/src/quadrature_producer/models/
+  <name>.py` exposing `build(spec) -> Scenario`, register it in `models/__init__.py`, add a physics
+  cross-check in `producer/tests/`. Regime-1 models prove `equivalence`; regime-2 models prove `governing`
+  (back-substitute into the equation of motion). See `models/base.py` for the `Scenario` contract.
+
+**Authoring math.** Display equations use the `latex` field (rendered as a block). Inline math inside any
+prose / claim / label / scenario / misconception is written with `$...$` (e.g. `the period $T = 2\pi/\omega$`)
+and rendered by KaTeX at build time. The `check:katex` gate validates **both**. Keep modeling-assumption
+prose in `$...$` too so it reads crisply.
 
 The producer engine should rarely change. If it must, add a physics cross-check in `producer/tests/` and keep
 `uv --project producer run pytest` green.
 
 ## Current state
 
-See [`ROADMAP.md`](./ROADMAP.md). Phase 0 is the vertical slice: vertical motion under constant gravity (a
-ball thrown straight up), end to end. After Phase 0 lands and is reviewed, the reference is populated
-breadth-first across all offerings while lessons are built depth-first.
+See [`ROADMAP.md`](./ROADMAP.md) and the latest [`docs/sessions/`](./docs/sessions/) log. **Phase 0 is
+complete and reviewed**; **Phase 1 (mechanics)** is in progress. Shipped: 4 lessons — constant-gravity free
+fall (regime 1), SHM, terminal velocity, and the damped oscillator (regime 2) — plus a 26-formula mechanics
+reference and concept graph, all SymPy-verified. The producer is a model registry (`constant-accel`, `shm`,
+`linear-drag`, `damped-shm`); graphs come in three modes (`static` | `interactive` | `sampled`). Pages stays
+disabled until the owner publishes.
+
+## Where this might go next (paths for a future session)
+
+Pick a track; each is independent and lands on the proven engine. Resume from the newest session log.
+
+1. **Reference breadth into other domains** — E&M, thermodynamics, waves/optics, modern (ADR-0007, toward the
+   complete formula sheet). Pure authored+verified data: add `reference/formulas/*.formula.toml` with the
+   right `domain` (it color-codes the concept-graph node). No engine change.
+2. **More regime-1 / regime-2 mechanics lessons** — energy conservation, 2D projectile (a new model; likely
+   `sampled` or `static` since 2D drag has no closed form), collisions/momentum, gravitation/orbits. Add a
+   model if the physics is new; otherwise reuse one.
+3. **The §8 interlinking backbone** — hover-to-reference from any formula token in a lesson, and
+   formula→lesson navigation, so the reference becomes the site's navigational spine (brief §8). Frontend work
+   over the existing `formulas.json` + `concept-graph.json`.
+4. **Polish / publish prep** — when the owner is ready: enable GitHub Pages, run the deploy, write a `/about`
+   page, and do a `/ship`-style validation sweep.
+
+Open question still parked: a `sampled` mode that *interpolates* (vs the current discrete-exact-frames) would
+be needed only if a future lesson sweeps a parameter continuously through a region with no closed form —
+revisit then (ADR-0012).

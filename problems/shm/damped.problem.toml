@@ -32,4 +32,4 @@ annotate = ["damping_transition"]
 
 [misconception]
 claim = "More damping always makes a system return to rest faster."
-refuted_by = "Past critical damping, adding more damping makes the return SLOWER — the overdamped system crawls back to equilibrium. The quickest return without overshoot is exactly at critical damping (ζ = 1); that is why door closers and instrument needles are tuned to it."
+refuted_by = "Past critical damping, adding more damping makes the return SLOWER — the overdamped system crawls back to equilibrium. The quickest return without overshoot is exactly at critical damping ($\\zeta = 1$); that is why door closers and instrument needles are tuned to it."

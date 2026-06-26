@@ -119,19 +119,19 @@
     "checks": [
       {
         "key": "v_formula_is_integral",
-        "claim": "The algebra velocity formula v = v₀ + at IS the integral ∫a dt with v(0)=v₀.",
+        "claim": "The algebra formula $v = v_0 + at$ is the integral $\\int a\\,dt$ with $v(0)=v_0$.",
         "holds": true,
         "tier": "structural"
       },
       {
         "key": "x_formula_is_integral",
-        "claim": "The algebra position formula x = x₀ + v₀t + ½at² IS the integral ∫v dt with x(0)=x₀.",
+        "claim": "The algebra formula $x = x_0 + v_0 t + \\tfrac12 a t^2$ is the integral $\\int v\\,dt$ with $x(0)=x_0$.",
         "holds": true,
         "tier": "structural"
       },
       {
         "key": "apex_is_v_zero",
-        "claim": "Velocity really is zero at the apex time (so the apex time is correct).",
+        "claim": "Velocity is zero at the apex time $t_{\\text{apex}}$ — so the apex time is correct.",
         "holds": true,
         "tier": "structural"
       },
@@ -143,7 +143,7 @@
       },
       {
         "key": "flight_time_lands",
-        "claim": "At the flight time the calculus trajectory really returns to the ground (so the time is correct).",
+        "claim": "At the flight time the calculus trajectory returns to the ground — so the flight time is correct.",
         "holds": true,
         "tier": "structural"
       },
@@ -451,7 +451,7 @@
   ],
   "misconception": {
     "claim": "At the top of the trajectory, the acceleration is zero (the ball 'stops').",
-    "refuted_by": "On the v-t graph the velocity passes through zero at the apex, but the line never bends: its slope is a = -10 m/s^2 the whole way. v = 0 for an instant; a is never zero."
+    "refuted_by": "On the v-t graph the velocity passes through zero at the apex, but the line never bends: its slope is $a = -10$ m/s² the whole way. $v = 0$ for an instant; $a$ is never zero."
   },
   "formulas_used": [
     "kin-x-of-t",
@@ -466,7 +466,7 @@
     "created": "2026-06-26"
   },
   "sign_analysis": {
-    "rule": "speeding up ⟺ sign(v·a) > 0; slowing down ⟺ sign(v·a) < 0",
+    "rule": "speeding up $\\iff \\operatorname{sign}(v\\cdot a) > 0$;  slowing down $\\iff \\operatorname{sign}(v\\cdot a) < 0$",
     "segments": [
       {
         "phase": "rising",
@@ -483,7 +483,7 @@
         "t": 2.0,
         "v_sign": "0",
         "a_sign": "-",
-        "state": "v = 0, but a ≠ 0"
+        "state": "$v = 0$, but $a \\ne 0$"
       },
       {
         "phase": "falling",

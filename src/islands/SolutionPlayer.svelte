@@ -26,7 +26,7 @@
       <span class="badge machine"><span class="dot"></span>Math machine-derived &amp; checked by SymPy</span>
       <span class="badge model"><span class="dot"></span>{s.assumptions.length} modeling assumptions (author-asserted)</span>
     </div>
-    <p class="scenario">{s.scenario}</p>
+    <p class="scenario">{@html s.scenarioHtml}</p>
   </header>
 
   <!-- results -->
@@ -34,7 +34,7 @@
     <div class="results">
       {#each results as [key, r]}
         <div class="result">
-          <div class="label">{r.label}</div>
+          <div class="label">{@html r.labelHtml}</div>
           <div class="value">{r.display} <span class="unit">{r.unit}</span></div>
         </div>
       {/each}
@@ -51,9 +51,9 @@
   {#if tab === "algebra"}
     <div class="stepper">
       <div class="step">
-        <div class="step-label">{aSteps[stepA].label}</div>
+        <div class="step-label">{@html aSteps[stepA].labelHtml}</div>
         <div class="math">{@html aSteps[stepA].latexHtml}</div>
-        {#if aSteps[stepA].prose}<p class="prose">{aSteps[stepA].prose}</p>{/if}
+        {#if aSteps[stepA].prose}<p class="prose">{@html aSteps[stepA].proseHtml}</p>{/if}
       </div>
       <nav class="stepnav">
         <button onclick={() => (stepA = clamp(stepA - 1, aSteps.length))} disabled={stepA === 0}>‹ Prev</button>
@@ -64,9 +64,9 @@
   {:else if tab === "calculus"}
     <div class="stepper">
       <div class="step" class:emph={cSteps[stepC].emphasis}>
-        <div class="step-label">{cSteps[stepC].label}</div>
+        <div class="step-label">{@html cSteps[stepC].labelHtml}</div>
         <div class="math">{@html cSteps[stepC].latexHtml}</div>
-        {#if cSteps[stepC].prose}<p class="prose">{cSteps[stepC].prose}</p>{/if}
+        {#if cSteps[stepC].prose}<p class="prose">{@html cSteps[stepC].proseHtml}</p>{/if}
       </div>
       <nav class="stepnav">
         <button onclick={() => (stepC = clamp(stepC - 1, cSteps.length))} disabled={stepC === 0}>‹ Prev</button>
@@ -82,14 +82,14 @@
   <div class="proof">
     <button class="proof-head" onclick={() => (showProof = !showProof)} aria-expanded={showProof}>
       <span class="badge machine"><span class="dot"></span>SymPy proof</span>
-      <strong>{s.proof.heading}</strong>
+      <strong>{@html s.proof.headingHtml}</strong>
       <span class="chev">{showProof ? "▾" : "▸"}</span>
     </button>
     {#if showProof}
-      <p class="faint detail">{s.proof.detail}</p>
+      <p class="faint detail">{@html s.proof.detailHtml}</p>
       <ul class="checks">
         {#each s.proof.checks as c}
-          <li><span class="tick">✓</span> {c.claim} <span class="tier">[{c.tier}]</span></li>
+          <li><span class="tick">✓</span> {@html c.claimHtml} <span class="tier">[{c.tier}]</span></li>
         {/each}
       </ul>
       <p class="faint">Dimensional homogeneity: checked by SymPy ({s.units_check.holds ? "holds" : "FAILS"}).</p>
@@ -99,21 +99,21 @@
   <!-- misconception register -->
   {#if s.misconception}
     <div class="misconception">
-      <div class="mis-claim"><span class="x">✗</span> Common misconception: “{s.misconception.claim}”</div>
-      <p class="mis-fix">{s.misconception.refuted_by}</p>
+      <div class="mis-claim"><span class="x">✗</span> Common misconception: “{@html s.misconception.claimHtml}”</div>
+      <p class="mis-fix">{@html s.misconception.refutedHtml}</p>
     </div>
   {/if}
 
   <!-- sign rigor -->
   {#if s.sign_analysis}
     <div class="signs">
-      <div class="sign-rule">{s.sign_analysis.rule}</div>
+      <div class="sign-rule">{@html s.sign_analysis.ruleHtml}</div>
       <div class="sign-grid">
         {#each s.sign_analysis.segments as seg}
           <div class="seg">
             <div class="seg-phase">{seg.phase}</div>
             <div class="seg-sign">v {seg.v_sign} · a {seg.a_sign}</div>
-            <div class="seg-state">{seg.state}</div>
+            <div class="seg-state">{@html seg.stateHtml}</div>
           </div>
         {/each}
       </div>

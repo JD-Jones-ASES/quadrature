@@ -38,4 +38,4 @@ annotate = ["slope_of_x_is_v", "area_under_v_is_displacement", "a_nonzero_at_ape
 
 [misconception]
 claim = "At the top of the trajectory, the acceleration is zero (the ball 'stops')."
-refuted_by = "On the v-t graph the velocity passes through zero at the apex, but the line never bends: its slope is a = -10 m/s^2 the whole way. v = 0 for an instant; a is never zero."
+refuted_by = "On the v-t graph the velocity passes through zero at the apex, but the line never bends: its slope is $a = -10$ m/s² the whole way. $v = 0$ for an instant; $a$ is never zero."

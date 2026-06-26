@@ -43,13 +43,13 @@ def build(spec: dict) -> Scenario:
     # --- governing proof (back-substitution into the equation of motion) ---
     period_sym = 2 * sp.pi / omega
     checks_spec = [
-        ("solves_eom", "The closed form solves the equation of motion x'' = −ω²x.",
+        ("solves_eom", r"The closed form solves the equation of motion $x'' = -\omega^2 x$.",
          sp.diff(x_expr, t, 2) + omega**2 * x_expr),
-        ("ic_position", "It matches the initial position x(0) = x₀.", x_expr.subs(t, 0) - x0),
-        ("ic_velocity", "It matches the initial velocity x'(0) = v₀.", v_expr.subs(t, 0) - v0),
-        ("energy_conserved", "Total energy ½v² + ½ω²x² is conserved (its time-derivative is zero).",
+        ("ic_position", r"It matches the initial position $x(0) = x_0$.", x_expr.subs(t, 0) - x0),
+        ("ic_velocity", r"It matches the initial velocity $x'(0) = v_0$.", v_expr.subs(t, 0) - v0),
+        ("energy_conserved", r"Total energy $\tfrac12 v^2 + \tfrac12 \omega^2 x^2$ is conserved (its time-derivative is zero).",
          sp.diff(v_expr**2 / 2 + omega**2 * x_expr**2 / 2, t)),
-        ("period_falls_out", "The memorized period T = 2π/ω falls out: x(t+T) = x(t).",
+        ("period_falls_out", r"The memorized period $T = 2\pi/\omega$ falls out: $x(t+T) = x(t)$.",
          x_expr.subs(t, t + period_sym) - x_expr),
     ]
     checks = []
@@ -61,17 +61,17 @@ def build(spec: dict) -> Scenario:
         "heading": "The closed form provably solves the equation of motion — and the memorized period falls out.",
         "checked_by": "sympy",
         "holds": True,
-        "detail": "back-substitute x(t) into x'' = −ω²x; check ICs; check d/dt(energy) = 0; check periodicity",
+        "detail": r"back-substitute $x(t)$ into $x'' = -\omega^2 x$; check the initial conditions; check $\tfrac{d}{dt}\,\mathrm{energy} = 0$; check periodicity",
         "checks": checks,
     }
 
     rsubs = {omega: omega_val, x0: x0v, v0: v0v}
     amplitude = sp.sqrt(x0**2 + (v0 / omega) ** 2)
     result = {
-        "angular_frequency": make_result(omega, rsubs, "rad/s", "Angular frequency ω = √(k/m)"),
-        "period": make_result(2 * sp.pi / omega, rsubs, "s", "Period T = 2π/ω"),
+        "angular_frequency": make_result(omega, rsubs, "rad/s", r"Angular frequency $\omega = \sqrt{k/m}$"),
+        "period": make_result(2 * sp.pi / omega, rsubs, "s", r"Period $T = 2\pi/\omega$"),
         "amplitude": make_result(amplitude, rsubs, "m", "Amplitude"),
-        "max_speed": make_result(omega * amplitude, rsubs, "m/s", "Maximum speed (ωA)"),
+        "max_speed": make_result(omega * amplitude, rsubs, "m/s", r"Maximum speed $\omega A$"),
     }
 
     algebra = {

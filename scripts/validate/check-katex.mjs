@@ -32,14 +32,51 @@ function tryRender(latex, where) {
   }
 }
 
-// solutions: algebra + calculus steps, and result symbolic_latex
+// inline math: every $...$ segment inside a prose/claim/label string must render too
+function tryInline(s, where) {
+  if (!s) return;
+  for (const p of String(s).split(/(\$[^$]+\$)/g)) {
+    if (p.length > 2 && p.startsWith("$") && p.endsWith("$")) {
+      try {
+        katex.renderToString(p.slice(1, -1), { throwOnError: true, displayMode: false });
+        count++;
+      } catch (e) {
+        fail(`${where}: inline math ${JSON.stringify(p)} — ${e.message}`);
+      }
+    }
+  }
+}
+
+// solutions: display equations + all inline-math-bearing fields
 for (const file of walk(DERIVED, ".solution.json").sort()) {
   const rel = relative(ROOT, file).replace(/\\/g, "/");
   const d = JSON.parse(readFileSync(file, "utf8"));
-  d.algebra.steps.forEach((s, i) => tryRender(s.latex, `${rel} algebra.steps[${i}]`));
-  d.calculus.steps.forEach((s, i) => tryRender(s.latex, `${rel} calculus.steps[${i}]`));
-  for (const [k, r] of Object.entries(d.algebra.result))
+  tryInline(d.scenario, `${rel} scenario`);
+  d.algebra.steps.forEach((s, i) => {
+    tryRender(s.latex, `${rel} algebra.steps[${i}]`);
+    tryInline(s.label, `${rel} algebra.steps[${i}].label`);
+    tryInline(s.prose, `${rel} algebra.steps[${i}].prose`);
+  });
+  d.calculus.steps.forEach((s, i) => {
+    tryRender(s.latex, `${rel} calculus.steps[${i}]`);
+    tryInline(s.label, `${rel} calculus.steps[${i}].label`);
+    tryInline(s.prose, `${rel} calculus.steps[${i}].prose`);
+  });
+  for (const [k, r] of Object.entries(d.algebra.result)) {
     if (r.symbolic_latex) tryRender(r.symbolic_latex, `${rel} result.${k}`);
+    tryInline(r.label, `${rel} result.${k}.label`);
+  }
+  tryInline(d.proof.heading, `${rel} proof.heading`);
+  tryInline(d.proof.detail, `${rel} proof.detail`);
+  d.proof.checks.forEach((c, i) => tryInline(c.claim, `${rel} proof.checks[${i}]`));
+  if (d.misconception) {
+    tryInline(d.misconception.claim, `${rel} misconception.claim`);
+    tryInline(d.misconception.refuted_by, `${rel} misconception.refuted_by`);
+  }
+  if (d.sign_analysis) {
+    tryInline(d.sign_analysis.rule, `${rel} sign_analysis.rule`);
+    d.sign_analysis.segments.forEach((g, i) => tryInline(g.state, `${rel} sign_analysis.segments[${i}]`));
+  }
 }
 
 // reference: each formula's generated LaTeX
