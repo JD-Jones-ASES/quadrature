@@ -34,7 +34,7 @@ const staticSvg = readFileSync(
 
   <section class="links">
     <h2>Formulas used</h2>
-    <p class="muted">Each links into the <a href={withBase("/reference/")}>reference</a> and the
+    <p class="muted">Each links into the <a href={withBase("/reference/")}>reference</a> and the{" "}
       <a href={withBase("/reference/graph/")}>concept graph</a>:</p>
     <ul>
       {solution.formulas_used.map((id) => <li><code>{id}</code></li>)}
