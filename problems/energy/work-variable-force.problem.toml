@@ -39,3 +39,20 @@ annotate = ["area_is_work", "slope_is_force"]
 [misconception]
 claim = "Work is the maximum force times the distance, $W = F_{\\max}\\,d$."
 refuted_by = "The force is not constant — it climbs from $0$ to $F_{\\max} = b\\,d$. Work is the *area* under the $F$–$x$ line, a triangle of area $\\tfrac12 F_{\\max} d$ — exactly half the rectangle $F_{\\max} d$. Drag the cursor: the shaded triangle, not the enclosing rectangle, is the work, and it equals the kinetic energy gained."
+
+[[practice]]
+id = "work"
+asks = "the work done by the variable force"
+answer = "result:work_done"
+prompt = 'A force that grows with distance, $F = bx$ with $b = 8$ N/m, pushes a block from rest through $d = 1.5$ m. How much work does it do?'
+include = ["algebra", "calculus"]
+
+  [[practice.distractor]]
+  method = "full_rectangle"
+  transform = "b*d**2"
+  misconception = 'Used $F_{\max}\,d$ — the full rectangle. The force ramps from $0$ up to $F_{\max} = bd$, so the area under $F(x)$ is the triangle $\tfrac12 bd^2$, half as much.'
+
+  [[practice.distractor]]
+  method = "reported_force"
+  transform = "b*d"
+  misconception = 'That is the peak force $F_{\max} = bd$ (in newtons), not the work (in joules). Work is the area under the force–distance curve.'

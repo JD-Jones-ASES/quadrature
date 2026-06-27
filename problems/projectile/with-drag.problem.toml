@@ -36,3 +36,15 @@ annotate = ["drag_shortens_range", "asymmetric_path"]
 [misconception]
 claim = "Air resistance just makes the projectile fall a bit short — the path is still a parabola."
 refuted_by = "With drag the path is *not* a parabola — it is asymmetric. The projectile loses speed to drag, so the descent is steeper and shorter than the ascent, and the peak shifts past the midpoint. Slide the drag up and watch the real path peel away from the dashed parabola; only at $b = 0$ do they coincide."
+
+[[practice]]
+id = "range-with-drag"
+asks = "the range with air resistance"
+answer = "result:range_with_drag"
+prompt = 'A ball is launched at $v_0 = 30$ m/s, $45°$, now subject to quadratic air drag. About how far does it travel before landing?'
+include = ["algebra", "calculus"]
+
+  [[practice.distractor]]
+  method = "ignored_drag"
+  transform = "v0**2*sin(2*theta_deg*pi/180)/(-g)"
+  misconception = 'That is the drag-free range $v_0^2\sin 2\theta/g = 90$ m. Air resistance removes energy throughout the flight, so the real range is substantially shorter — drag is not a small correction here.'

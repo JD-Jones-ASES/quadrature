@@ -444,5 +444,69 @@
     "sympy": "1.14.0",
     "author": "Quadrature",
     "created": "2026-06-26"
-  }
+  },
+  "practice": [
+    {
+      "id": "angular-frequency",
+      "asks": "the angular frequency of the oscillation",
+      "prompt": "A $1$ kg mass on a spring of stiffness $k = 4$ N/m oscillates. What is its angular frequency $\\omega$?",
+      "answer": {
+        "value": 2.0,
+        "display": "2",
+        "unit": "rad/s",
+        "symbolic_latex": "\\omega"
+      },
+      "choices": [
+        {
+          "value": 2.0,
+          "display": "2",
+          "correct": true
+        },
+        {
+          "value": 4.0,
+          "display": "4",
+          "correct": false,
+          "method": "forgot_sqrt",
+          "misconception": "That is $k/m = \\omega^2$. The angular frequency is $\\omega = \\sqrt{k/m}$."
+        },
+        {
+          "value": 0.5,
+          "display": "0.5",
+          "correct": false,
+          "method": "inverted",
+          "misconception": "Used $\\sqrt{m/k}$ — that is $1/\\omega$ (it appears in the period $T = 2\\pi\\sqrt{m/k}$), not $\\omega$ itself."
+        }
+      ],
+      "algebra_steps": [
+        {
+          "label": "What the algebra-based course hands you (memorized, no derivation)",
+          "latex": "T = 2\\pi\\sqrt{\\tfrac{m}{k}} \\qquad v_{\\max} = \\omega A",
+          "prose": "You are told the motion is sinusoidal and given the period to memorize — but not *why* the motion is a cosine, or where the period comes from. Calculus is the only road to the why."
+        }
+      ],
+      "calculus_steps": [
+        {
+          "label": "Newton's second law with Hooke's law",
+          "latex": "m\\,x'' = -k\\,x \\;\\;\\Longrightarrow\\;\\; x'' = -\\omega^2 x,\\quad \\omega^2 = \\tfrac{k}{m}",
+          "prose": "The spring force is proportional to displacement and points back toward equilibrium. This is the equation of motion — a differential equation, not an algebra formula."
+        },
+        {
+          "label": "Solve the equation of motion",
+          "latex": "x(t) = x_0\\cos\\omega t + \\tfrac{v_0}{\\omega}\\sin\\omega t",
+          "prose": "The function whose second derivative is −ω² times itself is a sinusoid. The two constants are fixed by the initial position and velocity."
+        },
+        {
+          "label": "Differentiate for velocity and acceleration",
+          "latex": "v(t) = -x_0\\,\\omega\\sin\\omega t + v_0\\cos\\omega t,\\qquad a(t) = -\\omega^2 x(t)",
+          "prose": "Acceleration is always −ω² times the displacement: largest at the extremes, zero at equilibrium. On the stacked graph, v leads x by a quarter period."
+        },
+        {
+          "label": "The memorized period emerges",
+          "latex": "\\boxed{\\,T = \\dfrac{2\\pi}{\\omega} = 2\\pi\\sqrt{\\dfrac{m}{k}}\\,}",
+          "prose": "The cosine repeats every 2π/ω — and SymPy proves x(t+T) = x(t). The result the algebra course made you memorize is exactly the period of the solution.",
+          "emphasis": true
+        }
+      ]
+    }
+  ]
 }

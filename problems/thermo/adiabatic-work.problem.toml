@@ -32,3 +32,20 @@ annotate = ["area_is_work", "adiabat_vs_isotherm"]
 [misconception]
 claim = "An expanding gas always does the same work for a given change in volume."
 refuted_by = "Work is the *area* under the $P$–$V$ curve, and the path sets the curve. An adiabat ($P\\propto V^{-\\gamma}$) falls faster than an isotherm ($P\\propto V^{-1}$), so for the same expansion it encloses less area and does less work. And because no heat flows in, that work is paid out of the gas's internal energy — so the gas cools, $T_2/T_1 = (V_1/V_2)^{\\gamma-1}$. Same volume change, different area, different work."
+
+[[practice]]
+id = "work"
+asks = "the work done in the adiabatic expansion"
+answer = "result:adiabatic_work"
+prompt = 'A gas expands adiabatically ($\gamma = 1.4$) from $P_1 = 100$ kPa, $V_1 = 1$ L to $V_2 = 3$ L. How much work does it do?'
+include = ["algebra", "calculus"]
+
+  [[practice.distractor]]
+  method = "isobaric_rectangle"
+  transform = "P1*(V2-V1)"
+  misconception = 'Used $P\,\Delta V$ — the constant-pressure rectangle. In an adiabatic expansion the pressure drops fast ($P \propto V^{-\gamma}$), so the work (area) is much less.'
+
+  [[practice.distractor]]
+  method = "isothermal_log"
+  transform = "P1*V1*log(V2/V1)"
+  misconception = 'That is the isothermal work $P_1 V_1\ln(V_2/V_1)$. The adiabat is steeper than the isotherm (the gas also cools), so the adiabatic work is smaller.'

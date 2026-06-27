@@ -367,5 +367,64 @@
     "sympy": "1.14.0",
     "author": "Quadrature",
     "created": "2026-06-27"
-  }
+  },
+  "practice": [
+    {
+      "id": "half-life",
+      "asks": "the half-life",
+      "prompt": "A sample decays with constant $\\lambda = 0.5$ s$^{-1}$. What is its half-life?",
+      "answer": {
+        "value": 1.386294,
+        "display": "1.386",
+        "unit": "s",
+        "symbolic_latex": "\\ln 2 / \\lambda"
+      },
+      "choices": [
+        {
+          "value": 1.386294,
+          "display": "1.386",
+          "correct": true
+        },
+        {
+          "value": 2.0,
+          "display": "2",
+          "correct": false,
+          "method": "mean_lifetime",
+          "misconception": "That is the mean lifetime $\\tau = 1/\\lambda$. The half-life is $t_{1/2} = \\ln 2/\\lambda = \\tau\\ln 2$ — a bit shorter."
+        },
+        {
+          "value": 0.346574,
+          "display": "0.3466",
+          "correct": false,
+          "method": "multiplied",
+          "misconception": "Multiplied by $\\lambda$ instead of dividing. The half-life is $t_{1/2} = \\ln 2/\\lambda$."
+        }
+      ],
+      "algebra_steps": [
+        {
+          "label": "What the algebra-based course hands you (a half-life)",
+          "latex": "N(t) = N_0\\,2^{-t/t_{1/2}}, \\qquad t_{1/2} = \\frac{\\ln 2}{\\lambda}",
+          "prose": "The sample halves every half-life $t_{1/2}$: after one $t_{1/2}$ half is left, after two a quarter, and so on. You are handed the half-life and the decay curve as rules, with no account of *why* decay is exponential."
+        }
+      ],
+      "calculus_steps": [
+        {
+          "label": "The decay rate is proportional to the number remaining",
+          "latex": "\\frac{dN}{dt} = -\\lambda N",
+          "prose": "Each nucleus has the same fixed chance per second of decaying, so the number decaying per second is proportional to how many are left. That is a first-order differential equation — the rate $dN/dt$ depends on $N$ itself."
+        },
+        {
+          "label": "Solving it gives the exponential; the rate is the slope",
+          "latex": "N(t) = N_0\\,e^{-\\lambda t} \\ \\Longrightarrow\\ \\frac{dN}{dt} = -\\lambda N_0\\,e^{-\\lambda t}",
+          "prose": "The solution is an exponential, and the half-life $t_{1/2} = \\ln 2/\\lambda$ falls out of it. The decay rate is the *slope* of $N(t)$ — the same exponential machine as a discharging capacitor or a body slowing under drag, in the nucleus.",
+          "emphasis": true
+        },
+        {
+          "label": "Watch the two panels — the lower is the slope of the upper",
+          "latex": "\\boxed{\\,\\frac{dN}{dt} = -\\lambda N\\,}",
+          "prose": "Drag $\\lambda$: a larger decay constant means a shorter half-life and a steeper fall. At every instant the slope of the upper $N$–$t$ curve is the value of the lower $dN/dt$–$t$ curve, and the area under $dN/dt$ is the number that have decayed. The activity a Geiger counter reads is the magnitude $|dN/dt| = \\lambda N$."
+        }
+      ]
+    }
+  ]
 }

@@ -376,5 +376,64 @@
     "sympy": "1.14.0",
     "author": "Quadrature",
     "created": "2026-06-27"
-  }
+  },
+  "practice": [
+    {
+      "id": "inelastic-velocity",
+      "asks": "the common velocity after a perfectly inelastic collision",
+      "prompt": "A $2$ kg cart at $3$ m/s strikes a stationary $1$ kg cart and they stick together. What is their common velocity afterward?",
+      "answer": {
+        "value": 2.0,
+        "display": "2",
+        "unit": "m/s",
+        "symbolic_latex": "\\frac{m_1v_1+m_2v_2}{m_1+m_2}"
+      },
+      "choices": [
+        {
+          "value": 2.0,
+          "display": "2",
+          "correct": true
+        },
+        {
+          "value": 1.5,
+          "display": "1.5",
+          "correct": false,
+          "method": "simple_average",
+          "misconception": "Averaged the velocities. Momentum conservation weights by mass: $v_f = (m_1 v_1 + m_2 v_2)/(m_1 + m_2)$, not the plain average $(v_1+v_2)/2$."
+        },
+        {
+          "value": 3.0,
+          "display": "3",
+          "correct": false,
+          "method": "wrong_denominator",
+          "misconception": "Divided by only $m_1$. The carts move together with the combined mass $m_1 + m_2$ in the denominator."
+        }
+      ],
+      "algebra_steps": [
+        {
+          "label": "What the algebra-based course hands you (two conservation rules)",
+          "latex": "m_1v_1+m_2v_2 = m_1v_1'+m_2v_2' \\qquad (\\text{elastic:})\\ \\ \\tfrac12 m_1v_1^2+\\tfrac12 m_2v_2^2 = \\tfrac12 m_1v_1'^2+\\tfrac12 m_2v_2'^2",
+          "prose": "Momentum is conserved in a collision, and for an *elastic* collision so is kinetic energy — two equations, two unknown final velocities. It works, but it is handed to you as a pair of rules, with no account of *why* momentum is always conserved while kinetic energy usually is not."
+        }
+      ],
+      "calculus_steps": [
+        {
+          "label": "Momentum conservation is the time-integral of Newton's third law",
+          "latex": "F_{12} = -F_{21} \\ \\Longrightarrow\\ J_1 = \\int F_{12}\\,dt = -\\int F_{21}\\,dt = -J_2 \\ \\Longrightarrow\\ \\Delta p_1 = -\\Delta p_2",
+          "prose": "During contact the two bodies push on each other with equal and opposite forces at every instant (Newton's third law). The impulse each receives is the time-integral of that force, $J=\\int F\\,dt$ — and since the forces are equal and opposite, so are the impulses. They cancel: $\\Delta p_1+\\Delta p_2=0$. The total momentum is unchanged no matter how complicated the contact force is, elastic or not. This is the impulse–momentum theorem doing the work the algebra states as a rule."
+        },
+        {
+          "label": "Kinetic energy is different — the lost KE is the deformation work",
+          "latex": "\\text{KE}_i-\\text{KE}_f = \\tfrac12\\,\\mu\\,(1-e^2)\\,(v_1-v_2)^2, \\qquad \\mu = \\frac{m_1m_2}{m_1+m_2}",
+          "prose": "The same contact force does work over each body's displacement, and those displacements differ, so the works do *not* cancel: energy goes into deforming the bodies. If they spring all the way back ($e=1$) it is returned and kinetic energy is conserved; otherwise the fraction $\\tfrac12\\mu(1-e^2)(\\Delta v)^2$ stays as heat. The coefficient of restitution $e$ measures how much of the relative speed survives.",
+          "emphasis": true
+        },
+        {
+          "label": "Watch the two totals as you sweep $e$",
+          "latex": "v_1' = \\frac{(m_1-e\\,m_2)v_1+(1+e)m_2v_2}{m_1+m_2}, \\qquad v_2' = \\frac{(m_2-e\\,m_1)v_2+(1+e)m_1v_1}{m_1+m_2}",
+          "prose": "Drag the restitution slider from $e=1$ down to $e=0$: the **momentum** total bar never moves (only the split between the two bodies shifts), while the **kinetic-energy** total bar shrinks, the gap shaded as energy lost. At $e=1$ both totals are conserved; at $e=0$ the bodies leave at the common velocity $v_{cm}$ and the KE loss is maximal."
+        }
+      ]
+    }
+  ]
 }

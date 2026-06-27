@@ -31,3 +31,20 @@ annotate = ["orbit_is_freefall", "kepler_third"]
 [misconception]
 claim = "A satellite floats in orbit because there is no gravity that far out in space."
 refuted_by = "There is plenty of gravity — at this orbit it is about $\\mu/R^2 \\approx 8$ m/s², roughly 80% of its surface value. That inward pull is exactly what bends the satellite's straight-line motion into a circle: $\\mu/R^2 = v^2/R$. The astronauts feel weightless not because gravity is absent but because they and the station are in continuous *free fall* together — falling around the Earth fast enough that the ground curves away beneath them. Cut the gravity and the satellite would fly off in a straight line (Newton's first law), not float."
+
+[[practice]]
+id = "orbital-speed"
+asks = "the orbital speed"
+answer = "result:orbital_speed"
+prompt = 'A satellite circles a planet ($\mu = GM = 4\times10^{14}$ m$^3$/s$^2$) at radius $R = 7000$ km. What is its orbital speed?'
+include = ["algebra", "calculus"]
+
+  [[practice.distractor]]
+  method = "forgot_sqrt"
+  transform = "mu/R"
+  misconception = 'That is $v^2 = \mu/R$. Take the square root to get the speed $v = \sqrt{\mu/R}$.'
+
+  [[practice.distractor]]
+  method = "radius_in_numerator"
+  transform = "sqrt(mu*R)"
+  misconception = 'Used $\sqrt{\mu R}$. The orbital speed is $\sqrt{\mu/R}$ — closer orbits are faster, so $R$ sits in the denominator.'

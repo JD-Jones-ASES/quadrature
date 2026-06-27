@@ -364,5 +364,64 @@
     "sympy": "1.14.0",
     "author": "Quadrature",
     "created": "2026-06-26"
-  }
+  },
+  "practice": [
+    {
+      "id": "work",
+      "asks": "the work done in the adiabatic expansion",
+      "prompt": "A gas expands adiabatically ($\\gamma = 1.4$) from $P_1 = 100$ kPa, $V_1 = 1$ L to $V_2 = 3$ L. How much work does it do?",
+      "answer": {
+        "value": 88.901496,
+        "display": "88.9",
+        "unit": "J",
+        "symbolic_latex": "\\tfrac{P_1V_1 - P_2V_2}{\\gamma-1}"
+      },
+      "choices": [
+        {
+          "value": 88.901496,
+          "display": "88.9",
+          "correct": true
+        },
+        {
+          "value": 200.0,
+          "display": "200",
+          "correct": false,
+          "method": "isobaric_rectangle",
+          "misconception": "Used $P\\,\\Delta V$ — the constant-pressure rectangle. In an adiabatic expansion the pressure drops fast ($P \\propto V^{-\\gamma}$), so the work (area) is much less."
+        },
+        {
+          "value": 109.861229,
+          "display": "109.9",
+          "correct": false,
+          "method": "isothermal_log",
+          "misconception": "That is the isothermal work $P_1 V_1\\ln(V_2/V_1)$. The adiabat is steeper than the isotherm (the gas also cools), so the adiabatic work is smaller."
+        }
+      ],
+      "algebra_steps": [
+        {
+          "label": "What the algebra-based course hands you (a formula to memorize)",
+          "latex": "W = \\frac{P_1V_1 - P_2V_2}{\\gamma-1} \\qquad(\\text{adiabatic, }PV^\\gamma=\\text{const})",
+          "prose": "For an adiabatic process the algebra course hands you $W = (P_1V_1 - P_2V_2)/(\\gamma-1)$ with no account of where the $\\gamma$ or the denominator come from. It can compute the number but cannot show that the work is the area under a particular curve — or why that area is smaller than the isothermal one."
+        }
+      ],
+      "calculus_steps": [
+        {
+          "label": "Work is the area under the pressure–volume curve",
+          "latex": "W = \\int_{V_1}^{V_2} P\\,dV",
+          "prose": "As before, the work done by the gas is the integral of pressure over volume — the area under the $P$–$V$ curve. What changes from the isotherm is only the *shape* of $P(V)$."
+        },
+        {
+          "label": "Use the adiabatic law $PV^\\gamma = \\text{const}$",
+          "latex": "P = P_1\\!\\left(\\frac{V_1}{V}\\right)^{\\!\\gamma} \\ \\Longrightarrow\\ W = \\int_{V_1}^{V_2} P_1V_1^\\gamma\\,V^{-\\gamma}\\,dV = \\frac{P_1V_1 - P_2V_2}{\\gamma-1}",
+          "prose": "With no heat exchanged, $PV^\\gamma$ is constant, so $P\\propto V^{-\\gamma}$ — a steeper fall than the isotherm's $V^{-1}$. Integrating that power law gives the memorized adiabatic work exactly; its slope at any volume is $P(V)$. Because the curve drops faster, the area is *smaller* than the isothermal area between the same volumes.",
+          "emphasis": true
+        },
+        {
+          "label": "No heat in, so the gas cools",
+          "latex": "\\boxed{\\,\\frac{T_2}{T_1} = \\left(\\frac{V_1}{V_2}\\right)^{\\!\\gamma-1}\\,}",
+          "prose": "Since no heat enters, the work comes out of the gas's internal energy, so its temperature falls — combine $PV^\\gamma=\\text{const}$ with $PV = nRT$ and the temperature ratio is $(V_1/V_2)^{\\gamma-1}$. The isotherm holds $T$ fixed by drawing heat from a reservoir; the adiabat has no reservoir, so the area you can extract is bounded by the cooling. $P_1$ sets the curve's height, but $\\gamma$ alone fixes its shape and this cooling ratio."
+        }
+      ]
+    }
+  ]
 }

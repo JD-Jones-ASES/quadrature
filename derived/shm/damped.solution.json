@@ -3911,5 +3911,69 @@
     "sympy": "1.14.0",
     "author": "Quadrature",
     "created": "2026-06-26"
-  }
+  },
+  "practice": [
+    {
+      "id": "critical-damping",
+      "asks": "the critical damping coefficient",
+      "prompt": "A mass $m = 1$ kg on a spring $k = 16$ N/m is damped. What damping coefficient $b$ makes it critically damped?",
+      "answer": {
+        "value": 8.0,
+        "display": "8",
+        "unit": "kg/s",
+        "symbolic_latex": "8"
+      },
+      "choices": [
+        {
+          "value": 8.0,
+          "display": "8",
+          "correct": true
+        },
+        {
+          "value": 4.0,
+          "display": "4",
+          "correct": false,
+          "method": "dropped_factor_2",
+          "misconception": "Dropped the factor of $2$. Critical damping is $b_c = 2\\sqrt{mk}$ — the value where the discriminant $b^2 - 4mk$ vanishes."
+        },
+        {
+          "value": 16.0,
+          "display": "16",
+          "correct": false,
+          "method": "forgot_sqrt",
+          "misconception": "Used $mk$; critical damping is $2\\sqrt{mk}$ (the square root makes the units come out as kg/s)."
+        }
+      ],
+      "algebra_steps": [
+        {
+          "label": "What the algebra-based course can't give you",
+          "latex": "\\zeta = \\frac{b}{2\\sqrt{km}} \\;:\\; \\zeta<1\\ \\text{under},\\ \\ \\zeta=1\\ \\text{critical},\\ \\ \\zeta>1\\ \\text{over}",
+          "prose": "Algebra can name the three cases and the critical damping $b_c = 2\\sqrt{km}$, but it cannot produce the motion — the acceleration depends on both position and velocity, so only the differential equation has the answer."
+        }
+      ],
+      "calculus_steps": [
+        {
+          "label": "Newton's law with a spring and a drag force",
+          "latex": "m\\,x'' = -k\\,x - b\\,x' \\;\\;\\Longrightarrow\\;\\; x'' + 2\\gamma x' + \\omega_0^2 x = 0",
+          "prose": "Restoring force $-kx$ plus a velocity-dependent damping $-bx'$. Here $\\gamma = b/2m$ and $\\omega_0^2 = k/m$."
+        },
+        {
+          "label": "The form of the solution depends on the damping",
+          "latex": "\\zeta<1:\\ e^{-\\gamma t}\\cos\\omega_d t \\quad \\zeta=1:\\ (A+Bt)e^{-\\gamma t} \\quad \\zeta>1:\\ e^{-\\gamma t}\\cosh st",
+          "prose": "Underdamped: oscillation inside a decaying envelope, $\\omega_d = \\sqrt{\\omega_0^2 - \\gamma^2}$. Critically damped: the fastest return without overshoot. Overdamped: a slow, non-oscillating crawl back."
+        },
+        {
+          "label": "Energy leaks out",
+          "latex": "\\frac{dE}{dt} = -b\\,v^2 \\le 0",
+          "prose": "Unlike the undamped oscillator (where energy is conserved), the damping removes energy at the rate $b v^2$ — and SymPy proves it."
+        },
+        {
+          "label": "The transition is the lesson",
+          "latex": "\\boxed{\\,\\zeta = \\dfrac{b}{2\\sqrt{km}} = 1 \\ \\text{is the boundary}\\,}",
+          "prose": "Slide the damping through critical and watch oscillation give way to a dead-beat return. Each stop on the slider is an exact, separately verified solution.",
+          "emphasis": true
+        }
+      ]
+    }
+  ]
 }

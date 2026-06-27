@@ -35,3 +35,20 @@ annotate = ["x_v_a_phase", "period"]
 [misconception]
 claim = "The mass moves fastest at the ends of its swing (the turning points)."
 refuted_by = "At a turning point the speed is zero — that is where it reverses. It moves fastest through equilibrium ($x = 0$), where the v-t graph peaks a quarter-period out of phase with x-t. Acceleration, $a = -\\omega^2 x$, is largest at the ends and zero in the middle."
+
+[[practice]]
+id = "angular-frequency"
+asks = "the angular frequency of the oscillation"
+answer = "result:angular_frequency"
+prompt = 'A $1$ kg mass on a spring of stiffness $k = 4$ N/m oscillates. What is its angular frequency $\omega$?'
+include = ["algebra", "calculus"]
+
+  [[practice.distractor]]
+  method = "forgot_sqrt"
+  transform = "k/m"
+  misconception = 'That is $k/m = \omega^2$. The angular frequency is $\omega = \sqrt{k/m}$.'
+
+  [[practice.distractor]]
+  method = "inverted"
+  transform = "sqrt(m/k)"
+  misconception = 'Used $\sqrt{m/k}$ — that is $1/\omega$ (it appears in the period $T = 2\pi\sqrt{m/k}$), not $\omega$ itself.'

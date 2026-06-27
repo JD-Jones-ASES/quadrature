@@ -30,3 +30,20 @@ annotate = ["area_is_inertia", "rod_vs_hoop"]
 [misconception]
 claim = "Moment of inertia just depends on how much mass there is, like ordinary mass does."
 refuted_by = "It depends on *where* the mass is, not just how much. Each slice contributes $r^2\\,dm$, so mass far from the axis counts far more — the area under $dI/dr = \\lambda r^2$ piles up near the tip. That is why the same mass gives $I = \\tfrac13 ML^2$ as a rod about its end but $I = ML^2$ if you bunch it all at the tip (a hoop). Move the mass outward and $I$ grows even though $M$ is unchanged."
+
+[[practice]]
+id = "moment-of-inertia"
+asks = "the moment of inertia of the rod about its end"
+answer = "result:moment_of_inertia"
+prompt = 'A uniform rod of mass $M = 2$ kg and length $L = 1.2$ m rotates about one end. What is its moment of inertia?'
+include = ["algebra", "calculus"]
+
+  [[practice.distractor]]
+  method = "about_center"
+  transform = "M*L**2/12"
+  misconception = 'That is $\tfrac{1}{12}ML^2$, the rod about its center. About the end it is $\tfrac13 ML^2$ — the parallel-axis shift adds $M(L/2)^2$.'
+
+  [[practice.distractor]]
+  method = "point_mass"
+  transform = "M*L**2"
+  misconception = 'Used $ML^2$, as if all the mass sat at the far end. The mass is spread along the rod, so $\int r^2\,dm$ gives only $\tfrac13 ML^2$.'

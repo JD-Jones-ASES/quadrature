@@ -30,3 +30,20 @@ annotate = ["total_is_flat", "path_independent"]
 [misconception]
 claim = "A steeper ramp gets the block to the bottom moving faster than a gentle ramp from the same height."
 refuted_by = "It does not. By conservation of energy the speed at the bottom is $v = \\sqrt{2gH}$, set entirely by the height dropped — a steep ramp and a gentle ramp to the same depth give *exactly the same* bottom speed. The steeper ramp gets there in less *time* (and with a larger acceleration along the slope), but the final speed is identical, because gravity is conservative: the work it does, $mg(H-h)$, depends only on the change in height, not the route. Drag the cursor and read the speed off the kinetic-energy bar — it tracks the height, nothing else."
+
+[[practice]]
+id = "bottom-speed"
+asks = "the speed at the bottom"
+answer = "result:bottom_speed"
+prompt = 'A block is released from rest and slides down a frictionless track from height $H = 20$ m. How fast is it moving at the bottom?'
+include = ["algebra", "calculus"]
+
+  [[practice.distractor]]
+  method = "forgot_sqrt"
+  transform = "2*g*H"
+  misconception = 'That is $v^2 = 2gH$. Take the square root: $v = \sqrt{2gH}$. (Notice the mass cancels — every term has a factor of $m$.)'
+
+  [[practice.distractor]]
+  method = "dropped_factor_2"
+  transform = "sqrt(g*H)"
+  misconception = 'Dropped the factor of $2$. Energy conservation gives $\tfrac12 mv^2 = mgH$, so $v = \sqrt{2gH}$, not $\sqrt{gH}$.'

@@ -1907,5 +1907,64 @@
     "sympy": "1.14.0",
     "author": "Quadrature",
     "created": "2026-06-26"
-  }
+  },
+  "practice": [
+    {
+      "id": "period",
+      "asks": "the orbital period",
+      "prompt": "A satellite is on an ellipse of semi-major axis $a = 16000$ km around a body with $\\mu = 4\\times10^{14}$ m$^3$/s$^2$. What is its orbital period?",
+      "answer": {
+        "value": 20106.192983,
+        "display": "20110",
+        "unit": "s",
+        "symbolic_latex": "2\\pi\\sqrt{a^3/\\mu}"
+      },
+      "choices": [
+        {
+          "value": 20106.192983,
+          "display": "20110",
+          "correct": true
+        },
+        {
+          "value": 9344.514069,
+          "display": "9345",
+          "correct": false,
+          "method": "perihelion_for_a",
+          "misconception": "Used the perihelion distance instead of the semi-major axis. The period depends on $a$ (the average of perihelion and aphelion): $T = 2\\pi\\sqrt{a^3/\\mu}$."
+        },
+        {
+          "value": 3200.0,
+          "display": "3200",
+          "correct": false,
+          "method": "forgot_2pi",
+          "misconception": "Forgot the $2\\pi$: the period is $T = 2\\pi\\sqrt{a^3/\\mu}$."
+        }
+      ],
+      "algebra_steps": [
+        {
+          "label": "Where the algebra-based course stops",
+          "latex": "v=\\sqrt{GM/R}\\quad\\text{— only for a circle; no algebra formula for an ellipse's motion}",
+          "prose": "Centripetal balance handles a circle, but a real orbit is an *ellipse* with the body at one focus, speeding up near perihelion and slowing at aphelion. There is no algebra formula for where the planet is at time $t$ — the speed and radius change continuously."
+        }
+      ],
+      "calculus_steps": [
+        {
+          "label": "Solve the central-force ODE numerically",
+          "latex": "\\ddot{\\mathbf r} = -\\frac{\\mu}{r^3}\\,\\mathbf r,\\qquad \\mathbf s_{n+1}=\\mathbf s_n+\\tfrac{h}{6}(k_1+2k_2+2k_3+k_4)",
+          "prose": "The same inverse-square law, but now the radius varies, so there is no elementary time-parameterisation (Kepler's equation is transcendental). Step the position and velocity forward with RK4 from perihelion. The producer checks the result conserves energy and angular momentum and that the orbit closes — verification, for a numerical solution."
+        },
+        {
+          "label": "Kepler's first two laws are conservation laws",
+          "latex": "\\tfrac12 v^2-\\frac{\\mu}{r}=-\\frac{\\mu}{2a}=\\text{const}\\qquad x\\dot y-y\\dot x=\\text{const}",
+          "prose": "Energy conservation fixes the orbit's size (the semi-major axis $a$); angular-momentum conservation is **Kepler's second law** — the line from the body to the planet sweeps equal areas in equal times, so the planet races through perihelion and dawdles at aphelion. The closed curve is an ellipse with the body at one focus (**Kepler's first law**).",
+          "emphasis": true
+        },
+        {
+          "label": "Same semi-major axis, same period (Kepler's third law)",
+          "latex": "\\boxed{\\,T = 2\\pi\\sqrt{a^3/\\mu}\\ \\text{— independent of the eccentricity}\\,}",
+          "prose": "Slide the eccentricity: the orbit stretches from a circle to a long thin ellipse, but because every one shares the semi-major axis $a$, they all take the *same time* to go around. The period depends on $a$ alone — Kepler's third law, the same $T^2\\propto a^3$ the circular lesson derived, now for any shape."
+        }
+      ]
+    }
+  ]
 }

@@ -31,3 +31,20 @@ annotate = ["momentum_conserved", "ke_lost"]
 [misconception]
 claim = "Momentum is only conserved when no kinetic energy is lost — so in a 'sticky' (inelastic) collision, momentum isn't conserved either."
 refuted_by = "Momentum is conserved in *every* collision, elastic or not. It follows from Newton's third law: during contact the two bodies push on each other with equal and opposite forces at every instant, so the impulses $J = \\int F\\,dt$ they receive are equal and opposite and cancel — the total momentum change is zero regardless of how much energy is lost. Kinetic energy is the quantity that is only *conditionally* conserved (when $e = 1$). The two laws are independent: drag $e$ to $0$ and watch the momentum total bar stay pinned while the kinetic-energy total bar collapses by $\\tfrac12\\mu(1-e^2)(\\Delta v)^2$. People conflate the two because the *elastic* case happens to conserve both."
+
+[[practice]]
+id = "inelastic-velocity"
+asks = "the common velocity after a perfectly inelastic collision"
+answer = "result:v_inelastic"
+prompt = 'A $2$ kg cart at $3$ m/s strikes a stationary $1$ kg cart and they stick together. What is their common velocity afterward?'
+include = ["algebra", "calculus"]
+
+  [[practice.distractor]]
+  method = "simple_average"
+  transform = "(v1+v2)/2"
+  misconception = 'Averaged the velocities. Momentum conservation weights by mass: $v_f = (m_1 v_1 + m_2 v_2)/(m_1 + m_2)$, not the plain average $(v_1+v_2)/2$.'
+
+  [[practice.distractor]]
+  method = "wrong_denominator"
+  transform = "(m1*v1+m2*v2)/m1"
+  misconception = 'Divided by only $m_1$. The carts move together with the combined mass $m_1 + m_2$ in the denominator.'

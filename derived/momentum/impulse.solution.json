@@ -364,5 +364,64 @@
     "sympy": "1.14.0",
     "author": "Quadrature",
     "created": "2026-06-26"
-  }
+  },
+  "practice": [
+    {
+      "id": "delta-v",
+      "asks": "the change in velocity from the impulse",
+      "prompt": "A $0.5$ kg ball is struck by a force pulse that peaks at $F_{\\max} = 200$ N over $\\tau = 0.02$ s. By how much does its velocity change?",
+      "answer": {
+        "value": 5.092958,
+        "display": "5.093",
+        "unit": "m/s",
+        "symbolic_latex": "J/m"
+      },
+      "choices": [
+        {
+          "value": 5.092958,
+          "display": "5.093",
+          "correct": true
+        },
+        {
+          "value": 8.0,
+          "display": "8",
+          "correct": false,
+          "method": "peak_rectangle",
+          "misconception": "Used $F_{\\max}\\tau$ for the impulse — a full rectangle. The force rises and falls, so its area (impulse) is less than peak times duration; here $J$ is the area under the pulse."
+        },
+        {
+          "value": 2.546479,
+          "display": "2.546",
+          "correct": false,
+          "method": "forgot_mass",
+          "misconception": "That is the impulse $J$ (in N·s). The velocity change is $\\Delta v = J/m$ — divide by the mass."
+        }
+      ],
+      "algebra_steps": [
+        {
+          "label": "What the algebra-based course hands you",
+          "latex": "J = \\bar F\\,\\Delta t \\qquad J = \\Delta p = m\\,\\Delta v",
+          "prose": "Impulse is the average force times the contact time, and it equals the change in momentum. But a real collision force is not constant — it rises and falls over a few milliseconds — so 'average force' hides where the number comes from."
+        }
+      ],
+      "calculus_steps": [
+        {
+          "label": "Impulse is the area under the force–time curve",
+          "latex": "J = \\int F\\,dt",
+          "prose": "Impulse is the integral of force over time — the area under the $F$–$t$ curve. For a constant force this is a rectangle ($\\bar F\\,\\Delta t$); for a real pulse it is the area under the curve."
+        },
+        {
+          "label": "Evaluate for the contact pulse $F(t) = F_{\\max}\\sin(\\pi t/\\tau)$",
+          "latex": "J = \\int_0^{\\tau} F_{\\max}\\sin\\!\\frac{\\pi t}{\\tau}\\,dt = \\frac{2}{\\pi}F_{\\max}\\tau",
+          "prose": "The area under a half-sine pulse is $\\tfrac{2}{\\pi}F_{\\max}\\tau$ — so the effective average force is $\\tfrac{2}{\\pi}F_{\\max}\\approx 0.64\\,F_{\\max}$. Its slope at any instant is the force $F(t)$."
+        },
+        {
+          "label": "The change in momentum falls out of the same integral",
+          "latex": "\\int F\\,dt = \\int m\\,\\frac{dv}{dt}\\,dt = m\\,\\Delta v \\ \\Longrightarrow\\ J = \\Delta p",
+          "prose": "Because $F = m\\,dv/dt$, the impulse integral is exactly $m\\,\\Delta v$. The impulse–momentum theorem is not a separate fact — it is the area under the force curve. Drag the cursor: the shaded area and the momentum change grow together.",
+          "emphasis": true
+        }
+      ]
+    }
+  ]
 }

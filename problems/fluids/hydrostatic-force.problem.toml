@@ -36,3 +36,20 @@ annotate = ["area_is_force", "avg_pressure_falls_out"]
 [misconception]
 claim = "The force on a dam depends on how much water is behind it — a wall holding back a huge lake feels far more force than one holding back a narrow tank of the same depth."
 refuted_by = "It does not. The pressure at a given depth is $\\rho g h$ regardless of how much water sits at that level — a teaspoon or an ocean. The force on the wall is the area under that pressure profile, $\\tfrac12\\rho g w H^2$, set entirely by the *depth* and the wall's *width*. This is the hydrostatic paradox: raise the water a little (drag the cursor) and the force jumps because it grows as $H^2$, but widen the lake behind the wall and nothing changes."
+
+[[practice]]
+id = "wall-force"
+asks = "the total force on the wall"
+answer = "result:wall_force"
+prompt = 'Water ($\rho = 1000$ kg/m$^3$) fills a tank against a wall of width $w = 5$ m to depth $H = 4$ m. What is the total hydrostatic force on the wall?'
+include = ["algebra", "calculus"]
+
+  [[practice.distractor]]
+  method = "bottom_pressure_everywhere"
+  transform = "rho*g*w*H**2"
+  misconception = 'Used the bottom pressure $\rho gH$ over the whole wall. Pressure grows linearly with depth, so the average is $\tfrac12\rho gH$ and the force is $\tfrac12\rho g w H^2$ — half this.'
+
+  [[practice.distractor]]
+  method = "dropped_one_H"
+  transform = "rho*g*w*H"
+  misconception = 'Dropped an $H$: the force integrates pressure (which grows as $H$) over an area (which also grows as $H$), giving an $H^2$.'

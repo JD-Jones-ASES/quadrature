@@ -36,3 +36,20 @@ annotate = ["terminal_velocity", "a_decays_to_zero"]
 [misconception]
 claim = "A falling object keeps accelerating until it lands."
 refuted_by = "With air resistance the acceleration decays toward zero as drag grows to cancel gravity, so the object approaches a constant terminal velocity. On the a-t graph, $a \\to 0$ — the opposite of constant-gravity free fall, where $a$ stays at $-10$ the whole way."
+
+[[practice]]
+id = "terminal-velocity"
+asks = "the terminal velocity"
+answer = "result:terminal_velocity"
+prompt = 'A $1$ kg object falls under gravity with linear drag $b = 0.5$ kg/s. What terminal velocity does it approach?'
+include = ["algebra", "calculus"]
+
+  [[practice.distractor]]
+  method = "multiplied_by_b"
+  transform = "m*g*b"
+  misconception = 'Multiplied by $b$ instead of dividing. At terminal velocity the drag balances gravity, $bv = mg$, so $v = mg/b$.'
+
+  [[practice.distractor]]
+  method = "time_constant"
+  transform = "m/b"
+  misconception = 'That is the time constant $\tau = m/b$ (in seconds) — how quickly it approaches terminal velocity — not the terminal velocity $mg/b$ itself.'

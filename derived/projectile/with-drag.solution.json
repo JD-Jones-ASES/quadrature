@@ -1864,5 +1864,56 @@
     "sympy": "1.14.0",
     "author": "Quadrature",
     "created": "2026-06-26"
-  }
+  },
+  "practice": [
+    {
+      "id": "range-with-drag",
+      "asks": "the range with air resistance",
+      "prompt": "A ball is launched at $v_0 = 30$ m/s, $45°$, now subject to quadratic air drag. About how far does it travel before landing?",
+      "answer": {
+        "value": 55.099957,
+        "display": "55.1",
+        "unit": "m"
+      },
+      "choices": [
+        {
+          "value": 55.099957,
+          "display": "55.1",
+          "correct": true
+        },
+        {
+          "value": 90.0,
+          "display": "90",
+          "correct": false,
+          "method": "ignored_drag",
+          "misconception": "That is the drag-free range $v_0^2\\sin 2\\theta/g = 90$ m. Air resistance removes energy throughout the flight, so the real range is substantially shorter — drag is not a small correction here."
+        }
+      ],
+      "algebra_steps": [
+        {
+          "label": "Where the algebra-based course stops",
+          "latex": "R = \\frac{v_0^2\\sin 2\\theta}{|g|}\\quad\\text{— does NOT apply: with drag, } a \\text{ is not constant}",
+          "prose": "The clean projectile formulas assume the only force is gravity. Air resistance grows with speed and changes direction along the path, so the acceleration is never constant and there is no algebra formula for the range. At best you're told drag 'reduces' it."
+        }
+      ],
+      "calculus_steps": [
+        {
+          "label": "Newton's second law with quadratic drag (a vector ODE)",
+          "latex": "m\\,\\dot{\\mathbf v} = m\\mathbf g - b\\,|\\mathbf v|\\,\\mathbf v \\;\\Longrightarrow\\; \\begin{cases} \\dot v_x = -\\tfrac{b}{m}|\\mathbf v|v_x \\\\ \\dot v_y = g - \\tfrac{b}{m}|\\mathbf v|v_y \\end{cases}",
+          "prose": "Drag opposes the velocity vector and grows with the square of the speed. The two components are now coupled through $|\\mathbf v| = \\sqrt{v_x^2+v_y^2}$ — they are no longer independent, and there is no elementary closed form."
+        },
+        {
+          "label": "Integrate numerically (the only road in)",
+          "latex": "\\mathbf s_{n+1} = \\mathbf s_n + \\tfrac{h}{6}(k_1+2k_2+2k_3+k_4)",
+          "prose": "Step the state forward with a fourth-order Runge–Kutta integrator. The producer checks the result is converged (halving the step barely moves it) and that it satisfies the equation of motion — the same 'verification is the product', now for a numerical solution."
+        },
+        {
+          "label": "What drag does to the path",
+          "latex": "\\text{range} < \\frac{v_0^2\\sin2\\theta}{|g|},\\qquad \\text{descent steeper than ascent}",
+          "prose": "Slide the drag up from zero and watch the parabola (dashed) deform: the range shrinks, the peak drops and shifts, and the fall is steeper than the rise because the projectile has lost speed to drag. At $b=0$ the numerical path lands exactly on the parabola.",
+          "emphasis": true
+        }
+      ]
+    }
+  ]
 }

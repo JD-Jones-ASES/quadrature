@@ -431,5 +431,69 @@
     "sympy": "1.14.0",
     "author": "Quadrature",
     "created": "2026-06-27"
-  }
+  },
+  "practice": [
+    {
+      "id": "acceleration",
+      "asks": "the acceleration down the incline",
+      "prompt": "A block slides down a $30°$ incline with kinetic-friction coefficient $\\mu = 0.2$. What is its acceleration?",
+      "answer": {
+        "value": 3.267949,
+        "display": "3.268",
+        "unit": "m/s²",
+        "symbolic_latex": "g(\\sin\\theta - \\mu\\cos\\theta)"
+      },
+      "choices": [
+        {
+          "value": 3.267949,
+          "display": "3.268",
+          "correct": true
+        },
+        {
+          "value": 5.0,
+          "display": "5",
+          "correct": false,
+          "method": "frictionless",
+          "misconception": "Ignored friction. A frictionless incline gives $a = g\\sin\\theta$; kinetic friction subtracts $\\mu g\\cos\\theta$, so $a = g(\\sin\\theta - \\mu\\cos\\theta)$."
+        },
+        {
+          "value": 4.0,
+          "display": "4",
+          "correct": false,
+          "method": "sin_in_friction",
+          "misconception": "Put $\\sin\\theta$ in the friction term. The normal force is $mg\\cos\\theta$, so the friction is $\\mu g\\cos\\theta$ — a cosine, not a sine."
+        }
+      ],
+      "algebra_steps": [
+        {
+          "label": "Resolve the forces along the incline (Newton's second law)",
+          "latex": "ma = mg\\sin\\theta - \\mu\\,mg\\cos\\theta \\ \\Longrightarrow\\ a = g(\\sin\\theta - \\mu\\cos\\theta)",
+          "prose": "Along the slope, gravity pulls the block down with $mg\\sin\\theta$ while kinetic friction resists with $\\mu mg\\cos\\theta$ (the normal force is $mg\\cos\\theta$). The mass cancels, so the acceleration depends only on the angle and the friction coefficient — not on how heavy the block is."
+        },
+        {
+          "label": "Then use the constant-acceleration kinematics",
+          "latex": "v = at, \\qquad x = \\tfrac12 at^2, \\qquad v^2 = 2ax",
+          "prose": "With $a$ constant and the block released from rest, the speed grows linearly and the distance grows quadratically — the standard formulas."
+        }
+      ],
+      "calculus_steps": [
+        {
+          "label": "The acceleration is constant — integrate it once for the velocity",
+          "latex": "v(t) = \\int_0^t a\\,dt' = at",
+          "prose": "Because $a = g(\\sin\\theta - \\mu\\cos\\theta)$ does not change with time, its integral is just $at$. The velocity rises in a straight line — its slope is $a$."
+        },
+        {
+          "label": "Integrate again for the position",
+          "latex": "x(t) = \\int_0^t v\\,dt' = \\int_0^t at'\\,dt' = \\tfrac12 at^2",
+          "prose": "Integrating the velocity gives the parabola $\\tfrac12 at^2$. The memorized kinematics formula is this integral, already evaluated — a quadrature. The area under the $v$–$t$ line is exactly the distance travelled.",
+          "emphasis": true
+        },
+        {
+          "label": "Eliminate time and the velocity–position relation appears",
+          "latex": "v^2 = (at)^2 = 2a\\left(\\tfrac12 at^2\\right) = 2ax",
+          "prose": "Squaring $v = at$ and substituting $x = \\tfrac12 at^2$ gives $v^2 = 2ax$ with no $t$ — the same identity the algebra course states as a rule. Drag the angle and friction: a steeper slope or less friction means a larger $a$, and all three panels steepen together."
+        }
+      ]
+    }
+  ]
 }

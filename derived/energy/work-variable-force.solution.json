@@ -378,5 +378,69 @@
     "sympy": "1.14.0",
     "author": "Quadrature",
     "created": "2026-06-26"
-  }
+  },
+  "practice": [
+    {
+      "id": "work",
+      "asks": "the work done by the variable force",
+      "prompt": "A force that grows with distance, $F = bx$ with $b = 8$ N/m, pushes a block from rest through $d = 1.5$ m. How much work does it do?",
+      "answer": {
+        "value": 9.0,
+        "display": "9",
+        "unit": "J",
+        "symbolic_latex": "\\tfrac12 b\\,d^2"
+      },
+      "choices": [
+        {
+          "value": 9.0,
+          "display": "9",
+          "correct": true
+        },
+        {
+          "value": 18.0,
+          "display": "18",
+          "correct": false,
+          "method": "full_rectangle",
+          "misconception": "Used $F_{\\max}\\,d$ — the full rectangle. The force ramps from $0$ up to $F_{\\max} = bd$, so the area under $F(x)$ is the triangle $\\tfrac12 bd^2$, half as much."
+        },
+        {
+          "value": 12.0,
+          "display": "12",
+          "correct": false,
+          "method": "reported_force",
+          "misconception": "That is the peak force $F_{\\max} = bd$ (in newtons), not the work (in joules). Work is the area under the force–distance curve."
+        }
+      ],
+      "algebra_steps": [
+        {
+          "label": "What the algebra-based course hands you",
+          "latex": "W = F\\,d \\qquad(\\text{constant force}) \\qquad\\Longrightarrow\\qquad W = \\bar F\\,d,\\ \\ \\bar F = \\tfrac12 F_{\\max}",
+          "prose": "For a constant force, work is force times distance. When the force *varies*, the algebra course patches it with an average force — which is only exact here because the force happens to rise linearly. It can compute the number but cannot say *why* the answer is an area."
+        }
+      ],
+      "calculus_steps": [
+        {
+          "label": "Work is the area under the force–displacement curve",
+          "latex": "W = \\int F\\,dx",
+          "prose": "Work is defined as the integral of force over displacement. For a constant force this integral is a rectangle (and gives $W = F d$); for any force it is the area under the $F$–$x$ curve. The algebra formula is the special case where the area is a rectangle."
+        },
+        {
+          "label": "Evaluate for the linear force $F(x) = b x$",
+          "latex": "W = \\int_0^{x} b\\,u\\,du = \\tfrac12 b\\,x^2",
+          "prose": "The area under a straight line from the origin is a triangle: $\\tfrac12\\,(\\text{base})\\,(\\text{height}) = \\tfrac12\\,x\\,(b x) = \\tfrac12 b x^2$. Its slope is $bx = F(x)$ — the force is the rate at which work accumulates."
+        },
+        {
+          "label": "The kinetic energy falls out of the same integral",
+          "latex": "\\int F\\,dx = \\int m\\,\\frac{dv}{dt}\\,dx = \\int m\\,v\\,dv = \\tfrac12 m v^2 \\ \\Longrightarrow\\ \\tfrac12 m v^2 = W",
+          "prose": "Substituting $F = m\\,dv/dt$ and $dx = v\\,dt$ turns the work integral into $\\int m v\\,dv$. The memorized $\\tfrac12 m v^2$ is not a separate fact — it is exactly the accumulated work. The area under the force curve IS the kinetic energy.",
+          "emphasis": true
+        },
+        {
+          "label": "So the speed follows from the area",
+          "latex": "\\boxed{\\,v(x) = \\sqrt{\\tfrac{2W}{m}} = \\sqrt{\\tfrac{b}{m}}\\;x\\,}",
+          "prose": "Read the work off the area, set it equal to $\\tfrac12 m v^2$, and the speed at any displacement follows. Drag the cursor: the shaded area and the kinetic energy move together because they are the same quantity."
+        }
+      ]
+    }
+  ]
 }

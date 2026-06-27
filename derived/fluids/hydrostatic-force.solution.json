@@ -367,5 +367,64 @@
     "sympy": "1.14.0",
     "author": "Quadrature",
     "created": "2026-06-26"
-  }
+  },
+  "practice": [
+    {
+      "id": "wall-force",
+      "asks": "the total force on the wall",
+      "prompt": "Water ($\\rho = 1000$ kg/m$^3$) fills a tank against a wall of width $w = 5$ m to depth $H = 4$ m. What is the total hydrostatic force on the wall?",
+      "answer": {
+        "value": 400000.0,
+        "display": "400000",
+        "unit": "N",
+        "symbolic_latex": "\\tfrac12\\rho g w H^2"
+      },
+      "choices": [
+        {
+          "value": 400000.0,
+          "display": "400000",
+          "correct": true
+        },
+        {
+          "value": 800000.0,
+          "display": "800000",
+          "correct": false,
+          "method": "bottom_pressure_everywhere",
+          "misconception": "Used the bottom pressure $\\rho gH$ over the whole wall. Pressure grows linearly with depth, so the average is $\\tfrac12\\rho gH$ and the force is $\\tfrac12\\rho g w H^2$ — half this."
+        },
+        {
+          "value": 200000.0,
+          "display": "200000",
+          "correct": false,
+          "method": "dropped_one_H",
+          "misconception": "Dropped an $H$: the force integrates pressure (which grows as $H$) over an area (which also grows as $H$), giving an $H^2$."
+        }
+      ],
+      "algebra_steps": [
+        {
+          "label": "What the algebra-based course hands you",
+          "latex": "F = \\bar P\\,A \\qquad \\bar P = \\tfrac12\\rho g H \\quad(\\text{pressure at the centroid})",
+          "prose": "The algebra course says the force is the *average* pressure times the wall area. Because the pressure runs from $0$ at the surface to $\\rho g H$ at the bottom, it takes the average as the midpoint value $\\tfrac12\\rho g H$. That gives the right number — but only because the pressure rises *linearly*, and the algebra cannot say why the average is the midpoint rather than something else."
+        }
+      ],
+      "calculus_steps": [
+        {
+          "label": "The force is the area under the pressure–depth curve",
+          "latex": "F = \\int_0^H P(h)\\,w\\,dh",
+          "prose": "Each horizontal strip of the wall at depth $h$ (width $w$, height $dh$) feels a force $dF = P(h)\\,w\\,dh$. The total force is the integral over the depth — the area under the strip-force curve. For a uniform pressure this area is a rectangle ($P_0 A$); when the pressure grows with depth it is the area under a rising line."
+        },
+        {
+          "label": "Use the hydrostatic law $P(h) = \\rho g h$",
+          "latex": "F = \\int_0^H \\rho g w\\,h\\,dh = \\tfrac12\\rho g w H^2 = \\underbrace{\\tfrac12\\rho g H}_{\\bar P}\\,\\underbrace{wH}_{A}",
+          "prose": "With $P = \\rho g h$ the integrand is a straight line through the origin, so the area is a triangle: $\\tfrac12\\,(\\text{base})\\,(\\text{height}) = \\tfrac12\\,H\\,(\\rho g w H)$. That is $\\tfrac12\\rho g w H^2$ — and factoring it as $(\\tfrac12\\rho g H)(wH)$ shows the algebra's $\\bar P A$ is exactly this area, with the centroid pressure emerging as the average. Its slope at any depth is the strip force.",
+          "emphasis": true
+        },
+        {
+          "label": "Why the depth, not the lake, sets the force",
+          "latex": "\\text{uniform } P_0 \\ \\Longrightarrow\\ F = \\int_0^H P_0 w\\,dh = P_0\\,A",
+          "prose": "If the pressure did not grow with depth — a gas at uniform $P_0$ pressing on the wall — the integrand would be constant and the integral would collapse to the rectangle $P_0 A$. The real force is only *half* the bottom-pressure rectangle $\\rho g H\\cdot A$ because the pressure is small near the surface. And it depends only on the depth and the wall's width, not on how much water is behind it."
+        }
+      ]
+    }
+  ]
 }

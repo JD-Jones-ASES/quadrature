@@ -36,3 +36,20 @@ annotate = ["area_is_pe", "separation_is_finite"]
 [misconception]
 claim = "It takes infinite energy to completely separate two bound charges, since the electric force reaches out forever."
 refuted_by = "The force does reach out forever, but it *weakens* as $1/r^2$ — and the area under $1/r^2$ from $R$ to infinity is *finite*. That finite area is the binding energy $kq_1q_2/R$: pull the charges to infinity and the work you must supply converges to it, exactly as a rocket needs only finite energy $GMm/R$ to escape a planet. (Bringing point charges all the way *together*, $r\\to 0$, is the end that diverges — not the separation.) Drag the cursor out: the potential energy rises toward a ceiling, not without bound."
+
+[[practice]]
+id = "separation-energy"
+asks = "the energy to separate the charges completely"
+answer = "result:separation_energy"
+prompt = 'Two $+2\,\mu$C charges sit $R = 2$ cm apart. How much energy is needed to pull them infinitely far apart?'
+include = ["algebra", "calculus"]
+
+  [[practice.distractor]]
+  method = "only_to_2R"
+  transform = "k*q1*q2/(2*R)"
+  misconception = 'That is the work to double the separation ($kq_1q_2/2R$). To pull them fully apart (to infinity) takes $kq_1q_2/R$.'
+
+  [[practice.distractor]]
+  method = "force_not_energy"
+  transform = "k*q1*q2/R**2"
+  misconception = 'That is the electrostatic force $kq_1q_2/R^2$ (in newtons). The energy is $kq_1q_2/R$ (in joules) — one fewer power of $r$.'

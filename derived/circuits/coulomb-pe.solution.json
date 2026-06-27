@@ -360,5 +360,64 @@
     "sympy": "1.14.0",
     "author": "Quadrature",
     "created": "2026-06-26"
-  }
+  },
+  "practice": [
+    {
+      "id": "separation-energy",
+      "asks": "the energy to separate the charges completely",
+      "prompt": "Two $+2\\,\\mu$C charges sit $R = 2$ cm apart. How much energy is needed to pull them infinitely far apart?",
+      "answer": {
+        "value": 1.798,
+        "display": "1.798",
+        "unit": "J",
+        "symbolic_latex": "\\tfrac{kq_1q_2}{R}"
+      },
+      "choices": [
+        {
+          "value": 1.798,
+          "display": "1.798",
+          "correct": true
+        },
+        {
+          "value": 0.899,
+          "display": "0.899",
+          "correct": false,
+          "method": "only_to_2R",
+          "misconception": "That is the work to double the separation ($kq_1q_2/2R$). To pull them fully apart (to infinity) takes $kq_1q_2/R$."
+        },
+        {
+          "value": 89.9,
+          "display": "89.9",
+          "correct": false,
+          "method": "force_not_energy",
+          "misconception": "That is the electrostatic force $kq_1q_2/R^2$ (in newtons). The energy is $kq_1q_2/R$ (in joules) — one fewer power of $r$."
+        }
+      ],
+      "algebra_steps": [
+        {
+          "label": "What the algebra-based course hands you",
+          "latex": "U = \\frac{kq_1q_2}{r}\\quad(\\text{point charges}) \\qquad U = qEd\\quad(\\text{uniform field})",
+          "prose": "The algebra-based course hands you the point-charge energy $kq_1q_2/r$ as a formula, and for a uniform field (parallel plates) the energy $qEd$ — a constant force times a distance. It can compute the number but cannot show that the energy is an *area* under the Coulomb force, or why pulling a bound pair completely apart takes only a *finite* amount of energy when the force reaches out forever."
+        }
+      ],
+      "calculus_steps": [
+        {
+          "label": "Electric PE is the area under the force–distance curve",
+          "latex": "\\Delta U = \\int_R^r F\\,dr' = \\int_R^r \\frac{kq_1q_2}{r'^2}\\,dr'",
+          "prose": "The energy to pull two attracting charges apart is the integral of the Coulomb force over distance — the area under the $F$–$r$ curve. For a constant force (a uniform field) this is a rectangle ($qEd$); for the inverse-square force of point charges it is the area under a falling curve."
+        },
+        {
+          "label": "Evaluate the inverse-square integral",
+          "latex": "\\Delta U = kq_1q_2\\left(\\frac{1}{R} - \\frac{1}{r}\\right)",
+          "prose": "The area under $1/r^2$ from $R$ to $r$ is $kq_1q_2(1/R - 1/r)$. Its slope at any separation is $kq_1q_2/r^2 = F(r)$ — the force is the rate at which the potential energy accumulates. This is the *same* inverse-square area as gravity, with charge in place of mass."
+        },
+        {
+          "label": "The separation energy is finite — the area converges",
+          "latex": "\\boxed{\\,\\lim_{r\\to\\infty}\\Delta U = \\frac{kq_1q_2}{R}\\,}",
+          "prose": "Push the cursor outward and the energy rises toward a *finite* ceiling, even as $r\\to\\infty$: the area under $1/r^2$ converges. That ceiling is the binding energy — the energy needed to completely separate the pair — and SymPy proves the limit. A constant force would give an infinite area; the inverse square does not. (To bring point charges all the way *together*, $r\\to 0$, does diverge — the convergent end is infinity, not contact.)",
+          "emphasis": true
+        }
+      ]
+    }
+  ]
 }

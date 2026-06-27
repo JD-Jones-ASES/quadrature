@@ -427,5 +427,64 @@
     "sympy": "1.14.0",
     "author": "Quadrature",
     "created": "2026-06-26"
-  }
+  },
+  "practice": [
+    {
+      "id": "orbital-speed",
+      "asks": "the orbital speed",
+      "prompt": "A satellite circles a planet ($\\mu = GM = 4\\times10^{14}$ m$^3$/s$^2$) at radius $R = 7000$ km. What is its orbital speed?",
+      "answer": {
+        "value": 7559.28946,
+        "display": "7559",
+        "unit": "m/s",
+        "symbolic_latex": "\\sqrt{\\mu/R}"
+      },
+      "choices": [
+        {
+          "value": 7559.28946,
+          "display": "7559",
+          "correct": true
+        },
+        {
+          "value": 57142857.142857,
+          "display": "57140000",
+          "correct": false,
+          "method": "forgot_sqrt",
+          "misconception": "That is $v^2 = \\mu/R$. Take the square root to get the speed $v = \\sqrt{\\mu/R}$."
+        },
+        {
+          "value": 52915026221.29181,
+          "display": "52920000000",
+          "correct": false,
+          "method": "radius_in_numerator",
+          "misconception": "Used $\\sqrt{\\mu R}$. The orbital speed is $\\sqrt{\\mu/R}$ — closer orbits are faster, so $R$ sits in the denominator."
+        }
+      ],
+      "algebra_steps": [
+        {
+          "label": "What the algebra-based course hands you (centripetal balance)",
+          "latex": "\\frac{GMm}{R^2} = \\frac{mv^2}{R} \\ \\Longrightarrow\\ v = \\sqrt{\\frac{GM}{R}},\\quad T = 2\\pi\\sqrt{\\frac{R^3}{GM}}",
+          "prose": "For a *circular* orbit the algebra course is enough: set gravity equal to the centripetal force, cancel the satellite's mass $m$, and the orbital speed and period drop out. It gives the right numbers — but treats 'circular' as an assumption, with no account of why the orbit is a circle (or, in general, an ellipse)."
+        }
+      ],
+      "calculus_steps": [
+        {
+          "label": "Gravity is a central force — the orbit solves a vector ODE",
+          "latex": "m\\,\\ddot{\\mathbf r} = -\\frac{GMm}{r^2}\\,\\hat{\\mathbf r} \\ \\Longrightarrow\\ \\ddot{\\mathbf r} = -\\frac{\\mu}{r^3}\\,\\mathbf r",
+          "prose": "Newton's second law with the inverse-square force is a second-order differential equation for the position. The satellite's mass cancels, leaving the path governed by $\\mu = GM$ alone. The orbit is whatever curve solves this equation."
+        },
+        {
+          "label": "The circle is the constant-radius solution",
+          "latex": "\\mathbf r(t) = \\big(R\\cos\\omega t,\\ R\\sin\\omega t\\big),\\quad \\omega = \\sqrt{\\mu/R^3}",
+          "prose": "Try a circle of radius $R$ swept at a constant rate $\\omega$. Differentiating twice gives $\\ddot{\\mathbf r} = -\\omega^2\\mathbf r$, and on the circle $r=R$ the force law needs $\\omega^2 = \\mu/R^3$ — so the circle solves the equation exactly. The inward gravity $\\mu/R^2$ is precisely the centripetal acceleration $\\omega^2 R = v^2/R$: the satellite is in continuous free fall, falling *around* the body, not into it.",
+          "emphasis": true
+        },
+        {
+          "label": "The memorized formulas — and Kepler's third law — fall out",
+          "latex": "\\boxed{\\,v = \\sqrt{\\tfrac{\\mu}{R}},\\qquad T = \\frac{2\\pi}{\\omega} = 2\\pi\\sqrt{\\tfrac{R^3}{\\mu}}\\ \\Longrightarrow\\ T^2 = \\frac{4\\pi^2}{\\mu}R^3\\,}",
+          "prose": "The speed is $|\\dot{\\mathbf r}| = \\omega R = \\sqrt{\\mu/R}$ and the period is one turn, $2\\pi/\\omega$. Squaring gives $T^2 \\propto R^3$ — Kepler's third law, which the algebra course states but cannot derive. Drag the radius: the orbit widens, the speed drops as $1/\\sqrt R$, and the period stretches as $R^{3/2}$."
+        }
+      ]
+    }
+  ]
 }

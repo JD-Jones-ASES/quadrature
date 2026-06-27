@@ -30,3 +30,20 @@ annotate = ["area_is_energy", "half_cv2"]
 [misconception]
 claim = "Charging a capacitor to voltage $V$ with a battery of EMF $V$ stores all the energy the battery delivers."
 refuted_by = "The battery delivers $W = VQ$ (it moves charge $Q$ across a fixed voltage $V$ — a *rectangle*). But the capacitor's voltage rises from zero as it fills, so it stores only the *triangle* under the $V$–$q$ line, $\\tfrac12 VQ = \\tfrac12 CV^2$. Exactly half the delivered energy is lost as heat in the charging resistance — and that fraction is independent of the resistance. The factor of $\\tfrac12$ is the area of a triangle, not a fudge."
+
+[[practice]]
+id = "energy-stored"
+asks = "the energy stored in the capacitor"
+answer = "result:energy_stored"
+prompt = 'A $C = 500\,\mu$F capacitor is charged to $V = 200$ V. How much energy does it store?'
+include = ["algebra", "calculus"]
+
+  [[practice.distractor]]
+  method = "battery_work"
+  transform = "C*V**2"
+  misconception = 'Used $CV^2 = QV$ — the work the battery does. Half of that is dissipated in the resistance while charging; the capacitor stores only $\tfrac12 CV^2$.'
+
+  [[practice.distractor]]
+  method = "forgot_square"
+  transform = "C*V/2"
+  misconception = 'Forgot to square the voltage. The stored energy is $\tfrac12 CV^2$, not $\tfrac12 CV$.'

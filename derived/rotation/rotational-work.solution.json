@@ -371,5 +371,69 @@
     "sympy": "1.14.0",
     "author": "Quadrature",
     "created": "2026-06-26"
-  }
+  },
+  "practice": [
+    {
+      "id": "final-omega",
+      "asks": "the final angular velocity",
+      "prompt": "A torque that grows with angle, $\\tau = c\\theta$ with $c = 8$ N·m/rad, acts on a flywheel ($I = 0.5$ kg·m$^2$) from rest through $\\theta = 1.5$ rad. What is its final angular velocity?",
+      "answer": {
+        "value": 6.0,
+        "display": "6",
+        "unit": "rad/s",
+        "symbolic_latex": "\\sqrt{c/I}\\,\\theta"
+      },
+      "choices": [
+        {
+          "value": 6.0,
+          "display": "6",
+          "correct": true
+        },
+        {
+          "value": 36.0,
+          "display": "36",
+          "correct": false,
+          "method": "forgot_sqrt",
+          "misconception": "That is $\\omega^2 = 2W/I$. Take the square root to get $\\omega$."
+        },
+        {
+          "value": 8.485281,
+          "display": "8.485",
+          "correct": false,
+          "method": "full_rectangle",
+          "misconception": "Used the full rectangle $\\tau_{\\max}\\theta$ for the work. The torque ramps up from zero, so the work is the triangle $\\tfrac12 c\\theta^2 = \\int\\tau\\,d\\theta$."
+        }
+      ],
+      "algebra_steps": [
+        {
+          "label": "What the algebra-based course hands you",
+          "latex": "W = \\bar\\tau\\,\\Delta\\theta \\qquad \\tfrac12 I\\omega^2 = W \\quad(\\bar\\tau = \\tfrac12\\tau_{\\max},\\ \\text{the average torque})",
+          "prose": "For a constant torque, rotational work is torque times the angle turned, and it equals the rotational kinetic energy $\\tfrac12 I\\omega^2$. When the torque *varies*, the algebra course patches it with an average torque — which is only exact here because the torque happens to rise linearly. It can compute the number but cannot say *why* the answer is an area."
+        }
+      ],
+      "calculus_steps": [
+        {
+          "label": "Rotational work is the area under the torque–angle curve",
+          "latex": "W = \\int \\tau\\,d\\theta",
+          "prose": "Rotational work is the integral of torque over the angle turned — the rotational twin of $\\int F\\,dx$. For a constant torque this integral is a rectangle (and gives $W = \\tau\\,\\Delta\\theta$); for any torque it is the area under the $\\tau$–$\\theta$ curve."
+        },
+        {
+          "label": "Evaluate for the linear torque $\\tau(\\theta) = c\\,\\theta$",
+          "latex": "W = \\int_0^{\\theta} c\\,\\theta'\\,d\\theta' = \\tfrac12 c\\,\\theta^2",
+          "prose": "The area under a straight line from the origin is a triangle: $\\tfrac12\\,(\\text{base})\\,(\\text{height}) = \\tfrac12\\,\\theta\\,(c\\theta) = \\tfrac12 c\\theta^2$. Its slope is $c\\theta = \\tau(\\theta)$ — the torque is the rate at which rotational work accumulates."
+        },
+        {
+          "label": "The rotational kinetic energy falls out of the same integral",
+          "latex": "\\int \\tau\\,d\\theta = \\int I\\,\\frac{d\\omega}{dt}\\,d\\theta = \\int I\\,\\omega\\,d\\omega = \\tfrac12 I\\omega^2 \\ \\Longrightarrow\\ \\tfrac12 I\\omega^2 = W",
+          "prose": "Substituting $\\tau = I\\,d\\omega/dt$ and $d\\theta = \\omega\\,dt$ turns the work integral into $\\int I\\omega\\,d\\omega$. The memorized $\\tfrac12 I\\omega^2$ is not a separate fact — it is exactly the accumulated rotational work, the perfect mirror of $\\tfrac12 mv^2 = \\int F\\,dx$. The area under the torque curve IS the rotational kinetic energy.",
+          "emphasis": true
+        },
+        {
+          "label": "So the spin rate follows from the area",
+          "latex": "\\boxed{\\,\\omega(\\theta) = \\sqrt{\\tfrac{2W}{I}} = \\sqrt{\\tfrac{c}{I}}\\;\\theta\\,}",
+          "prose": "Read the work off the area, set it equal to $\\tfrac12 I\\omega^2$, and the angular speed at any angle follows. Drag the cursor: the shaded area and the rotational kinetic energy move together because they are the same quantity. A heavier flywheel (larger $I$) reaches the same area at a lower speed."
+        }
+      ]
+    }
+  ]
 }

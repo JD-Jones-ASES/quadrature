@@ -33,3 +33,20 @@ annotate = ["damping_transition"]
 [misconception]
 claim = "More damping always makes a system return to rest faster."
 refuted_by = "Past critical damping, adding more damping makes the return SLOWER — the overdamped system crawls back to equilibrium. The quickest return without overshoot is exactly at critical damping ($\\zeta = 1$); that is why door closers and instrument needles are tuned to it."
+
+[[practice]]
+id = "critical-damping"
+asks = "the critical damping coefficient"
+answer = "result:critical_damping"
+prompt = 'A mass $m = 1$ kg on a spring $k = 16$ N/m is damped. What damping coefficient $b$ makes it critically damped?'
+include = ["algebra", "calculus"]
+
+  [[practice.distractor]]
+  method = "dropped_factor_2"
+  transform = "sqrt(m*k)"
+  misconception = 'Dropped the factor of $2$. Critical damping is $b_c = 2\sqrt{mk}$ — the value where the discriminant $b^2 - 4mk$ vanishes.'
+
+  [[practice.distractor]]
+  method = "forgot_sqrt"
+  transform = "m*k"
+  misconception = 'Used $mk$; critical damping is $2\sqrt{mk}$ (the square root makes the units come out as kg/s).'

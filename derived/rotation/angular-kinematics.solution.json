@@ -416,5 +416,64 @@
     "sympy": "1.14.0",
     "author": "Quadrature",
     "created": "2026-06-26"
-  }
+  },
+  "practice": [
+    {
+      "id": "angle",
+      "asks": "the angle turned",
+      "prompt": "A wheel starts from rest and spins up at constant angular acceleration $\\alpha = 3$ rad/s$^2$ for $4$ s. Through what angle (in radians) does it turn?",
+      "answer": {
+        "value": 24.0,
+        "display": "24",
+        "unit": "rad",
+        "symbolic_latex": "\\frac{\\alpha t^{2}}{2} + \\omega_{0} t + \\theta_{0}"
+      },
+      "choices": [
+        {
+          "value": 24.0,
+          "display": "24",
+          "correct": true
+        },
+        {
+          "value": 48.0,
+          "display": "48",
+          "correct": false,
+          "method": "forgot_half",
+          "misconception": "Dropped the $\\tfrac12$ in $\\theta = \\tfrac12\\alpha t^2$ — the same $\\tfrac12$ that appears when you integrate $\\omega = \\alpha t$ over time."
+        },
+        {
+          "value": 3.819719,
+          "display": "3.82",
+          "correct": false,
+          "method": "revolutions_not_radians",
+          "misconception": "That is the number of revolutions ($\\theta/2\\pi$). The question asks for the angle in radians, $\\theta = \\tfrac12\\alpha t^2$."
+        }
+      ],
+      "algebra_steps": [
+        {
+          "label": "What the algebra-based course hands you (the same four equations, angular)",
+          "latex": "\\omega = \\omega_0 + \\alpha t,\\quad \\theta = \\theta_0 + \\omega_0 t + \\tfrac12\\alpha t^2,\\quad \\omega^2 = \\omega_0^2 + 2\\alpha\\Delta\\theta",
+          "prose": "The rotational kinematics formulas are the straight-line ones with every symbol swapped for its angular twin: $x\\to\\theta$, $v\\to\\omega$, $a\\to\\alpha$. They are memorized as a separate set — but they are the same calculus."
+        }
+      ],
+      "calculus_steps": [
+        {
+          "label": "Constant angular acceleration",
+          "latex": "\\alpha = \\text{const} \\quad\\Longrightarrow\\quad \\omega(t) = \\omega_0 + \\int_0^t \\alpha\\,dt' = \\omega_0 + \\alpha t",
+          "prose": "A constant net torque gives a constant angular acceleration. Integrate it once for the angular velocity — exactly as constant linear acceleration integrates to $v$."
+        },
+        {
+          "label": "Integrate again for the angle",
+          "latex": "\\theta(t) = \\theta_0 + \\int_0^t \\omega\\,dt' = \\theta_0 + \\omega_0 t + \\tfrac12\\alpha t^2",
+          "prose": "Integrate the angular velocity for the angle. This is the rotational $x = x_0 + v_0 t + \\tfrac12 a t^2$ — the area under the $\\omega$–$t$ line is the angle turned."
+        },
+        {
+          "label": "The timeless equation falls out",
+          "latex": "\\boxed{\\,\\omega^2 = \\omega_0^2 + 2\\alpha\\,\\Delta\\theta\\,}",
+          "prose": "Eliminate $t$ between the two integrals and the memorized timeless equation appears — and SymPy proves it. Nothing about rotation is new; it is constant-acceleration kinematics with angular labels.",
+          "emphasis": true
+        }
+      ]
+    }
+  ]
 }

@@ -359,5 +359,64 @@
     "sympy": "1.14.0",
     "author": "Quadrature",
     "created": "2026-06-26"
-  }
+  },
+  "practice": [
+    {
+      "id": "escape-energy",
+      "asks": "the energy to escape from the surface",
+      "prompt": "How much energy must a $1$ kg mass gain to escape completely from a planet of $\\mu = 4\\times10^{14}$ m$^3$/s$^2$ and radius $R = 6400$ km?",
+      "answer": {
+        "value": 62500000.0,
+        "display": "62500000",
+        "unit": "J",
+        "symbolic_latex": "\\tfrac{GMm}{R}"
+      },
+      "choices": [
+        {
+          "value": 62500000.0,
+          "display": "62500000",
+          "correct": true
+        },
+        {
+          "value": 31250000.0,
+          "display": "31250000",
+          "correct": false,
+          "method": "only_to_2R",
+          "misconception": "That is the energy to climb only to $2R$ ($\\mu m/2R$). To escape — to reach infinity — takes $\\mu m/R$, twice as much."
+        },
+        {
+          "value": 9.765625,
+          "display": "9.766",
+          "correct": false,
+          "method": "force_not_energy",
+          "misconception": "That is the surface gravitational force (in newtons). Energy is $\\mu m/R$ (in joules) — one fewer power of $r$."
+        }
+      ],
+      "algebra_steps": [
+        {
+          "label": "What the algebra-based course hands you",
+          "latex": "\\Delta U = mgh \\quad(\\text{near the surface, } g \\text{ constant})",
+          "prose": "Close to the ground, gravity is treated as a constant $mg$, so the potential energy is $mgh$ — the area of a rectangle. But gravity weakens with distance ($F\\propto 1/r^2$), so this fails once $h$ is comparable to the planet's radius. There is no algebra formula for the energy to reach orbit or escape."
+        }
+      ],
+      "calculus_steps": [
+        {
+          "label": "Potential energy is the area under the force–distance curve",
+          "latex": "\\Delta U = \\int_R^r F\\,dr' = \\int_R^r \\frac{GMm}{r'^2}\\,dr'",
+          "prose": "The work to lift a mass against gravity is the integral of the force over distance — the area under the $F$–$r$ curve. For a constant force this is a rectangle ($mgh$); for the inverse-square force it is the area under a falling curve."
+        },
+        {
+          "label": "Evaluate the inverse-square integral",
+          "latex": "\\Delta U = GMm\\left(\\frac{1}{R} - \\frac{1}{r}\\right)",
+          "prose": "The area under $1/r^2$ from $R$ to $r$ is $GMm(1/R - 1/r)$. Its slope at any radius is $GMm/r^2 = F(r)$ — the force is the rate at which potential energy accumulates."
+        },
+        {
+          "label": "The escape energy is finite — the area converges",
+          "latex": "\\boxed{\\,\\lim_{r\\to\\infty}\\Delta U = \\frac{GMm}{R}\\,}",
+          "prose": "Push the cursor outward and the PE rises toward a *finite* ceiling, even as $r\\to\\infty$: the area under $1/r^2$ converges. That ceiling is the escape energy — and SymPy proves the limit. A constant force would give an infinite area; the inverse square does not.",
+          "emphasis": true
+        }
+      ]
+    }
+  ]
 }

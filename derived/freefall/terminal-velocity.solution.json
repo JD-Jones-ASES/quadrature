@@ -418,5 +418,69 @@
     "sympy": "1.14.0",
     "author": "Quadrature",
     "created": "2026-06-26"
-  }
+  },
+  "practice": [
+    {
+      "id": "terminal-velocity",
+      "asks": "the terminal velocity",
+      "prompt": "A $1$ kg object falls under gravity with linear drag $b = 0.5$ kg/s. What terminal velocity does it approach?",
+      "answer": {
+        "value": -20.0,
+        "display": "-20",
+        "unit": "m/s",
+        "symbolic_latex": "g \\tau"
+      },
+      "choices": [
+        {
+          "value": -20.0,
+          "display": "-20",
+          "correct": true
+        },
+        {
+          "value": -5.0,
+          "display": "-5",
+          "correct": false,
+          "method": "multiplied_by_b",
+          "misconception": "Multiplied by $b$ instead of dividing. At terminal velocity the drag balances gravity, $bv = mg$, so $v = mg/b$."
+        },
+        {
+          "value": 2.0,
+          "display": "2",
+          "correct": false,
+          "method": "time_constant",
+          "misconception": "That is the time constant $\\tau = m/b$ (in seconds) — how quickly it approaches terminal velocity — not the terminal velocity $mg/b$ itself."
+        }
+      ],
+      "algebra_steps": [
+        {
+          "label": "Where the algebra-based course stops",
+          "latex": "x = x_0 + v_0 t + \\tfrac{1}{2}a t^2 \\;\\; \\text{(does NOT apply: } a \\text{ is not constant)}",
+          "prose": "With air resistance the acceleration changes as the object speeds up, so the constant-a formulas fail. At best you're handed the terminal velocity v = mg/b as a fact, with no path to it."
+        }
+      ],
+      "calculus_steps": [
+        {
+          "label": "Newton's second law with linear drag",
+          "latex": "m\\,v' = mg - b\\,v \\;\\;\\Longrightarrow\\;\\; v' = g - \\tfrac{v}{\\tau},\\quad \\tau = \\tfrac{m}{b}",
+          "prose": "Drag opposes motion and grows with speed, so the net force — and the acceleration — shrink as the object speeds up. This is a differential equation, not algebra."
+        },
+        {
+          "label": "Solve the linear ODE",
+          "latex": "v(t) = v_{\\text{term}} + (v_0 - v_{\\text{term}})\\,e^{-t/\\tau},\\quad v_{\\text{term}} = g\\tau = \\tfrac{mg}{b}",
+          "prose": "Velocity approaches the terminal value exponentially, with time constant τ."
+        },
+        {
+          "label": "Acceleration decays to zero",
+          "latex": "a(t) = \\frac{v_{\\text{term}} - v_0}{\\tau}\\,e^{-t/\\tau} \\;\\to\\; 0",
+          "prose": "Unlike free fall (where a is constant), here the acceleration decays: drag grows until it cancels gravity and there is no net force."
+        },
+        {
+          "label": "Terminal velocity emerges",
+          "latex": "\\boxed{\\,\\lim_{t\\to\\infty} v(t) = v_{\\text{term}} = \\dfrac{mg}{b}\\,}",
+          "prose": "The memorized terminal velocity is the long-time limit of the solution — and SymPy proves the limit.",
+          "emphasis": true
+        }
+      ]
+    }
+  ]
 }

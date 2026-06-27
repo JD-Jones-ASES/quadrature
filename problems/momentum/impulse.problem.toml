@@ -30,3 +30,20 @@ annotate = ["area_is_impulse", "slope_is_force"]
 [misconception]
 claim = "A bigger peak force always means a bigger change in momentum."
 refuted_by = "Not necessarily — the change in momentum is the *area* under the force–time curve (the impulse $\\int F\\,dt$), not the peak height. A small force acting over a long time delivers the same impulse — and the same $\\Delta v$ — as a large force over a brief time. The area, not the height, is what changes the motion."
+
+[[practice]]
+id = "delta-v"
+asks = "the change in velocity from the impulse"
+answer = "result:delta_v"
+prompt = 'A $0.5$ kg ball is struck by a force pulse that peaks at $F_{\max} = 200$ N over $\tau = 0.02$ s. By how much does its velocity change?'
+include = ["algebra", "calculus"]
+
+  [[practice.distractor]]
+  method = "peak_rectangle"
+  transform = "Fmax*tau/m"
+  misconception = 'Used $F_{\max}\tau$ for the impulse — a full rectangle. The force rises and falls, so its area (impulse) is less than peak times duration; here $J$ is the area under the pulse.'
+
+  [[practice.distractor]]
+  method = "forgot_mass"
+  transform = "2*Fmax*tau/pi"
+  misconception = 'That is the impulse $J$ (in N·s). The velocity change is $\Delta v = J/m$ — divide by the mass.'

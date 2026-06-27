@@ -367,5 +367,64 @@
     "sympy": "1.14.0",
     "author": "Quadrature",
     "created": "2026-06-27"
-  }
+  },
+  "practice": [
+    {
+      "id": "efflux-speed",
+      "asks": "the speed of the water leaving the hole",
+      "prompt": "A tank is filled to depth $h = 5$ m above a small hole. How fast does water exit the hole?",
+      "answer": {
+        "value": 10.0,
+        "display": "10",
+        "unit": "m/s",
+        "symbolic_latex": "\\sqrt{2gh}"
+      },
+      "choices": [
+        {
+          "value": 10.0,
+          "display": "10",
+          "correct": true
+        },
+        {
+          "value": 100.0,
+          "display": "100",
+          "correct": false,
+          "method": "forgot_sqrt",
+          "misconception": "That is $v^2 = 2gh$. Take the square root: $v = \\sqrt{2gh}$ — the same speed as an object dropped from height $h$."
+        },
+        {
+          "value": 7.071068,
+          "display": "7.071",
+          "correct": false,
+          "method": "dropped_factor_2",
+          "misconception": "Dropped the factor of $2$: Bernoulli (energy conservation) gives $v = \\sqrt{2gh}$, not $\\sqrt{gh}$."
+        }
+      ],
+      "algebra_steps": [
+        {
+          "label": "What the algebra-based course hands you (Torricelli's law)",
+          "latex": "v = \\sqrt{2gh}",
+          "prose": "Water leaves an orifice a depth $h$ below the surface at the same speed an object would reach falling freely through $h$. It works — but it is handed to you as a rule, with no account of *why* the tank's shape or the water above doesn't matter."
+        }
+      ],
+      "calculus_steps": [
+        {
+          "label": "Energy conservation along a streamline (Bernoulli) is the first integral of $F = ma$",
+          "latex": "\\tfrac12\\rho v^2 + \\rho g y = \\text{const}",
+          "prose": "For a parcel of fluid following a streamline, Newton's second law integrates to the statement that pressure, kinetic energy density, and potential energy density trade so their sum is constant. With the surface and the orifice both at atmospheric pressure, the kinetic energy gained equals the potential energy lost, $\\tfrac12\\rho v^2 = \\rho g h$."
+        },
+        {
+          "label": "The depth sets the speed — the route does not",
+          "latex": "\\tfrac12\\rho v^2 = \\rho g h \\ \\Longrightarrow\\ v = \\sqrt{2gh}",
+          "prose": "The density cancels, so the efflux speed is $\\sqrt{2gh}$ regardless of the fluid or the shape of the tank — exactly the speed of free fall through $h$. A wide tank and a narrow one drain at the same orifice speed for the same depth.",
+          "emphasis": true
+        },
+        {
+          "label": "Watch the energies trade with the total fixed",
+          "latex": "\\boxed{\\,v(d) = \\sqrt{2gd}\\,}",
+          "prose": "Drag the cursor down from the surface: potential energy density converts to kinetic, but the Total bar never moves. At the orifice it is all kinetic, with speed $\\sqrt{2gh}$. The bars are Bernoulli's equation made visible."
+        }
+      ]
+    }
+  ]
 }

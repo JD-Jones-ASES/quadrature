@@ -31,3 +31,20 @@ annotate = ["theta_omega_alpha", "constant_alpha"]
 [misconception]
 claim = "Rotational motion needs its own special set of equations to memorize."
 refuted_by = "The rotational kinematics equations *are* the straight-line ones with angular symbols: $x\\to\\theta$, $v\\to\\omega$, $a\\to\\alpha$. They come from the same two integrations of a constant acceleration — the slope of the $\\omega$–$t$ line is $\\alpha$, and the area under it is $\\Delta\\theta$. Learn one set, relabel, and you have the other."
+
+[[practice]]
+id = "angle"
+asks = "the angle turned"
+answer = "result:angle"
+prompt = 'A wheel starts from rest and spins up at constant angular acceleration $\alpha = 3$ rad/s$^2$ for $4$ s. Through what angle (in radians) does it turn?'
+include = ["algebra", "calculus"]
+
+  [[practice.distractor]]
+  method = "forgot_half"
+  transform = "2*answer"
+  misconception = 'Dropped the $\tfrac12$ in $\theta = \tfrac12\alpha t^2$ — the same $\tfrac12$ that appears when you integrate $\omega = \alpha t$ over time.'
+
+  [[practice.distractor]]
+  method = "revolutions_not_radians"
+  transform = "answer/(2*pi)"
+  misconception = 'That is the number of revolutions ($\theta/2\pi$). The question asks for the angle in radians, $\theta = \tfrac12\alpha t^2$.'

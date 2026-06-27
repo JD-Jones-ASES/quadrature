@@ -31,3 +31,20 @@ annotate = ["kepler_first", "kepler_second"]
 [misconception]
 claim = "A planet moves at constant speed around its orbit, and a more eccentric orbit takes longer to complete."
 refuted_by = "Neither is true. By **Kepler's second law** (angular momentum is conserved), the planet sweeps equal areas in equal times — so it moves *fastest* at perihelion and *slowest* at aphelion; at $e=0.5$ it is three times faster at its closest point than its farthest. And by **Kepler's third law** the period depends only on the semi-major axis $a$, not the eccentricity: a circle and a long thin ellipse with the same $a$ take *exactly the same time* to go around. Slide the eccentricity and watch the shape stretch while the period stays put."
+
+[[practice]]
+id = "period"
+asks = "the orbital period"
+answer = "result:period"
+prompt = 'A satellite is on an ellipse of semi-major axis $a = 16000$ km around a body with $\mu = 4\times10^{14}$ m$^3$/s$^2$. What is its orbital period?'
+include = ["algebra", "calculus"]
+
+  [[practice.distractor]]
+  method = "perihelion_for_a"
+  transform = "2*pi*sqrt((a*(1-e_default))**3/mu)"
+  misconception = 'Used the perihelion distance instead of the semi-major axis. The period depends on $a$ (the average of perihelion and aphelion): $T = 2\pi\sqrt{a^3/\mu}$.'
+
+  [[practice.distractor]]
+  method = "forgot_2pi"
+  transform = "sqrt(a**3/mu)"
+  misconception = 'Forgot the $2\pi$: the period is $T = 2\pi\sqrt{a^3/\mu}$.'

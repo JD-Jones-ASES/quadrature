@@ -365,5 +365,64 @@
     "sympy": "1.14.0",
     "author": "Quadrature",
     "created": "2026-06-26"
-  }
+  },
+  "practice": [
+    {
+      "id": "energy-stored",
+      "asks": "the energy stored in the capacitor",
+      "prompt": "A $C = 500\\,\\mu$F capacitor is charged to $V = 200$ V. How much energy does it store?",
+      "answer": {
+        "value": 10.0,
+        "display": "10",
+        "unit": "J",
+        "symbolic_latex": "\\tfrac{Q^2}{2C}"
+      },
+      "choices": [
+        {
+          "value": 10.0,
+          "display": "10",
+          "correct": true
+        },
+        {
+          "value": 20.0,
+          "display": "20",
+          "correct": false,
+          "method": "battery_work",
+          "misconception": "Used $CV^2 = QV$ — the work the battery does. Half of that is dissipated in the resistance while charging; the capacitor stores only $\\tfrac12 CV^2$."
+        },
+        {
+          "value": 0.05,
+          "display": "0.05",
+          "correct": false,
+          "method": "forgot_square",
+          "misconception": "Forgot to square the voltage. The stored energy is $\\tfrac12 CV^2$, not $\\tfrac12 CV$."
+        }
+      ],
+      "algebra_steps": [
+        {
+          "label": "What the algebra-based course hands you",
+          "latex": "U = \\tfrac12 C V^2 = \\tfrac12 Q V \\qquad(\\bar V = \\tfrac12 V,\\ \\text{the average voltage})",
+          "prose": "The energy in a capacitor is handed to you as $\\tfrac12 C V^2$, usually justified by an *average voltage*: the voltage ramps from $0$ to $V$, so on average the charge crosses $\\tfrac12 V$, giving $U = \\tfrac12 Q V$. That works — but only because the voltage rises *linearly*, and the algebra cannot say why the factor is $\\tfrac12$ rather than $1$."
+        }
+      ],
+      "calculus_steps": [
+        {
+          "label": "Energy is the area under the voltage–charge line",
+          "latex": "U = \\int_0^Q V\\,dq",
+          "prose": "Pushing a charge $dq$ across the capacitor's voltage $V$ costs energy $V\\,dq$. The total stored energy is the integral of voltage over charge — the area under the $V$–$q$ graph. Because $V = q/C$ rises from zero, that area is a triangle, not a rectangle."
+        },
+        {
+          "label": "Evaluate for the linear law $V(q) = q/C$",
+          "latex": "U = \\int_0^{Q} \\frac{q}{C}\\,dq = \\frac{Q^2}{2C} = \\tfrac12 C V^2",
+          "prose": "The area under a straight line from the origin is $\\tfrac12\\,(\\text{base})\\,(\\text{height}) = \\tfrac12\\,Q\\,(Q/C) = Q^2/2C$. Substituting $Q = CV$ gives the memorized $\\tfrac12 C V^2$ — it is exactly the area, and its slope is $V(q)$.",
+          "emphasis": true
+        },
+        {
+          "label": "Where the other half went",
+          "latex": "\\boxed{\\,U = \\tfrac12 V Q \\quad\\text{but a battery does}\\quad W = V Q\\,}",
+          "prose": "If a battery had held the voltage at $V$ the whole time, it would have done $W = VQ$ — the full rectangle. The capacitor stores only the triangle $\\tfrac12 VQ$; the other half is dissipated as heat in the wire's resistance while the charge flows. The constant-voltage rectangle is the quadrature; the real charging is the area under a rising line."
+        }
+      ]
+    }
+  ]
 }

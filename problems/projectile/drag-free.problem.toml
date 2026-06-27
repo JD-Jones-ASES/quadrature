@@ -34,3 +34,20 @@ annotate = ["range_at_45", "independent_components"]
 [misconception]
 claim = "At the top of its arc, the projectile is momentarily at rest."
 refuted_by = "Only the *vertical* velocity is zero at the apex; the horizontal velocity $v_0\\cos\\theta$ never changes — there is no horizontal force. At the top the ball is still moving horizontally at full speed. The horizontal and vertical motions are completely independent, which is exactly why the path is a parabola ($y$ a quadratic in $t$, $x$ linear in $t$)."
+
+[[practice]]
+id = "range"
+asks = "the horizontal range"
+answer = "result:range"
+prompt = 'A projectile is launched at $v_0 = 20$ m/s, $40°$ above the horizontal, over level ground. How far away does it land?'
+include = ["algebra", "calculus"]
+
+  [[practice.distractor]]
+  method = "forgot_double_angle"
+  transform = "v0**2*sin(theta_deg*pi/180)/(-g)"
+  misconception = 'Used $\sin\theta$ instead of $\sin 2\theta$ in the range $R = v_0^2\sin(2\theta)/g$. The factor of $2$ inside the sine is exactly why $45°$ gives the maximum range.'
+
+  [[practice.distractor]]
+  method = "cos_for_sin"
+  transform = "v0**2*cos(2*theta_deg*pi/180)/(-g)"
+  misconception = 'Used $\cos 2\theta$ where the range formula carries $\sin 2\theta$ (the horizontal and vertical motions combine to a sine).'

@@ -27,3 +27,20 @@ annotate = ["area_is_field", "point_charge_limit"]
 [misconception]
 claim = "To get the rod's field, just treat all its charge as sitting at the rod's centre (or near end) and use $kQ/r^2$."
 refuted_by = "Lumping the charge at one point gives the wrong answer, because the field is non-linear in distance: the near slices ($x$ small) contribute far more than the far ones ($k/x^2$ falls off steeply), so you cannot replace the spread-out charge with a single point at the average position. Treating the rod as a point at its near end *overestimates* the field; the true field is the integral $E = k\\lambda(1/a - 1/(a+L)) = kQ/(a(a+L))$, which is genuinely smaller. Only when the rod is much shorter than its distance ($L \\ll a$) do the slices all sit at nearly the same distance and the integral collapses back to the point charge $kQ/a^2$. The cursor sweeps how much of the rod is included; the area under the contribution curve is the field."
+
+[[practice]]
+id = "field"
+asks = "the field from the charged rod"
+answer = "result:total_field"
+prompt = 'A rod of length $L = 0.3$ m carries linear charge density $\lambda = 100$ nC/m. What is the electric field at a point $a = 0.1$ m beyond one end, on the axis?'
+include = ["algebra", "calculus"]
+
+  [[practice.distractor]]
+  method = "point_charge_near"
+  transform = "k*(lam_nc*1e-9*L)/a**2"
+  misconception = 'Treated the whole rod as a point charge at the near distance $a$: $kQ/a^2$. That over-counts the far part; integrating $\int k\,dq/x^2$ along the rod gives the smaller $k\lambda L/[a(a+L)]$.'
+
+  [[practice.distractor]]
+  method = "point_charge_far"
+  transform = "k*(lam_nc*1e-9*L)/(a+L)**2"
+  misconception = 'Put all the charge at the far end ($x = a+L$). The true field lies between the near-end and far-end point-charge estimates.'

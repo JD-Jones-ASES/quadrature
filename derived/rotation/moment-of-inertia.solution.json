@@ -361,5 +361,64 @@
     "sympy": "1.14.0",
     "author": "Quadrature",
     "created": "2026-06-26"
-  }
+  },
+  "practice": [
+    {
+      "id": "moment-of-inertia",
+      "asks": "the moment of inertia of the rod about its end",
+      "prompt": "A uniform rod of mass $M = 2$ kg and length $L = 1.2$ m rotates about one end. What is its moment of inertia?",
+      "answer": {
+        "value": 0.96,
+        "display": "0.96",
+        "unit": "kg*m**2",
+        "symbolic_latex": "\\tfrac13 M L^2"
+      },
+      "choices": [
+        {
+          "value": 0.96,
+          "display": "0.96",
+          "correct": true
+        },
+        {
+          "value": 0.24,
+          "display": "0.24",
+          "correct": false,
+          "method": "about_center",
+          "misconception": "That is $\\tfrac{1}{12}ML^2$, the rod about its center. About the end it is $\\tfrac13 ML^2$ — the parallel-axis shift adds $M(L/2)^2$."
+        },
+        {
+          "value": 2.88,
+          "display": "2.88",
+          "correct": false,
+          "method": "point_mass",
+          "misconception": "Used $ML^2$, as if all the mass sat at the far end. The mass is spread along the rod, so $\\int r^2\\,dm$ gives only $\\tfrac13 ML^2$."
+        }
+      ],
+      "algebra_steps": [
+        {
+          "label": "What the algebra-based course hands you (a table to memorize)",
+          "latex": "I_{\\text{rod}} = \\tfrac13 M L^2,\\quad I_{\\text{disk}} = \\tfrac12 M R^2,\\quad I_{\\text{hoop}} = M R^2",
+          "prose": "The algebra-based course gives moments of inertia as a *lookup table* — a different fraction for each shape, with no account of where the $\\tfrac13$, $\\tfrac12$, or $1$ come from. It can use the numbers but cannot say why a rod's coefficient is $\\tfrac13$ while a hoop's is $1$."
+        }
+      ],
+      "calculus_steps": [
+        {
+          "label": "Moment of inertia is the integral of r² over the mass",
+          "latex": "I = \\int r^2\\,dm",
+          "prose": "Every slice of mass $dm$ at radius $r$ contributes $r^2\\,dm$ to the moment of inertia. The total is the integral over the whole body — and for a body whose mass is spread out, that is the area under a curve, not a single term."
+        },
+        {
+          "label": "Spread the rod's mass at density $\\lambda = M/L$",
+          "latex": "dm = \\lambda\\,dr \\ \\Longrightarrow\\ I = \\int_0^{L} \\lambda\\,r^2\\,dr = \\tfrac13\\lambda L^3 = \\tfrac13 M L^2",
+          "prose": "With the rod's mass spread uniformly at $\\lambda = M/L$ per metre, the integrand becomes $\\lambda r^2$ — a parabola. The area under it from $0$ to $L$ is $\\tfrac13\\lambda L^3$, and $\\lambda L = M$ turns that into the memorized $\\tfrac13 M L^2$. Its slope at any radius is $\\lambda r^2$ — the rate at which the moment accumulates.",
+          "emphasis": true
+        },
+        {
+          "label": "Why the hoop's coefficient is the special one",
+          "latex": "\\text{all mass at } R \\ \\Longrightarrow\\ I = \\int R^2\\,dm = M R^2",
+          "prose": "If instead the mass is all at a single radius $R$ — a thin hoop — the integrand $r^2$ is the constant $R^2$, and the integral collapses to the rectangle $M R^2$. The rod's $\\tfrac13$ is small because most of its mass sits close to the pivot, where $r^2$ is tiny; the hoop's $1$ is the extreme where all the mass is as far out as possible."
+        }
+      ]
+    }
+  ]
 }

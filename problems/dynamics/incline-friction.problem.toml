@@ -30,3 +30,20 @@ annotate = ["a_is_constant", "mass_cancels"]
 [misconception]
 claim = "A heavier block slides down the ramp faster, because gravity pulls on it harder."
 refuted_by = "It does not — two blocks of different mass slide down the same ramp with the *same* acceleration. Gravity does pull harder on the heavier block ($mg\\sin\\theta$ is larger), but that same larger mass is harder to accelerate (the $m$ in $F = ma$), and friction also scales with the normal force $\\mu mg\\cos\\theta$. Every term carries a factor of $m$, so it cancels: $a = g(\\sin\\theta - \\mu\\cos\\theta)$ depends only on the angle and the friction coefficient. This is the same reason all objects fall at the same rate — Galileo's insight, on a ramp."
+
+[[practice]]
+id = "acceleration"
+asks = "the acceleration down the incline"
+answer = "result:acceleration"
+prompt = 'A block slides down a $30°$ incline with kinetic-friction coefficient $\mu = 0.2$. What is its acceleration?'
+include = ["algebra", "calculus"]
+
+  [[practice.distractor]]
+  method = "frictionless"
+  transform = "g*sin(theta_deg*pi/180)"
+  misconception = 'Ignored friction. A frictionless incline gives $a = g\sin\theta$; kinetic friction subtracts $\mu g\cos\theta$, so $a = g(\sin\theta - \mu\cos\theta)$.'
+
+  [[practice.distractor]]
+  method = "sin_in_friction"
+  transform = "g*(sin(theta_deg*pi/180) - mu*sin(theta_deg*pi/180))"
+  misconception = 'Put $\sin\theta$ in the friction term. The normal force is $mg\cos\theta$, so the friction is $\mu g\cos\theta$ — a cosine, not a sine.'

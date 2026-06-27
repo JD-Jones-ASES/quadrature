@@ -352,5 +352,64 @@
     "sympy": "1.14.0",
     "author": "Quadrature",
     "created": "2026-06-27"
-  }
+  },
+  "practice": [
+    {
+      "id": "field",
+      "asks": "the field from the charged rod",
+      "prompt": "A rod of length $L = 0.3$ m carries linear charge density $\\lambda = 100$ nC/m. What is the electric field at a point $a = 0.1$ m beyond one end, on the axis?",
+      "answer": {
+        "value": 6742.5,
+        "display": "6742",
+        "unit": "N/C",
+        "symbolic_latex": "k\\lambda\\!\\left(\\tfrac1a - \\tfrac1{a+L}\\right)"
+      },
+      "choices": [
+        {
+          "value": 6742.5,
+          "display": "6742",
+          "correct": true
+        },
+        {
+          "value": 26970.0,
+          "display": "26970",
+          "correct": false,
+          "method": "point_charge_near",
+          "misconception": "Treated the whole rod as a point charge at the near distance $a$: $kQ/a^2$. That over-counts the far part; integrating $\\int k\\,dq/x^2$ along the rod gives the smaller $k\\lambda L/[a(a+L)]$."
+        },
+        {
+          "value": 1685.625,
+          "display": "1686",
+          "correct": false,
+          "method": "point_charge_far",
+          "misconception": "Put all the charge at the far end ($x = a+L$). The true field lies between the near-end and far-end point-charge estimates."
+        }
+      ],
+      "algebra_steps": [
+        {
+          "label": "What the algebra-based course hands you (and where it stops)",
+          "latex": "E_{\\text{point}} = \\frac{kq}{r^2}",
+          "prose": "Algebra gives the field of a single point charge. But a charged rod is not a point — the charge is spread along its length, every piece a different distance away — and there is no algebra formula for that. This is where algebra runs out."
+        }
+      ],
+      "calculus_steps": [
+        {
+          "label": "Slice the rod into point charges and add their fields",
+          "latex": "dE = \\frac{k\\,dq}{x^2} = \\frac{k\\lambda\\,dx}{x^2}",
+          "prose": "Cut the rod into slices of length $dx$, each carrying charge $dq = \\lambda\\,dx$ and acting like a point charge at distance $x$. Its field is $k\\,dq/x^2$. Summing over the rod is an integral — the only way to handle a continuous distribution."
+        },
+        {
+          "label": "The total field is the area under the contributions",
+          "latex": "E = \\int_a^{a+L} \\frac{k\\lambda}{x^2}\\,dx = k\\lambda\\left(\\frac1a - \\frac1{a+L}\\right)",
+          "prose": "Integrating the inverse-square contributions gives a finite field — the shaded area under $k\\lambda/x^2$. The slope of the accumulated-field curve is the contribution at the cursor; the area under the contributions is the field.",
+          "emphasis": true
+        },
+        {
+          "label": "It reduces to the point charge when the rod is short",
+          "latex": "E = \\frac{kQ}{a(a+L)} \\ \\xrightarrow{\\,L \\ll a\\,}\\ \\frac{kQ}{a^2}",
+          "prose": "Writing $Q = \\lambda L$, the rod's field is $kQ/(a(a+L))$. When the rod is much shorter than its distance, this becomes $kQ/a^2$ — the point-charge formula, recovered. Drag the cursor to sweep how much of the rod is included, and $\\lambda$ to scale the charge."
+        }
+      ]
+    }
+  ]
 }
