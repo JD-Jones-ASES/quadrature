@@ -24,7 +24,8 @@ at https://jd-jones-ases.github.io/quadrature/.
   like-signed-vs-"opposite" contradiction in the Coulomb-PE lesson; an EMF lead/lag wording slip in the AC
   generator; a virtual-image-location error in the diverging-lens misconception; a thin-lens F/F′ ray-label
   latex (now lens-type-aware); the Astro word-glue gotcha on the guide; Python `**`/`*` unit notation leaking
-  into the reference and result cells (build-time `prettyUnit()` → `m/s²`, `N·m²/C²`, `kg·m²`); and authoring
+  into the reference and result cells (build-time `prettyUnit()` → `m/s²`, `N·m²/C²`, `kg·m²`); the reference's variable legend printing raw symbol names (`phi`, `N0`) instead of glyphs — the
+  producer now renders every variable's symbol via SymPy, matching the equation; and authoring
   markup leaking into lesson `<meta name="description">` + island hydration props (now a `plain()` description;
   the raw `scenario` is dropped from the player view). Ten formula `lessons` entries that used the problem id
   instead of the route slug — so their reference "used in" links were dead — were corrected.

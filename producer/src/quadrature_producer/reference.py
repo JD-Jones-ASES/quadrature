@@ -82,10 +82,23 @@ def glyph_for(name: str, var: dict) -> str | None:
 
 
 def _var_record(name: str, var: dict) -> dict:
-    """Output record for one variable. Carries the effective display glyph (authored or default) so the
-    reference page can render the symbol column and the latex-quality gate can clear it as known notation."""
+    """Output record for one variable. Carries the effective display glyph so the reference page's symbol column
+    matches the equation. Authored `latex` wins, else the universal default, else **SymPy's own rendering of the
+    bare symbol** (`sp.latex(Symbol(name))`) — the SAME mechanism that renders the symbol inside the equation, so
+    a greek / subscripted source name (`phi`, `N0`, `omega`) shows as φ / N₀ / ω in the legend instead of its raw
+    ASCII name (ADR-0025/0030). The equation's `symbol_names` map (built from `glyph_for`) is unchanged, so RHS
+    rendering is byte-identical; and because every symbol's rendering now equals a `variables[*].latex` value, the
+    latex-quality gate still strips them all cleanly."""
     rec = {"unit": var["unit"], "desc": var.get("desc", "")}
     glyph = glyph_for(name, var)
+    if glyph is None:
+        # Fall back to SymPy's own rendering, but ONLY when it actually differs from the raw name — i.e. a real
+        # glyph (greek `\phi`, subscript `N_{0}`/`\mu_{0}`). A plain letter (`r`, `v`, `B`) renders as itself, so
+        # leave it unset: emitting it would add a single-letter entry to the latex-quality gate's substring-strip
+        # list, fragmenting commands like `\frac`/`\omega` (`\omega`→`\o`+`ega`). Plain names are correct as-is.
+        rendered = sp.latex(sp.Symbol(name))
+        if rendered != name:
+            glyph = rendered
     if glyph is not None:
         rec["latex"] = glyph
     return rec

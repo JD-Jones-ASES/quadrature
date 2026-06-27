@@ -211,7 +211,8 @@
         },
         "v0": {
           "unit": "m/s",
-          "desc": "initial velocity"
+          "desc": "initial velocity",
+          "latex": "v_{0}"
         },
         "t": {
           "unit": "s",
@@ -246,11 +247,13 @@
       "variables": {
         "mu_k": {
           "unit": "1",
-          "desc": "coefficient of kinetic friction (dimensionless)"
+          "desc": "coefficient of kinetic friction (dimensionless)",
+          "latex": "\\mu_{k}"
         },
         "F_N": {
           "unit": "N",
-          "desc": "normal force"
+          "desc": "normal force",
+          "latex": "F_{N}"
         }
       },
       "assumptions": [
@@ -386,7 +389,8 @@
         },
         "omega": {
           "unit": "1/s",
-          "desc": "angular rotation rate ω"
+          "desc": "angular rotation rate ω",
+          "latex": "\\omega"
         }
       },
       "assumptions": [
@@ -417,7 +421,8 @@
       "variables": {
         "mu0": {
           "unit": "T*m/A",
-          "desc": "permeability of free space μ₀"
+          "desc": "permeability of free space μ₀",
+          "latex": "\\mu_{0}"
         },
         "I": {
           "unit": "A",
@@ -527,11 +532,13 @@
         },
         "q1": {
           "unit": "C",
-          "desc": "first charge"
+          "desc": "first charge",
+          "latex": "q_{1}"
         },
         "q2": {
           "unit": "C",
-          "desc": "second charge"
+          "desc": "second charge",
+          "latex": "q_{2}"
         },
         "r": {
           "unit": "m",
@@ -1259,11 +1266,13 @@
         },
         "q1": {
           "unit": "C",
-          "desc": "first charge"
+          "desc": "first charge",
+          "latex": "q_{1}"
         },
         "q2": {
           "unit": "C",
-          "desc": "second charge"
+          "desc": "second charge",
+          "latex": "q_{2}"
         },
         "r": {
           "unit": "m",
@@ -1806,7 +1815,8 @@
         },
         "rho": {
           "unit": "kg/m**3",
-          "desc": "fluid density"
+          "desc": "fluid density",
+          "latex": "\\rho"
         },
         "v": {
           "unit": "m/s",
@@ -1847,7 +1857,8 @@
       "variables": {
         "rho": {
           "unit": "kg/m**3",
-          "desc": "fluid density"
+          "desc": "fluid density",
+          "latex": "\\rho"
         },
         "g": {
           "unit": "m/s**2",
@@ -1918,7 +1929,8 @@
       "variables": {
         "rho": {
           "unit": "kg/m**3",
-          "desc": "fluid density"
+          "desc": "fluid density",
+          "latex": "\\rho"
         },
         "g": {
           "unit": "m/s**2",
@@ -1961,7 +1973,8 @@
       "variables": {
         "rho": {
           "unit": "kg/m**3",
-          "desc": "fluid density"
+          "desc": "fluid density",
+          "latex": "\\rho"
         },
         "g": {
           "unit": "m/s**2",
@@ -2002,11 +2015,13 @@
         },
         "m1": {
           "unit": "kg",
-          "desc": "first mass"
+          "desc": "first mass",
+          "latex": "m_{1}"
         },
         "m2": {
           "unit": "kg",
-          "desc": "second mass"
+          "desc": "second mass",
+          "latex": "m_{2}"
         },
         "r": {
           "unit": "m",
@@ -2069,7 +2084,8 @@
       "variables": {
         "v0": {
           "unit": "m/s",
-          "desc": "initial velocity"
+          "desc": "initial velocity",
+          "latex": "v_{0}"
         },
         "a": {
           "unit": "m/s**2",
@@ -2111,11 +2127,13 @@
       "variables": {
         "x0": {
           "unit": "m",
-          "desc": "initial position"
+          "desc": "initial position",
+          "latex": "x_{0}"
         },
         "v0": {
           "unit": "m/s",
-          "desc": "initial velocity"
+          "desc": "initial velocity",
+          "latex": "v_{0}"
         },
         "a": {
           "unit": "m/s**2",
@@ -2190,7 +2208,8 @@
       "variables": {
         "N0": {
           "unit": "1",
-          "desc": "initial number of nuclei"
+          "desc": "initial number of nuclei",
+          "latex": "N_{0}"
         },
         "lam": {
           "unit": "1/s",
@@ -2298,7 +2317,8 @@
         },
         "phi": {
           "unit": "J",
-          "desc": "work function of the surface"
+          "desc": "work function of the surface",
+          "latex": "\\phi"
         }
       },
       "assumptions": [
@@ -2392,19 +2412,23 @@
       "variables": {
         "m1": {
           "unit": "kg",
-          "desc": "mass of body 1"
+          "desc": "mass of body 1",
+          "latex": "m_{1}"
         },
         "m2": {
           "unit": "kg",
-          "desc": "mass of body 2"
+          "desc": "mass of body 2",
+          "latex": "m_{2}"
         },
         "v1": {
           "unit": "m/s",
-          "desc": "initial velocity of body 1"
+          "desc": "initial velocity of body 1",
+          "latex": "v_{1}"
         },
         "v2": {
           "unit": "m/s",
-          "desc": "initial velocity of body 2"
+          "desc": "initial velocity of body 2",
+          "latex": "v_{2}"
         }
       },
       "assumptions": [
@@ -2500,15 +2524,18 @@
       "variables": {
         "n1": {
           "unit": "1",
-          "desc": "refractive index of the first medium"
+          "desc": "refractive index of the first medium",
+          "latex": "n_{1}"
         },
         "theta1": {
           "unit": "rad",
-          "desc": "angle of incidence (from the normal)"
+          "desc": "angle of incidence (from the normal)",
+          "latex": "\\theta_{1}"
         },
         "n2": {
           "unit": "1",
-          "desc": "refractive index of the second medium"
+          "desc": "refractive index of the second medium",
+          "latex": "n_{2}"
         }
       },
       "assumptions": [
@@ -2652,7 +2679,8 @@
         },
         "omega": {
           "unit": "1/s",
-          "desc": "angular velocity"
+          "desc": "angular velocity",
+          "latex": "\\omega"
         }
       },
       "assumptions": [
@@ -2684,7 +2712,8 @@
         },
         "omega": {
           "unit": "1/s",
-          "desc": "angular velocity"
+          "desc": "angular velocity",
+          "latex": "\\omega"
         }
       },
       "assumptions": [
@@ -2850,11 +2879,13 @@
       "variables": {
         "tau": {
           "unit": "N*m",
-          "desc": "torque"
+          "desc": "torque",
+          "latex": "\\tau"
         },
         "theta": {
           "unit": "rad",
-          "desc": "angle turned"
+          "desc": "angle turned",
+          "latex": "\\theta"
         }
       },
       "assumptions": [
@@ -2918,7 +2949,8 @@
       "variables": {
         "omega": {
           "unit": "1/s",
-          "desc": "angular frequency"
+          "desc": "angular frequency",
+          "latex": "\\omega"
         }
       },
       "assumptions": [
@@ -2949,15 +2981,18 @@
       "variables": {
         "x0": {
           "unit": "m",
-          "desc": "initial displacement"
+          "desc": "initial displacement",
+          "latex": "x_{0}"
         },
         "v0": {
           "unit": "m/s",
-          "desc": "initial velocity"
+          "desc": "initial velocity",
+          "latex": "v_{0}"
         },
         "omega": {
           "unit": "1/s",
-          "desc": "angular frequency"
+          "desc": "angular frequency",
+          "latex": "\\omega"
         },
         "t": {
           "unit": "s",
@@ -2992,19 +3027,23 @@
       "variables": {
         "P1": {
           "unit": "Pa",
-          "desc": "initial pressure"
+          "desc": "initial pressure",
+          "latex": "P_{1}"
         },
         "V1": {
           "unit": "m**3",
-          "desc": "initial volume"
+          "desc": "initial volume",
+          "latex": "V_{1}"
         },
         "V2": {
           "unit": "m**3",
-          "desc": "final volume"
+          "desc": "final volume",
+          "latex": "V_{2}"
         },
         "gamma": {
           "unit": "1",
-          "desc": "heat-capacity ratio Cp/Cv"
+          "desc": "heat-capacity ratio Cp/Cv",
+          "latex": "\\gamma"
         }
       },
       "assumptions": [
@@ -3044,11 +3083,13 @@
         },
         "T1": {
           "unit": "K",
-          "desc": "initial temperature"
+          "desc": "initial temperature",
+          "latex": "T_{1}"
         },
         "T2": {
           "unit": "K",
-          "desc": "final temperature"
+          "desc": "final temperature",
+          "latex": "T_{2}"
         }
       },
       "assumptions": [
@@ -3266,11 +3307,13 @@
         },
         "V1": {
           "unit": "m**3",
-          "desc": "initial volume"
+          "desc": "initial volume",
+          "latex": "V_{1}"
         },
         "V2": {
           "unit": "m**3",
-          "desc": "final volume"
+          "desc": "final volume",
+          "latex": "V_{2}"
         }
       },
       "assumptions": [
@@ -3313,11 +3356,13 @@
         },
         "V1": {
           "unit": "m**3",
-          "desc": "initial volume"
+          "desc": "initial volume",
+          "latex": "V_{1}"
         },
         "V2": {
           "unit": "m**3",
-          "desc": "final volume"
+          "desc": "final volume",
+          "latex": "V_{2}"
         }
       },
       "assumptions": [
@@ -3484,7 +3529,8 @@
         },
         "mu": {
           "unit": "kg/m",
-          "desc": "linear mass density"
+          "desc": "linear mass density",
+          "latex": "\\mu"
         }
       },
       "assumptions": [
