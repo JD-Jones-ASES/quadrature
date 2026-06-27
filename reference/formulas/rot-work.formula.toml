@@ -1,0 +1,28 @@
+id = "rot-work"
+name = "Rotational work (constant torque through an angle)"
+domain = "mechanics"
+regime = 1
+expr = "tau*theta"
+lhs = "W"
+result_unit = "J"
+assumptions = ["constant torque about a fixed axis", "the area under the torque–angle curve, ∫τ dθ"]
+citations = []
+
+[variables]
+tau = { unit = "N*m", desc = "torque" }
+theta = { unit = "rad", desc = "angle turned" }
+
+[[edges]]
+type = "related-to"
+target = "rot-kinetic"
+gloss = "net rotational work equals the change in ½Iω² — the rotational work–energy theorem"
+
+[[edges]]
+type = "related-to"
+target = "rot-torque"
+gloss = "the torque integrated over the angle turned"
+
+[[edges]]
+type = "related-to"
+target = "en-work"
+gloss = "the rotational analog of linear work W = Fd"

@@ -1,0 +1,364 @@
+{
+  "id": "coulomb-pe",
+  "title": "Electric potential energy: why separating charges takes finite energy",
+  "topic": "circuits",
+  "slug": "coulomb-pe",
+  "scenario": "Two opposite point charges ($q_1 = 2\\ \\mu$C, $q_2 = 2\\ \\mu$C) are held a separation $R = 2$ cm apart and attract with $F = kq_1q_2/r^2$. How much energy does it take to pull them fully apart — and why is that energy *finite*? Drag the cursor outward and watch the potential energy climb toward a ceiling as the area under $1/r^2$ converges. This is the electric twin of escape energy: the same inverse-square area, charge in place of mass.",
+  "regime": 2,
+  "constants": {
+    "k": 8990000000.0,
+    "q1": 2e-06,
+    "q2": 2e-06,
+    "R": 0.02
+  },
+  "initial_conditions": {},
+  "assumptions": [
+    {
+      "claim": "Point charges (or spherical charge distributions), so outside them the force is $kq_1q_2/r^2$.",
+      "kind": "model"
+    },
+    {
+      "claim": "Opposite charges (attraction); $q_1, q_2$ are magnitudes, and the energy shown is the work *supplied* to separate them. The potential energy is taken zero at infinite separation.",
+      "kind": "model"
+    },
+    {
+      "claim": "The pull is quasi-static (no kinetic-energy bookkeeping — this is the potential energy alone); $k \\approx 8.99\\times10^{9}$ N·m²/C².",
+      "kind": "model"
+    }
+  ],
+  "algebra": {
+    "steps": [
+      {
+        "label": "What the algebra-based course hands you",
+        "latex": "U = \\frac{kq_1q_2}{r}\\quad(\\text{point charges}) \\qquad U = qEd\\quad(\\text{uniform field})",
+        "prose": "The algebra-based course hands you the point-charge energy $kq_1q_2/r$ as a formula, and for a uniform field (parallel plates) the energy $qEd$ — a constant force times a distance. It can compute the number but cannot show that the energy is an *area* under the Coulomb force, or why pulling a bound pair completely apart takes only a *finite* amount of energy when the force reaches out forever."
+      }
+    ],
+    "result": {
+      "pe_to_2R": {
+        "label": "PE gained reaching $r=2R$",
+        "unit": "J",
+        "symbolic_latex": "\\tfrac{kq_1q_2}{2R}",
+        "value": 0.899,
+        "display": "0.899"
+      },
+      "separation_energy": {
+        "label": "Separation energy $kq_1q_2/R$ (area to $\\infty$)",
+        "unit": "J",
+        "symbolic_latex": "\\tfrac{kq_1q_2}{R}",
+        "value": 1.798,
+        "display": "1.798"
+      },
+      "initial_force": {
+        "label": "Force at the start $F(R)=kq_1q_2/R^2$",
+        "unit": "N",
+        "symbolic_latex": "\\tfrac{kq_1q_2}{R^2}",
+        "value": 89.9,
+        "display": "89.9"
+      }
+    }
+  },
+  "calculus": {
+    "steps": [
+      {
+        "label": "Electric PE is the area under the force–distance curve",
+        "latex": "\\Delta U = \\int_R^r F\\,dr' = \\int_R^r \\frac{kq_1q_2}{r'^2}\\,dr'",
+        "prose": "The energy to pull two attracting charges apart is the integral of the Coulomb force over distance — the area under the $F$–$r$ curve. For a constant force (a uniform field) this is a rectangle ($qEd$); for the inverse-square force of point charges it is the area under a falling curve."
+      },
+      {
+        "label": "Evaluate the inverse-square integral",
+        "latex": "\\Delta U = kq_1q_2\\left(\\frac{1}{R} - \\frac{1}{r}\\right)",
+        "prose": "The area under $1/r^2$ from $R$ to $r$ is $kq_1q_2(1/R - 1/r)$. Its slope at any separation is $kq_1q_2/r^2 = F(r)$ — the force is the rate at which the potential energy accumulates. This is the *same* inverse-square area as gravity, with charge in place of mass."
+      },
+      {
+        "label": "The separation energy is finite — the area converges",
+        "latex": "\\boxed{\\,\\lim_{r\\to\\infty}\\Delta U = \\frac{kq_1q_2}{R}\\,}",
+        "prose": "Push the cursor outward and the energy rises toward a *finite* ceiling, even as $r\\to\\infty$: the area under $1/r^2$ converges. That ceiling is the binding energy — the energy needed to completely separate the pair — and SymPy proves the limit. A constant force would give an infinite area; the inverse square does not. (To bring point charges all the way *together*, $r\\to 0$, does diverge — the convergent end is infinity, not contact.)",
+        "emphasis": true
+      }
+    ]
+  },
+  "proof": {
+    "kind": "integral",
+    "heading": "Electric PE is the area under the Coulomb force curve — and the area to infinity converges to a finite separation energy.",
+    "checked_by": "sympy",
+    "holds": true,
+    "detail": "check $\\tfrac{d}{dr}\\Delta U = F$; check $\\Delta U = \\int_R^r F\\,dr'$; check $\\lim_{r\\to\\infty}\\Delta U = kq_1q_2/R$; collapse the uniform-field case to $qEd$",
+    "checks": [
+      {
+        "key": "ftc_slope",
+        "claim": "The PE's slope is the force: $U'(r) = F(r)$ — the area's rate of growth is the curve's height.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "area_is_integral",
+        "claim": "The accumulated PE is the area: $\\Delta U(r) = \\int_R^r F\\,dr'$.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "separation_is_finite",
+        "claim": "The area to infinity converges: the energy to fully separate the pair $\\to kq_1q_2/R$ is finite as $r\\to\\infty$.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "uniform_field_echo",
+        "claim": "In a uniform field $F\\approx qE$ is constant, so $U \\approx qEd$ — the area is a rectangle (the quadrature).",
+        "holds": true,
+        "tier": "structural"
+      }
+    ]
+  },
+  "units_check": {
+    "checked_by": "sympy",
+    "holds": true
+  },
+  "graphs": [
+    {
+      "kind": "area",
+      "mode": "interactive",
+      "window": "fixed",
+      "annotate": [
+        "area_is_pe",
+        "separation_is_finite"
+      ],
+      "svg": "assets/graphs/coulomb-pe-0.svg",
+      "series": {
+        "u": [
+          0.02,
+          0.021666667,
+          0.023333333,
+          0.025,
+          0.026666667,
+          0.028333333,
+          0.03,
+          0.031666667,
+          0.033333333,
+          0.035,
+          0.036666667,
+          0.038333333,
+          0.04,
+          0.041666667,
+          0.043333333,
+          0.045,
+          0.046666667,
+          0.048333333,
+          0.05,
+          0.051666667,
+          0.053333333,
+          0.055,
+          0.056666667,
+          0.058333333,
+          0.06,
+          0.061666667,
+          0.063333333,
+          0.065,
+          0.066666667,
+          0.068333333,
+          0.07,
+          0.071666667,
+          0.073333333,
+          0.075,
+          0.076666667,
+          0.078333333,
+          0.08,
+          0.081666667,
+          0.083333333,
+          0.085,
+          0.086666667,
+          0.088333333,
+          0.09,
+          0.091666667,
+          0.093333333,
+          0.095,
+          0.096666667,
+          0.098333333,
+          0.1,
+          0.101666667,
+          0.103333333,
+          0.105,
+          0.106666667,
+          0.108333333,
+          0.11,
+          0.111666667,
+          0.113333333,
+          0.115,
+          0.116666667,
+          0.118333333,
+          0.12
+        ],
+        "f": [
+          89.9,
+          76.601181075,
+          66.048981479,
+          57.536,
+          50.5687487358,
+          44.7944647218,
+          39.9555555556,
+          35.8603870567,
+          32.3640006473,
+          29.3551020408,
+          26.7471069517,
+          24.471834074,
+          22.475,
+          20.7129596686,
+          19.1502961526,
+          17.7580246914,
+          16.5122446621,
+          15.3931036606,
+          14.384,
+          13.4709675681,
+          12.642187658,
+          11.8876033058,
+          11.1986157852,
+          10.5678368555,
+          9.9888888889,
+          9.4562453324,
+          8.9650970473,
+          8.5112426036,
+          8.0909999191,
+          7.7011303547,
+          7.3387755102,
+          7.0014061004,
+          6.6867769203,
+          6.3928888889,
+          6.1179583589,
+          5.8603893663,
+          5.61875,
+          5.3917533921,
+          5.1782400414,
+          4.9771626298,
+          4.7875739277,
+          4.6086152003,
+          4.4395061728,
+          4.279537159,
+          4.128061254,
+          3.9844875346,
+          3.8482758355,
+          3.7189313668,
+          3.596,
+          3.4790647447,
+          3.3677419572,
+          3.2616780045,
+          3.1605468552,
+          3.0640473561,
+          2.9719008264,
+          2.8838493925,
+          2.7996539957,
+          2.7190926276,
+          2.6419591686,
+          2.5680619069,
+          2.4972222222
+        ],
+        "g": [
+          0.0,
+          0.1383077178,
+          0.2568571208,
+          0.3596,
+          0.4495000169,
+          0.5288235145,
+          0.5993333333,
+          0.6624210646,
+          0.7191999892,
+          0.7705714286,
+          0.8172727362,
+          0.8599130353,
+          0.899,
+          0.9349600069,
+          0.9681538398,
+          0.9988888889,
+          1.0274285769,
+          1.0539999949,
+          1.0788,
+          1.1020000045,
+          1.1237499958,
+          1.1441818182,
+          1.1634117684,
+          1.1815428536,
+          1.1986666667,
+          1.214864868,
+          1.2302105233,
+          1.2447692308,
+          1.2586000027,
+          1.271756095,
+          1.2842857143,
+          1.2962325605,
+          1.3076363614,
+          1.3185333333,
+          1.3289565238,
+          1.3389361683,
+          1.3485,
+          1.3576734712,
+          1.3664799983,
+          1.3749411765,
+          1.3830769247,
+          1.3909056588,
+          1.3984444444,
+          1.4057090923,
+          1.4127142843,
+          1.4194736842,
+          1.4260000013,
+          1.4323050835,
+          1.4384,
+          1.4442950831,
+          1.4499999989,
+          1.4555238095,
+          1.4608750011,
+          1.4660615374,
+          1.4710909091,
+          1.4759701502,
+          1.4807058814,
+          1.4853043478,
+          1.4897714295,
+          1.4941126752,
+          1.4983333333
+        ],
+        "u_max": 0.12
+      },
+      "closed_form": {
+        "f": "17980*q2/Math.pow(u, 2)",
+        "g": "17980*q2*(50 - 1/u)"
+      },
+      "closed_form_params": [
+        "q2",
+        "u"
+      ],
+      "params": {
+        "q2": {
+          "min": 1e-06,
+          "max": 5e-06,
+          "default": 2e-06
+        }
+      },
+      "cursor": {
+        "name": "u",
+        "label": "r  (m)",
+        "unit": "m",
+        "min": 0.02,
+        "max": 0.12,
+        "default": 0.04
+      },
+      "u_label": "r  (m)",
+      "f_label": "F  (N)",
+      "g_label": "ΔU  (J)",
+      "u0": 0.02
+    }
+  ],
+  "misconception": {
+    "claim": "It takes infinite energy to completely separate two bound charges, since the electric force reaches out forever.",
+    "refuted_by": "The force does reach out forever, but it *weakens* as $1/r^2$ — and the area under $1/r^2$ from $R$ to infinity is *finite*. That finite area is the binding energy $kq_1q_2/R$: pull the charges to infinity and the work you must supply converges to it, exactly as a rocket needs only finite energy $GMm/R$ to escape a planet. (Bringing point charges all the way *together*, $r\\to 0$, is the end that diverges — not the separation.) Drag the cursor out: the potential energy rises toward a ceiling, not without bound."
+  },
+  "formulas_used": [
+    "em-coulomb",
+    "em-potential-energy"
+  ],
+  "provenance": {
+    "producer": "quadrature_producer",
+    "version": "0.1.0",
+    "sympy": "1.14.0",
+    "author": "Quadrature",
+    "created": "2026-06-26"
+  }
+}

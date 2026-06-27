@@ -300,3 +300,62 @@ solutions: the path is converged, satisfies the EOM, and recovers the exact para
 machine-checked. Honesty axes unchanged; the quadratic-drag model and the use of numerical integration are
 author-disclosed. Future numerical models (anharmonic oscillators, non-1/r² orbits) reuse this exact pattern
 (RK4 + producer verification + the trajectory / `check-trajectory` gate).
+
+## ADR-0016 — Orbits: a centred `frame:"orbit"` for the trajectory instrument + conservation-gated numerical ellipses (2026-06-26)
+
+**Context.** Orbits are the payoff of gravitation, but the trajectory instrument (ADR-0015) hard-coded a
+*projectile* frame: the origin at bottom-left, a ground line, `set_xlim(-0.04·xmax, …)` clipping negative x,
+and a `check-trajectory.mjs` that asserts "starts at the origin, lands at y≈0, range monotonic in drag." A
+closed orbit loops around a central body, lives in all four quadrants, and never lands — none of those
+projectile assumptions hold. The question parked across earlier sessions ("orbits need a trajectory-gate
+generalization") was really two questions: the **render frame** and the **verification**.
+
+**Decision.** Reuse `kind:"trajectory"`; switch behavior on a new **`frame` field** (`"ground"` default |
+`"orbit"`), so the two working projectile lessons are byte-stable.
+1. **Centred frame.** `render_trajectory` and `Trajectory.svelte` gain an orbit branch: equal aspect (a circle
+   reads as a circle), a central body / focus at the origin, a producer-supplied fixed `view_half` (so widening
+   the orbit visibly grows the loop rather than auto-fitting), and no ground line.
+2. **Circular orbit (regime 1, exact).** `x=R\cosωt`, `y=R\sinωt`, `ω=√(μ/R³)` is an exact closed form, so it
+   reuses the parity gate with **no gate change** — and since `check-trajectory` only validates trajectory
+   graphs *with frames* (numerical), it correctly skips the interactive orbit. Proof `equivalence`: the path is
+   a circle, solves the inverse-square EOM, and `v=√(μ/R)` + Kepler's third law fall out.
+3. **Elliptical orbit (regime 2, numerical).** No elementary time-parameterisation (Kepler's equation is
+   transcendental), so the producer RK4-integrates `r̈=−μr/r³` for one period from perihelion, sweeping the
+   **eccentricity at fixed semi-major axis a** (so every orbit shares the period — Kepler III). It refuses to
+   emit unless energy `½v²−μ/r` and angular momentum `x·ẏ−y·ẋ` are conserved, the orbit **closes**, and `e=0`
+   recovers a circle. A `check-trajectory.mjs` **`frame=="orbit"` branch** re-checks the committed points with
+   exact geometry: finite, closes, **encircles the focus exactly once** (total turning ≈ 2π), `e=0` is a circle,
+   and all frames share the period. Proof `governing`.
+
+**Consequences.** Kepler's three laws all fall out, paint-verified live (geostationary T≈24 h; an `e=0.5`
+ellipse with the same period as its circle, perihelion 3× faster than aphelion). The projectile and orbit cases
+share one kind, one island, one renderer, and one gate file, branched on `frame`. The same numerical pattern
+(RK4 + conservation-gate) now covers any central-force orbit.
+
+## ADR-0017 — The energy-exchange bars: a fourth instrument for conservation laws (2026-06-26)
+
+**Context.** Three instruments cover a curve over time (the stack), an integral over an axis (area), and a 2D
+path (trajectory). But a **conservation law** — kinetic and potential energy trading while their sum is fixed —
+is none of those: it is two quantities exchanging, best shown as **bars** that trade with a flat total, not a
+curve or a path. Energy conservation and (next) collisions are core mechanics the brief requires and the
+existing instruments cannot frame.
+
+**Decision.** Add a fourth, parallel instrument — the **energy-exchange bars** (`kind:"energy"`) — wired
+exactly like the area instrument (ADR-0014), so it inherits the verification for free:
+1. A model returns a `Scenario` carrying an **`EnergyPlot`**: `ke_expr(u)` and `pe_expr(u)` over a cursor axis
+   `u` (a height/position), with parameter sliders and the canonical-`u` normalization. The island draws KE, PE,
+   and Total bars; as the cursor moves the KE/PE bars trade while **the Total bar stays flat — conservation made
+   visible** — plus a height indicator and a live speed readout.
+2. A schema `kind:"energy"` with an `energy_series {u,ke,pe,u_max}` shape and `ke_label/pe_label/total_label`;
+   `closed_form{ke,pe}` and a `cursor`. The kind-agnostic **parity oracle re-checks the KE/PE closed forms** the
+   browser evaluates (1e-9) — no new gate. `render_energy` is the static poster; `EnergyBars.svelte` the island.
+3. Proof kind `governing`: energy conservation is the **first integral of `F=ma`** (`mv\,dv=F\,dx ⇒ ½mv²=∫F\,dx`).
+   The checks are `d/dh(KE+PE)=0`, the conservation law, the speed falling out, and `KE=∫_h^H mg\,dh'` — which
+   makes the speed **path-independent** (a steep and a gentle frictionless ramp to the same depth give the same
+   bottom speed).
+
+**Consequences.** Proven on conservation of energy (frictionless ramp; regime 2; mechanics), paint-verified
+(the Total bar holds while KE/PE trade; bottom speed `√(2gH)`). The next lesson, collisions/momentum, reuses
+the bars idea in a **before/after** two-state mode (momentum bars always equal; KE bars equal only if elastic) —
+either an `EnergyPlot`/`EnergyBars` extension or a sibling `kind:"collision"`. Like ADR-0014, the hard part was
+the instrument; new conservation lessons are model + spec + test.

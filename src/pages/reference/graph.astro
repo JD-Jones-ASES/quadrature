@@ -18,7 +18,9 @@ const formulas = formulasData.formulas.map(renderFormula);
     Pairs with the <a href={withBase("/reference/")}>reference sheet</a>.
   </p>
 
-  <ConceptGraph graph={graph} formulas={formulas} client:visible />
+  {/* client:load: the graph is the page's main content; client:visible won't hydrate in a headless preview
+      that loads at a 0×0 viewport. See src/pages/lessons/[slug].astro for the same rationale. */}
+  <ConceptGraph graph={graph} formulas={formulas} client:load />
 </Base>
 
 <style>

@@ -1,0 +1,30 @@
+id = "en-mech-energy"
+name = "Mechanical energy (kinetic + gravitational potential)"
+domain = "mechanics"
+regime = 1
+expr = "m*v**2/2 + m*g*h"
+lhs = "E"
+result_unit = "J"
+assumptions = ["conserved when only conservative forces (gravity) do work", "no friction or other dissipation"]
+citations = []
+
+[variables]
+m = { unit = "kg", desc = "mass" }
+v = { unit = "m/s", desc = "speed" }
+g = { unit = "m/s**2", desc = "gravitational field strength" }
+h = { unit = "m", desc = "height above a reference level" }
+
+[[edges]]
+type = "related-to"
+target = "en-kinetic"
+gloss = "the ½mv² term — the kinetic part"
+
+[[edges]]
+type = "related-to"
+target = "en-work"
+gloss = "conservation is the first integral of F=ma: ½mv² is the work done, ∫F dx"
+
+[[edges]]
+type = "related-to"
+target = "dyn-weight"
+gloss = "the mgh term — work done against the weight mg over a height h"

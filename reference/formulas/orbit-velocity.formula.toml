@@ -1,0 +1,29 @@
+id = "orbit-velocity"
+name = "Circular orbital speed"
+domain = "mechanics"
+regime = 1
+expr = "sqrt(G*M/R)"
+lhs = "v"
+result_unit = "m/s"
+assumptions = ["circular orbit", "central body of mass M; the orbiting mass cancels", "gravity supplies the centripetal force, GM/R² = v²/R"]
+citations = []
+
+[variables]
+G = { unit = "N*m**2/kg**2", desc = "gravitational constant" }
+M = { unit = "kg", desc = "mass of the central body" }
+R = { unit = "m", desc = "orbital radius" }
+
+[[edges]]
+type = "related-to"
+target = "circ-centripetal-accel"
+gloss = "from gravity = centripetal force, GM/R² = v²/R"
+
+[[edges]]
+type = "related-to"
+target = "grav-newton"
+gloss = "the inverse-square force that supplies the centripetal pull"
+
+[[edges]]
+type = "related-to"
+target = "orbit-kepler-third"
+gloss = "the period T = 2πR/v follows from this speed"

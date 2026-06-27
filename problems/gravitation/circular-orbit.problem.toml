@@ -1,0 +1,33 @@
+id = "circular-orbit"
+title = "Circular orbit: why the satellite falls around, not down"
+topic = "gravitation"
+slug = "circular-orbit"
+model = "orbit"
+regime = 1
+author = "Quadrature"
+created = "2026-06-26"
+scenario = "A satellite circles a planet ($\\mu = GM = 4\\times10^{14}$ m³/s²) at radius $R = 7\\times10^{6}$ m. Gravity pulls it straight toward the centre the whole time — so why doesn't it fall in? Because at orbital speed the inward pull is *exactly* the centripetal acceleration a circle needs: the satellite is in continuous free fall, falling *around* the planet. Drag the radius outward and watch the orbit widen while the speed drops as $1/\\sqrt{R}$ and the period stretches as $R^{3/2}$ — Kepler's third law, live."
+formulas_used = ["orbit-velocity", "orbit-kepler-third", "circ-centripetal-accel", "grav-newton"]
+
+[parameters]
+mu = 4e14              # m³/s² — standard gravitational parameter GM (≈ Earth)
+R = 7e6               # m — orbital radius (≈ 600 km altitude, low orbit)
+R_min = 7e6          # m — slider min (low orbit)
+R_max = 4.22e7       # m — slider max (≈ geostationary radius)
+
+[[assumptions]]
+claim = "Spherically symmetric planet, so the field outside is $GMm/r^2$ (point-mass equivalent); the satellite's own mass is negligible and cancels."
+kind = "model"
+
+[[assumptions]]
+claim = "A perfectly circular orbit (constant radius); no atmospheric drag, no other bodies. $\\mu = GM$ is used so the path is unit-clean."
+kind = "model"
+
+[[graphs]]
+kind = "trajectory"
+mode = "interactive"
+annotate = ["orbit_is_freefall", "kepler_third"]
+
+[misconception]
+claim = "A satellite floats in orbit because there is no gravity that far out in space."
+refuted_by = "There is plenty of gravity — at this orbit it is about $\\mu/R^2 \\approx 8$ m/s², roughly 80% of its surface value. That inward pull is exactly what bends the satellite's straight-line motion into a circle: $\\mu/R^2 = v^2/R$. The astronauts feel weightless not because gravity is absent but because they and the station are in continuous *free fall* together — falling around the Earth fast enough that the ground curves away beneath them. Cut the gravity and the satellite would fly off in a straight line (Newton's first law), not float."

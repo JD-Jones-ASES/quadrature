@@ -1,0 +1,33 @@
+id = "rotational-work"
+title = "Rotational work–energy: ½Iω² is the area under the torque curve"
+topic = "rotation"
+slug = "rotational-work"
+model = "rotational-work"
+regime = 2
+author = "Quadrature"
+created = "2026-06-26"
+scenario = "A flywheel (moment of inertia $I = 0.5$ kg·m²) starts from rest and is driven by a torque that builds with angle, $\\tau = c\\theta$ ($c = 8$ N·m/rad), through $\\theta = 1.5$ rad. How fast is it spinning at the end? The work done is the *area* under the torque–angle curve — and it is exactly the rotational kinetic energy $\\tfrac12 I\\omega^2$. Drag the cursor and watch the shaded work and the spin energy grow together: the rotational twin of $\\int F\\,dx = \\tfrac12 mv^2$."
+formulas_used = ["rot-torque", "rot-work", "rot-kinetic"]
+
+[parameters]
+I = 0.5              # kg·m² — flywheel moment of inertia
+c = 8                # N·m/rad — torque per radian (the drive's stiffness); the slider
+theta = 1.5          # rad — the angle turned (worked point)
+theta_window = 2.0   # rad — how far the cursor can travel
+
+[[assumptions]]
+claim = "Rotation about a fixed axis; $\\tau = c\\theta$ is the *net* torque on the flywheel, so all the work goes into rotational kinetic energy (no friction or load)."
+kind = "model"
+
+[[assumptions]]
+claim = "Rigid flywheel of constant moment of inertia $I$; it starts from rest ($\\omega_0 = 0$)."
+kind = "model"
+
+[[graphs]]
+kind = "area"
+mode = "interactive"
+annotate = ["area_is_work", "half_I_omega2"]
+
+[misconception]
+claim = "Double the angle you drive a flywheel through and you double its final spin rate."
+refuted_by = "The work you do is the *area* under the torque–angle curve, and the energy goes as $\\tfrac12 I\\omega^2$ — so the *speed* follows the area, not the angle. With a constant torque, doubling the angle doubles the work but raises the speed only by $\\sqrt{2}$. With a torque that grows as $\\tau = c\\theta$ (as here), doubling the angle *quadruples* the area, so the work quadruples and the speed doubles. Either way $\\omega \\propto \\sqrt{W}$, never linearly in the angle."

@@ -18,7 +18,7 @@
 
   // --- drag (pointer events; threshold distinguishes a click from a drag so selection still works) ---
   let svgEl;
-  let drag = null; // { id, offX, offY, downX, downY, moved }
+  let drag = $state(null); // { id, offX, offY, downX, downY, moved } — pointer-drag session state
   const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
 
   function toSvg(evt) {

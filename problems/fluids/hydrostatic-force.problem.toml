@@ -1,0 +1,38 @@
+id = "hydrostatic-force"
+title = "Force on a dam: pressure grows with depth, force is the area"
+topic = "fluids"
+slug = "hydrostatic-force"
+model = "hydrostatic-force"
+regime = 2
+author = "Quadrature"
+created = "2026-06-26"
+scenario = "A vertical wall $w = 5$ m wide holds back fresh water ($\\rho = 1000$ kg/m³) to a depth of $H = 4$ m. The water pressure grows with depth as $P = \\rho g h$, so the wall is pushed hardest at the bottom and not at all at the surface. What is the total force on the wall? It is the *area* under the pressure curve — drag the cursor to raise the water level and watch the force grow as the square of the depth."
+formulas_used = ["fluid-hydrostatic-pressure", "fluid-force-wall"]
+
+[parameters]
+rho = 1000           # kg/m³ — fresh water density (the slider: which fluid)
+g = 10               # m/s² — gravitational field magnitude (house value; depth positive downward)
+w = 5                # m — wall width
+H = 4                # m — water depth
+h_window = 4.8       # m — cursor travel just past H
+
+[[assumptions]]
+claim = "Incompressible fluid of constant density $\\rho$; gauge pressure (atmospheric pushes equally on both faces of the wall and cancels)."
+kind = "model"
+
+[[assumptions]]
+claim = "$g = 10$ m/s² as a magnitude, with depth $h$ measured positive *downward* (the house $g = -10$ convention is for up-positive kinematics; here pressure simply grows with depth)."
+kind = "model"
+
+[[assumptions]]
+claim = "A flat vertical wall, so each horizontal strip has the same width $w$; the force is horizontal and normal to the wall."
+kind = "model"
+
+[[graphs]]
+kind = "area"
+mode = "interactive"
+annotate = ["area_is_force", "avg_pressure_falls_out"]
+
+[misconception]
+claim = "The force on a dam depends on how much water is behind it — a wall holding back a huge lake feels far more force than one holding back a narrow tank of the same depth."
+refuted_by = "It does not. The pressure at a given depth is $\\rho g h$ regardless of how much water sits at that level — a teaspoon or an ocean. The force on the wall is the area under that pressure profile, $\\tfrac12\\rho g w H^2$, set entirely by the *depth* and the wall's *width*. This is the hydrostatic paradox: raise the water a little (drag the cursor) and the force jumps because it grows as $H^2$, but widen the lake behind the wall and nothing changes."

@@ -1,0 +1,25 @@
+id = "fluid-force-wall"
+name = "Hydrostatic force on a vertical wall"
+domain = "mechanics"
+regime = 2
+expr = "rho*g*w*H**2/2"
+lhs = "F"
+result_unit = "N"
+assumptions = ["incompressible fluid of constant density", "flat vertical wall of constant width, top edge at the surface", "gauge pressure (atmospheric cancels across the wall)", "the area under the pressure–depth profile, ∫P w dh"]
+citations = []
+
+[variables]
+rho = { unit = "kg/m**3", desc = "fluid density" }
+g = { unit = "m/s**2", desc = "gravitational field strength" }
+w = { unit = "m", desc = "wall width" }
+H = { unit = "m", desc = "water depth" }
+
+[[edges]]
+type = "related-to"
+target = "fluid-hydrostatic-pressure"
+gloss = "its integrand: the pressure ρgh grows linearly with depth, so the force is the triangular area under it"
+
+[[edges]]
+type = "related-to"
+target = "en-work"
+gloss = "the same area-under-a-linear-curve as work from a spring force — ½(base)(height)"

@@ -1,0 +1,371 @@
+{
+  "id": "hydrostatic-force",
+  "title": "Force on a dam: pressure grows with depth, force is the area",
+  "topic": "fluids",
+  "slug": "hydrostatic-force",
+  "scenario": "A vertical wall $w = 5$ m wide holds back fresh water ($\\rho = 1000$ kg/m³) to a depth of $H = 4$ m. The water pressure grows with depth as $P = \\rho g h$, so the wall is pushed hardest at the bottom and not at all at the surface. What is the total force on the wall? It is the *area* under the pressure curve — drag the cursor to raise the water level and watch the force grow as the square of the depth.",
+  "regime": 2,
+  "constants": {
+    "rho": 1000.0,
+    "g": 10.0,
+    "w": 5.0,
+    "H": 4.0
+  },
+  "initial_conditions": {},
+  "assumptions": [
+    {
+      "claim": "Incompressible fluid of constant density $\\rho$; gauge pressure (atmospheric pushes equally on both faces of the wall and cancels).",
+      "kind": "model"
+    },
+    {
+      "claim": "$g = 10$ m/s² as a magnitude, with depth $h$ measured positive *downward* (the house $g = -10$ convention is for up-positive kinematics; here pressure simply grows with depth).",
+      "kind": "model"
+    },
+    {
+      "claim": "A flat vertical wall, so each horizontal strip has the same width $w$; the force is horizontal and normal to the wall.",
+      "kind": "model"
+    }
+  ],
+  "algebra": {
+    "steps": [
+      {
+        "label": "What the algebra-based course hands you",
+        "latex": "F = \\bar P\\,A \\qquad \\bar P = \\tfrac12\\rho g H \\quad(\\text{pressure at the centroid})",
+        "prose": "The algebra course says the force is the *average* pressure times the wall area. Because the pressure runs from $0$ at the surface to $\\rho g H$ at the bottom, it takes the average as the midpoint value $\\tfrac12\\rho g H$. That gives the right number — but only because the pressure rises *linearly*, and the algebra cannot say why the average is the midpoint rather than something else."
+      }
+    ],
+    "result": {
+      "wall_force": {
+        "label": "Force on the wall $F = \\tfrac12\\rho g w H^2$ (the shaded area)",
+        "unit": "N",
+        "symbolic_latex": "\\tfrac12\\rho g w H^2",
+        "value": 400000.0,
+        "display": "400000"
+      },
+      "bottom_pressure": {
+        "label": "Pressure at the bottom $P = \\rho g H$",
+        "unit": "Pa",
+        "symbolic_latex": "\\rho g H",
+        "value": 40000.0,
+        "display": "40000"
+      },
+      "avg_pressure": {
+        "label": "Average (centroid) pressure $\\bar P = \\tfrac12\\rho g H$",
+        "unit": "Pa",
+        "symbolic_latex": "\\tfrac12\\rho g H",
+        "value": 20000.0,
+        "display": "20000"
+      },
+      "uniform_rectangle": {
+        "label": "If the pressure were the bottom value everywhere: $F = \\rho g H\\cdot A$ (the rectangle — twice the force)",
+        "unit": "N",
+        "symbolic_latex": "\\rho g H\\,A",
+        "value": 800000.0,
+        "display": "800000"
+      }
+    }
+  },
+  "calculus": {
+    "steps": [
+      {
+        "label": "The force is the area under the pressure–depth curve",
+        "latex": "F = \\int_0^H P(h)\\,w\\,dh",
+        "prose": "Each horizontal strip of the wall at depth $h$ (width $w$, height $dh$) feels a force $dF = P(h)\\,w\\,dh$. The total force is the integral over the depth — the area under the strip-force curve. For a uniform pressure this area is a rectangle ($P_0 A$); when the pressure grows with depth it is the area under a rising line."
+      },
+      {
+        "label": "Use the hydrostatic law $P(h) = \\rho g h$",
+        "latex": "F = \\int_0^H \\rho g w\\,h\\,dh = \\tfrac12\\rho g w H^2 = \\underbrace{\\tfrac12\\rho g H}_{\\bar P}\\,\\underbrace{wH}_{A}",
+        "prose": "With $P = \\rho g h$ the integrand is a straight line through the origin, so the area is a triangle: $\\tfrac12\\,(\\text{base})\\,(\\text{height}) = \\tfrac12\\,H\\,(\\rho g w H)$. That is $\\tfrac12\\rho g w H^2$ — and factoring it as $(\\tfrac12\\rho g H)(wH)$ shows the algebra's $\\bar P A$ is exactly this area, with the centroid pressure emerging as the average. Its slope at any depth is the strip force.",
+        "emphasis": true
+      },
+      {
+        "label": "Why the depth, not the lake, sets the force",
+        "latex": "\\text{uniform } P_0 \\ \\Longrightarrow\\ F = \\int_0^H P_0 w\\,dh = P_0\\,A",
+        "prose": "If the pressure did not grow with depth — a gas at uniform $P_0$ pressing on the wall — the integrand would be constant and the integral would collapse to the rectangle $P_0 A$. The real force is only *half* the bottom-pressure rectangle $\\rho g H\\cdot A$ because the pressure is small near the surface. And it depends only on the depth and the wall's width, not on how much water is behind it."
+      }
+    ]
+  },
+  "proof": {
+    "kind": "integral",
+    "heading": "The force on the wall is the area under the pressure-times-width curve — and the average-pressure formula falls out.",
+    "checked_by": "sympy",
+    "holds": true,
+    "detail": "check $\\tfrac{dF}{dh} = \\rho g w h$; check $F = \\int_0^h \\rho g w\\,h'\\,dh'$; recover $F = \\bar P A$; collapse the uniform-pressure case to $P_0 A$",
+    "checks": [
+      {
+        "key": "ftc_slope",
+        "claim": "The force's slope is the strip force: $F'(h) = \\rho g w h$ — the area's growth rate is the curve's height.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "area_is_integral",
+        "claim": "The accumulated force is the area: $F(h) = \\int_0^h \\rho g w\\,h'\\,dh'$.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "avg_pressure_falls_out",
+        "claim": "The memorized $F = \\bar P A$ (average pressure $\\bar P = \\rho g h/2$ at the centroid, area $A = wh$) is exactly the area.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "uniform_pressure_echo",
+        "claim": "If the pressure did not grow with depth ($P_0$ uniform), the integral collapses to $F = P_0 A$ — a rectangle (the quadrature).",
+        "holds": true,
+        "tier": "structural"
+      }
+    ]
+  },
+  "units_check": {
+    "checked_by": "sympy",
+    "holds": true
+  },
+  "graphs": [
+    {
+      "kind": "area",
+      "mode": "interactive",
+      "window": "fixed",
+      "annotate": [
+        "area_is_force",
+        "avg_pressure_falls_out"
+      ],
+      "svg": "assets/graphs/hydrostatic-force-0.svg",
+      "series": {
+        "u": [
+          0.0,
+          0.08,
+          0.16,
+          0.24,
+          0.32,
+          0.4,
+          0.48,
+          0.56,
+          0.64,
+          0.72,
+          0.8,
+          0.88,
+          0.96,
+          1.04,
+          1.12,
+          1.2,
+          1.28,
+          1.36,
+          1.44,
+          1.52,
+          1.6,
+          1.68,
+          1.76,
+          1.84,
+          1.92,
+          2.0,
+          2.08,
+          2.16,
+          2.24,
+          2.32,
+          2.4,
+          2.48,
+          2.56,
+          2.64,
+          2.72,
+          2.8,
+          2.88,
+          2.96,
+          3.04,
+          3.12,
+          3.2,
+          3.28,
+          3.36,
+          3.44,
+          3.52,
+          3.6,
+          3.68,
+          3.76,
+          3.84,
+          3.92,
+          4.0,
+          4.08,
+          4.16,
+          4.24,
+          4.32,
+          4.4,
+          4.48,
+          4.56,
+          4.64,
+          4.72,
+          4.8
+        ],
+        "f": [
+          0.0,
+          4000.0,
+          8000.0,
+          12000.0,
+          16000.0,
+          20000.0,
+          24000.0,
+          28000.0,
+          32000.0,
+          36000.0,
+          40000.0,
+          44000.0,
+          48000.0,
+          52000.0,
+          56000.0,
+          60000.0,
+          64000.0,
+          68000.0,
+          72000.0,
+          76000.0,
+          80000.0,
+          84000.0,
+          88000.0,
+          92000.0,
+          96000.0,
+          100000.0,
+          104000.0,
+          108000.0,
+          112000.0,
+          116000.0,
+          120000.0,
+          124000.0,
+          128000.0,
+          132000.0,
+          136000.0,
+          140000.0,
+          144000.0,
+          148000.0,
+          152000.0,
+          156000.0,
+          160000.0,
+          164000.0,
+          168000.0,
+          172000.0,
+          176000.0,
+          180000.0,
+          184000.0,
+          188000.0,
+          192000.0,
+          196000.0,
+          200000.0,
+          204000.0,
+          208000.0,
+          212000.0,
+          216000.0,
+          220000.0,
+          224000.0,
+          228000.0,
+          232000.0,
+          236000.0,
+          240000.0
+        ],
+        "g": [
+          0.0,
+          160.0,
+          640.0,
+          1440.0,
+          2560.0,
+          4000.0,
+          5760.0,
+          7840.0,
+          10240.0,
+          12960.0,
+          16000.0,
+          19360.0,
+          23040.0,
+          27040.0,
+          31360.0,
+          36000.0,
+          40960.0,
+          46240.0,
+          51840.0,
+          57760.0,
+          64000.0,
+          70560.0,
+          77440.0,
+          84640.0,
+          92160.0,
+          100000.0,
+          108160.0,
+          116640.0,
+          125440.0,
+          134560.0,
+          144000.0,
+          153760.0,
+          163840.0,
+          174240.0,
+          184960.0,
+          196000.0,
+          207360.0,
+          219040.0,
+          231040.0,
+          243360.0,
+          256000.0,
+          268960.0,
+          282240.0,
+          295840.0,
+          309760.0,
+          324000.0,
+          338560.0,
+          353440.0,
+          368640.0,
+          384160.0,
+          400000.0,
+          416160.0,
+          432640.0,
+          449440.0,
+          466560.0,
+          484000.0,
+          501760.0,
+          519840.0,
+          538240.0,
+          556960.0,
+          576000.0
+        ],
+        "u_max": 4.8
+      },
+      "closed_form": {
+        "f": "50*rho*u",
+        "g": "25*rho*Math.pow(u, 2)"
+      },
+      "closed_form_params": [
+        "rho",
+        "u"
+      ],
+      "params": {
+        "rho": {
+          "min": 500.0,
+          "max": 1500.0,
+          "default": 1000.0
+        }
+      },
+      "cursor": {
+        "name": "u",
+        "label": "h  (m)",
+        "unit": "m",
+        "min": 0.0,
+        "max": 4.8,
+        "default": 4.0
+      },
+      "u_label": "h  (m)",
+      "f_label": "dF/dh  (N/m)",
+      "g_label": "F  (N)",
+      "u0": 0.0
+    }
+  ],
+  "misconception": {
+    "claim": "The force on a dam depends on how much water is behind it — a wall holding back a huge lake feels far more force than one holding back a narrow tank of the same depth.",
+    "refuted_by": "It does not. The pressure at a given depth is $\\rho g h$ regardless of how much water sits at that level — a teaspoon or an ocean. The force on the wall is the area under that pressure profile, $\\tfrac12\\rho g w H^2$, set entirely by the *depth* and the wall's *width*. This is the hydrostatic paradox: raise the water a little (drag the cursor) and the force jumps because it grows as $H^2$, but widen the lake behind the wall and nothing changes."
+  },
+  "formulas_used": [
+    "fluid-hydrostatic-pressure",
+    "fluid-force-wall"
+  ],
+  "provenance": {
+    "producer": "quadrature_producer",
+    "version": "0.1.0",
+    "sympy": "1.14.0",
+    "author": "Quadrature",
+    "created": "2026-06-26"
+  }
+}

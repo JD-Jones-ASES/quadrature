@@ -1,0 +1,371 @@
+{
+  "id": "energy-conservation",
+  "title": "Conservation of energy: why the speed depends on the drop, not the path",
+  "topic": "energy",
+  "slug": "conservation",
+  "scenario": "A $m = 2$ kg block is released from rest at the top of a frictionless ramp, $H = 20$ m above the bottom. As it slides down, potential energy turns into kinetic energy — but the total never changes. How fast is it going at the bottom, and would a steeper ramp change that? Drag the height: watch the KE and PE bars trade while the Total bar stays flat. The speed at any height depends only on how far it has dropped, not on the shape of the ramp.",
+  "regime": 2,
+  "constants": {
+    "m": 2.0,
+    "g": 10.0,
+    "H": 20.0
+  },
+  "initial_conditions": {
+    "h0": 20.0,
+    "v0": 0.0
+  },
+  "assumptions": [
+    {
+      "claim": "Frictionless track, so no mechanical energy is lost to heat; the normal force does no work (it is perpendicular to the motion).",
+      "kind": "model"
+    },
+    {
+      "claim": "$g = 10$ m/s² as a magnitude, height $h$ measured upward from the bottom; the block starts from rest at $h = H$.",
+      "kind": "model"
+    }
+  ],
+  "algebra": {
+    "steps": [
+      {
+        "label": "What the algebra-based course hands you (a conservation rule)",
+        "latex": "\\tfrac12 mv^2 + mgh = E \\ \\Longrightarrow\\ v = \\sqrt{2g(H-h)}",
+        "prose": "The algebra course states that mechanical energy is conserved and lets you solve for the speed at any height. It works — but it is handed to you as a rule, with no account of *why* energy is conserved, or why the speed at the bottom does not depend on the shape of the ramp."
+      }
+    ],
+    "result": {
+      "total_energy": {
+        "label": "Total energy $E = mgH$ (conserved)",
+        "unit": "J",
+        "symbolic_latex": "mgH",
+        "value": 400.0,
+        "display": "400"
+      },
+      "bottom_speed": {
+        "label": "Speed at the bottom $v = \\sqrt{2gH}$",
+        "unit": "m/s",
+        "symbolic_latex": "\\sqrt{2gH}",
+        "value": 20.0,
+        "display": "20"
+      },
+      "ke_at_half": {
+        "label": "KE at half height $= \\tfrac12 mgH$",
+        "unit": "J",
+        "symbolic_latex": "\\tfrac12 mgH",
+        "value": 200.0,
+        "display": "200"
+      },
+      "pe_at_top": {
+        "label": "PE at the top $= mgH$ (all potential)",
+        "unit": "J",
+        "symbolic_latex": "mgH",
+        "value": 400.0,
+        "display": "400"
+      }
+    }
+  },
+  "calculus": {
+    "steps": [
+      {
+        "label": "Energy conservation is the first integral of $F = ma$",
+        "latex": "m\\,\\frac{dv}{dt} = F \\ \\Longrightarrow\\ m\\,v\\,dv = F\\,dx \\ \\Longrightarrow\\ \\tfrac12 mv^2 = \\int F\\,dx",
+        "prose": "Start from Newton's second law and multiply by $dx$: since $dv/dt\\cdot dx = v\\,dv$, the equation becomes $mv\\,dv = F\\,dx$. Integrating once gives $\\tfrac12 mv^2 = \\int F\\,dx$ — the kinetic energy is the work done by the force. Energy is not a separate principle; it is the equation of motion, integrated."
+      },
+      {
+        "label": "For gravity the work is $mg(H-h)$ — and it is path-independent",
+        "latex": "\\int_h^H mg\\,dh' = mg(H-h) = \\text{KE} \\ \\Longrightarrow\\ \\tfrac12 mv^2 + mgh = mgH",
+        "prose": "Gravity is a conservative force, so the work it does depends only on the change in height, not the route: $\\int mg\\,dh' = mg(H-h)$. That is the kinetic energy gained, so $\\tfrac12 mv^2 + mgh$ is constant. A steep ramp and a gentle ramp to the same depth give the *same speed* — only the time differs.",
+        "emphasis": true
+      },
+      {
+        "label": "Watch the energies trade with the total fixed",
+        "latex": "\\boxed{\\,v(h) = \\sqrt{2g(H-h)}\\,}",
+        "prose": "Drag the cursor: potential energy converts to kinetic and back, but the Total bar never moves. At the top it is all potential; at the bottom all kinetic, with speed $\\sqrt{2gH}$. The bars are the conservation law made visible."
+      }
+    ]
+  },
+  "proof": {
+    "kind": "governing",
+    "heading": "Energy conservation is the first integral of Newton's second law — and the speed depends only on the height, not the path.",
+    "checked_by": "sympy",
+    "holds": true,
+    "detail": "check $\\tfrac{d}{dh}(\\text{KE}+\\text{PE})=0$; check $\\tfrac12 mv^2+mgh=mgH$; show $v=\\sqrt{2g(H-h)}$ falls out; check $\\text{KE}=\\int_h^H mg\\,dh'$ (path-independent)",
+    "checks": [
+      {
+        "key": "energy_constant",
+        "claim": "The total energy does not change with height: $\\tfrac{d}{dh}(\\text{KE}+\\text{PE}) = 0$.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "conservation_law",
+        "claim": "The memorized law holds at every height: $\\tfrac12 mv^2 + mgh = mgH$ (the energy is conserved).",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "speed_falls_out",
+        "claim": "The speed falls out of the kinetic energy: $\\tfrac12 mv^2 = \\text{KE}$, so $v = \\sqrt{2g(H-h)}$.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "work_energy_root",
+        "claim": "The kinetic energy is exactly the work gravity does over the descent: $\\text{KE} = \\int_h^H mg\\,dh'$ — the first integral of $F=ma$, independent of the path.",
+        "holds": true,
+        "tier": "structural"
+      }
+    ]
+  },
+  "units_check": {
+    "checked_by": "sympy",
+    "holds": true
+  },
+  "graphs": [
+    {
+      "kind": "energy",
+      "mode": "interactive",
+      "window": "fixed",
+      "annotate": [
+        "total_is_flat",
+        "path_independent"
+      ],
+      "svg": "assets/graphs/energy-conservation-0.svg",
+      "series": {
+        "u": [
+          0.0,
+          0.333333333,
+          0.666666667,
+          1.0,
+          1.333333333,
+          1.666666667,
+          2.0,
+          2.333333333,
+          2.666666667,
+          3.0,
+          3.333333333,
+          3.666666667,
+          4.0,
+          4.333333333,
+          4.666666667,
+          5.0,
+          5.333333333,
+          5.666666667,
+          6.0,
+          6.333333333,
+          6.666666667,
+          7.0,
+          7.333333333,
+          7.666666667,
+          8.0,
+          8.333333333,
+          8.666666667,
+          9.0,
+          9.333333333,
+          9.666666667,
+          10.0,
+          10.333333333,
+          10.666666667,
+          11.0,
+          11.333333333,
+          11.666666667,
+          12.0,
+          12.333333333,
+          12.666666667,
+          13.0,
+          13.333333333,
+          13.666666667,
+          14.0,
+          14.333333333,
+          14.666666667,
+          15.0,
+          15.333333333,
+          15.666666667,
+          16.0,
+          16.333333333,
+          16.666666667,
+          17.0,
+          17.333333333,
+          17.666666667,
+          18.0,
+          18.333333333,
+          18.666666667,
+          19.0,
+          19.333333333,
+          19.666666667,
+          20.0
+        ],
+        "ke": [
+          400.0,
+          393.33333334,
+          386.66666666,
+          380.0,
+          373.33333334,
+          366.66666666,
+          360.0,
+          353.33333334,
+          346.66666666,
+          340.0,
+          333.33333334,
+          326.66666666,
+          320.0,
+          313.33333334,
+          306.66666666,
+          300.0,
+          293.33333334,
+          286.66666666,
+          280.0,
+          273.33333334,
+          266.66666666,
+          260.0,
+          253.33333334,
+          246.66666666,
+          240.0,
+          233.33333334,
+          226.66666666,
+          220.0,
+          213.33333334,
+          206.66666666,
+          200.0,
+          193.33333334,
+          186.66666666,
+          180.0,
+          173.33333334,
+          166.66666666,
+          160.0,
+          153.33333334,
+          146.66666666,
+          140.0,
+          133.33333334,
+          126.66666666,
+          120.0,
+          113.33333334,
+          106.66666666,
+          100.0,
+          93.33333334,
+          86.66666666,
+          80.0,
+          73.33333334,
+          66.66666666,
+          60.0,
+          53.33333334,
+          46.66666666,
+          40.0,
+          33.33333334,
+          26.66666666,
+          20.0,
+          13.33333334,
+          6.66666666,
+          0.0
+        ],
+        "pe": [
+          0.0,
+          6.66666666,
+          13.33333334,
+          20.0,
+          26.66666666,
+          33.33333334,
+          40.0,
+          46.66666666,
+          53.33333334,
+          60.0,
+          66.66666666,
+          73.33333334,
+          80.0,
+          86.66666666,
+          93.33333334,
+          100.0,
+          106.66666666,
+          113.33333334,
+          120.0,
+          126.66666666,
+          133.33333334,
+          140.0,
+          146.66666666,
+          153.33333334,
+          160.0,
+          166.66666666,
+          173.33333334,
+          180.0,
+          186.66666666,
+          193.33333334,
+          200.0,
+          206.66666666,
+          213.33333334,
+          220.0,
+          226.66666666,
+          233.33333334,
+          240.0,
+          246.66666666,
+          253.33333334,
+          260.0,
+          266.66666666,
+          273.33333334,
+          280.0,
+          286.66666666,
+          293.33333334,
+          300.0,
+          306.66666666,
+          313.33333334,
+          320.0,
+          326.66666666,
+          333.33333334,
+          340.0,
+          346.66666666,
+          353.33333334,
+          360.0,
+          366.66666666,
+          373.33333334,
+          380.0,
+          386.66666666,
+          393.33333334,
+          400.0
+        ],
+        "u_max": 20.0
+      },
+      "closed_form": {
+        "ke": "10*m*(20 - u)",
+        "pe": "10*m*u"
+      },
+      "closed_form_params": [
+        "m",
+        "u"
+      ],
+      "params": {
+        "m": {
+          "min": 1.0,
+          "max": 5.0,
+          "default": 2.0
+        }
+      },
+      "cursor": {
+        "name": "u",
+        "label": "h  (m)",
+        "unit": "m",
+        "min": 0.0,
+        "max": 20.0,
+        "default": 10.0
+      },
+      "u_label": "h  (m)",
+      "ke_label": "KE  (J)",
+      "pe_label": "PE  (J)",
+      "total_label": "Total  (J)",
+      "u0": 0.0
+    }
+  ],
+  "misconception": {
+    "claim": "A steeper ramp gets the block to the bottom moving faster than a gentle ramp from the same height.",
+    "refuted_by": "It does not. By conservation of energy the speed at the bottom is $v = \\sqrt{2gH}$, set entirely by the height dropped — a steep ramp and a gentle ramp to the same depth give *exactly the same* bottom speed. The steeper ramp gets there in less *time* (and with a larger acceleration along the slope), but the final speed is identical, because gravity is conservative: the work it does, $mg(H-h)$, depends only on the change in height, not the route. Drag the cursor and read the speed off the kinetic-energy bar — it tracks the height, nothing else."
+  },
+  "formulas_used": [
+    "en-mech-energy",
+    "en-kinetic",
+    "en-work"
+  ],
+  "provenance": {
+    "producer": "quadrature_producer",
+    "version": "0.1.0",
+    "sympy": "1.14.0",
+    "author": "Quadrature",
+    "created": "2026-06-26"
+  }
+}

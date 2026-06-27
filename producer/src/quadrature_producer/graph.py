@@ -85,6 +85,45 @@ def render_area(area, out_path: Path) -> None:
     plt.close(fig)
 
 
+def render_energy(en, out_path: Path) -> None:
+    """Static poster for the energy-exchange instrument: KE(u) rising, PE(u) falling, and their sum (Total) a
+    flat line — the visual proof that energy is conserved as the system moves."""
+    base = dict(en.constants)
+    for sl in en.sliders:
+        base[sl.sym] = sp.nsimplify(sl.default)
+    u = en.u
+    kf = sp.lambdify(u, en.ke_expr.subs(base), "numpy")
+    pf = sp.lambdify(u, en.pe_expr.subs(base), "numpy")
+    us = np.linspace(float(en.u0), float(en.u_window), 240)
+    kv = np.broadcast_to(np.asarray(kf(us), dtype=float), us.shape)
+    pv = np.broadcast_to(np.asarray(pf(us), dtype=float), us.shape)
+    tv = kv + pv
+
+    fig, ax = plt.subplots(figsize=(6.6, 4.0), facecolor=PAPER)
+    ax.set_facecolor(PAPER)
+    ax.fill_between(us, 0, kv, color=ACCENT, alpha=0.16, lw=0)
+    ax.plot(us, kv, color=ACCENT, lw=2.2, label=en.ke_label.split("(")[0].strip())
+    ax.plot(us, pv, color=INK, lw=2.2, label=en.pe_label.split("(")[0].strip())
+    ax.plot(us, tv, color=FAINT, lw=1.8, ls="--", label=en.total_label.split("(")[0].strip())
+
+    hi = max(float(np.max(tv)), 0.0) or 1.0
+    ax.set_xlim(float(en.u0), float(en.u_window))
+    ax.set_ylim(0.0, hi * 1.18)
+    ax.set_xlabel(en.u_label, fontsize=10, color=INK)
+    ax.set_ylabel("energy  (J)", fontsize=10, color=INK)
+    ax.tick_params(colors=FAINT, labelsize=8)
+    for s in ("top", "right"):
+        ax.spines[s].set_visible(False)
+    for s in ("left", "bottom"):
+        ax.spines[s].set_color(GRID)
+    ax.legend(frameon=False, fontsize=8.6, loc="center right")
+    ax.annotate("Total stays flat — energy is conserved", (float(en.u0) + 0.5 * (float(en.u_window) - float(en.u0)), hi * 1.04),
+                ha="center", va="center", fontsize=8.6, color=INK, bbox=_bbox())
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    fig.savefig(out_path, format="svg", bbox_inches="tight", facecolor=PAPER)
+    plt.close(fig)
+
+
 def render_trajectory(traj, out_path: Path) -> None:
     """Static poster for the 2D projectile path y vs x (ADR-0015): the parabola (or the numerically-integrated
     drag curve), with launch/apex/range markers. The drag case overlays the drag-free parabola for contrast."""
@@ -93,6 +132,7 @@ def render_trajectory(traj, out_path: Path) -> None:
         base[sl.sym] = sp.nsimplify(sl.default)
     tt = traj.t
 
+    is_orbit = getattr(traj, "frame_mode", "ground") == "orbit"
     fig, ax = plt.subplots(figsize=(6.6, 4.0), facecolor=PAPER)
     ax.set_facecolor(PAPER)
 
@@ -112,11 +152,24 @@ def render_trajectory(traj, out_path: Path) -> None:
         ys_all = np.broadcast_to(np.asarray(fy(ts), dtype=float), ts.shape)
         ax.plot(xs_all, ys_all, color=ACCENT, lw=2.4)
 
-    ax.axhline(0, color=GRID, lw=1)
-    xmax = float(np.max(xs_all)) or 1.0
-    ymax = float(np.max(ys_all)) or 1.0
-    ax.set_xlim(-0.04 * xmax, xmax * 1.08)
-    ax.set_ylim(min(0.0, float(np.min(ys_all))) - 0.06 * ymax, ymax * 1.20)
+    if is_orbit:
+        # centred frame: the central body at the origin, equal aspect (a circle reads as a circle), the full
+        # path bounding box with symmetric padding — no ground line, no negative-x clip.
+        ax.set_aspect("equal", adjustable="box")
+        ax.scatter([0.0], [0.0], color=INK, s=60, zorder=5)
+        ax.axhline(0, color=GRID, lw=0.8, ls=":")
+        ax.axvline(0, color=GRID, lw=0.8, ls=":")
+        rx = float(np.max(np.abs(xs_all))) or 1.0
+        ry = float(np.max(np.abs(ys_all))) or 1.0
+        rad = max(rx, ry) * 1.18
+        ax.set_xlim(-rad, rad)
+        ax.set_ylim(-rad, rad)
+    else:
+        ax.axhline(0, color=GRID, lw=1)
+        xmax = float(np.max(xs_all)) or 1.0
+        ymax = float(np.max(ys_all)) or 1.0
+        ax.set_xlim(-0.04 * xmax, xmax * 1.08)
+        ax.set_ylim(min(0.0, float(np.min(ys_all))) - 0.06 * ymax, ymax * 1.20)
     ax.set_xlabel(traj.x_label, fontsize=10, color=INK)
     ax.set_ylabel(traj.y_label, fontsize=10, color=INK)
     ax.tick_params(colors=FAINT, labelsize=8)

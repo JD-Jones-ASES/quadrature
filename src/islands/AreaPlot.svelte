@@ -69,11 +69,22 @@
   });
 
   const fmt = (n) => (Math.abs(n) >= 100 ? n.toFixed(0) : Math.abs(n) >= 10 ? n.toFixed(1) : n.toFixed(2));
+
+  // Parse "SYMBOL  (UNIT)" labels the producer supplies, so the live caption names the right quantity for
+  // EVERY area lesson (work W·J, force F·N, energy U·J, moment I·kg·m², …) — not a hardcoded work–energy one.
+  const parseLabel = (lbl) => {
+    const m = /^(.*?)\s*\(([^)]*)\)\s*$/.exec(lbl ?? "");
+    return m ? { sym: m[1].trim(), unit: m[2].trim() } : { sym: (lbl ?? "").trim(), unit: "" };
+  };
+  const gL = parseLabel(graph.g_label);
+  const fL = parseLabel(graph.f_label);
+  const uSym = graph.u_label.split("(")[0].trim();
+  const uUnit = cursor.unit ?? parseLabel(graph.u_label).unit;
 </script>
 
 <div class="areaplot">
   <svg viewBox={`0 0 ${W} ${TOP + 2 * H + GAP + 24}`} role="img"
-       aria-label="Force versus displacement, with the shaded area equal to the accumulated work below">
+       aria-label={`${fL.sym} versus ${uSym}, with the shaded area equal to the accumulated ${gL.sym} below`}>
     <!-- top: the integrand f(u) with its area shaded to the cursor -->
     <rect x={PADL} y={band(0)} width={innerW} height={H} class="frame" />
     <text x="6" y={band(0) + 14} class="axlabel">{graph.f_label}</text>
@@ -101,12 +112,12 @@
 
   <div class="annot">
     <p>
-      At <strong>{graph.u_label.split("(")[0].trim()} = {fmt(uc)} {cursor.unit ?? ""}</strong>:
-      the shaded area under the force curve is the work
-      <strong class="g">W = {fmt(gAtC)} J</strong>, which equals the kinetic energy gained (½mv²).
-      Its slope on the lower graph is the force <strong class="f">F = {fmt(fAtC)} N</strong>.
-      The rectangle F·x would read {fmt(rectAtC)} J — but the force isn't constant, so the work is the
-      <em>triangle</em>, half of it.
+      At <strong>{uSym} = {fmt(uc)} {uUnit}</strong>:
+      the shaded area under the {fL.sym} curve is
+      <strong class="g">{gL.sym} = {fmt(gAtC)} {gL.unit}</strong>, and the slope of the {gL.sym} curve below
+      is <strong class="f">{fL.sym} = {fmt(fAtC)} {fL.unit}</strong>.
+      A rectangle of that height, {fL.sym}·{uSym} = {fmt(rectAtC)} {gL.unit}, would miss it — because
+      {fL.sym} isn't constant, the accumulated value is the <em>area under the curve</em>, not a rectangle.
     </p>
   </div>
 
@@ -121,8 +132,8 @@
         <input type="range" min={def.min} max={def.max} step={(def.max - def.min) / 100} bind:value={vals[name]} />
       </label>
     {/each}
-    <p class="hint faint">Drag the cursor: the shaded area (the work) and the value on the lower graph move
-      together — area under the force curve <em>is</em> the accumulated work, and it is the kinetic energy.</p>
+    <p class="hint faint">Drag the cursor: the shaded area and the value on the lower graph move
+      together — the area under the {fL.sym} curve <em>is</em> the accumulated {gL.sym}.</p>
   </div>
 </div>
 

@@ -179,16 +179,22 @@
         "window": { "enum": ["landing", "fixed"] },
         "annotate": { "type": "array", "items": { "type": "string" } },
         "svg": { "type": "string" },
-        "series": { "oneOf": [ { "$ref": "#/$defs/series" }, { "$ref": "#/$defs/area_series" }, { "$ref": "#/$defs/traj_series" } ] },
+        "series": { "oneOf": [ { "$ref": "#/$defs/series" }, { "$ref": "#/$defs/area_series" }, { "$ref": "#/$defs/traj_series" }, { "$ref": "#/$defs/energy_series" } ] },
         "closed_form": { "type": "object", "additionalProperties": { "type": "string" } },
         "closed_form_params": { "type": "array", "items": { "type": "string" } },
         "u_label": { "type": "string" },
         "f_label": { "type": "string" },
         "g_label": { "type": "string" },
+        "ke_label": { "type": "string" },
+        "pe_label": { "type": "string" },
+        "total_label": { "type": "string" },
         "u0": { "type": "number" },
         "x_label": { "type": "string" },
         "y_label": { "type": "string" },
         "g": { "type": "number" },
+        "frame": { "enum": ["ground", "orbit"] },
+        "mu": { "type": "number" },
+        "view_half": { "type": "number" },
         "reference": { "$ref": "#/$defs/traj_series" },
         "cursor": {
           "type": "object",
@@ -264,10 +270,20 @@
           "then": { "required": ["x_label", "y_label"] }
         },
         {
+          "if": { "required": ["kind"], "properties": { "kind": { "const": "energy" } } },
+          "then": {
+            "required": [
+              "series", "closed_form", "closed_form_params", "params",
+              "cursor", "u_label", "ke_label", "pe_label"
+            ]
+          }
+        },
+        {
           "if": {
             "allOf": [
               { "properties": { "mode": { "not": { "const": "sampled" } } } },
-              { "properties": { "kind": { "not": { "const": "area" } } } }
+              { "properties": { "kind": { "not": { "const": "area" } } } },
+              { "properties": { "kind": { "not": { "const": "energy" } } } }
             ]
           },
           "then": { "required": ["series", "closed_form", "closed_form_params"] }
@@ -294,6 +310,17 @@
         "x": { "type": "array", "items": { "type": "number" } },
         "y": { "type": "array", "items": { "type": "number" } },
         "t_max": { "type": "number" }
+      }
+    },
+    "energy_series": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["u", "ke", "pe", "u_max"],
+      "properties": {
+        "u": { "type": "array", "items": { "type": "number" } },
+        "ke": { "type": "array", "items": { "type": "number" } },
+        "pe": { "type": "array", "items": { "type": "number" } },
+        "u_max": { "type": "number" }
       }
     }
   }

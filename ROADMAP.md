@@ -14,20 +14,30 @@ from `JD.md`), then fill depth-first, and close with a doc sweep. Status lives h
   oscillator (2, sampled), **work–energy (2, area)**, **projectile drag-free (1) and quadratic drag (2,
   numerical)**, **impulse–momentum (2, area on the time axis)**, **rotational kinematics (1, stack)**,
   **gravitational PE (2, area on the radial axis)**, **moment of inertia (2, area on the mass-distribution
-  axis — `∫r² dm`)**. Engine has the **integral instrument** (ADR-0014) and the **2D trajectory instrument**
-  (ADR-0015, drag-free exact + quadratic-drag numerical with a new accuracy gate).
-- **Phase 2 — electricity & magnetism — OPENED.** First E&M lesson: **energy in a capacitor** (`∫V dq → ½CV²`,
-  regime 2, area instrument on the charge axis), built with no engine change. A **14-formula E&M reference**:
+  axis — `∫r² dm`)**, **rotational work–energy (2, area on the angle axis — `∫τ dθ → ½Iω²`)**,
+  **hydrostatic force on a wall (2, area on the depth axis — opens the fluids domain)**, the
+  **circular (1) and elliptical (2) orbit** (trajectory on a centred frame — `v=√(μ/R)` & Kepler's three laws),
+  and **conservation of energy (2, the energy-bars instrument — path-independent `v=√(2gH)`)**.
+  Engine now has **four graph instruments**: the temporal stack, the **integral instrument** (ADR-0014), the
+  **2D trajectory instrument** (ADR-0015, drag-free exact + quadratic-drag numerical + a centred `frame:"orbit"`
+  for orbits), and the **energy-exchange bars** (`kind:"energy"` — KE/PE trade, Total flat).
+- **Phase 2 — electricity & magnetism — OPENED.** E&M lessons: **energy in a capacitor** (`∫V dq → ½CV²`,
+  regime 2, area on the charge axis) and **electric potential energy** (`∫kq₁q₂/r² dr → kq₁q₂/R`, regime 2,
+  area on the separation axis — the electric twin of gravitational PE, with the area to infinity converging to
+  a finite binding energy), both built with no engine change. A **14-formula E&M reference**:
   electrostatics (Coulomb, point-charge field & potential, electric PE), circuits (capacitance, capacitor
   energy, Ohm's law, electrical power, RC time constant), and **magnetism** (Lorentz force, force on a wire,
   field of a long wire, magnetic flux, motional EMF — which seeds induction). Magnetism/induction lessons and
   continuous-charge integrals: not started.
 - **Phase 3 — algebra-only domains — SEEDED & DEEPENING.** Thermo: **isothermal** and **adiabatic** PV-work
   lessons (`∫P dV`, regime 3, area instrument) + a 6-formula thermo reference (ideal gas, first law, specific
-  heat, internal energy, adiabatic work & relation, Carnot). Reference breadth seeded across the remaining
-  algebra-only domains too — **fluids** (pressure, buoyancy, continuity, Bernoulli), **waves & optics** (wave
-  speed, period, string, thin lens, magnification), **modern** (photon energy, de Broglie, E=mc², photoelectric).
-- **Reference: 65 formulas across all five domains**, all SymPy-unit-verified, 65-node / 89-edge concept graph.
+  heat, internal energy, adiabatic work & relation, Carnot). **Fluids now has its first lesson** — hydrostatic
+  force on a wall (`∫ρg w h dh → ½ρgwH²`, regime 2, area on the depth axis), surfacing the calculus
+  underpinning the algebra's "average pressure × area." Reference breadth seeded across the remaining
+  algebra-only domains too — **fluids** (pressure, buoyancy, continuity, Bernoulli, wall force), **waves &
+  optics** (wave speed, period, string, thin lens, magnification), **modern** (photon energy, de Broglie,
+  E=mc², photoelectric).
+- **Reference: 70 formulas across all five domains**, all SymPy-unit-verified, 70-node / 102-edge concept graph.
 
 ---
 
@@ -79,8 +89,9 @@ of r. The producer moves from integrating constants to solving ODEs.
 generalized the engine off the time axis (proven on **work–energy**), and the **2D trajectory instrument**
 (ADR-0015) added vector motion — drag-free (exact, regime 1) and **quadratic drag** (numerical, regime 2),
 the latter resolving the ADR-0012 no-closed-form question with RK4 + a producer/Node verification split.
-Remaining mechanics lessons (energy conservation, momentum/collisions, rotation, gravitation/orbits) + the
-rest of the reference fill to follow.
+Since then: gravitation (PE, **circular + elliptical orbits**), rotation (kinematics, moment of inertia, work),
+fluids (hydrostatic force), and **energy conservation** (the energy-bars instrument). Remaining mechanics
+lesson: **momentum / collisions** (a before/after bar viz) + the rest of the reference fill.
 
 **Definition of done.** The mechanics lessons run on the proven instrument; regime 2 is visibly the half where
 calculus does what algebra can't; the reference covers all mechanics formulas.
@@ -127,8 +138,8 @@ offerings (ADR-0007), independent of which lessons exist. Tracked against
 [`docs/regime-map.md`](./docs/regime-map.md). Goal: the reference is a comprehensive, SymPy-verified, fully
 interlinked formula sheet early, while lessons trail depth-first.
 
-**Status (2026-06-26): the breadth-first pass now covers all five domains** — 65 formulas (mechanics incl.
-fluids & rotation, E&M incl. magnetism, thermo, waves & optics, modern), a 65-node / 89-edge concept graph,
+**Status (2026-06-26): the breadth-first pass now covers all five domains** — 70 formulas (mechanics incl.
+fluids & rotation, E&M incl. magnetism, thermo, waves & optics, modern), a 70-node / 102-edge concept graph,
 every formula's LaTeX generated from its SymPy expression and unit-checked. Remaining is per-domain depth (E&M
 induction beyond motional EMF, Gauss, the rest of optics, nuclear), not new domains.
 

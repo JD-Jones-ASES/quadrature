@@ -82,6 +82,31 @@ class AreaPlot:
 
 
 @dataclass
+class EnergyPlot:
+    """The energy-conservation instrument: two energies that trade as a system moves, with their sum flat.
+
+    A cursor sweeps a configuration variable u (a height, a position, an angle); the kinetic and potential
+    energies ke(u), pe(u) are drawn as bars that exchange while the total bar ke+pe stays constant — the visual
+    proof that energy is conserved. The closed forms are JS-cheap and parity-verified, like the area instrument.
+    """
+    u: sp.Symbol
+    ke_expr: sp.Expr          # kinetic energy KE(u)
+    pe_expr: sp.Expr          # potential energy PE(u)
+    u0: float                 # cursor lower bound
+    u_window: float           # cursor upper bound
+    cursor: Slider            # the configuration-variable slider over [u0, u_window]
+    sliders: list             # parameter sliders free in ke/pe (e.g. the mass)
+    constants: dict           # {sym: number} substituted for graph + closed form
+    unit_map: dict            # {sym: unit string} for the dimensional-homogeneity check on ke and pe
+    u_label: str              # cursor axis label, e.g. "h  (m)"
+    ke_label: str = "KE  (J)"
+    pe_label: str = "PE  (J)"
+    total_label: str = "Total  (J)"
+    u_unit: str = "m"         # the cursor unit shown beside the readout
+    annot: str = ""           # one-line static-figure annotation
+
+
+@dataclass
 class TrajMarker:
     """A point annotation in (x, y) space on the trajectory poster (apex, range, launch)."""
     x: float
@@ -127,6 +152,11 @@ class TrajectoryPlot:
     sweep: dict | None = None       # numerical case: {name,label,unit,values,critical?}
     frames: list | None = None      # numerical case: [TrajFrame]
     reference: TrajFrame | None = None  # optional drag-free overlay (the parabola) on the drag plot
+    frame_mode: str = "ground"      # "ground" (projectile: origin bottom-left, ground line) | "orbit"
+                                    #   (a central body at the origin, equal aspect, a closed/looping path)
+    mu: float | None = None         # orbit only: μ = GM (m³/s²), passed to the island for the v/T readouts
+    view_half: float | None = None  # orbit only: fixed half-extent for the centred view (the elliptical/sampled
+                                    #   case has no radius slider, so the producer supplies the frame size)
 
 
 @dataclass
@@ -155,6 +185,7 @@ class Scenario:
     sampled: dict | None = None  # {"sweep": {name,label,unit,values:[...]}, "frames": [Frame, ...]}
     area: AreaPlot | None = None  # the non-temporal integral instrument (ADR-0014); graph kind "area"
     trajectory: TrajectoryPlot | None = None  # 2D projectile path (ADR-0015); graph kind "trajectory"
+    energy: "EnergyPlot | None" = None  # the energy-exchange bars instrument; graph kind "energy"
 
 
 def make_result(expr: sp.Expr, subs: dict, unit: str, label: str) -> dict:

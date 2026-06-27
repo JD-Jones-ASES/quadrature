@@ -1,0 +1,24 @@
+id = "orbit-kepler-third"
+name = "Kepler's third law (circular orbit)"
+domain = "mechanics"
+regime = 1
+expr = "2*pi*sqrt(R**3/(G*M))"
+lhs = "T"
+result_unit = "s"
+assumptions = ["circular orbit", "the orbiting mass cancels", "T² = 4π²R³/GM — the period squared scales as the radius cubed"]
+citations = []
+
+[variables]
+G = { unit = "N*m**2/kg**2", desc = "gravitational constant" }
+M = { unit = "kg", desc = "mass of the central body" }
+R = { unit = "m", desc = "orbital radius" }
+
+[[edges]]
+type = "related-to"
+target = "orbit-velocity"
+gloss = "T = 2πR/v with v = √(GM/R)"
+
+[[edges]]
+type = "related-to"
+target = "grav-newton"
+gloss = "follows from the inverse-square law solved for a circular orbit"

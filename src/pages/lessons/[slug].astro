@@ -47,7 +47,10 @@ const figureCaption = isArea
   <h1>{solution.title}</h1>
   <p class="muted intro">{FRAMING[solution.regime]}</p>
 
-  <SolutionPlayer solution={view} client:visible />
+  {/* client:load (not client:visible): the player IS the lesson and sits above the fold, and client:visible
+      never hydrates in a headless preview that loads at a 0×0 viewport (the IntersectionObserver never fires),
+      which blocks paint-verification. See docs/sessions. */}
+  <SolutionPlayer solution={view} client:load />
 
   <section class="figure">
     <h2>{figureHeading}</h2>

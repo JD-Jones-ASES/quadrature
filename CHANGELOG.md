@@ -5,6 +5,78 @@ plan in [`ROADMAP.md`](./ROADMAP.md).
 
 ## [Unreleased] — Phase 1: full mechanics (in progress)
 
+- **Conservation of energy — a fourth graph instrument (`kind:"energy"`): KE/PE bars that trade while the
+  Total stays flat.** A block on a frictionless ramp; the kinetic and potential energies exchange as it
+  descends, but their sum `mgH` never changes — the constant Total bar is the visual proof of conservation.
+  The dual-register insight: energy conservation is the **first integral of `F=ma`** (`mv dv = F dx ⇒
+  ½mv² = ∫F dx`), and because gravity's work `mg(H−h)` depends only on the height dropped, the speed
+  `v=√(2g(H−h))` is **path-independent** — a steep and a gentle ramp to the same depth give the same bottom
+  speed (only the time differs). Proof `governing` (dE/dh=0, the conservation law, the speed falls out, KE is
+  the work integral). New `EnergyPlot` + `EnergyBars.svelte` + `render_energy` + `energy_series` schema, wired
+  exactly like the area instrument (parity-verified KE/PE closed forms). Paint-verified: at h=10 KE=PE=200 J,
+  at the bottom KE=400 J / PE=0 with the Total bar unchanged and v=20 m/s. (`m=2` kg, `H=20` m.)
+- **Elliptical orbit — the regime-2 sequel; Kepler's three laws fall out of the numerically-integrated
+  inverse-square law.** No elementary time-parameterisation exists (Kepler's equation is transcendental), so
+  the path is RK4-integrated from `r̈ = −μr/r³` and shipped as `frames` the slider snaps between — sweeping the
+  **eccentricity** at a *fixed semi-major axis* `a`, so every orbit has the **same period** `T=2π√(a³/μ)`
+  (Kepler's 3rd law depends on `a`, not the shape). The producer refuses to emit unless the orbit conserves
+  energy `½v²−μ/r=−μ/2a` (vis-viva) and angular momentum `x·vy−y·vx` (Kepler's 2nd law), **closes** after one
+  period (Kepler's 1st — a closed ellipse), and recovers a circle at `e=0`. A `check-trajectory.mjs` branch (on
+  `frame=="orbit"`) re-checks the committed points: each closes, **encircles the focus exactly once** (total
+  turning ≈ 2π), `e=0` is a circle, and all frames share the period. Paint-verified live: `e=0` is a circle,
+  `e=0.5` an ellipse (focus off-centre, `b/a=√(1−e²)`) with **the same 5.58 h period** and perihelion speed
+  8.66 km/s vs aphelion 2.89 km/s. The island's orbit branch now handles the sampled (eccentricity) case;
+  `view_half` schema field. Proof `governing`.
+- **Circular orbit — the trajectory instrument generalized to a centred, looping path (a new `frame:"orbit"`):**
+  a satellite traces the exact parametric circle $x=R\cos\omega t$, $y=R\sin\omega t$ ($\omega=\sqrt{\mu/R^3}$),
+  proven (regime 1, equivalence) to solve the inverse-square equation of motion $\ddot{\mathbf r}=-\mu\mathbf r/R^3$,
+  with the orbital speed $v=\sqrt{\mu/R}$ and **Kepler's third law** $T^2=4\pi^2R^3/\mu$ falling out. Gravity is
+  the centripetal pull, so the satellite falls *around*, not down. The graph is interactive (parity-verified
+  closed form): drag the radius and the loop widens while $v\propto1/\sqrt R$ and $T\propto R^{3/2}$ — verified
+  live, the geostationary radius gives $T=23.9$ h. Reuses `kind:"trajectory"` (the closed form is parity-checked
+  like the drag-free projectile); the only new surface is a centred, equal-aspect render frame in
+  `render_trajectory` + `Trajectory.svelte` (the projectile/ground frame is unchanged) and a `frame`/`mu`
+  schema field. Two reference formulas (orbital speed, Kepler's third law). $v=7.56$ km/s, $T=1.62$ h at low
+  orbit.
+- **Rendering fixes — interactive islands now hydrate in the preview env, and the area-graph caption is no
+  longer hardcoded to work–energy:**
+  - **`client:visible` → `client:load`** on the two island-bearing pages (the lesson `SolutionPlayer` and the
+    `/reference/graph/` `ConceptGraph`). The headless preview loads at a **0×0 viewport**, so the
+    `client:visible` `IntersectionObserver` never fired and the islands never hydrated — which is why prior
+    sessions reported "this env can't paint." With `client:load` the islands hydrate on load (they are each the
+    page's primary, above-the-fold content), the sliders/cursor render, and the closed-form-in-JS recomputes
+    live. Verified by driving the sliders and reading the live values back (DOM + a11y snapshot; raw
+    screenshots still time out, a separate renderer quirk).
+  - **AreaPlot caption was hardcoded to the work–energy lesson** ("the work **W = … J**, which equals the
+    kinetic energy gained (½mv²) … the force **F = … N**"). That was wrong on all nine *other* area lessons
+    (force, electric energy, moment of inertia, impulse, PV-work…). It is now **label-driven** — it reads the
+    quantity symbol + unit from each lesson's `f_label`/`g_label`/`u_label`, so it correctly says e.g.
+    "**F = 400000 N**" on the hydrostatic-force wall, "**U = 10 J**" on the capacitor, "**ΔU = 0.90 J**" on
+    Coulomb PE. Verified live across the linear, energy, and inverse-square cases.
+- **Three more area-instrument lessons — open the fluids domain, deepen E&M, complete the rotation triad
+  (no engine change; model + spec + test each):**
+  - **Electric potential energy** (regime 2, E&M): the area instrument on the **separation** axis — the
+    electric twin of gravitational PE. The energy to pull two opposite charges apart is the area under the
+    Coulomb force $kq_1q_2/r^2$, and because it is the *same* inverse square as gravity, that area to infinity
+    *converges*: the binding energy $kq_1q_2/R$ is finite (proven via `sympy.limit`). The uniform-field case
+    collapses to the rectangle $qEd$. ($1.80$ J to separate a $\pm2\,\mu$C pair from $2$ cm; reaching $2R$
+    captures exactly half.)
+  - **Hydrostatic force on a wall** (regime 2, fluids — *the fluids domain's first lesson*): the area
+    instrument on a **depth** axis. Water pressure grows linearly with depth, $P=\rho g h$, so the force on a
+    vertical wall is the triangular area $\tfrac12\rho g w H^2$; SymPy shows the algebra's "average pressure ×
+    area" is exactly that area, and the uniform-pressure case is the rectangle (twice the force). The
+    misconception is the hydrostatic paradox — the force depends on depth and width, not on how much water is
+    behind the wall. ($F=400$ kN for a $5$ m-wide wall at $4$ m depth.)
+  - **Rotational work–energy** (regime 2, rotation): the area instrument on the **angle** axis — the perfect
+    mirror of $\int F\,dx=\tfrac12 mv^2$. The work under a torque–angle curve $\tau(\theta)=c\theta$ is the
+    rotational kinetic energy, and the memorized $\tfrac12 I\omega^2$ falls out of the integral; a constant
+    torque collapses to the rectangle $\tau_0\,\Delta\theta$. Completes the rotation triad (kinematics ·
+    moment of inertia · energy). ($W=9$ J, $\omega=6$ rad/s for a $0.5$ kg·m² flywheel.)
+  - Reference depth: **65 → 67 formulas** (graph **67 nodes / 94 edges**) — hydrostatic force on a wall
+    ($\tfrac12\rho g w H^2$) and rotational work ($\tau\Delta\theta$), each cross-linked to its integrand and
+    its linear-area / work–energy siblings. Model registry now **16**
+    (`+coulomb-pe`, `+hydrostatic-force`, `+rotational-work`); **68 producer tests**; all six gates green
+    (parity 4676, KaTeX 740, scan clean); `astro build` clean (22 pages). Salt-only SVG regenerations reverted.
 - **Fixes — inline-math rendering + a whitespace gotcha:**
   - The **lessons index** printed each scenario raw, so its `$…$` showed literally; it now renders through the
     same build-time KaTeX path (`inline()`) as the detail pages.

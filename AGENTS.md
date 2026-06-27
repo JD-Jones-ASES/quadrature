@@ -145,9 +145,15 @@ broad. Adding either touches data, not the engine.
   the `Scenario` + `AreaPlot` contracts, and `work_energy.py` / `pv_work.py` as worked examples (an `∫F dx`
   and an `∫P dV` lesson on the *same* instrument, different axes — no engine change between them).
   **Trajectory / vector models** (ADR-0015) carry a `TrajectoryPlot`: drag-free is an exact closed-form path
-  (`equivalence`, parity-verified); a **numerically-integrated** path (quadratic drag) has no closed form, so
-  the producer integrates by RK4, verifies it (converged + EOM residual + recovers the exact case), refuses to
-  emit on failure, and ships `frames` re-gated in CI by `check-trajectory.mjs`. See `projectile.py`.
+  (`equivalence`, parity-verified); a **numerically-integrated** path (quadratic drag, or an elliptical orbit)
+  has no closed form, so the producer integrates by RK4, verifies it (converged + EOM residual / energy +
+  angular-momentum conservation + closure), refuses to emit on failure, and ships `frames` re-gated in CI by
+  `check-trajectory.mjs` (a `frame:"orbit"` branch handles centred orbits). See `projectile.py` / `orbit.py`.
+  **Energy-exchange models** carry an `EnergyPlot` (`ke_expr`/`pe_expr` over a cursor): the KE/PE bars trade
+  while the Total stays flat. Wired exactly like the area instrument (parity-verified closed forms, `kind:"energy"`,
+  `EnergyBars.svelte`); proof `governing` (the conserved energy is the first integral of `F=ma`). See
+  `energy_conservation.py`. To add an energy lesson, copy it: build `ke_expr`, `pe_expr`, the `EnergyPlot`, and
+  the conservation proof checks — no schema/gate/frontend change.
 
 **Authoring math.** Display equations use the `latex` field (rendered as a block). Inline math inside any
 prose / claim / label / scenario / misconception is written with `$...$` (e.g. `the period $T = 2\pi/\omega$`)
@@ -172,46 +178,67 @@ The producer engine should rarely change. If it must, add a physics cross-check 
 ## Current state
 
 See [`ROADMAP.md`](./ROADMAP.md) and the latest [`docs/sessions/`](./docs/sessions/) log. **Phase 0 is
-complete and reviewed**; **Phase 1 (mechanics)** is in progress, **Phase 2 (E&M) is opened** (a lesson + a 9-formula
-reference cluster), and **Phase 3 (thermo) is seeded and deepening**. The site is **live and public** at
-https://jd-jones-ases.github.io/quadrature/ (push to `main` auto-deploys). Shipped: 14 lessons — free fall,
-**projectile (drag-free)**, and **rotational kinematics** (regime 1); SHM, terminal velocity, the damped
-oscillator, **work–energy**, **projectile with quadratic drag**, **impulse–momentum**, **gravitational
-potential energy**, **energy in a capacitor** (regime 2, E&M), and **moment of inertia** (regime 2, `∫r² dm`);
-and **isothermal** and **adiabatic PV-work** (regime 3) — plus a **65-formula reference spanning all five
-domains** (mechanics incl. fluids & rotation, E&M incl. magnetism, thermo, waves & optics, modern) and a
-65-node / 89-edge concept graph, all SymPy-verified. The producer is a model registry (`constant-accel`, `shm`,
-`linear-drag`, `damped-shm`, `work-energy`, `pv-work`, `projectile`, `impulse`, `rotation`, `gravity-pe`,
-`capacitor-energy`, `adiabatic`, `moment-of-inertia`). The concept-graph nodes are click-to-select and
-drag-to-reposition.
+complete and reviewed**; **Phase 1 (mechanics)** is in progress, **Phase 2 (E&M) is opened** (two lessons + a
+9-formula reference cluster), and **Phase 3 (thermo + now fluids) is seeded and deepening**. The site is **live
+and public** at https://jd-jones-ases.github.io/quadrature/ (push to `main` auto-deploys). Shipped: 20 lessons —
+free fall, **projectile (drag-free)**, **rotational kinematics**, and the **circular orbit** (regime 1,
+trajectory on a centred frame — `v=√(μ/R)`, Kepler's `T²∝R³`); SHM, terminal velocity, the damped oscillator,
+**work–energy**, **projectile with quadratic drag**, **impulse–momentum**, **gravitational potential energy**,
+**energy in a capacitor** and **electric potential energy** (regime 2, E&M), **moment of inertia** (`∫r² dm`),
+**rotational work–energy** (`∫τ dθ → ½Iω²`), **hydrostatic force on a wall** (`∫ρg w h dh → ½ρgwH²`, opens
+the fluids domain), the **elliptical orbit** (numerical — Kepler's three laws from `r̈=−μr/r³`), and
+**conservation of energy** (the energy-bars instrument — path-independent `v=√(2gH)`) (regime 2);
+and **isothermal** and **adiabatic PV-work** (regime 3) — plus a **70-formula
+reference spanning all five domains** (mechanics incl. fluids & rotation, E&M incl. magnetism, thermo, waves &
+optics, modern) and a 70-node / 102-edge concept graph, all SymPy-verified. The producer is a model registry
+(`constant-accel`, `shm`, `linear-drag`, `damped-shm`, `work-energy`, `pv-work`, `projectile`, `impulse`,
+`rotation`, `gravity-pe`, `capacitor-energy`, `adiabatic`, `moment-of-inertia`, `coulomb-pe`,
+`hydrostatic-force`, `rotational-work`, `orbit`, `energy-conservation`). The concept-graph nodes are
+click-to-select and drag-to-reposition.
 
-Graphs come in three instruments: the **temporal stack** (`kind:"stack"`, modes `static` | `interactive` |
+Graphs come in four instruments: the **temporal stack** (`kind:"stack"`, modes `static` | `interactive` |
 `sampled`), the **area/integral instrument** (`kind:"area"`, ADR-0014 — area under `f(u)` = the accumulated
-integral `g(u)`, off the time axis), and the **2D trajectory instrument** (`kind:"trajectory"`, ADR-0015 — the
-path y vs x; drag-free is exact/interactive, quadratic drag is numerically integrated). Proof kinds:
-`equivalence` (regime 1) · `governing` (regime-2 ODE / numerical motion) · `integral` (area instrument).
+integral `g(u)`, off the time axis), the **2D trajectory instrument** (`kind:"trajectory"`, ADR-0015 — the
+path y vs x; drag-free is exact/interactive, quadratic drag is numerically integrated; a centred `frame:"orbit"`
+draws closed orbits, ADR-0016), and the **energy-exchange bars** (`kind:"energy"`, ADR-0017 — KE/PE bars that
+trade as a cursor moves while the Total stays flat; an `EnergyPlot` carrying `ke_expr`/`pe_expr`, wired like the
+area instrument).
+Proof kinds: `equivalence` (regime 1) · `governing` (regime-2 ODE / numerical motion / a conserved first
+integral) · `integral` (area instrument).
 
 ## Where this might go next (paths for a future session)
 
 Pick a track; each is independent and lands on the proven engine. Resume from the newest session log
 ([`docs/sessions/2026-06-26.md`](./docs/sessions/), bottom). **Already done** (don't redo): work–energy,
-impulse, gravitational PE, **energy in a capacitor**, **moment of inertia** (area instrument); projectile
-drag-free + quadratic drag (trajectory); rotational kinematics (stack); **isothermal + adiabatic PV-work**
-(thermo). The **reference now spans all five domains** (65 formulas: mechanics incl. fluids & rotation, E&M
+impulse, gravitational PE, **energy in a capacitor**, **electric potential energy** (Coulomb), **moment of
+inertia**, **rotational work–energy**, **hydrostatic force on a wall** (all area instrument); projectile
+drag-free + quadratic drag and the **circular + elliptical orbit** (trajectory); **conservation of energy**
+(energy-bars); rotational kinematics (stack); **isothermal + adiabatic PV-work** (thermo). The **reference now
+spans all five domains** (70 formulas: mechanics incl. fluids & rotation, E&M
 incl. magnetism, thermo, waves/optics, modern) — breadth-fill track 3 below is largely discharged; what remains
 is per-domain *depth* and a couple of small, well-scoped engine extensions, flagged below.
 
 1. **Mechanics breadth that needs a SMALL engine extension** (highest-value next):
-   - **Orbits & uniform circular motion** — reuse the trajectory instrument, but the path *loops* (no
-     landing). Needs a small generalization: relax the projectile-specific bits (start-at-origin,
-     `check-trajectory.mjs`'s "lands at y≈0" + range-monotonic checks) so a closed orbit validates by
-     conserved energy / angular momentum instead. Orbits then reuse the RK4 numerical machinery directly.
-   - **Energy conservation & collisions** — these are not "area under a curve" or a path; they need a NEW small
-     viz (an energy-bar exchange KE↔PE over time/height, or a before/after momentum bar). Decide the viz first.
-2. **More area-instrument lessons (zero engine change — model + spec + test)** — **isobaric** PV-work (the
-   trivial rectangle, completes the PV-process trio), Coulomb PE (`∫kq²/r²` — the E&M twin of gravity-pe),
-   rotational work (`∫τ dθ → ½Iω²`), and later E&M field integrals (`∫E·dl`, `∫dq/r²`). Copy `work_energy.py` /
-   `capacitor_energy.py` / `gravity_pe.py` / `moment_of_inertia.py`. **Watch the dimensionless-parameter trap**: a free dimensionless
+   - **Orbits — DONE** (both circular regime-1 + elliptical regime-2, `orbit.py`). The trajectory instrument
+     has a centred `frame:"orbit"` (equal-aspect, central body/focus, a producer-supplied `view_half`) in both
+     `render_trajectory` and `Trajectory.svelte` (with an interactive *and* a sampled branch). The circular
+     case reuses `kind:"trajectory"` + the parity gate; the elliptical case RK4-integrates `r̈=−μr/r³`, verifies
+     **energy + angular-momentum conservation + closure** (refusing to emit otherwise), and is re-gated in CI by
+     a `check-trajectory.mjs` `frame==="orbit"` branch (closes · encircles the focus once · `e=0` is a circle ·
+     equal periods). Kepler's three laws all fall out. (A future polish: animate the satellite around the orbit
+     to *show* equal-areas-in-equal-times, rather than stating it.)
+   - **Collisions / momentum — the highest-value remaining mechanics frontier.** Energy conservation is **done**
+     (the `kind:"energy"` bars instrument, `energy_conservation.py` — KE/PE trade, Total flat). Collisions can
+     reuse a *similar* bars idea but **before/after** (two states, not a continuous cursor): a 1D collision with
+     momentum bars (always equal before/after) and KE bars (equal only if elastic — the lost KE is the lesson).
+     Either extend `EnergyBars`/`EnergyPlot` to a two-state "before/after" mode, or add a small `kind:"collision"`
+     island. The producer would solve the elastic/inelastic final velocities and prove momentum conserved (and
+     KE conserved iff elastic). No new physics engine — a viz + a model + a spec.
+2. **More area-instrument lessons (zero engine change — model + spec + test)** — Coulomb PE and rotational work
+   are now **done** (`coulomb_pe.py`, `rotational_work.py`); still open: **isobaric** PV-work (the trivial
+   rectangle, completes the PV-process trio), and later E&M field integrals (`∫E·dl`, `∫dq/r²`) and a
+   continuous-charge field (`∫dq/r²`). Copy `work_energy.py` / `capacitor_energy.py` / `gravity_pe.py` /
+   `coulomb_pe.py` / `hydrostatic_force.py` / `moment_of_inertia.py`. **Watch the dimensionless-parameter trap**: a free dimensionless
    slider that lands in a denominator (e.g. `1/(γ−1)`) makes the build-time `check_homogeneous` divide by zero
    when it collapses units — bake such a parameter to its value and slide a *dimensionful* one instead (see
    `adiabatic.py`). Likewise, identities with a `symbol**symbol` power must certify in a *symbolic* tier

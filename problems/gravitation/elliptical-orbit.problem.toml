@@ -1,0 +1,33 @@
+id = "elliptical-orbit"
+title = "Elliptical orbits: Kepler's laws fall out of the inverse-square law"
+topic = "gravitation"
+slug = "elliptical-orbit"
+model = "orbit"
+regime = 2
+author = "Quadrature"
+created = "2026-06-26"
+scenario = "A real orbit is not a circle but an *ellipse* with the planet at one focus ($\\mu = GM = 4\\times10^{14}$ m³/s², semi-major axis $a = 1.6\\times10^{7}$ m). The satellite races through its closest point (perihelion) and crawls at its farthest (aphelion). There is no algebra formula for where it is at time $t$ — so the path is integrated numerically from $\\ddot{\\mathbf r}=-\\mu\\mathbf r/r^3$, and SymPy checks it conserves energy and angular momentum. Slide the eccentricity from a circle to a long ellipse: the shape changes completely, but because every orbit shares the same semi-major axis, they all take the *same time* to go around — Kepler's third law."
+formulas_used = ["orbit-kepler-third", "orbit-velocity", "grav-newton", "rot-angular-momentum"]
+
+[parameters]
+mu = 4e14              # m³/s² — standard gravitational parameter GM (≈ Earth)
+a = 1.6e7             # m — semi-major axis (sets the period for every eccentricity)
+eccentricities = [0, 0.2, 0.4, 0.5]   # circle → progressively elongated ellipse
+steps = 8000          # RK4 steps per period
+
+[[assumptions]]
+claim = "Two-body problem: a point (or spherical) planet far more massive than the satellite, whose mass cancels; no other bodies, no drag."
+kind = "model"
+
+[[assumptions]]
+claim = "All orbits share the semi-major axis $a$ (so the same period), and stay above the planet's surface (perihelion $r_p = a(1-e) \\ge 8\\times10^6$ m even at $e=0.5$)."
+kind = "model"
+
+[[graphs]]
+kind = "trajectory"
+mode = "sampled"
+annotate = ["kepler_first", "kepler_second"]
+
+[misconception]
+claim = "A planet moves at constant speed around its orbit, and a more eccentric orbit takes longer to complete."
+refuted_by = "Neither is true. By **Kepler's second law** (angular momentum is conserved), the planet sweeps equal areas in equal times — so it moves *fastest* at perihelion and *slowest* at aphelion; at $e=0.5$ it is three times faster at its closest point than its farthest. And by **Kepler's third law** the period depends only on the semi-major axis $a$, not the eccentricity: a circle and a long thin ellipse with the same $a$ take *exactly the same time* to go around. Slide the eccentricity and watch the shape stretch while the period stays put."

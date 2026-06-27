@@ -35,6 +35,42 @@ for (const file of walk(DERIVED).sort()) {
   data.graphs.forEach((g, gi) => {
     if (g.kind !== "trajectory" || !g.frames) return;
     const label = `${rel} graphs[${gi}]`;
+
+    // --- orbit frames (frame:"orbit"): a closed loop around the focus at the origin, not a projectile arc.
+    // The producer proves energy/angular-momentum conservation on the full-resolution path; here we re-check
+    // the COMMITTED points with exact geometry — each frame is finite, closes after one period, encircles the
+    // focus exactly once (total turning ≈ 2π), e=0 is a circle, and every frame shares the period (Kepler III).
+    if (g.frame === "orbit") {
+      const periods = [];
+      for (const fr of g.frames) {
+        const { t, x, y } = fr.series;
+        const tag = `${label} frame e=${fr.value}`;
+        if (![t, x, y].every((a) => a.every(Number.isFinite))) { fail(`${tag}: non-finite sample`); continue; }
+        const n = x.length;
+        const scale = Math.max(...x.map(Math.abs), ...y.map(Math.abs), 1);
+        if (Math.hypot(x[n - 1] - x[0], y[n - 1] - y[0]) > 0.02 * scale)
+          fail(`${tag}: does not close after one period`);
+        let turn = 0;
+        for (let i = 0; i < n - 1; i++) {
+          let d = Math.atan2(y[i + 1], x[i + 1]) - Math.atan2(y[i], x[i]);
+          if (d > Math.PI) d -= 2 * Math.PI; else if (d < -Math.PI) d += 2 * Math.PI;
+          turn += d;
+        }
+        if (Math.abs(Math.abs(turn) - 2 * Math.PI) > 0.05)
+          fail(`${tag}: does not encircle the focus exactly once (total turning ${turn.toFixed(3)})`);
+        if (fr.value === 0) {
+          const rs = x.map((xi, i) => Math.hypot(xi, y[i]));
+          if ((Math.max(...rs) - Math.min(...rs)) / scale > 0.01)
+            fail(`${tag}: e=0 orbit is not a circle (Δr/scale ${((Math.max(...rs) - Math.min(...rs)) / scale).toExponential(2)})`);
+        }
+        periods.push(fr.series.t_max);
+        count++;
+      }
+      if (Math.max(...periods) - Math.min(...periods) > 1e-3)
+        fail(`${label}: orbit frames have different periods (Kepler III: same a ⇒ same T)`);
+      return;
+    }
+
     const ranges = [];
     for (const fr of g.frames) {
       const { t, x, y } = fr.series;

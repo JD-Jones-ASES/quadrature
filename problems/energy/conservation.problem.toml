@@ -1,0 +1,32 @@
+id = "energy-conservation"
+title = "Conservation of energy: why the speed depends on the drop, not the path"
+topic = "energy"
+slug = "conservation"
+model = "energy-conservation"
+regime = 2
+author = "Quadrature"
+created = "2026-06-26"
+scenario = "A $m = 2$ kg block is released from rest at the top of a frictionless ramp, $H = 20$ m above the bottom. As it slides down, potential energy turns into kinetic energy — but the total never changes. How fast is it going at the bottom, and would a steeper ramp change that? Drag the height: watch the KE and PE bars trade while the Total bar stays flat. The speed at any height depends only on how far it has dropped, not on the shape of the ramp."
+formulas_used = ["en-mech-energy", "en-kinetic", "en-work"]
+
+[parameters]
+m = 2                  # kg — block mass (the slider)
+g = 10                # m/s² — gravitational field magnitude (house value)
+H = 20                # m — release height above the bottom
+
+[[assumptions]]
+claim = "Frictionless track, so no mechanical energy is lost to heat; the normal force does no work (it is perpendicular to the motion)."
+kind = "model"
+
+[[assumptions]]
+claim = "$g = 10$ m/s² as a magnitude, height $h$ measured upward from the bottom; the block starts from rest at $h = H$."
+kind = "model"
+
+[[graphs]]
+kind = "energy"
+mode = "interactive"
+annotate = ["total_is_flat", "path_independent"]
+
+[misconception]
+claim = "A steeper ramp gets the block to the bottom moving faster than a gentle ramp from the same height."
+refuted_by = "It does not. By conservation of energy the speed at the bottom is $v = \\sqrt{2gH}$, set entirely by the height dropped — a steep ramp and a gentle ramp to the same depth give *exactly the same* bottom speed. The steeper ramp gets there in less *time* (and with a larger acceleration along the slope), but the final speed is identical, because gravity is conservative: the work it does, $mg(H-h)$, depends only on the change in height, not the route. Drag the cursor and read the speed off the kinetic-energy bar — it tracks the height, nothing else."

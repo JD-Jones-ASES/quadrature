@@ -108,6 +108,47 @@ def sample_area_series(area, n: int = 61) -> dict:
     return {"u": us, "f": fs, "g": gs, "u_max": round(float(area.u_window), 9)}
 
 
+def _norm_energy(en, expr):
+    return expr.subs(en.constants).subs(en.u, _AXIS)
+
+
+def closed_form_energy(en) -> dict[str, str]:
+    """JS-evaluable ke(u) and pe(u) for the energy instrument (constants substituted; axis u + sliders free)."""
+    out = {}
+    for name, expr in (("ke", en.ke_expr), ("pe", en.pe_expr)):
+        e = _norm_energy(en, expr)
+        try:
+            out[name] = jscode(e)
+        except Exception as ex:
+            raise BuildError(f"energy closed_form.{name}: cannot emit JS for {sp.srepr(e)}: {ex}") from ex
+    return out
+
+
+def closed_form_params_energy(en) -> list[str]:
+    syms: set[str] = set()
+    for expr in (en.ke_expr, en.pe_expr):
+        syms |= {str(s) for s in _norm_energy(en, expr).free_symbols}
+    return sorted(syms)
+
+
+def sample_energy_series(en, n: int = 61) -> dict:
+    """SymPy's ke(u) and pe(u) at the default slider values over u in [u0, u_window] — the parity truth.
+    Rounds u first, then evaluates AT the rounded u (so the JS player reproduces it exactly). Axis key is `u`."""
+    base = dict(en.constants)
+    for sl in en.sliders:
+        base[sl.sym] = sp.nsimplify(sl.default)
+    u = en.u
+    us, kes, pes = [], [], []
+    span = sp.nsimplify(en.u_window) - sp.nsimplify(en.u0)
+    for i in range(n):
+        ui = round(float(sp.nsimplify(en.u0) + sp.Rational(i, n - 1) * span), 9)
+        sub = {**base, u: sp.Rational(str(ui))}
+        us.append(ui)
+        kes.append(round(float(sp.N(en.ke_expr.subs(sub), 30)), 10))
+        pes.append(round(float(sp.N(en.pe_expr.subs(sub), 30)), 10))
+    return {"u": us, "ke": kes, "pe": pes, "u_max": round(float(en.u_window), 9)}
+
+
 def closed_form_traj(traj) -> dict[str, str]:
     """JS-evaluable x(t) and y(t) for the trajectory instrument (constants substituted; t + sliders free)."""
     out = {}

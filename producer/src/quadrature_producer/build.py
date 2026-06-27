@@ -20,10 +20,11 @@ import sympy as sp
 
 from . import BuildError, __version__
 from .dims import check_homogeneous, parse_unit
-from .emit import (closed_form, closed_form_area, closed_form_of, closed_form_params,
-                   closed_form_params_area, closed_form_params_traj, closed_form_traj,
-                   sample_area_series, sample_series, sample_series_of, sample_traj_series)
-from .graph import render_area, render_stack, render_trajectory
+from .emit import (closed_form, closed_form_area, closed_form_energy, closed_form_of, closed_form_params,
+                   closed_form_params_area, closed_form_params_energy, closed_form_params_traj,
+                   closed_form_traj, sample_area_series, sample_energy_series, sample_series,
+                   sample_series_of, sample_traj_series)
+from .graph import render_area, render_energy, render_stack, render_trajectory
 from .models import MODELS
 from .reference import build_reference
 
@@ -52,6 +53,10 @@ def build_problem(path: Path, root: Path) -> tuple[dict, str]:
         amap = {s: parse_unit(uu, ctx) for s, uu in scn.area.unit_map.items()}
         check_homogeneous(scn.area.f_expr, amap, f"{ctx}: F(x)")
         check_homogeneous(scn.area.g_expr, amap, f"{ctx}: W(x)")
+    if scn.energy is not None:
+        emap = {s: parse_unit(uu, ctx) for s, uu in scn.energy.unit_map.items()}
+        check_homogeneous(scn.energy.ke_expr, emap, f"{ctx}: KE(u)")
+        check_homogeneous(scn.energy.pe_expr, emap, f"{ctx}: PE(u)")
     if scn.trajectory is not None and scn.trajectory.x_expr is not None:
         tmap = {s: parse_unit(uu, ctx) for s, uu in scn.trajectory.unit_map.items()}
         check_homogeneous(scn.trajectory.x_expr, tmap, f"{ctx}: x(t)")
@@ -90,6 +95,27 @@ def build_problem(path: Path, root: Path) -> tuple[dict, str]:
             graphs.append(gobj)
             continue
 
+        if kind == "energy":
+            if scn.energy is None:
+                raise BuildError(f"{ctx}: graph kind 'energy' but the model produced no EnergyPlot")
+            en = scn.energy
+            render_energy(en, root / "derived" / svg_rel)
+            gobj["mode"] = "interactive"
+            gobj["series"] = sample_energy_series(en)
+            gobj["closed_form"] = closed_form_energy(en)
+            gobj["closed_form_params"] = closed_form_params_energy(en)
+            gobj["params"] = {sl.name: {"min": sl.min, "max": sl.max, "default": sl.default}
+                              for sl in en.sliders}
+            gobj["cursor"] = {"name": "u", "label": en.u_label, "unit": en.u_unit,
+                              "min": en.cursor.min, "max": en.cursor.max, "default": en.cursor.default}
+            gobj["u_label"] = en.u_label
+            gobj["ke_label"] = en.ke_label
+            gobj["pe_label"] = en.pe_label
+            gobj["total_label"] = en.total_label
+            gobj["u0"] = en.u0
+            graphs.append(gobj)
+            continue
+
         if kind == "trajectory":
             if scn.trajectory is None:
                 raise BuildError(f"{ctx}: graph kind 'trajectory' but the model produced no TrajectoryPlot")
@@ -98,6 +124,11 @@ def build_problem(path: Path, root: Path) -> tuple[dict, str]:
             gobj["x_label"] = tr.x_label
             gobj["y_label"] = tr.y_label
             gobj["g"] = float(scn.constants_export.get("g", -10))
+            gobj["frame"] = tr.frame_mode
+            if tr.mu is not None:
+                gobj["mu"] = float(tr.mu)
+            if tr.view_half is not None:
+                gobj["view_half"] = float(tr.view_half)
             if tr.frames is not None:
                 gobj["mode"] = "sampled"
                 gobj["sweep"] = tr.sweep

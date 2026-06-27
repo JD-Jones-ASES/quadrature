@@ -879,6 +879,46 @@
       }
     },
     {
+      "id": "en-mech-energy",
+      "name": "Mechanical energy (kinetic + gravitational potential)",
+      "domain": "mechanics",
+      "regime": 1,
+      "lhs": "E",
+      "expr": "m*v**2/2 + m*g*h",
+      "expr_srepr": "Add(Mul(Symbol('g', real=True), Symbol('h', real=True), Symbol('m', real=True)), Mul(Rational(1, 2), Symbol('m', real=True), Pow(Symbol('v', real=True), Integer(2))))",
+      "latex": "E = g h m + \\frac{m v^{2}}{2}",
+      "result_unit": "J",
+      "variables": {
+        "m": {
+          "unit": "kg",
+          "desc": "mass"
+        },
+        "v": {
+          "unit": "m/s",
+          "desc": "speed"
+        },
+        "g": {
+          "unit": "m/s**2",
+          "desc": "gravitational field strength"
+        },
+        "h": {
+          "unit": "m",
+          "desc": "height above a reference level"
+        }
+      },
+      "assumptions": [
+        "conserved when only conservative forces (gravity) do work",
+        "no friction or other dissipation"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
       "id": "en-power",
       "name": "Mechanical power (constant force)",
       "domain": "mechanics",
@@ -1074,6 +1114,48 @@
       "assumptions": [
         "incompressible fluid",
         "Q = Av is conserved along a streamtube, so a narrower pipe means faster flow"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "fluid-force-wall",
+      "name": "Hydrostatic force on a vertical wall",
+      "domain": "mechanics",
+      "regime": 2,
+      "lhs": "F",
+      "expr": "rho*g*w*H**2/2",
+      "expr_srepr": "Mul(Rational(1, 2), Pow(Symbol('H', real=True), Integer(2)), Symbol('g', real=True), Symbol('rho', real=True), Symbol('w', real=True))",
+      "latex": "F = \\frac{H^{2} g \\rho w}{2}",
+      "result_unit": "N",
+      "variables": {
+        "rho": {
+          "unit": "kg/m**3",
+          "desc": "fluid density"
+        },
+        "g": {
+          "unit": "m/s**2",
+          "desc": "gravitational field strength"
+        },
+        "w": {
+          "unit": "m",
+          "desc": "wall width"
+        },
+        "H": {
+          "unit": "m",
+          "desc": "water depth"
+        }
+      },
+      "assumptions": [
+        "incompressible fluid of constant density",
+        "flat vertical wall of constant width, top edge at the surface",
+        "gauge pressure (atmospheric cancels across the wall)",
+        "the area under the pressure–depth profile, ∫P w dh"
       ],
       "derivation": null,
       "lessons": [],
@@ -1569,6 +1651,80 @@
       }
     },
     {
+      "id": "orbit-kepler-third",
+      "name": "Kepler's third law (circular orbit)",
+      "domain": "mechanics",
+      "regime": 1,
+      "lhs": "T",
+      "expr": "2*pi*sqrt(R**3/(G*M))",
+      "expr_srepr": "Mul(Integer(2), pi, Pow(Mul(Pow(Symbol('G', real=True), Integer(-1)), Pow(Symbol('M', real=True), Integer(-1)), Pow(Symbol('R', real=True), Integer(3))), Rational(1, 2)))",
+      "latex": "T = 2 \\pi \\sqrt{\\frac{R^{3}}{G M}}",
+      "result_unit": "s",
+      "variables": {
+        "G": {
+          "unit": "N*m**2/kg**2",
+          "desc": "gravitational constant"
+        },
+        "M": {
+          "unit": "kg",
+          "desc": "mass of the central body"
+        },
+        "R": {
+          "unit": "m",
+          "desc": "orbital radius"
+        }
+      },
+      "assumptions": [
+        "circular orbit",
+        "the orbiting mass cancels",
+        "T² = 4π²R³/GM — the period squared scales as the radius cubed"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "orbit-velocity",
+      "name": "Circular orbital speed",
+      "domain": "mechanics",
+      "regime": 1,
+      "lhs": "v",
+      "expr": "sqrt(G*M/R)",
+      "expr_srepr": "Pow(Mul(Symbol('G', real=True), Symbol('M', real=True), Pow(Symbol('R', real=True), Integer(-1))), Rational(1, 2))",
+      "latex": "v = \\sqrt{\\frac{G M}{R}}",
+      "result_unit": "m/s",
+      "variables": {
+        "G": {
+          "unit": "N*m**2/kg**2",
+          "desc": "gravitational constant"
+        },
+        "M": {
+          "unit": "kg",
+          "desc": "mass of the central body"
+        },
+        "R": {
+          "unit": "m",
+          "desc": "orbital radius"
+        }
+      },
+      "assumptions": [
+        "circular orbit",
+        "central body of mass M; the orbiting mass cancels",
+        "gravity supplies the centripetal force, GM/R² = v²/R"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
       "id": "rot-angular-momentum",
       "name": "Angular momentum (rigid body)",
       "domain": "mechanics",
@@ -1754,6 +1910,38 @@
       },
       "assumptions": [
         "force perpendicular to the lever arm"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "rot-work",
+      "name": "Rotational work (constant torque through an angle)",
+      "domain": "mechanics",
+      "regime": 1,
+      "lhs": "W",
+      "expr": "tau*theta",
+      "expr_srepr": "Mul(Symbol('tau', real=True), Symbol('theta', real=True))",
+      "latex": "W = \\tau \\theta",
+      "result_unit": "J",
+      "variables": {
+        "tau": {
+          "unit": "N*m",
+          "desc": "torque"
+        },
+        "theta": {
+          "unit": "rad",
+          "desc": "angle turned"
+        }
+      },
+      "assumptions": [
+        "constant torque about a fixed axis",
+        "the area under the torque–angle curve, ∫τ dθ"
       ],
       "derivation": null,
       "lessons": [],

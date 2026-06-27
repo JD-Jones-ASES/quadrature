@@ -145,6 +145,7 @@
       "x_label": "x  (m)",
       "y_label": "y  (m)",
       "g": -10.0,
+      "frame": "ground",
       "series": {
         "t": [
           0.0,

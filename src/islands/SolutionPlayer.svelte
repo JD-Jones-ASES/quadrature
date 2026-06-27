@@ -6,6 +6,7 @@
   import GraphStack from "./GraphStack.svelte";
   import AreaPlot from "./AreaPlot.svelte";
   import Trajectory from "./Trajectory.svelte";
+  import EnergyBars from "./EnergyBars.svelte";
 
   let { solution } = $props();
   const s = solution;
@@ -81,6 +82,8 @@
     <AreaPlot {graph} />
   {:else if graph.kind === "trajectory"}
     <Trajectory {graph} />
+  {:else if graph.kind === "energy"}
+    <EnergyBars {graph} />
   {:else}
     <GraphStack {graph} />
   {/if}

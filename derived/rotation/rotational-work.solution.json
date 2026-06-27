@@ -1,0 +1,375 @@
+{
+  "id": "rotational-work",
+  "title": "Rotational work–energy: ½Iω² is the area under the torque curve",
+  "topic": "rotation",
+  "slug": "rotational-work",
+  "scenario": "A flywheel (moment of inertia $I = 0.5$ kg·m²) starts from rest and is driven by a torque that builds with angle, $\\tau = c\\theta$ ($c = 8$ N·m/rad), through $\\theta = 1.5$ rad. How fast is it spinning at the end? The work done is the *area* under the torque–angle curve — and it is exactly the rotational kinetic energy $\\tfrac12 I\\omega^2$. Drag the cursor and watch the shaded work and the spin energy grow together: the rotational twin of $\\int F\\,dx = \\tfrac12 mv^2$.",
+  "regime": 2,
+  "constants": {
+    "I": 0.5,
+    "c": 8.0,
+    "theta": 1.5
+  },
+  "initial_conditions": {
+    "theta0": 0.0,
+    "omega0": 0.0
+  },
+  "assumptions": [
+    {
+      "claim": "Rotation about a fixed axis; $\\tau = c\\theta$ is the *net* torque on the flywheel, so all the work goes into rotational kinetic energy (no friction or load).",
+      "kind": "model"
+    },
+    {
+      "claim": "Rigid flywheel of constant moment of inertia $I$; it starts from rest ($\\omega_0 = 0$).",
+      "kind": "model"
+    }
+  ],
+  "algebra": {
+    "steps": [
+      {
+        "label": "What the algebra-based course hands you",
+        "latex": "W = \\bar\\tau\\,\\Delta\\theta \\qquad \\tfrac12 I\\omega^2 = W \\quad(\\bar\\tau = \\tfrac12\\tau_{\\max},\\ \\text{the average torque})",
+        "prose": "For a constant torque, rotational work is torque times the angle turned, and it equals the rotational kinetic energy $\\tfrac12 I\\omega^2$. When the torque *varies*, the algebra course patches it with an average torque — which is only exact here because the torque happens to rise linearly. It can compute the number but cannot say *why* the answer is an area."
+      }
+    ],
+    "result": {
+      "work_done": {
+        "label": "Rotational work $W = \\tfrac12 c\\,\\theta^2$ (the shaded area)",
+        "unit": "J",
+        "symbolic_latex": "\\tfrac12 c\\,\\theta^2",
+        "value": 9.0,
+        "display": "9"
+      },
+      "rotational_ke": {
+        "label": "Rotational kinetic energy $\\tfrac12 I\\omega^2$",
+        "unit": "J",
+        "symbolic_latex": "\\tfrac12 I\\omega^2",
+        "value": 9.0,
+        "display": "9"
+      },
+      "final_omega": {
+        "label": "Final angular speed $\\omega = \\sqrt{c/I}\\,\\theta$",
+        "unit": "rad/s",
+        "symbolic_latex": "\\sqrt{c/I}\\,\\theta",
+        "value": 6.0,
+        "display": "6"
+      },
+      "max_torque": {
+        "label": "Maximum torque $\\tau_{\\max} = c\\,\\theta$",
+        "unit": "N·m",
+        "symbolic_latex": "c\\,\\theta",
+        "value": 12.0,
+        "display": "12"
+      }
+    }
+  },
+  "calculus": {
+    "steps": [
+      {
+        "label": "Rotational work is the area under the torque–angle curve",
+        "latex": "W = \\int \\tau\\,d\\theta",
+        "prose": "Rotational work is the integral of torque over the angle turned — the rotational twin of $\\int F\\,dx$. For a constant torque this integral is a rectangle (and gives $W = \\tau\\,\\Delta\\theta$); for any torque it is the area under the $\\tau$–$\\theta$ curve."
+      },
+      {
+        "label": "Evaluate for the linear torque $\\tau(\\theta) = c\\,\\theta$",
+        "latex": "W = \\int_0^{\\theta} c\\,\\theta'\\,d\\theta' = \\tfrac12 c\\,\\theta^2",
+        "prose": "The area under a straight line from the origin is a triangle: $\\tfrac12\\,(\\text{base})\\,(\\text{height}) = \\tfrac12\\,\\theta\\,(c\\theta) = \\tfrac12 c\\theta^2$. Its slope is $c\\theta = \\tau(\\theta)$ — the torque is the rate at which rotational work accumulates."
+      },
+      {
+        "label": "The rotational kinetic energy falls out of the same integral",
+        "latex": "\\int \\tau\\,d\\theta = \\int I\\,\\frac{d\\omega}{dt}\\,d\\theta = \\int I\\,\\omega\\,d\\omega = \\tfrac12 I\\omega^2 \\ \\Longrightarrow\\ \\tfrac12 I\\omega^2 = W",
+        "prose": "Substituting $\\tau = I\\,d\\omega/dt$ and $d\\theta = \\omega\\,dt$ turns the work integral into $\\int I\\omega\\,d\\omega$. The memorized $\\tfrac12 I\\omega^2$ is not a separate fact — it is exactly the accumulated rotational work, the perfect mirror of $\\tfrac12 mv^2 = \\int F\\,dx$. The area under the torque curve IS the rotational kinetic energy.",
+        "emphasis": true
+      },
+      {
+        "label": "So the spin rate follows from the area",
+        "latex": "\\boxed{\\,\\omega(\\theta) = \\sqrt{\\tfrac{2W}{I}} = \\sqrt{\\tfrac{c}{I}}\\;\\theta\\,}",
+        "prose": "Read the work off the area, set it equal to $\\tfrac12 I\\omega^2$, and the angular speed at any angle follows. Drag the cursor: the shaded area and the rotational kinetic energy move together because they are the same quantity. A heavier flywheel (larger $I$) reaches the same area at a lower speed."
+      }
+    ]
+  },
+  "proof": {
+    "kind": "integral",
+    "heading": "The rotational work is the area under the torque–angle curve — and ½Iω² falls out of the integral.",
+    "checked_by": "sympy",
+    "holds": true,
+    "detail": "check $\\tfrac{d}{d\\theta}W = \\tau$; check $W = \\int_0^\\theta \\tau\\,d\\theta'$; back-substitute into $\\tfrac12 I\\omega^2 = W$; collapse the constant-torque case to $\\tau_0\\,\\Delta\\theta$",
+    "checks": [
+      {
+        "key": "ftc_slope",
+        "claim": "The work's slope is the torque: $W'(\\theta) = \\tau(\\theta)$ — the area's rate of growth is the curve's height.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "area_is_integral",
+        "claim": "The accumulated work is exactly the area: $W(\\theta) = \\int_0^\\theta \\tau\\,d\\theta'$.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "rotational_work_energy",
+        "claim": "The rotational kinetic energy equals the work: $\\tfrac12 I\\omega^2 = W$ — the memorized $\\tfrac12 I\\omega^2$ is the area.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "constant_torque_echo",
+        "claim": "For a constant torque the integral collapses to $W = \\tau_0\\,\\Delta\\theta$ — the area is a rectangle (the quadrature).",
+        "holds": true,
+        "tier": "structural"
+      }
+    ]
+  },
+  "units_check": {
+    "checked_by": "sympy",
+    "holds": true
+  },
+  "graphs": [
+    {
+      "kind": "area",
+      "mode": "interactive",
+      "window": "fixed",
+      "annotate": [
+        "area_is_work",
+        "half_I_omega2"
+      ],
+      "svg": "assets/graphs/rotational-work-0.svg",
+      "series": {
+        "u": [
+          0.0,
+          0.033333333,
+          0.066666667,
+          0.1,
+          0.133333333,
+          0.166666667,
+          0.2,
+          0.233333333,
+          0.266666667,
+          0.3,
+          0.333333333,
+          0.366666667,
+          0.4,
+          0.433333333,
+          0.466666667,
+          0.5,
+          0.533333333,
+          0.566666667,
+          0.6,
+          0.633333333,
+          0.666666667,
+          0.7,
+          0.733333333,
+          0.766666667,
+          0.8,
+          0.833333333,
+          0.866666667,
+          0.9,
+          0.933333333,
+          0.966666667,
+          1.0,
+          1.033333333,
+          1.066666667,
+          1.1,
+          1.133333333,
+          1.166666667,
+          1.2,
+          1.233333333,
+          1.266666667,
+          1.3,
+          1.333333333,
+          1.366666667,
+          1.4,
+          1.433333333,
+          1.466666667,
+          1.5,
+          1.533333333,
+          1.566666667,
+          1.6,
+          1.633333333,
+          1.666666667,
+          1.7,
+          1.733333333,
+          1.766666667,
+          1.8,
+          1.833333333,
+          1.866666667,
+          1.9,
+          1.933333333,
+          1.966666667,
+          2.0
+        ],
+        "f": [
+          0.0,
+          0.266666664,
+          0.533333336,
+          0.8,
+          1.066666664,
+          1.333333336,
+          1.6,
+          1.866666664,
+          2.133333336,
+          2.4,
+          2.666666664,
+          2.933333336,
+          3.2,
+          3.466666664,
+          3.733333336,
+          4.0,
+          4.266666664,
+          4.533333336,
+          4.8,
+          5.066666664,
+          5.333333336,
+          5.6,
+          5.866666664,
+          6.133333336,
+          6.4,
+          6.666666664,
+          6.933333336,
+          7.2,
+          7.466666664,
+          7.733333336,
+          8.0,
+          8.266666664,
+          8.533333336,
+          8.8,
+          9.066666664,
+          9.333333336,
+          9.6,
+          9.866666664,
+          10.133333336,
+          10.4,
+          10.666666664,
+          10.933333336,
+          11.2,
+          11.466666664,
+          11.733333336,
+          12.0,
+          12.266666664,
+          12.533333336,
+          12.8,
+          13.066666664,
+          13.333333336,
+          13.6,
+          13.866666664,
+          14.133333336,
+          14.4,
+          14.666666664,
+          14.933333336,
+          15.2,
+          15.466666664,
+          15.733333336,
+          16.0
+        ],
+        "g": [
+          0.0,
+          0.0044444444,
+          0.017777778,
+          0.04,
+          0.0711111108,
+          0.1111111116,
+          0.16,
+          0.2177777772,
+          0.2844444452,
+          0.36,
+          0.4444444436,
+          0.5377777788,
+          0.64,
+          0.75111111,
+          0.8711111124,
+          1.0,
+          1.1377777764,
+          1.284444446,
+          1.44,
+          1.6044444428,
+          1.7777777796,
+          1.96,
+          2.1511111092,
+          2.3511111132,
+          2.56,
+          2.7777777756,
+          3.0044444468,
+          3.24,
+          3.484444442,
+          3.7377777804,
+          4.0,
+          4.2711111084,
+          4.551111114,
+          4.84,
+          5.1377777748,
+          5.4444444476,
+          5.76,
+          6.0844444412,
+          6.4177777812,
+          6.76,
+          7.1111111076,
+          7.4711111148,
+          7.84,
+          8.217777774,
+          8.6044444484,
+          9.0,
+          9.4044444404,
+          9.817777782,
+          10.24,
+          10.6711111068,
+          11.1111111156,
+          11.56,
+          12.0177777732,
+          12.4844444492,
+          12.96,
+          13.4444444396,
+          13.9377777828,
+          14.44,
+          14.951111106,
+          15.4711111164,
+          16.0
+        ],
+        "u_max": 2.0
+      },
+      "closed_form": {
+        "f": "c*u",
+        "g": "(1/2)*c*Math.pow(u, 2)"
+      },
+      "closed_form_params": [
+        "c",
+        "u"
+      ],
+      "params": {
+        "c": {
+          "min": 2.0,
+          "max": 16.0,
+          "default": 8.0
+        }
+      },
+      "cursor": {
+        "name": "u",
+        "label": "θ  (rad)",
+        "unit": "rad",
+        "min": 0.0,
+        "max": 2.0,
+        "default": 1.5
+      },
+      "u_label": "θ  (rad)",
+      "f_label": "τ  (N·m)",
+      "g_label": "W  (J)",
+      "u0": 0.0
+    }
+  ],
+  "misconception": {
+    "claim": "Double the angle you drive a flywheel through and you double its final spin rate.",
+    "refuted_by": "The work you do is the *area* under the torque–angle curve, and the energy goes as $\\tfrac12 I\\omega^2$ — so the *speed* follows the area, not the angle. With a constant torque, doubling the angle doubles the work but raises the speed only by $\\sqrt{2}$. With a torque that grows as $\\tau = c\\theta$ (as here), doubling the angle *quadruples* the area, so the work quadruples and the speed doubles. Either way $\\omega \\propto \\sqrt{W}$, never linearly in the angle."
+  },
+  "formulas_used": [
+    "rot-torque",
+    "rot-work",
+    "rot-kinetic"
+  ],
+  "provenance": {
+    "producer": "quadrature_producer",
+    "version": "0.1.0",
+    "sympy": "1.14.0",
+    "author": "Quadrature",
+    "created": "2026-06-26"
+  }
+}
