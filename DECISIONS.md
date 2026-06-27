@@ -701,3 +701,50 @@ opposite directions — a latent limitation fixed, not just worked around. Verif
 interactive island at $e=1$ and $e=0$, and the Matplotlib poster showing the $-4\!\to\!+4$ split and the full
 "lost" region), plus the existing lesson as a regression. 121 producer tests, parity 6776, all seven gates green.
 A third collision lesson (2D oblique) would still need a genuinely new instrument — the before/after bars are 1D.
+
+## ADR-0028 — Reference depth: the magnetism / induction cluster (2026-06-27)
+
+**Context.** The reference spanned all five domains but E&M magnetism/induction was thin — the basics (wire
+field, Lorentz force, flux, Faraday, self-inductance) existed, but the depth a physics teacher expects was
+missing. This is pure breadth-fill: authored + SymPy-verified data, no engine change (ADR-0007's decoupling),
+and a clean test of ADR-0025 on fresh formulas.
+
+**Decision.** Add 14 `reference/formulas/*.formula.toml` entries (82 → 96 formulas, 125 → 153 edges):
+solenoid field `μ₀nI`, loop-centre field `μ₀I/2R`, force between parallel wires `μ₀I₁I₂/2πd`, cyclotron
+radius `mv/qB` and frequency `qB/2πm`, torque on a loop `NIAB sinθ`, inductor energy `½LI²`, magnetic energy
+density `B²/2μ₀`, solenoid inductance `μ₀n²Al`, RL time constant `L/R` and current growth
+`(V/R)(1−e^{−Rt/L})`, mutual-inductance EMF `−M dI₁/dt`, displacement current `ε₀ dΦ_E/dt`, and Gauss's law
+`Q/ε₀`. Each is wired into the concept graph with typed edges to existing nodes (the inductor energy as the
+magnetic twin of `½Q²/C` and the `½mv²` form; RL as the inductive twin of RC; displacement current as
+Faraday's symmetric partner; Gauss → Coulomb), so the new nodes deepen the spine rather than dangle.
+
+**Consequences.** The ADR-0025 machinery handled the new symbols cleanly: `eps0` needed a `\varepsilon_0`
+glyph (it would otherwise leak "eps" — caught by `check-latex-quality`), the differentials got
+`\frac{dI_1}{dt}` / `\frac{d\Phi_E}{dt}` glyphs, and writing each `expr` in conventional order made the printer
+render `r = mv/qB`, `\mathcal{E}_2 = -M\frac{dI_1}{dt}`, etc. correctly — no per-formula display strings, the
+gate green. The reference now genuinely surpasses the standard equation-sheet floor on E&M. Remaining reference
+depth: the rest of thermo/optics and nuclear.
+
+## ADR-0029 — A continuous-charge field lesson (the charged disk) + generic area-instrument framing (2026-06-27)
+
+**Context.** The line-charge lesson (`∫kλ/x²dx`) showed where algebra runs out for a 1D distribution. The
+natural next continuous-charge field is a 2D one reduced to a 1D integral — and the charged disk is the gem,
+because it bridges *both* algebra limits at once.
+
+**Decision.** Add `disk_field.py` (model `disk-field`) + `problems/circuits/disk-field.problem.toml` on the
+**existing area instrument** (no new instrument): a uniform disk of radius R, field at axial distance z, sliced
+into rings r∈[0,R] with `dE/dr = 2πkσ z r/(z²+r²)^{3/2}`; the accumulated area is
+`E = (σ/2ε₀)(1 − z/√(z²+R²))`. Proof `integral`, with two limit checks that make it special: far away
+(`z→∞`) it collapses to the point charge `kQ/z²` (Q=σπR²), and for a huge disk (`R→∞`) it becomes the
+infinite sheet `σ/2ε₀` — so a finite disk sits *below both* algebra extremes, matching each only in its regime.
+4 producer tests (incl. both symbolic limits); the closed form is parity-verified (123 new samples).
+- **Generic regime-2 area framing.** Building it surfaced a latent content bug: the lesson-intro framing for
+  regime-2 *area* lessons was hardcoded to the work–energy story ("the work is the area under the force curve …
+  kinetic energy gained"), shown verbatim on every regime-2 area lesson — wrong for the field, fluid, and
+  moment-of-inertia lessons. Genericised to "the integrand isn't constant … the accumulated quantity is the
+  area under the curve … SymPy proves that area is exactly the closed-form result," correct for all of them.
+
+**Consequences.** 34 lessons; the area instrument now carries two continuous-charge field lessons (line + disk)
+with no engine change, and the regime-2 area intro is honest across work/field/fluid/inertia lessons. Verified
+live (E = 3862 N/C at the cursor; the dE/dr and E panels; the corrected intro). A spherical/cylindrical Gauss
+lesson would be the next field step.

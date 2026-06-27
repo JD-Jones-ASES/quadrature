@@ -1,0 +1,24 @@
+id = "em-solenoid-field"
+name = "Magnetic field inside a solenoid"
+domain = "em"
+regime = 1
+expr = "mu0*n*I"
+lhs = "B"
+result_unit = "T"
+assumptions = ["long, tightly-wound solenoid (length much greater than radius)", "field is uniform inside and ~zero outside"]
+citations = []
+
+[variables]
+mu0 = { unit = "T*m/A", desc = "permeability of free space μ₀", latex = '\mu_0' }
+n = { unit = "1/m", desc = "turns per unit length" }
+I = { unit = "A", desc = "current" }
+
+[[edges]]
+type = "related-to"
+target = "em-bfield-wire"
+gloss = "both follow from Ampère's law; the solenoid superposes many wire loops"
+
+[[edges]]
+type = "related-to"
+target = "em-solenoid-inductance"
+gloss = "this uniform field stores the energy that gives the solenoid its inductance"

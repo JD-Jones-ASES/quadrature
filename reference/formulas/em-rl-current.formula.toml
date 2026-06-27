@@ -1,0 +1,25 @@
+id = "em-rl-current"
+name = "RL current growth"
+domain = "em"
+regime = 2
+expr = "(V/R)*(1 - exp(-R*t/L))"
+lhs = "I"
+result_unit = "A"
+assumptions = ["a series RL circuit switched onto a battery of EMF V at t = 0", "the inductor opposes the change, so the current rises gradually to V/R"]
+citations = []
+
+[variables]
+V = { unit = "V", desc = "battery EMF" }
+R = { unit = "ohm", desc = "series resistance" }
+t = { unit = "s", desc = "elapsed time" }
+L = { unit = "H", desc = "inductance" }
+
+[[edges]]
+type = "related-to"
+target = "em-rc-charge"
+gloss = "the same first-order exponential approach as the charging capacitor, with τ = L/R"
+
+[[edges]]
+type = "related-to"
+target = "em-rl-time-constant"
+gloss = "the exponent is t/τ with τ = L/R"

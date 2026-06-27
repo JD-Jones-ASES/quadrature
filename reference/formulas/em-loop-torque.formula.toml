@@ -1,0 +1,26 @@
+id = "em-loop-torque"
+name = "Torque on a current loop"
+domain = "em"
+regime = 1
+expr = "N*I*A*B*sin(theta)"
+lhs = '\tau'
+result_unit = "N*m"
+assumptions = ["a flat coil of N turns and area A in a uniform field", "θ is the angle between the field and the loop's normal; the torque is the motor principle"]
+citations = []
+
+[variables]
+N = { unit = "1", desc = "number of turns" }
+I = { unit = "A", desc = "current" }
+A = { unit = "m**2", desc = "area enclosed by the loop" }
+B = { unit = "T", desc = "magnetic field strength" }
+theta = { unit = "1", desc = "angle between the field and the loop normal", latex = '\theta' }
+
+[[edges]]
+type = "related-to"
+target = "em-wire-force"
+gloss = "the torque is the net effect of the BIL forces on opposite sides of the loop"
+
+[[edges]]
+type = "related-to"
+target = "em-ac-generator-emf"
+gloss = "rotating this loop in the field is exactly how the AC generator works"

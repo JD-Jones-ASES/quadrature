@@ -1,0 +1,25 @@
+id = "em-parallel-wires"
+name = "Force per length between parallel wires"
+domain = "em"
+regime = 1
+expr = "mu0*I1*I2/(2*pi*d)"
+lhs = '\frac{F}{L}'
+result_unit = "N/m"
+assumptions = ["two long parallel wires a distance d apart", "attracts if the currents are parallel, repels if anti-parallel"]
+citations = []
+
+[variables]
+mu0 = { unit = "T*m/A", desc = "permeability of free space μ₀", latex = '\mu_0' }
+I1 = { unit = "A", desc = "current in wire 1", latex = 'I_1' }
+I2 = { unit = "A", desc = "current in wire 2", latex = 'I_2' }
+d = { unit = "m", desc = "separation between the wires" }
+
+[[edges]]
+type = "related-to"
+target = "em-bfield-wire"
+gloss = "wire 1 makes the field μ₀I₁/2πd at wire 2"
+
+[[edges]]
+type = "related-to"
+target = "em-wire-force"
+gloss = "that field then exerts the force F = BIL on wire 2"

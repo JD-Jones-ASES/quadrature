@@ -1,0 +1,19 @@
+id = "em-loop-field"
+name = "Magnetic field at the centre of a current loop"
+domain = "em"
+regime = 1
+expr = "mu0*I/(2*R)"
+lhs = "B"
+result_unit = "T"
+assumptions = ["a single circular loop, field evaluated at its centre", "for N turns, multiply by N"]
+citations = []
+
+[variables]
+mu0 = { unit = "T*m/A", desc = "permeability of free space μ₀", latex = '\mu_0' }
+I = { unit = "A", desc = "current" }
+R = { unit = "m", desc = "loop radius" }
+
+[[edges]]
+type = "related-to"
+target = "em-bfield-wire"
+gloss = "the Biot–Savart field of a wire, summed around a closed circular loop"

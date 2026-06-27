@@ -1,0 +1,23 @@
+id = "em-gauss-law"
+name = "Gauss's law (electric flux)"
+domain = "em"
+regime = 1
+expr = "Q/eps0"
+lhs = '\Phi_E'
+result_unit = "V*m"
+assumptions = ["the total electric flux through any closed surface", "depends only on the enclosed charge, not on its arrangement or the surface shape"]
+citations = []
+
+[variables]
+Q = { unit = "C", desc = "charge enclosed by the surface" }
+eps0 = { unit = "F/m", desc = "permittivity of free space ε₀", latex = '\varepsilon_0' }
+
+[[edges]]
+type = "related-to"
+target = "em-coulomb"
+gloss = "applied to a sphere around a point charge, Gauss's law gives Coulomb's law"
+
+[[edges]]
+type = "related-to"
+target = "em-efield-point"
+gloss = "the flux Q/ε₀ spread over the sphere area 4πr² gives the point-charge field"

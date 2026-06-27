@@ -1,0 +1,23 @@
+id = "em-mutual-inductance"
+name = "Mutual inductance EMF"
+domain = "em"
+regime = 2
+expr = "-M*dI1dt"
+lhs = '\mathcal{E}_2'
+result_unit = "V"
+assumptions = ["two magnetically coupled coils", "a changing current in coil 1 induces an EMF in coil 2 (the transformer principle)"]
+citations = []
+
+[variables]
+M = { unit = "H", desc = "mutual inductance" }
+dI1dt = { unit = "A/s", desc = "rate of change of current in coil 1 dI₁/dt", latex = '\frac{dI_1}{dt}' }
+
+[[edges]]
+type = "related-to"
+target = "em-inductance"
+gloss = "the two-coil version of self-inductance ℰ = −L dI/dt"
+
+[[edges]]
+type = "related-to"
+target = "em-faraday-law"
+gloss = "it is Faraday's law applied to the flux that coil 1 sends through coil 2"

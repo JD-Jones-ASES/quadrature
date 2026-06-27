@@ -1,0 +1,24 @@
+id = "em-cyclotron-frequency"
+name = "Cyclotron frequency"
+domain = "em"
+regime = 1
+expr = "q*B/(2*pi*m)"
+lhs = "f"
+result_unit = "1/s"
+assumptions = ["a charge circling in a uniform magnetic field", "remarkably, the frequency does not depend on the speed or the radius"]
+citations = []
+
+[variables]
+q = { unit = "C", desc = "charge" }
+B = { unit = "T", desc = "magnetic field strength" }
+m = { unit = "kg", desc = "mass of the charged particle" }
+
+[[edges]]
+type = "related-to"
+target = "em-cyclotron-radius"
+gloss = "the period is the circumference 2πr divided by the speed v — the v and r cancel"
+
+[[edges]]
+type = "related-to"
+target = "em-lorentz-force"
+gloss = "the magnetic force qvB drives the circular motion"

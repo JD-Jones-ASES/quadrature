@@ -1,0 +1,28 @@
+id = "em-inductor-energy"
+name = "Energy stored in an inductor"
+domain = "em"
+regime = 1
+expr = "L*I**2/2"
+lhs = "U"
+result_unit = "J"
+assumptions = ["ideal inductor of inductance L carrying current I", "energy is held in the magnetic field and returned when the current falls"]
+citations = []
+
+[variables]
+L = { unit = "H", desc = "inductance" }
+I = { unit = "A", desc = "current" }
+
+[[edges]]
+type = "related-to"
+target = "em-capacitor-energy"
+gloss = "the magnetic twin of ½Q²/C — the inductor is to current what the capacitor is to charge"
+
+[[edges]]
+type = "related-to"
+target = "en-kinetic"
+gloss = "the ½(quantity)(rate)² form: ½LI² mirrors the kinetic energy ½mv²"
+
+[[edges]]
+type = "related-to"
+target = "em-inductance"
+gloss = "integrating the power ℰI = LI(dI/dt) over the current build-up gives ½LI²"

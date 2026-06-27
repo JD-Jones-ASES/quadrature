@@ -1,0 +1,23 @@
+id = "em-magnetic-energy-density"
+name = "Magnetic energy density"
+domain = "em"
+regime = 1
+expr = "B**2/(2*mu0)"
+lhs = "u"
+result_unit = "J/m**3"
+assumptions = ["energy per unit volume stored in a magnetic field", "integrating it over the field volume recovers the total stored energy"]
+citations = []
+
+[variables]
+B = { unit = "T", desc = "magnetic field strength" }
+mu0 = { unit = "T*m/A", desc = "permeability of free space μ₀", latex = '\mu_0' }
+
+[[edges]]
+type = "related-to"
+target = "em-inductor-energy"
+gloss = "integrating u = B²/2μ₀ over the solenoid's interior volume gives ½LI²"
+
+[[edges]]
+type = "related-to"
+target = "em-solenoid-field"
+gloss = "uses the uniform interior field B = μ₀nI"

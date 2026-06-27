@@ -1,0 +1,416 @@
+{
+  "id": "disk-field",
+  "title": "The field of a charged disk: between a point and a sheet",
+  "topic": "circuits",
+  "slug": "disk-field",
+  "scenario": "A disk of radius $R = 0.3$ m carries a uniform surface charge density $\\sigma = 100$ nC/m². We want the electric field a distance $z = 0.1$ m out along its axis. Algebra hands you two extremes — a *point* charge $kQ/z^2$ and an *infinite* sheet $\\sigma/2\\varepsilon_0$ — but a real disk is neither, and there is no algebra formula for one. Calculus is the only way in: slice the disk into concentric rings $dq = \\sigma\\,2\\pi r\\,dr$, each contributing $k\\,dq\\,z/(z^2+r^2)^{3/2}$ on the axis, and integrate. The shaded area under those ring contributions is the field $E = \\tfrac{\\sigma}{2\\varepsilon_0}(1 - z/\\sqrt{z^2+R^2})$ — which collapses to the point charge far away and to the infinite sheet for a huge disk.",
+  "regime": 2,
+  "constants": {
+    "k": 8990000000.0,
+    "sigma_nc": 100.0,
+    "z": 0.1,
+    "R": 0.3
+  },
+  "initial_conditions": {},
+  "assumptions": [
+    {
+      "claim": "A flat disk with uniform surface charge density $\\sigma$, and the field evaluated on its central axis — so by symmetry the off-axis components of each ring cancel and only the axial field survives.",
+      "kind": "model"
+    }
+  ],
+  "algebra": {
+    "steps": [
+      {
+        "label": "What the algebra-based course hands you (two extremes, nothing between)",
+        "latex": "E_{\\text{point}} = \\frac{kQ}{z^2} \\qquad\\qquad E_{\\text{sheet}} = \\frac{\\sigma}{2\\varepsilon_0}",
+        "prose": "Algebra gives the field of a *point* charge and of an *infinite* sheet — but a real disk is neither. Its charge is spread over a finite area, every ring a different distance from the axis point, and there is no algebra formula for that. This is where algebra runs out."
+      }
+    ],
+    "result": {
+      "total_field": {
+        "label": "Total field $E = \\dfrac{\\sigma}{2\\varepsilon_0}\\!\\left(1 - \\dfrac{z}{\\sqrt{z^2+R^2}}\\right)$",
+        "unit": "N/C",
+        "symbolic_latex": "2\\pi k\\sigma\\!\\left(1 - \\tfrac{z}{\\sqrt{z^2+R^2}}\\right)",
+        "value": 3862.344621,
+        "display": "3862"
+      },
+      "point_charge_approx": {
+        "label": "Point-charge approx $kQ/z^2$ (exact only far away; overestimates up close)",
+        "unit": "N/C",
+        "symbolic_latex": "kQ/z^2,\\ \\ Q=\\sigma\\pi R^2",
+        "value": 25418.62616,
+        "display": "25420"
+      },
+      "sheet_approx": {
+        "label": "Infinite-sheet limit $\\sigma/2\\varepsilon_0$ (overestimate)",
+        "unit": "N/C",
+        "symbolic_latex": "\\sigma/2\\varepsilon_0 = 2\\pi k\\sigma",
+        "value": 5648.583591,
+        "display": "5649"
+      }
+    }
+  },
+  "calculus": {
+    "steps": [
+      {
+        "label": "Slice the disk into rings and add their on-axis fields",
+        "latex": "dE = \\frac{k\\,dq\\,z}{(z^2+r^2)^{3/2}}, \\qquad dq = \\sigma\\,(2\\pi r\\,dr)",
+        "prose": "Cut the disk into concentric rings of radius $r$ and width $dr$, each carrying charge $dq = \\sigma\\,2\\pi r\\,dr$. By symmetry only the axial part of each ring's field survives, $k\\,dq\\,z/(z^2+r^2)^{3/2}$. Summing over the rings is an integral — the only way to handle a continuous distribution."
+      },
+      {
+        "label": "The total field is the area under the ring contributions",
+        "latex": "E = \\int_0^R \\frac{2\\pi k\\sigma z\\,r}{(z^2+r^2)^{3/2}}\\,dr = 2\\pi k\\sigma\\left(1 - \\frac{z}{\\sqrt{z^2+R^2}}\\right)",
+        "prose": "Integrating the ring contributions gives the disk's field — the shaded area under $dE/dr$. The slope of the accumulated-field curve is the contribution at the cursor; the area under the contributions is the field. With $2\\pi k = 1/2\\varepsilon_0$ this is the familiar $\\tfrac{\\sigma}{2\\varepsilon_0}(1 - z/\\sqrt{z^2+R^2})$.",
+        "emphasis": true
+      },
+      {
+        "label": "It bridges both algebra limits",
+        "latex": "E \\ \\xrightarrow{\\,z \\gg R\\,}\\ \\frac{kQ}{z^2}\\,(Q=\\sigma\\pi R^2) \\qquad E \\ \\xrightarrow{\\,R \\to \\infty\\,}\\ \\frac{\\sigma}{2\\varepsilon_0}",
+        "prose": "Far from the disk ($z \\gg R$) the field collapses to the point charge $kQ/z^2$ with $Q = \\sigma\\pi R^2$ — the whole disk seen from afar is just a point. For a very large disk ($R \\to \\infty$) it becomes the infinite sheet $\\sigma/2\\varepsilon_0$, the same at every distance. Drag the cursor to sweep how much of the disk is included, and $\\sigma$ to scale the charge."
+      }
+    ]
+  },
+  "proof": {
+    "kind": "integral",
+    "heading": "A finite disk has no algebra formula — it sits between the point charge and the infinite sheet. Calculus integrates the rings, and the area under them is the field.",
+    "checked_by": "sympy",
+    "holds": true,
+    "detail": "check $dE/dr = 2\\pi k\\sigma z\\,r/(z^2+r^2)^{3/2}$; check $E = \\int_0^r f\\,dr'$; far limit $kQ/z^2$ ($z\\to\\infty$); large-disk limit $\\sigma/2\\varepsilon_0$ ($R\\to\\infty$)",
+    "checks": [
+      {
+        "key": "ftc_slope",
+        "claim": "The accumulated field's slope is the ring contribution: $\\dfrac{dE}{dr} = \\dfrac{2\\pi k\\sigma z\\,r}{(z^2+r^2)^{3/2}}$.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "area_is_integral",
+        "claim": "The field is the area under the ring contributions: $E(r) = \\int_0^r \\dfrac{2\\pi k\\sigma z\\,r'}{(z^2+r'^2)^{3/2}}\\,dr'$.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "point_charge_limit",
+        "claim": "Far away the disk looks like a point charge: $E \\to kQ/z^2$ with $Q = \\sigma\\pi R^2$ as $z \\to \\infty$.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "infinite_sheet_limit",
+        "claim": "A very large disk is an infinite sheet: $E \\to \\sigma/2\\varepsilon_0 = 2\\pi k\\sigma$, independent of $z$, as $R \\to \\infty$.",
+        "holds": true,
+        "tier": "structural"
+      }
+    ]
+  },
+  "units_check": {
+    "checked_by": "sympy",
+    "holds": true
+  },
+  "graphs": [
+    {
+      "kind": "area",
+      "mode": "interactive",
+      "window": "fixed",
+      "annotate": [
+        "area_is_field",
+        "limits"
+      ],
+      "svg": "assets/graphs/disk-field-0.svg",
+      "series": {
+        "u": [
+          0.0,
+          0.005,
+          0.01,
+          0.015,
+          0.02,
+          0.025,
+          0.03,
+          0.035,
+          0.04,
+          0.045,
+          0.05,
+          0.055,
+          0.06,
+          0.065,
+          0.07,
+          0.075,
+          0.08,
+          0.085,
+          0.09,
+          0.095,
+          0.1,
+          0.105,
+          0.11,
+          0.115,
+          0.12,
+          0.125,
+          0.13,
+          0.135,
+          0.14,
+          0.145,
+          0.15,
+          0.155,
+          0.16,
+          0.165,
+          0.17,
+          0.175,
+          0.18,
+          0.185,
+          0.19,
+          0.195,
+          0.2,
+          0.205,
+          0.21,
+          0.215,
+          0.22,
+          0.225,
+          0.23,
+          0.235,
+          0.24,
+          0.245,
+          0.25,
+          0.255,
+          0.26,
+          0.265,
+          0.27,
+          0.275,
+          0.28,
+          0.285,
+          0.29,
+          0.295,
+          0.3
+        ],
+        "f": [
+          0.0,
+          2813.7337022506,
+          5564.9017279293,
+          8194.7525508675,
+          10651.7152202132,
+          12893.9553115352,
+          14890.9041409448,
+          16623.7148191544,
+          18084.7524169099,
+          19276.3341600735,
+          20208.987018258,
+          20899.4882321126,
+          21368.9138369598,
+          21640.8594344013,
+          21739.9328088299,
+          21690.5609900331,
+          21516.1109456791,
+          21238.2945636504,
+          20876.8132933901,
+          20449.1926885035,
+          19970.7588070219,
+          19454.7140783539,
+          18912.2776335835,
+          18352.8627353598,
+          17784.2709602845,
+          17212.8887565433,
+          16643.8767985562,
+          16081.3462422719,
+          15528.518692674,
+          14987.8686045116,
+          14461.248121883,
+          13949.9951766688,
+          13455.0261385673,
+          12976.9145426646,
+          12515.9574920174,
+          12072.2313002747,
+          11645.6378443122,
+          11235.9429680448,
+          10842.808135489,
+          10465.8163863961,
+          10104.493509129,
+          9758.3252173215,
+          9426.7710013494,
+          9109.2752234179,
+          8805.2759358431,
+          8514.211825062,
+          8235.5276179509,
+          7968.6782309487,
+          7713.1318950675,
+          7468.3724499617,
+          7233.9009667639,
+          7009.2368314277,
+          6793.9183970035,
+          6587.5032938873,
+          6389.5684709883,
+          6199.7100274355,
+          6017.5428834129,
+          5842.700329613,
+          5674.8334872847,
+          5513.6107046744,
+          5358.7169105704
+        ],
+        "g": [
+          0.0,
+          7.0475181419,
+          28.0328459459,
+          62.4939356465,
+          109.6916766436,
+          168.652583752,
+          238.2217532778,
+          317.1207670114,
+          404.0053902506,
+          497.5187406015,
+          596.33683659,
+          699.2047870951,
+          804.9631214436,
+          912.5647380105,
+          1021.0836075607,
+          1129.7167182309,
+          1237.7808472902,
+          1344.705663403,
+          1450.0244732615,
+          1553.3636869568,
+          1654.4318297501,
+          1753.0087007031,
+          1848.9350847709,
+          1942.1032691655,
+          2032.4484958966,
+          2119.9413960631,
+          2204.5813920686,
+          2286.3910156869,
+          2365.4110675605,
+          2441.6965328443,
+          2515.3131647465,
+          2586.3346499534,
+          2654.8402753232,
+          2720.9130223624,
+          2784.6380238634,
+          2846.1013250192,
+          2905.3888989387,
+          2962.5858735232,
+          3017.7759330174,
+          3071.0408631715,
+          3122.4602138722,
+          3172.111057344,
+          3220.067823664,
+          3266.4021984257,
+          3311.1830700034,
+          3354.4765160683,
+          3396.345820854,
+          3436.8515162028,
+          3476.0514407104,
+          3514.000812344,
+          3550.7523107929,
+          3586.3561665354,
+          3620.8602542026,
+          3654.3101883163,
+          3686.7494198769,
+          3718.219332612,
+          3748.7593379627,
+          3778.4069681055,
+          3807.1979664872,
+          3835.1663754899,
+          3862.3446209643
+        ],
+        "u_max": 0.3
+      },
+      "closed_form": {
+        "f": "(899/500)*Math.PI*sigma*u/Math.pow(Math.pow(u, 2) + 1/100, 3/2)",
+        "g": "(899/50)*Math.PI*sigma*(1 - (1/10)/Math.sqrt(Math.pow(u, 2) + 1/100))"
+      },
+      "closed_form_params": [
+        "sigma",
+        "u"
+      ],
+      "params": {
+        "sigma": {
+          "min": 50.0,
+          "max": 200.0,
+          "default": 100.0
+        }
+      },
+      "cursor": {
+        "name": "u",
+        "label": "r  (m)",
+        "unit": "m",
+        "min": 0.0,
+        "max": 0.3,
+        "default": 0.3
+      },
+      "u_label": "r  (m)",
+      "f_label": "dE/dr  (N/C/m)",
+      "g_label": "E  (N/C)",
+      "u0": 0.0
+    }
+  ],
+  "misconception": {
+    "claim": "A charged disk is basically a flat sheet, so its field is just $\\sigma/2\\varepsilon_0$ — or, if you prefer, lump all its charge at the centre and use $kQ/z^2$.",
+    "refuted_by": "Both are *limits*, not the answer. $\\sigma/2\\varepsilon_0$ is the field of an *infinite* sheet (or the disk in the limit $z \\to 0$); for a finite disk at finite distance it is an overestimate, because the missing charge beyond radius $R$ would only have added more field. $kQ/z^2$ is the *far-field* limit ($z \\gg R$); up close it overestimates badly, because the inverse-square point model piles all the charge at one distance instead of spreading it from $r=0$ out to $R$. The true field is the integral $E = \\tfrac{\\sigma}{2\\varepsilon_0}(1 - z/\\sqrt{z^2+R^2})$, which lies below both extremes and only matches one of them in its own regime. Drag the cursor to sweep how much of the disk is included; the area under the ring-contribution curve is the field."
+  },
+  "formulas_used": [
+    "em-coulomb",
+    "em-efield-point",
+    "em-gauss-law"
+  ],
+  "provenance": {
+    "producer": "quadrature_producer",
+    "version": "0.1.0",
+    "sympy": "1.14.0",
+    "author": "Quadrature",
+    "created": "2026-06-27"
+  },
+  "practice": [
+    {
+      "id": "disk-field-value",
+      "asks": "the on-axis field of the charged disk",
+      "prompt": "A disk of radius $R = 0.3$ m carries surface charge density $\\sigma = 100$ nC/m². What is the electric field a distance $z = 0.1$ m out along its axis?",
+      "answer": {
+        "value": 3862.344621,
+        "display": "3862",
+        "unit": "N/C",
+        "symbolic_latex": "2\\pi k\\sigma\\!\\left(1 - \\tfrac{z}{\\sqrt{z^2+R^2}}\\right)"
+      },
+      "choices": [
+        {
+          "value": 3862.344621,
+          "display": "3862",
+          "correct": true
+        },
+        {
+          "value": 5648.583591,
+          "display": "5649",
+          "correct": false,
+          "method": "infinite_sheet",
+          "misconception": "Used the infinite-sheet field $\\sigma/2\\varepsilon_0 = 2\\pi k\\sigma$. That is the limit of an unbounded disk; a finite disk produces less, by the factor $(1 - z/\\sqrt{z^2+R^2})$."
+        },
+        {
+          "value": 25418.62616,
+          "display": "25420",
+          "correct": false,
+          "method": "point_charge",
+          "misconception": "Lumped all the charge $Q = \\sigma\\pi R^2$ into a point and used $kQ/z^2$. That is only valid far away ($z \\gg R$); this close it overestimates, because the charge is actually spread from the axis out to radius $R$."
+        }
+      ],
+      "algebra_steps": [
+        {
+          "label": "What the algebra-based course hands you (two extremes, nothing between)",
+          "latex": "E_{\\text{point}} = \\frac{kQ}{z^2} \\qquad\\qquad E_{\\text{sheet}} = \\frac{\\sigma}{2\\varepsilon_0}",
+          "prose": "Algebra gives the field of a *point* charge and of an *infinite* sheet — but a real disk is neither. Its charge is spread over a finite area, every ring a different distance from the axis point, and there is no algebra formula for that. This is where algebra runs out."
+        }
+      ],
+      "calculus_steps": [
+        {
+          "label": "Slice the disk into rings and add their on-axis fields",
+          "latex": "dE = \\frac{k\\,dq\\,z}{(z^2+r^2)^{3/2}}, \\qquad dq = \\sigma\\,(2\\pi r\\,dr)",
+          "prose": "Cut the disk into concentric rings of radius $r$ and width $dr$, each carrying charge $dq = \\sigma\\,2\\pi r\\,dr$. By symmetry only the axial part of each ring's field survives, $k\\,dq\\,z/(z^2+r^2)^{3/2}$. Summing over the rings is an integral — the only way to handle a continuous distribution."
+        },
+        {
+          "label": "The total field is the area under the ring contributions",
+          "latex": "E = \\int_0^R \\frac{2\\pi k\\sigma z\\,r}{(z^2+r^2)^{3/2}}\\,dr = 2\\pi k\\sigma\\left(1 - \\frac{z}{\\sqrt{z^2+R^2}}\\right)",
+          "prose": "Integrating the ring contributions gives the disk's field — the shaded area under $dE/dr$. The slope of the accumulated-field curve is the contribution at the cursor; the area under the contributions is the field. With $2\\pi k = 1/2\\varepsilon_0$ this is the familiar $\\tfrac{\\sigma}{2\\varepsilon_0}(1 - z/\\sqrt{z^2+R^2})$.",
+          "emphasis": true
+        },
+        {
+          "label": "It bridges both algebra limits",
+          "latex": "E \\ \\xrightarrow{\\,z \\gg R\\,}\\ \\frac{kQ}{z^2}\\,(Q=\\sigma\\pi R^2) \\qquad E \\ \\xrightarrow{\\,R \\to \\infty\\,}\\ \\frac{\\sigma}{2\\varepsilon_0}",
+          "prose": "Far from the disk ($z \\gg R$) the field collapses to the point charge $kQ/z^2$ with $Q = \\sigma\\pi R^2$ — the whole disk seen from afar is just a point. For a very large disk ($R \\to \\infty$) it becomes the infinite sheet $\\sigma/2\\varepsilon_0$, the same at every distance. Drag the cursor to sweep how much of the disk is included, and $\\sigma$ to scale the charge."
+        }
+      ]
+    }
+  ]
+}

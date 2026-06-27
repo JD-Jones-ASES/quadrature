@@ -1,0 +1,46 @@
+id = "disk-field"
+title = "The field of a charged disk: between a point and a sheet"
+topic = "circuits"
+slug = "disk-field"
+model = "disk-field"
+regime = 2
+author = "Quadrature"
+created = "2026-06-27"
+scenario = "A disk of radius $R = 0.3$ m carries a uniform surface charge density $\\sigma = 100$ nC/m². We want the electric field a distance $z = 0.1$ m out along its axis. Algebra hands you two extremes — a *point* charge $kQ/z^2$ and an *infinite* sheet $\\sigma/2\\varepsilon_0$ — but a real disk is neither, and there is no algebra formula for one. Calculus is the only way in: slice the disk into concentric rings $dq = \\sigma\\,2\\pi r\\,dr$, each contributing $k\\,dq\\,z/(z^2+r^2)^{3/2}$ on the axis, and integrate. The shaded area under those ring contributions is the field $E = \\tfrac{\\sigma}{2\\varepsilon_0}(1 - z/\\sqrt{z^2+R^2})$ — which collapses to the point charge far away and to the infinite sheet for a huge disk."
+formulas_used = ["em-coulomb", "em-efield-point", "em-gauss-law"]
+
+[parameters]
+k = 8990000000         # N·m²/C² — Coulomb constant
+sigma_nc = 100         # nC/m² — surface charge density (slider)
+z = 0.1                # m — axial distance from the disk
+R = 0.3                # m — disk radius
+
+[[assumptions]]
+claim = "A flat disk with uniform surface charge density $\\sigma$, and the field evaluated on its central axis — so by symmetry the off-axis components of each ring cancel and only the axial field survives."
+kind = "model"
+
+[[graphs]]
+kind = "area"
+mode = "interactive"
+annotate = ["area_is_field", "limits"]
+
+[misconception]
+claim = "A charged disk is basically a flat sheet, so its field is just $\\sigma/2\\varepsilon_0$ — or, if you prefer, lump all its charge at the centre and use $kQ/z^2$."
+refuted_by = "Both are *limits*, not the answer. $\\sigma/2\\varepsilon_0$ is the field of an *infinite* sheet (or the disk in the limit $z \\to 0$); for a finite disk at finite distance it is an overestimate, because the missing charge beyond radius $R$ would only have added more field. $kQ/z^2$ is the *far-field* limit ($z \\gg R$); up close it overestimates badly, because the inverse-square point model piles all the charge at one distance instead of spreading it from $r=0$ out to $R$. The true field is the integral $E = \\tfrac{\\sigma}{2\\varepsilon_0}(1 - z/\\sqrt{z^2+R^2})$, which lies below both extremes and only matches one of them in its own regime. Drag the cursor to sweep how much of the disk is included; the area under the ring-contribution curve is the field."
+
+[[practice]]
+id = "disk-field-value"
+asks = "the on-axis field of the charged disk"
+answer = "result:total_field"
+prompt = 'A disk of radius $R = 0.3$ m carries surface charge density $\sigma = 100$ nC/m². What is the electric field a distance $z = 0.1$ m out along its axis?'
+include = ["algebra", "calculus"]
+
+  [[practice.distractor]]
+  method = "infinite_sheet"
+  transform = "2*pi*k*sigma_nc*1e-9"
+  misconception = 'Used the infinite-sheet field $\sigma/2\varepsilon_0 = 2\pi k\sigma$. That is the limit of an unbounded disk; a finite disk produces less, by the factor $(1 - z/\sqrt{z^2+R^2})$.'
+
+  [[practice.distractor]]
+  method = "point_charge"
+  transform = "k*(sigma_nc*1e-9*pi*R**2)/z**2"
+  misconception = 'Lumped all the charge $Q = \sigma\pi R^2$ into a point and used $kQ/z^2$. That is only valid far away ($z \gg R$); this close it overestimates, because the charge is actually spread from the axis out to radius $R$.'

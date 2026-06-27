@@ -188,7 +188,7 @@ See [`ROADMAP.md`](./ROADMAP.md) and the latest [`docs/sessions/`](./docs/sessio
 complete and reviewed**; **Phase 1 (mechanics)** is in progress, **Phase 2 (E&M)** is deepening (capacitor,
 Coulomb PE, **RC charging**, **line-charge field** + a reference cluster), and **Phase 3 (thermo, fluids, and
 now opened modern)** is deepening. The site is **live and public** at https://jd-jones-ases.github.io/quadrature/
-(push to `main` auto-deploys). Shipped: **33 lessons** across 12 units — free fall, **projectile (drag-free)**,
+(push to `main` auto-deploys). Shipped: **34 lessons** across 12 units — free fall, **projectile (drag-free)**,
 **incline with friction** (`a=g(sinθ−μcosθ)`, opens Dynamics), **rotational kinematics**, and the **circular
 orbit** (regime 1, trajectory on a centred frame — `v=√(μ/R)`, Kepler's `T²∝R³`); SHM, terminal velocity, the
 damped oscillator, **work–energy**, **projectile with quadratic drag**, **impulse–momentum**, **gravitational
@@ -203,13 +203,16 @@ and **radioactive decay** (the N / dN/dt 2-panel stack, `dN/dt=−λN`, opens Mo
 **adiabatic**, and **isobaric PV-work** (regime 3); **LC oscillation** and **Faraday induction** (the electrical
 spring and the AC generator, 2-panel stack); **standing waves** (the spatial-mode instrument — opens Waves &
 optics, ADR-0023); and **thin-lens optics** (the ray-diagram instrument — the geometric second register,
-ADR-0024) — plus an **82-formula reference spanning all five domains** (mechanics incl.
-fluids & rotation, E&M incl. magnetism, thermo, waves & optics, modern) and an 82-node / 125-edge concept graph,
-all SymPy-verified. The producer is a model registry (`constant-accel`, `shm`, `linear-drag`, `damped-shm`,
+ADR-0024); **thin-lens optics** (the ray-diagram instrument — the geometric second register,
+ADR-0024); and **the charged disk** (a continuous-charge field on the area instrument, bridging the point-charge
+and infinite-sheet limits, ADR-0029) — plus a **96-formula reference spanning all five domains** (mechanics incl.
+fluids & rotation, E&M incl. **magnetism & induction depth** — solenoid/loop/wire fields, cyclotron, RL, mutual
+inductance, displacement current, Gauss (ADR-0028), thermo, waves & optics, modern) and a 96-node / 153-edge
+concept graph, all SymPy-verified. The producer is a model registry (`constant-accel`, `shm`, `linear-drag`, `damped-shm`,
 `work-energy`, `pv-work`, `projectile`, `impulse`, `rotation`, `gravity-pe`, `capacitor-energy`, `adiabatic`,
 `moment-of-inertia`, `coulomb-pe`, `hydrostatic-force`, `rotational-work`, `orbit`, `energy-conservation`,
 `collision`, `rc-charging`, `incline-friction`, `decay`, `torricelli`, `line-charge-field`, `lc-oscillation`,
-`isobaric-work`, `faraday-induction`, `standing-wave`, `thin-lens`). The concept-graph
+`isobaric-work`, `faraday-induction`, `standing-wave`, `thin-lens`, `disk-field`). The concept-graph
 nodes have **clean Unicode labels**, a **domain-clustered layout** (ADR-0020), and pan/zoom + click-select +
 drag-to-reposition. **Verified practice (ADR-0022, "solve it three ways")** rides on every lesson; some
 regime-3 lessons override the second-register label (`calculus.register_label`, e.g. thin lens → "Ray diagram"),
@@ -284,17 +287,19 @@ is per-domain *depth* and a couple of small, well-scoped engine extensions, flag
      `Collision.svelte` + `render_collision` was generalized to **signed, floating bars** (backward-compatible:
      all-positive collisions render identically). A 2D oblique collision would still need a genuinely new
      instrument (the before/after bars are 1D).
-2. **More area-instrument lessons (zero engine change — model + spec + test)** — Coulomb PE and rotational work
-   are now **done** (`coulomb_pe.py`, `rotational_work.py`); still open: **isobaric** PV-work (the trivial
-   rectangle, completes the PV-process trio), and later E&M field integrals (`∫E·dl`, `∫dq/r²`) and a
-   continuous-charge field (`∫dq/r²`). Copy `work_energy.py` / `capacitor_energy.py` / `gravity_pe.py` /
+2. **More area-instrument lessons (zero engine change — model + spec + test)** — Coulomb PE, rotational work,
+   isobaric PV-work, the line charge, and now the **charged disk** (`disk_field.py`, ADR-0029 — a 2D
+   continuous-charge field reduced to a 1D ring integral, bridging the point-charge & infinite-sheet limits)
+   are **done**; a spherical/cylindrical Gauss field would be the next. Copy `work_energy.py` / `disk_field.py` /
+   `line_charge_field.py` / `capacitor_energy.py` / `gravity_pe.py` /
    `coulomb_pe.py` / `hydrostatic_force.py` / `moment_of_inertia.py`. **Watch the dimensionless-parameter trap**: a free dimensionless
    slider that lands in a denominator (e.g. `1/(γ−1)`) makes the build-time `check_homogeneous` divide by zero
    when it collapses units — bake such a parameter to its value and slide a *dimensionful* one instead (see
    `adiabatic.py`). Likewise, identities with a `symbol**symbol` power must certify in a *symbolic* tier
    (`simplify`/`conds='none'`); the numeric proof tier exact-evaluates `Rational**Rational` and can `MemoryError`.
-3. **Reference breadth into other domains** — *largely done* (28 → 56). Remaining depth: E&M magnetism /
-   induction / Gauss, the rest of thermo & optics, nuclear. Pure authored+verified data: add
+3. **Reference breadth into other domains** — *largely done* (28 → 96). **E&M magnetism/induction/Gauss depth is
+   now done** (ADR-0028: solenoid/loop/wire fields, cyclotron, loop torque, inductor energy, RL, mutual
+   inductance, displacement current, Gauss). Remaining: the rest of thermo & optics, nuclear. Pure authored+verified data: add
    `reference/formulas/*.formula.toml` with the right `domain` (it color-codes the concept-graph node, all five
    already supported in the frontend). No engine change.
 4. **E&M (Phase 2)** — *opened* (capacitor-energy lesson + the 9-formula E&M cluster: Coulomb, field, potential,

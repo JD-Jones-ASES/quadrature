@@ -10,7 +10,7 @@ from . import (constant_accel, shm, linear_drag, damped_shm, work_energy, pv_wor
                moment_of_inertia, coulomb_pe, hydrostatic_force, rotational_work, orbit,
                energy_conservation, collision, rc_charging, incline_friction, decay,
                torricelli, line_charge_field, lc_oscillation, isobaric_work, faraday_induction,
-               standing_wave, thin_lens)
+               standing_wave, thin_lens, disk_field)
 
 MODELS = {
     "constant-accel": constant_accel.build,
@@ -42,4 +42,5 @@ MODELS = {
     "faraday-induction": faraday_induction.build,
     "standing-wave": standing_wave.build,
     "thin-lens": thin_lens.build,
+    "disk-field": disk_field.build,
 }

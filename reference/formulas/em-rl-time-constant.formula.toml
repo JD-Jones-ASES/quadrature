@@ -1,0 +1,23 @@
+id = "em-rl-time-constant"
+name = "RL time constant"
+domain = "em"
+regime = 2
+expr = "L/R"
+lhs = '\tau'
+result_unit = "s"
+assumptions = ["a resistor and inductor in series", "after one τ the current has risen to 1−1/e ≈ 63% of its final value"]
+citations = []
+
+[variables]
+L = { unit = "H", desc = "inductance" }
+R = { unit = "ohm", desc = "series resistance" }
+
+[[edges]]
+type = "related-to"
+target = "em-rc-time-constant"
+gloss = "the inductive twin of RC — both set the e-folding time of a first-order circuit"
+
+[[edges]]
+type = "related-to"
+target = "em-rl-current"
+gloss = "this τ is the time scale in the current-growth law I(t)"

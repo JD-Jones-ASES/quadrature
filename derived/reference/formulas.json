@@ -551,6 +551,119 @@
       }
     },
     {
+      "id": "em-cyclotron-frequency",
+      "name": "Cyclotron frequency",
+      "domain": "em",
+      "regime": 1,
+      "lhs": "f",
+      "expr": "q*B/(2*pi*m)",
+      "expr_srepr": "Mul(Rational(1, 2), Pow(pi, Integer(-1)), Symbol('B', real=True), Pow(Symbol('m', real=True), Integer(-1)), Symbol('q', real=True))",
+      "latex": "f = \\frac{q B}{2 \\pi m}",
+      "note": "",
+      "result_unit": "1/s",
+      "variables": {
+        "q": {
+          "unit": "C",
+          "desc": "charge"
+        },
+        "B": {
+          "unit": "T",
+          "desc": "magnetic field strength"
+        },
+        "m": {
+          "unit": "kg",
+          "desc": "mass of the charged particle"
+        }
+      },
+      "assumptions": [
+        "a charge circling in a uniform magnetic field",
+        "remarkably, the frequency does not depend on the speed or the radius"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "em-cyclotron-radius",
+      "name": "Cyclotron radius",
+      "domain": "em",
+      "regime": 1,
+      "lhs": "r",
+      "expr": "m*v/(q*B)",
+      "expr_srepr": "Mul(Pow(Symbol('B', real=True), Integer(-1)), Symbol('m', real=True), Pow(Symbol('q', real=True), Integer(-1)), Symbol('v', real=True))",
+      "latex": "r = \\frac{m v}{q B}",
+      "note": "",
+      "result_unit": "m",
+      "variables": {
+        "m": {
+          "unit": "kg",
+          "desc": "mass of the charged particle"
+        },
+        "v": {
+          "unit": "m/s",
+          "desc": "speed perpendicular to the field"
+        },
+        "q": {
+          "unit": "C",
+          "desc": "charge"
+        },
+        "B": {
+          "unit": "T",
+          "desc": "magnetic field strength"
+        }
+      },
+      "assumptions": [
+        "a charge moving perpendicular to a uniform magnetic field",
+        "the magnetic force qvB supplies the centripetal force mv²/r"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "em-displacement-current",
+      "name": "Displacement current",
+      "domain": "em",
+      "regime": 2,
+      "lhs": "I_d",
+      "expr": "eps0*dPhiEdt",
+      "expr_srepr": "Mul(Symbol('dPhiEdt', real=True), Symbol('eps0', real=True))",
+      "latex": "I_d = \\varepsilon_0 \\frac{d\\Phi_E}{dt}",
+      "note": "",
+      "result_unit": "A",
+      "variables": {
+        "eps0": {
+          "unit": "F/m",
+          "desc": "permittivity of free space ε₀",
+          "latex": "\\varepsilon_0"
+        },
+        "dPhiEdt": {
+          "unit": "V*m/s",
+          "desc": "rate of change of electric flux dΦ_E/dt",
+          "latex": "\\frac{d\\Phi_E}{dt}"
+        }
+      },
+      "assumptions": [
+        "Maxwell's correction to Ampère's law",
+        "a changing electric flux acts like a current and sources a magnetic field — e.g. between capacitor plates"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
       "id": "em-efield-point",
       "name": "Electric field of a point charge",
       "domain": "em",
@@ -653,6 +766,40 @@
       }
     },
     {
+      "id": "em-gauss-law",
+      "name": "Gauss's law (electric flux)",
+      "domain": "em",
+      "regime": 1,
+      "lhs": "\\Phi_E",
+      "expr": "Q/eps0",
+      "expr_srepr": "Mul(Symbol('Q', real=True), Pow(Symbol('eps0', real=True), Integer(-1)))",
+      "latex": "\\Phi_E = \\frac{Q}{\\varepsilon_0}",
+      "note": "",
+      "result_unit": "V*m",
+      "variables": {
+        "Q": {
+          "unit": "C",
+          "desc": "charge enclosed by the surface"
+        },
+        "eps0": {
+          "unit": "F/m",
+          "desc": "permittivity of free space ε₀",
+          "latex": "\\varepsilon_0"
+        }
+      },
+      "assumptions": [
+        "the total electric flux through any closed surface",
+        "depends only on the enclosed charge, not on its arrangement or the surface shape"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
       "id": "em-inductance",
       "name": "Inductor EMF",
       "domain": "em",
@@ -682,6 +829,39 @@
       "lessons": [
         "lc-oscillation"
       ],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "em-inductor-energy",
+      "name": "Energy stored in an inductor",
+      "domain": "em",
+      "regime": 1,
+      "lhs": "U",
+      "expr": "L*I**2/2",
+      "expr_srepr": "Mul(Rational(1, 2), Pow(Symbol('I', real=True), Integer(2)), Symbol('L', real=True))",
+      "latex": "U = \\frac{L I^{2}}{2}",
+      "note": "",
+      "result_unit": "J",
+      "variables": {
+        "L": {
+          "unit": "H",
+          "desc": "inductance"
+        },
+        "I": {
+          "unit": "A",
+          "desc": "current"
+        }
+      },
+      "assumptions": [
+        "ideal inductor of inductance L carrying current I",
+        "energy is held in the magnetic field and returned when the current falls"
+      ],
+      "derivation": null,
+      "lessons": [],
       "citations": [],
       "verified": {
         "units": true,
@@ -759,6 +939,90 @@
       }
     },
     {
+      "id": "em-loop-field",
+      "name": "Magnetic field at the centre of a current loop",
+      "domain": "em",
+      "regime": 1,
+      "lhs": "B",
+      "expr": "mu0*I/(2*R)",
+      "expr_srepr": "Mul(Rational(1, 2), Symbol('I', real=True), Pow(Symbol('R', real=True), Integer(-1)), Symbol('mu0', real=True))",
+      "latex": "B = \\frac{\\mu_0 I}{2 R}",
+      "note": "",
+      "result_unit": "T",
+      "variables": {
+        "mu0": {
+          "unit": "T*m/A",
+          "desc": "permeability of free space μ₀",
+          "latex": "\\mu_0"
+        },
+        "I": {
+          "unit": "A",
+          "desc": "current"
+        },
+        "R": {
+          "unit": "m",
+          "desc": "loop radius"
+        }
+      },
+      "assumptions": [
+        "a single circular loop, field evaluated at its centre",
+        "for N turns, multiply by N"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "em-loop-torque",
+      "name": "Torque on a current loop",
+      "domain": "em",
+      "regime": 1,
+      "lhs": "\\tau",
+      "expr": "N*I*A*B*sin(theta)",
+      "expr_srepr": "Mul(Symbol('A', real=True), Symbol('B', real=True), Symbol('I', real=True), Symbol('N', real=True), sin(Symbol('theta', real=True)))",
+      "latex": "\\tau = N I A B \\sin{\\left(\\theta \\right)}",
+      "note": "",
+      "result_unit": "N*m",
+      "variables": {
+        "N": {
+          "unit": "1",
+          "desc": "number of turns"
+        },
+        "I": {
+          "unit": "A",
+          "desc": "current"
+        },
+        "A": {
+          "unit": "m**2",
+          "desc": "area enclosed by the loop"
+        },
+        "B": {
+          "unit": "T",
+          "desc": "magnetic field strength"
+        },
+        "theta": {
+          "unit": "1",
+          "desc": "angle between the field and the loop normal",
+          "latex": "\\theta"
+        }
+      },
+      "assumptions": [
+        "a flat coil of N turns and area A in a uniform field",
+        "θ is the angle between the field and the loop's normal; the torque is the motor principle"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
       "id": "em-lorentz-force",
       "name": "Magnetic force on a charge",
       "domain": "em",
@@ -786,6 +1050,40 @@
       "assumptions": [
         "magnitude for velocity perpendicular to the field",
         "force is perpendicular to both v and B (F = qv×B)"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "em-magnetic-energy-density",
+      "name": "Magnetic energy density",
+      "domain": "em",
+      "regime": 1,
+      "lhs": "u",
+      "expr": "B**2/(2*mu0)",
+      "expr_srepr": "Mul(Rational(1, 2), Pow(Symbol('B', real=True), Integer(2)), Pow(Symbol('mu0', real=True), Integer(-1)))",
+      "latex": "u = \\frac{B^{2}}{2 \\mu_0}",
+      "note": "",
+      "result_unit": "J/m**3",
+      "variables": {
+        "B": {
+          "unit": "T",
+          "desc": "magnetic field strength"
+        },
+        "mu0": {
+          "unit": "T*m/A",
+          "desc": "permeability of free space μ₀",
+          "latex": "\\mu_0"
+        }
+      },
+      "assumptions": [
+        "energy per unit volume stored in a magnetic field",
+        "integrating it over the field volume recovers the total stored energy"
       ],
       "derivation": null,
       "lessons": [],
@@ -833,6 +1131,40 @@
       }
     },
     {
+      "id": "em-mutual-inductance",
+      "name": "Mutual inductance EMF",
+      "domain": "em",
+      "regime": 2,
+      "lhs": "\\mathcal{E}_2",
+      "expr": "-M*dI1dt",
+      "expr_srepr": "Mul(Integer(-1), Symbol('M', real=True), Symbol('dI1dt', real=True))",
+      "latex": "\\mathcal{E}_2 = - M \\frac{dI_1}{dt}",
+      "note": "",
+      "result_unit": "V",
+      "variables": {
+        "M": {
+          "unit": "H",
+          "desc": "mutual inductance"
+        },
+        "dI1dt": {
+          "unit": "A/s",
+          "desc": "rate of change of current in coil 1 dI₁/dt",
+          "latex": "\\frac{dI_1}{dt}"
+        }
+      },
+      "assumptions": [
+        "two magnetically coupled coils",
+        "a changing current in coil 1 induces an EMF in coil 2 (the transformer principle)"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
       "id": "em-ohms-law",
       "name": "Ohm's law",
       "domain": "em",
@@ -856,6 +1188,50 @@
       "assumptions": [
         "ohmic conductor: resistance R independent of current",
         "steady current"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "em-parallel-wires",
+      "name": "Force per length between parallel wires",
+      "domain": "em",
+      "regime": 1,
+      "lhs": "\\frac{F}{L}",
+      "expr": "mu0*I1*I2/(2*pi*d)",
+      "expr_srepr": "Mul(Rational(1, 2), Pow(pi, Integer(-1)), Symbol('I1', real=True), Symbol('I2', real=True), Pow(Symbol('d', real=True), Integer(-1)), Symbol('mu0', real=True))",
+      "latex": "\\frac{F}{L} = \\frac{\\mu_0 I_1 I_2}{2 \\pi d}",
+      "note": "",
+      "result_unit": "N/m",
+      "variables": {
+        "mu0": {
+          "unit": "T*m/A",
+          "desc": "permeability of free space μ₀",
+          "latex": "\\mu_0"
+        },
+        "I1": {
+          "unit": "A",
+          "desc": "current in wire 1",
+          "latex": "I_1"
+        },
+        "I2": {
+          "unit": "A",
+          "desc": "current in wire 2",
+          "latex": "I_2"
+        },
+        "d": {
+          "unit": "m",
+          "desc": "separation between the wires"
+        }
+      },
+      "assumptions": [
+        "two long parallel wires a distance d apart",
+        "attracts if the currents are parallel, repels if anti-parallel"
       ],
       "derivation": null,
       "lessons": [],
@@ -1043,6 +1419,160 @@
       "assumptions": [
         "series resistor and capacitor",
         "the charge approaches its final value as 1 − e^{−t/τ}"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "em-rl-current",
+      "name": "RL current growth",
+      "domain": "em",
+      "regime": 2,
+      "lhs": "I",
+      "expr": "(V/R)*(1 - exp(-R*t/L))",
+      "expr_srepr": "Mul(Pow(Symbol('R', real=True), Integer(-1)), Symbol('V', real=True), Add(Integer(1), Mul(Integer(-1), exp(Mul(Integer(-1), Pow(Symbol('L', real=True), Integer(-1)), Symbol('R', real=True), Symbol('t', real=True))))))",
+      "latex": "I = \\frac{V \\left(1 - e^{- \\frac{R t}{L}}\\right)}{R}",
+      "note": "",
+      "result_unit": "A",
+      "variables": {
+        "V": {
+          "unit": "V",
+          "desc": "battery EMF"
+        },
+        "R": {
+          "unit": "ohm",
+          "desc": "series resistance"
+        },
+        "t": {
+          "unit": "s",
+          "desc": "elapsed time"
+        },
+        "L": {
+          "unit": "H",
+          "desc": "inductance"
+        }
+      },
+      "assumptions": [
+        "a series RL circuit switched onto a battery of EMF V at t = 0",
+        "the inductor opposes the change, so the current rises gradually to V/R"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "em-rl-time-constant",
+      "name": "RL time constant",
+      "domain": "em",
+      "regime": 2,
+      "lhs": "\\tau",
+      "expr": "L/R",
+      "expr_srepr": "Mul(Symbol('L', real=True), Pow(Symbol('R', real=True), Integer(-1)))",
+      "latex": "\\tau = \\frac{L}{R}",
+      "note": "",
+      "result_unit": "s",
+      "variables": {
+        "L": {
+          "unit": "H",
+          "desc": "inductance"
+        },
+        "R": {
+          "unit": "ohm",
+          "desc": "series resistance"
+        }
+      },
+      "assumptions": [
+        "a resistor and inductor in series",
+        "after one τ the current has risen to 1−1/e ≈ 63% of its final value"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "em-solenoid-field",
+      "name": "Magnetic field inside a solenoid",
+      "domain": "em",
+      "regime": 1,
+      "lhs": "B",
+      "expr": "mu0*n*I",
+      "expr_srepr": "Mul(Symbol('I', real=True), Symbol('mu0', real=True), Symbol('n', real=True))",
+      "latex": "B = \\mu_0 n I",
+      "note": "",
+      "result_unit": "T",
+      "variables": {
+        "mu0": {
+          "unit": "T*m/A",
+          "desc": "permeability of free space μ₀",
+          "latex": "\\mu_0"
+        },
+        "n": {
+          "unit": "1/m",
+          "desc": "turns per unit length"
+        },
+        "I": {
+          "unit": "A",
+          "desc": "current"
+        }
+      },
+      "assumptions": [
+        "long, tightly-wound solenoid (length much greater than radius)",
+        "field is uniform inside and ~zero outside"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "em-solenoid-inductance",
+      "name": "Inductance of a solenoid",
+      "domain": "em",
+      "regime": 1,
+      "lhs": "L",
+      "expr": "mu0*n**2*A*l",
+      "expr_srepr": "Mul(Symbol('A', real=True), Symbol('l', real=True), Symbol('mu0', real=True), Pow(Symbol('n', real=True), Integer(2)))",
+      "latex": "L = \\mu_0 n^{2} A l",
+      "note": "",
+      "result_unit": "H",
+      "variables": {
+        "mu0": {
+          "unit": "T*m/A",
+          "desc": "permeability of free space μ₀",
+          "latex": "\\mu_0"
+        },
+        "n": {
+          "unit": "1/m",
+          "desc": "turns per unit length"
+        },
+        "A": {
+          "unit": "m**2",
+          "desc": "cross-sectional area"
+        },
+        "l": {
+          "unit": "m",
+          "desc": "length of the solenoid"
+        }
+      },
+      "assumptions": [
+        "long, tightly-wound solenoid (uniform interior field)",
+        "n is turns per length; the total turns are N = n·l"
       ],
       "derivation": null,
       "lessons": [],

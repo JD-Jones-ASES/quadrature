@@ -5,6 +5,20 @@ plan in [`ROADMAP.md`](./ROADMAP.md).
 
 ## [Unreleased] — Phase 1: full mechanics (in progress)
 
+- **E&M depth: a magnetism/induction reference cluster + a continuous-charge field lesson (ADR-0028, ADR-0029).**
+  - **+14 reference formulas** (82 → 96, 153 edges): solenoid & loop fields, parallel-wire force, cyclotron
+    radius/frequency, loop torque, inductor energy ½LI², magnetic energy density, solenoid inductance, RL time
+    constant & current growth, mutual inductance, displacement current, Gauss's law — each typed into the
+    concept graph. Pure authored+verified data; the ADR-0025 glyph/gate path handled `\varepsilon_0` and the
+    differentials, and conventional-order exprs render correctly (`r = mv/qB`, `\mathcal{E}_2 = -M dI_1/dt`).
+  - **New lesson — the charged disk** (`disk-field`, area instrument, no new instrument): rings r∈[0,R] integrate
+    to `E = (σ/2ε₀)(1 − z/√(z²+R²))`, which bridges *both* algebra limits — point charge `kQ/z²` far away,
+    infinite sheet `σ/2ε₀` for a huge disk — so a finite disk sits below both. Proof `integral` with both limit
+    checks; 4 producer tests; parity-verified. 34 lessons.
+  - **Generic regime-2 area framing**: the lesson-intro framing for regime-2 area lessons was hardcoded to the
+    work–energy story ("kinetic energy gained"), wrong on the field/fluid/inertia lessons — now generic and
+    correct across all of them.
+
 - **A second collision lesson (head-on) + signed momentum bars (ADR-0027).** $m_1=1$ kg at $+4$ m/s meets
   $m_2=2$ kg at $-2$ m/s, so the **total momentum is exactly zero**: perfectly inelastic → the pair stops dead
   ($v_{cm}=0$) and **all** 12 J of kinetic energy is lost; elastic → they rebound. The cleanest proof that

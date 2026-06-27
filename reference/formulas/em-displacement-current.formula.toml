@@ -1,0 +1,23 @@
+id = "em-displacement-current"
+name = "Displacement current"
+domain = "em"
+regime = 2
+expr = "eps0*dPhiEdt"
+lhs = "I_d"
+result_unit = "A"
+assumptions = ["Maxwell's correction to Ampère's law", "a changing electric flux acts like a current and sources a magnetic field — e.g. between capacitor plates"]
+citations = []
+
+[variables]
+eps0 = { unit = "F/m", desc = "permittivity of free space ε₀", latex = '\varepsilon_0' }
+dPhiEdt = { unit = "V*m/s", desc = "rate of change of electric flux dΦ_E/dt", latex = '\frac{d\Phi_E}{dt}' }
+
+[[edges]]
+type = "related-to"
+target = "em-faraday-law"
+gloss = "the symmetric partner of Faraday's law — a changing E field makes B, as a changing B makes E"
+
+[[edges]]
+type = "related-to"
+target = "em-gauss-law"
+gloss = "uses the electric flux Φ_E that Gauss's law ties to charge"

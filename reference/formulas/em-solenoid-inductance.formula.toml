@@ -1,0 +1,25 @@
+id = "em-solenoid-inductance"
+name = "Inductance of a solenoid"
+domain = "em"
+regime = 1
+expr = "mu0*n**2*A*l"
+lhs = "L"
+result_unit = "H"
+assumptions = ["long, tightly-wound solenoid (uniform interior field)", "n is turns per length; the total turns are N = n·l"]
+citations = []
+
+[variables]
+mu0 = { unit = "T*m/A", desc = "permeability of free space μ₀", latex = '\mu_0' }
+n = { unit = "1/m", desc = "turns per unit length" }
+A = { unit = "m**2", desc = "cross-sectional area" }
+l = { unit = "m", desc = "length of the solenoid" }
+
+[[edges]]
+type = "related-to"
+target = "em-solenoid-field"
+gloss = "the flux NΦ = N(BA) with B = μ₀nI, divided by I, is the inductance"
+
+[[edges]]
+type = "related-to"
+target = "em-inductance"
+gloss = "this L is the constant in the inductor's ℰ = −L dI/dt"

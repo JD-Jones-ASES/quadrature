@@ -1,0 +1,25 @@
+id = "em-cyclotron-radius"
+name = "Cyclotron radius"
+domain = "em"
+regime = 1
+expr = "m*v/(q*B)"
+lhs = "r"
+result_unit = "m"
+assumptions = ["a charge moving perpendicular to a uniform magnetic field", "the magnetic force qvB supplies the centripetal force mv²/r"]
+citations = []
+
+[variables]
+m = { unit = "kg", desc = "mass of the charged particle" }
+v = { unit = "m/s", desc = "speed perpendicular to the field" }
+q = { unit = "C", desc = "charge" }
+B = { unit = "T", desc = "magnetic field strength" }
+
+[[edges]]
+type = "related-to"
+target = "em-lorentz-force"
+gloss = "set the magnetic force qvB equal to the centripetal force mv²/r and solve for r"
+
+[[edges]]
+type = "related-to"
+target = "circ-centripetal-force"
+gloss = "the magnetic force plays the role of the centripetal force here"
