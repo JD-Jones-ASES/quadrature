@@ -588,3 +588,51 @@ swap); the lens glyph draws inward arrowheads for a diverging element; and `rend
 branch (dashed backward extensions). The new lesson — *the diverging lens: one image, always virtual* — shows
 that for **every** object distance dᵢ<0 and 0<m<1 (virtual, upright, reduced), the complement to the converging
 lens. 119 producer tests, 32 lessons, parity 6652, all six gates green.
+
+## ADR-0025 — The reference RHS is generated, with physics glyphs + author order, and typography breaks the build (2026-06-27)
+
+**Context.** The formula reference is the project's credibility centerpiece ("no transcription typos"), and it
+is the *only* fully-generated artifact: the LHS is authored LaTeX, but the RHS was serialized straight from the
+SymPy expression via `sp.latex(expr)`. Two things leaked through. (1) **Symbol names.** Symbols are named in
+plain ASCII so they `sympify` (`lam`, `dPhidt`, `dIdt`, `di`/`do`, `Vdisp`, `Icm`, `FT`, `dT`, `Cv`, `Tc`/`Th`),
+so 13 formulas printed the bare ASCII — `\mathcal{E} = -dPhidt`, `N = N₀e^{-lam t}`, `v = √(FT/μ)` — and `log`
+for `\ln`, `asin` for `\arcsin`. (2) **Order.** SymPy sorts Mul factors / Add terms by its own key, not physics
+convention, so ~20 formulas read wrong: `E = c²m`, `F_net = am`, `F = Bqv`, `P = ρ`-last, `1 - Tc/Th` as
+`-Tc/Th + 1`. Crucially the semantic gates are **blind to typography** — `simplify(algebra−calculus)==0` and
+dimensional homogeneity pass identically whether a symbol prints as `λ` or `lam` — so the one failure mode that
+hits the generated reference hardest had no gate. (Flagged by an external review of the live site.)
+
+**Decision.** Keep the RHS **100% machine-derived** (the epistemic claim depends on it); fix presentation in
+one place, the producer, and add a gate so a leak can never ship again.
+1. **Per-symbol glyph → `symbol_names`.** Each `[variables.<sym>]` may carry an optional `latex` glyph
+   (`dPhidt = { …, latex = '\frac{d\Phi}{dt}' }`, `di = { …, latex = 'd_i' }`); a tiny global `_DEFAULT_GLYPH`
+   ({`lam`→`\lambda`}) covers the universal case. The effective glyph (authored wins) feeds
+   `sp.latex(symbol_names=…)` **and** is propagated to the output `variables[*].latex` (so the reference page
+   renders the symbol column and the gate can clear it as known notation). `ln_notation=True` +
+   `inv_trig_style='full'` fix `\ln` / `\arcsin`. A glyph is a *name*, not a transcribable formula — low typo
+   risk, and gate-checked.
+2. **Author-source-order printer.** A `LatexPrinter` subclass (`_PhysicsPrinter`) orders Mul factors and Add
+   terms by their first-appearance index in the author's `expr` source string (the author already writes
+   conventional order). It is the stock 1.14 `_print_Mul` with its single factor-ordering line replaced, plus an
+   `_as_ordered_terms` override (bare-constant terms lead, so `1 - x` not `-x + 1`). **It only changes print
+   order of the *same* evaluated expression — it never rebuilds the expr** — so the rendered LaTeX is
+   semantically identical to the verified `expr` by construction (no `evaluate=False` `1·`/`(-1)` artifacts, no
+   semantic-drift guard needed). Fixes all ~20 orderings; native sign/`\frac` rendering is preserved (e.g.
+   `√(k/m − b²/4m²)`).
+3. **A new gate: `check-latex-quality.mjs`.** Runs in the `validate` chain (so **CI enforces it** over committed
+   JSON though CI runs no Python). For each formula it strips the formula's own authored glyphs, then
+   `\text{…}`/`\mathrm{…}` contents, then known LaTeX commands/functions, and **fails on any remaining ≥2-letter
+   ASCII run** — a leaked symbol name. Stripping authored glyphs first is essential: it stops legit differential
+   notation (`\frac{d\Phi}{dt}` → `dt`/`dI`) from false-positiving. "Typography breaks the build the way a bad
+   unit does." (It does *not* police ordering — there is no convention oracle; the source-order printer owns
+   that, and the printer can't reorder into a wrong answer because it never changes the expression.)
+4. **The `a = a` seed.** `kin-a-const` rendered a bare `a = a`, reading as a glitch though it is the root of the
+   integral ladder. It gained an optional `note` (rendered as an italic caption via `inline()`) framing it as the
+   seed — "hold $a$ constant and $v=\int a\,dt$, $x=\int v\,dt$ accumulate from it." The node stays in the graph.
+
+**Consequences.** All 13 leaks and ~20 orderings fixed; the formerly-apologetic prose ("log is the natural
+logarithm (ln)") is gone. Authoring a new formula now means: write `expr` in conventional order, give any
+ASCII-spelled symbol a `latex` glyph (the gate tells you if you forget). The RHS stays generated, so the
+"no transcription typos" claim is now *enforced*, not merely asserted. Seven gates green; 119 producer tests,
+32 lessons, parity 6652, 82 formulas leak-free. The subclass is pinned to SymPy 1.14 (it mirrors `_print_Mul`);
+if SymPy is bumped, re-check that one method.

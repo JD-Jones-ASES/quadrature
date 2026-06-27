@@ -1,7 +1,7 @@
 ---
 import Base from "../../layouts/Base.astro";
 import { withBase } from "../../lib/withBase.js";
-import { tex } from "../../lib/katex.js";
+import { tex, inline } from "../../lib/katex.js";
 import data from "../../../derived/reference/formulas.json";
 
 const DOMAIN_LABEL = {
@@ -31,10 +31,11 @@ for (const f of data.formulas) (byDomain[f.domain] ??= []).push(f);
               <span class="badge regime">regime {f.regime}</span>
             </header>
             <div class="math" set:html={tex(f.latex)} />
+            {f.note && <p class="seed" set:html={inline(f.note)} />}
             <table class="vars" aria-label={`Variables in ${f.name}`}>
               <tbody>
                 {Object.entries(f.variables).map(([sym, v]) => (
-                  <tr><td class="sym">{sym}</td><td class="unit">{v.unit}</td><td class="desc">{v.desc}</td></tr>
+                  <tr><td class="sym" set:html={v.latex ? tex(v.latex, false) : sym} /><td class="unit">{v.unit}</td><td class="desc">{v.desc}</td></tr>
                 ))}
               </tbody>
             </table>
@@ -70,6 +71,7 @@ for (const f of data.formulas) (byDomain[f.domain] ??= []).push(f);
     .vars .sym { font-family: var(--font-mono); color: var(--accent); width: 3rem; }
     .vars .unit { font-family: var(--font-mono); color: var(--ink-2); width: 5rem; }
     .vars .desc { color: var(--ink-2); }
+    .seed { font-size: 0.86rem; color: var(--ink-2); font-style: italic; margin: -0.2rem 0 0.6rem; }
     .assume { font-size: 0.88rem; color: var(--ink-2); margin: 0.6rem 0 0.3rem; }
     .deriv { font-size: 0.85rem; color: var(--ink-2); margin: 0.5rem 0; display: flex; align-items: center; gap: 0.4rem; }
     .deriv code { background: var(--paper-sunk); padding: 0.1rem 0.35rem; border-radius: 5px; }

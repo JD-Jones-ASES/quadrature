@@ -5,6 +5,23 @@ plan in [`ROADMAP.md`](./ROADMAP.md).
 
 ## [Unreleased] — Phase 1: full mechanics (in progress)
 
+- **Formula reference typography: generated RHS with physics glyphs + author order, gate-enforced (ADR-0025).**
+  - **Root cause.** The reference RHS was `sp.latex(expr)`, so the ASCII symbol names chosen for `sympify`
+    leaked onto the page (`\mathcal{E} = -dPhidt`, `N = N₀e^{-lam t}`, `v = √(FT/μ)`, `log`/`asin`), and SymPy's
+    sort order replaced physics convention (`E = c²m`, `F_net = am`, `F = Bqv`, `-Tc/Th + 1`). The semantic
+    gates are blind to typography, so this had no safety net. (Flagged by an external review of the live site.)
+  - **Fix — still 100% machine-derived.** A per-symbol `latex` glyph in `[variables]` feeds
+    `sp.latex(symbol_names=…)` (+ `ln_notation` / `inv_trig_style='full'` for `\ln` / `\arcsin`); the effective
+    glyph is propagated to the output so the variable column also renders it. A `LatexPrinter` subclass orders
+    Mul factors / Add terms by the author's written order — it only changes print order of the same evaluated
+    expr (no rebuild, no artifacts, semantics identical by construction). 13 leaks + ~20 orderings fixed; the
+    stale "log is the natural logarithm (ln)" apology removed.
+  - **New gate `check:latex-quality`** (in `validate`, so CI-enforced): strips each formula's authored glyphs,
+    `\text{}`/command/function tokens, then fails on any leftover ≥2-letter ASCII run — a leaked symbol name.
+    "Typography breaks the build the way a bad unit does."
+  - **The `a = a` seed.** `kin-a-const` gained an italic `note` caption framing it as the root of the integral
+    ladder, rather than reading as a bare tautology; the graph node stays.
+
 - **Thin-lens optics — a seventh graph instrument (the ray diagram), + practice fan-out (ADR-0024).**
   - **The 7th instrument, `kind:"lens"`** — the first *geometric construction*. A converging lens of fixed
     focal length f; the **object distance d_o is the cursor**, an **object height h_o** slider. `Lens.svelte`

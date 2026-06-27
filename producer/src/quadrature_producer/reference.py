@@ -12,6 +12,9 @@ import random
 import re
 
 import sympy as sp
+from sympy import Mul, Number, Pow, S
+from sympy.printing.latex import LatexPrinter
+from sympy.utilities.iterables import sift
 
 from . import BuildError
 from .dims import check_homogeneous, parse_unit
@@ -53,6 +56,162 @@ def _clean_label(lhs: str) -> str:
     s = re.sub(r"_\{([^{}]*)\}", r"_\1", s)                          # x_{ab} -> x_ab
     s = re.sub(r"_([0-9])", lambda m: m.group(1).translate(_SUBSCRIPT_DIGITS), s)  # P_2 -> P₂
     return s.replace("{", "").replace("}", "").replace("\\", "").strip()
+
+
+# --- RHS display: the formula's right-hand side is GENERATED from the verified SymPy expression, never
+# hand-authored (ADR-0025). Two presentation inputs, both verifiable and neither a transcribable formula:
+#   1. a per-symbol GLYPH (so a sympify-friendly ASCII name like `lam`/`dPhidt`/`di` prints as λ / dΦ/dt / d_i)
+#   2. nothing else — factor/term ORDER is taken from the author's written `expr` source (they already write
+#      it in physics-conventional order), via a LatexPrinter subclass that changes only the print order and
+#      leaves SymPy to render signs/fractions/coefficients. The printer never rebuilds the expression, so the
+#      rendered LaTeX is semantically identical to the verified `expr` by construction (no drift to guard).
+# A build gate (scripts/validate/check-latex-quality.mjs) fails the build on any leaked multi-char ASCII run,
+# so "typography breaks the build the way a bad unit does."
+
+# Universal ASCII→glyph defaults (only genuinely unambiguous ones). Formula-specific symbols (subscripts,
+# differentials) are declared per-variable via the TOML `latex` field, which always overrides a default.
+_DEFAULT_GLYPH = {"lam": r"\lambda"}
+
+# precompiled in sympy.printing.latex but not exported; mirror the two patterns _print_Mul needs
+_BETWEEN_TWO_NUMBERS = (re.compile(r"[0-9][} ]*$"), re.compile(r"(\d|\\frac{\d+}{\d+})"))
+
+
+def glyph_for(name: str, var: dict) -> str | None:
+    """The effective display glyph for a symbol: authored `latex` wins, else the universal default, else None."""
+    return var.get("latex") or _DEFAULT_GLYPH.get(name)
+
+
+def _var_record(name: str, var: dict) -> dict:
+    """Output record for one variable. Carries the effective display glyph (authored or default) so the
+    reference page can render the symbol column and the latex-quality gate can clear it as known notation."""
+    rec = {"unit": var["unit"], "desc": var.get("desc", "")}
+    glyph = glyph_for(name, var)
+    if glyph is not None:
+        rec["latex"] = glyph
+    return rec
+
+
+def _primary_name(factor: sp.Expr) -> str | None:
+    base = factor.base if isinstance(factor, Pow) else factor
+    syms = sorted(getattr(base, "free_symbols", set()), key=lambda s: s.sort_key())
+    return str(syms[0]) if syms else None
+
+
+class _PhysicsPrinter(LatexPrinter):
+    """A LatexPrinter that orders Mul factors and Add terms by the author's source order, delegating ALL
+    sign / fraction / coefficient rendering to the stock printer. `_print_Mul` is the stock 1.14 method with
+    its single factor-ordering line replaced; `_as_ordered_terms` is overridden for Add ordering."""
+
+    def __init__(self, settings: dict, order_map: dict[str, int]):
+        super().__init__(settings)
+        self._order_map = order_map
+
+    def _author_key(self, factor):
+        if factor.is_number:
+            return (0, 0)
+        return (1, self._order_map.get(_primary_name(factor), 10**6))
+
+    def _as_ordered_terms(self, expr, order=None):
+        def tkey(t):
+            if t.is_number:  # a bare constant term leads ("1 - x", not "-x + 1")
+                return -1
+            idxs = [self._order_map.get(_primary_name(f), 10**6)
+                    for f in Mul.make_args(t) if _primary_name(f)]
+            return min(idxs) if idxs else 10**6
+        return sorted(expr.args, key=tkey)
+
+    def _print_Mul(self, expr):
+        separator = self._settings["mul_symbol_latex"]
+        numbersep = self._settings["mul_symbol_latex_numbers"]
+
+        def convert(expr):
+            if not expr.is_Mul:
+                return str(self._print(expr))
+            args = list(expr.args)
+            units, nonunits = sift(args, lambda x: (hasattr(x, "_scale_factor") or hasattr(x, "is_physical_constant"))
+                                   or (isinstance(x, Pow) and hasattr(x.base, "is_physical_constant")), binary=True)
+            prefixes, units = sift(units, lambda x: hasattr(x, "_scale_factor"), binary=True)
+            nonunits = sorted(nonunits, key=self._author_key)   # <-- the only change vs stock: author order
+            return convert_args(nonunits + prefixes + units)
+
+        def convert_args(args):
+            _tex = last_term_tex = ""
+            for i, term in enumerate(args):
+                term_tex = self._print(term)
+                if not (hasattr(term, "_scale_factor") or hasattr(term, "is_physical_constant")):
+                    if self._needs_mul_brackets(term, first=(i == 0), last=(i == len(args) - 1)):
+                        term_tex = r"\left(%s\right)" % term_tex
+                    if _BETWEEN_TWO_NUMBERS[0].search(last_term_tex) and _BETWEEN_TWO_NUMBERS[1].match(term_tex):
+                        _tex += numbersep
+                    elif _tex:
+                        _tex += separator
+                elif _tex:
+                    _tex += separator
+                _tex += term_tex
+                last_term_tex = term_tex
+            return _tex
+
+        if isinstance(expr, Mul):
+            args = expr.args
+            if args[0] is S.One or any(isinstance(arg, Number) for arg in args[1:]):
+                return convert_args(args)
+
+        include_parens = False
+        if expr.could_extract_minus_sign():
+            expr = -expr
+            tex = "- "
+            if expr.is_Add:
+                tex += "("
+                include_parens = True
+        else:
+            tex = ""
+
+        from sympy.simplify import fraction
+        numer, denom = fraction(expr, exact=True)
+        if denom is S.One and Pow(1, -1, evaluate=False) not in expr.args:
+            tex += convert(expr)
+        else:
+            snumer = convert(numer)
+            sdenom = convert(denom)
+            ldenom = len(sdenom.split())
+            ratio = self._settings["long_frac_ratio"]
+            if self._settings["fold_short_frac"] and ldenom <= 2 and "^" not in sdenom:
+                if self._needs_mul_brackets(numer, last=False):
+                    tex += r"\left(%s\right) / %s" % (snumer, sdenom)
+                else:
+                    tex += r"%s / %s" % (snumer, sdenom)
+            elif ratio is not None and len(snumer.split()) > ratio * ldenom:
+                if self._needs_mul_brackets(numer, last=True):
+                    tex += r"\frac{1}{%s}%s\left(%s\right)" % (sdenom, separator, snumer)
+                elif numer.is_Mul:
+                    a = S.One
+                    b = S.One
+                    for x in numer.args:
+                        if self._needs_mul_brackets(x, last=False) or len(convert(a * x).split()) > ratio * ldenom \
+                                or (b.is_commutative is x.is_commutative is False):
+                            b *= x
+                        else:
+                            a *= x
+                    if self._needs_mul_brackets(b, last=True):
+                        tex += r"\frac{%s}{%s}%s\left(%s\right)" % (convert(a), sdenom, separator, convert(b))
+                    else:
+                        tex += r"\frac{%s}{%s}%s%s" % (convert(a), sdenom, separator, convert(b))
+                else:
+                    tex += r"\frac{1}{%s}%s%s" % (sdenom, separator, snumer)
+            else:
+                tex += r"\frac{%s}{%s}" % (snumer, sdenom)
+        if include_parens:
+            tex += ")"
+        return tex
+
+
+def _rhs_latex(expr: sp.Expr, source: str, names: dict) -> str:
+    """Render the RHS in the author's source order with proper physics glyphs (ADR-0025)."""
+    order_map: dict[str, int] = {}
+    for i, tok in enumerate(re.findall(r"[A-Za-z_]\w*", source)):
+        order_map.setdefault(tok, i)
+    settings = {"order": "none", "symbol_names": names, "ln_notation": True, "inv_trig_style": "full"}
+    return _PhysicsPrinter(settings, order_map).doprint(expr)
 
 
 # --- frozen force-layout geometry (ADR-0008, ADR-0020): a larger canvas, domain-clustered ---
@@ -131,8 +290,10 @@ def build_reference(specs: list[dict]) -> tuple[dict, dict]:
             else:
                 raise BuildError(f"formula '{fid}': derivation relationship '{rel}' not provable here")
 
-        latex = f"{spec.get('lhs', '')} = {sp.latex(expr)}".strip(" =") if not spec.get("lhs") \
-            else f"{spec['lhs']} = {sp.latex(expr)}"
+        # RHS generated from the verified expr with physics glyphs + author source order (ADR-0025).
+        names = {table[n]: g for n, v in variables.items() if (g := glyph_for(n, v)) is not None}
+        rhs = _rhs_latex(expr, spec["expr"], names)
+        latex = f"{spec['lhs']} = {rhs}" if spec.get("lhs") else rhs
 
         formula_records.append({
             "id": fid,
@@ -143,8 +304,9 @@ def build_reference(specs: list[dict]) -> tuple[dict, dict]:
             "expr": spec["expr"],
             "expr_srepr": sp.srepr(expr),
             "latex": latex,
+            "note": spec.get("note", ""),
             "result_unit": spec["result_unit"],
-            "variables": {n: {"unit": v["unit"], "desc": v.get("desc", "")} for n, v in variables.items()},
+            "variables": {n: _var_record(n, v) for n, v in variables.items()},
             "assumptions": spec.get("assumptions", []),
             "derivation": derivation,
             "lessons": spec.get("lessons", []),

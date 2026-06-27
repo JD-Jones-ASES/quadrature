@@ -212,7 +212,13 @@ all SymPy-verified. The producer is a model registry (`constant-accel`, `shm`, `
 nodes have **clean Unicode labels**, a **domain-clustered layout** (ADR-0020), and pan/zoom + click-select +
 drag-to-reposition. **Verified practice (ADR-0022, "solve it three ways")** rides on every lesson; some
 regime-3 lessons override the second-register label (`calculus.register_label`, e.g. thin lens → "Ray diagram"),
-and authored prose supports `**bold**`/`*italic*` markdown in `inline()` (ADR-0024).
+and authored prose supports `**bold**`/`*italic*` markdown in `inline()` (ADR-0024). **The reference RHS is
+still 100% generated from the verified `expr`, but now correctly (ADR-0025): a per-`[variables]` `latex` glyph
+feeds `sp.latex(symbol_names=…)` so ASCII names (`lam`/`dPhidt`/`di`) print as λ/dΦ/dt/dᵢ, and a `LatexPrinter`
+subclass orders factors/terms by the author's written order (`E=mc²`, `F=qvB`, not SymPy's sort) without ever
+rebuilding the expression. A new gate `check-latex-quality.mjs` fails the build on any leaked multi-char ASCII
+run — typography breaks the build the way a bad unit does. `kin-a-const` carries a `note` caption framing `a=a`
+as the seed of the integral ladder.**
 
 **Frontend rendering (ADR-0019): the interactive graph islands' scoped CSS is delivered via
 `svelte({ compilerOptions: { css: "injected" } })` in `astro.config.mjs`.** Without it, Astro only delivers the

@@ -11,7 +11,7 @@ citations = []
 
 [variables]
 L = { unit = "H", desc = "inductance" }
-dIdt = { unit = "A/s", desc = "rate of change of current dI/dt" }
+dIdt = { unit = "A/s", desc = "rate of change of current dI/dt", latex = '\frac{dI}{dt}' }
 
 [[edges]]
 type = "related-to"

@@ -11,7 +11,7 @@ citations = []
 [variables]
 m = { unit = "kg", desc = "mass" }
 c = { unit = "J/(kg*K)", desc = "specific heat capacity" }
-dT = { unit = "K", desc = "temperature change ΔT" }
+dT = { unit = "K", desc = "temperature change ΔT", latex = '\Delta T' }
 
 [[edges]]
 type = "related-to"

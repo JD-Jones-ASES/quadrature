@@ -9,7 +9,7 @@ assumptions = ["transverse wave on a uniform string", "small-amplitude (linear) 
 citations = []
 
 [variables]
-FT = { unit = "N", desc = "tension in the string" }
+FT = { unit = "N", desc = "tension in the string", latex = 'F_T' }
 mu = { unit = "kg/m", desc = "linear mass density" }
 
 [[edges]]

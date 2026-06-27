@@ -9,8 +9,8 @@ assumptions = ["reversible (Carnot) engine between two reservoirs", "the maximum
 citations = []
 
 [variables]
-Tc = { unit = "K", desc = "cold-reservoir temperature" }
-Th = { unit = "K", desc = "hot-reservoir temperature" }
+Tc = { unit = "K", desc = "cold-reservoir temperature", latex = 'T_C' }
+Th = { unit = "K", desc = "hot-reservoir temperature", latex = 'T_H' }
 
 [[edges]]
 type = "related-to"

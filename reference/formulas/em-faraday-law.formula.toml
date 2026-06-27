@@ -10,7 +10,7 @@ lessons = ["faraday-generator"]
 citations = []
 
 [variables]
-dPhidt = { unit = "Wb/s", desc = "rate of change of magnetic flux dΦ/dt" }
+dPhidt = { unit = "Wb/s", desc = "rate of change of magnetic flux dΦ/dt", latex = '\frac{d\Phi}{dt}' }
 
 [[edges]]
 type = "related-to"

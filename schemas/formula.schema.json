@@ -23,6 +23,7 @@
           "expr": { "type": "string" },
           "expr_srepr": { "type": "string" },
           "latex": { "type": "string" },
+          "note": { "type": "string" },
           "result_unit": { "type": "string" },
           "variables": {
             "type": "object",
@@ -32,7 +33,8 @@
               "required": ["unit"],
               "properties": {
                 "unit": { "type": "string" },
-                "desc": { "type": "string" }
+                "desc": { "type": "string" },
+                "latex": { "type": "string" }
               }
             }
           },

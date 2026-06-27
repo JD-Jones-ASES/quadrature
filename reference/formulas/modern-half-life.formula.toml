@@ -5,7 +5,7 @@ regime = 2
 expr = "log(2)/lam"
 lhs = "t_{1/2}"
 result_unit = "s"
-assumptions = ["exponential decay with decay constant lam", "log is the natural logarithm (ln)"]
+assumptions = ["exponential decay with decay constant λ"]
 citations = []
 
 [variables]

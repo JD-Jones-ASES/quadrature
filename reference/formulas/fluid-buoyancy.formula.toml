@@ -11,7 +11,7 @@ citations = []
 [variables]
 rho = { unit = "kg/m**3", desc = "fluid density" }
 g = { unit = "m/s**2", desc = "gravitational field strength" }
-Vdisp = { unit = "m**3", desc = "volume of fluid displaced" }
+Vdisp = { unit = "m**3", desc = "volume of fluid displaced", latex = 'V_{\text{disp}}' }
 
 [[edges]]
 type = "related-to"

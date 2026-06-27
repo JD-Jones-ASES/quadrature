@@ -10,6 +10,7 @@
       "expr": "v**2/r",
       "expr_srepr": "Mul(Pow(Symbol('r', real=True), Integer(-1)), Pow(Symbol('v', real=True), Integer(2)))",
       "latex": "a_c = \\frac{v^{2}}{r}",
+      "note": "",
       "result_unit": "m/s**2",
       "variables": {
         "v": {
@@ -41,6 +42,7 @@
       "expr": "m*v**2/r",
       "expr_srepr": "Mul(Symbol('m', real=True), Pow(Symbol('r', real=True), Integer(-1)), Pow(Symbol('v', real=True), Integer(2)))",
       "latex": "F_c = \\frac{m v^{2}}{r}",
+      "note": "",
       "result_unit": "N",
       "variables": {
         "m": {
@@ -75,7 +77,8 @@
       "lhs": "\\omega_d",
       "expr": "sqrt(k/m - (b/(2*m))**2)",
       "expr_srepr": "Pow(Add(Mul(Integer(-1), Rational(1, 4), Pow(Symbol('b', real=True), Integer(2)), Pow(Symbol('m', real=True), Integer(-2))), Mul(Symbol('k', real=True), Pow(Symbol('m', real=True), Integer(-1)))), Rational(1, 2))",
-      "latex": "\\omega_d = \\sqrt{- \\frac{b^{2}}{4 m^{2}} + \\frac{k}{m}}",
+      "latex": "\\omega_d = \\sqrt{\\frac{k}{m} - \\frac{b^{2}}{4 m^{2}}}",
+      "note": "",
       "result_unit": "1/s",
       "variables": {
         "k": {
@@ -114,6 +117,7 @@
       "expr": "b/(2*sqrt(k*m))",
       "expr_srepr": "Mul(Rational(1, 2), Symbol('b', real=True), Pow(Mul(Symbol('k', real=True), Symbol('m', real=True)), Rational(-1, 2)))",
       "latex": "\\zeta = \\frac{b}{2 \\sqrt{k m}}",
+      "note": "",
       "result_unit": "1",
       "variables": {
         "b": {
@@ -150,7 +154,8 @@
       "lhs": "v_{\\text{term}}",
       "expr": "m*g/b",
       "expr_srepr": "Mul(Pow(Symbol('b', real=True), Integer(-1)), Symbol('g', real=True), Symbol('m', real=True))",
-      "latex": "v_{\\text{term}} = \\frac{g m}{b}",
+      "latex": "v_{\\text{term}} = \\frac{m g}{b}",
+      "note": "",
       "result_unit": "m/s",
       "variables": {
         "m": {
@@ -188,7 +193,8 @@
       "lhs": "v",
       "expr": "(m*g/b) + (v0 - m*g/b)*exp(-b*t/m)",
       "expr_srepr": "Add(Mul(Add(Symbol('v0', real=True), Mul(Integer(-1), Pow(Symbol('b', real=True), Integer(-1)), Symbol('g', real=True), Symbol('m', real=True))), exp(Mul(Integer(-1), Symbol('b', real=True), Pow(Symbol('m', real=True), Integer(-1)), Symbol('t', real=True)))), Mul(Pow(Symbol('b', real=True), Integer(-1)), Symbol('g', real=True), Symbol('m', real=True)))",
-      "latex": "v = \\left(v_{0} - \\frac{g m}{b}\\right) e^{- \\frac{b t}{m}} + \\frac{g m}{b}",
+      "latex": "v = \\frac{m g}{b} + \\left(- \\frac{m g}{b} + v_{0}\\right) e^{- \\frac{b t}{m}}",
+      "note": "",
       "result_unit": "m/s",
       "variables": {
         "m": {
@@ -234,7 +240,8 @@
       "lhs": "f_k",
       "expr": "mu_k*F_N",
       "expr_srepr": "Mul(Symbol('F_N', real=True), Symbol('mu_k', real=True))",
-      "latex": "f_k = F_{N} \\mu_{k}",
+      "latex": "f_k = \\mu_{k} F_{N}",
+      "note": "",
       "result_unit": "N",
       "variables": {
         "mu_k": {
@@ -267,6 +274,7 @@
       "expr": "-k*x",
       "expr_srepr": "Mul(Integer(-1), Symbol('k', real=True), Symbol('x', real=True))",
       "latex": "F = - k x",
+      "note": "",
       "result_unit": "N",
       "variables": {
         "k": {
@@ -298,7 +306,8 @@
       "lhs": "F_{\\text{net}}",
       "expr": "m*a",
       "expr_srepr": "Mul(Symbol('a', real=True), Symbol('m', real=True))",
-      "latex": "F_{\\text{net}} = a m",
+      "latex": "F_{\\text{net}} = m a",
+      "note": "",
       "result_unit": "N",
       "variables": {
         "m": {
@@ -330,7 +339,8 @@
       "lhs": "F_g",
       "expr": "m*g",
       "expr_srepr": "Mul(Symbol('g', real=True), Symbol('m', real=True))",
-      "latex": "F_g = g m",
+      "latex": "F_g = m g",
+      "note": "",
       "result_unit": "N",
       "variables": {
         "m": {
@@ -362,7 +372,8 @@
       "lhs": "\\mathcal{E}_0",
       "expr": "B*A*omega",
       "expr_srepr": "Mul(Symbol('A', real=True), Symbol('B', real=True), Symbol('omega', real=True))",
-      "latex": "\\mathcal{E}_0 = A B \\omega",
+      "latex": "\\mathcal{E}_0 = B A \\omega",
+      "note": "",
       "result_unit": "V",
       "variables": {
         "B": {
@@ -400,7 +411,8 @@
       "lhs": "B",
       "expr": "mu0*I/(2*pi*r)",
       "expr_srepr": "Mul(Rational(1, 2), Pow(pi, Integer(-1)), Symbol('I', real=True), Symbol('mu0', real=True), Pow(Symbol('r', real=True), Integer(-1)))",
-      "latex": "B = \\frac{I \\mu_{0}}{2 \\pi r}",
+      "latex": "B = \\frac{\\mu_{0} I}{2 \\pi r}",
+      "note": "",
       "result_unit": "T",
       "variables": {
         "mu0": {
@@ -437,6 +449,7 @@
       "expr": "Q/V",
       "expr_srepr": "Mul(Symbol('Q', real=True), Pow(Symbol('V', real=True), Integer(-1)))",
       "latex": "C = \\frac{Q}{V}",
+      "note": "",
       "result_unit": "F",
       "variables": {
         "Q": {
@@ -469,6 +482,7 @@
       "expr": "Q**2/(2*C)",
       "expr_srepr": "Mul(Rational(1, 2), Pow(Symbol('C', real=True), Integer(-1)), Pow(Symbol('Q', real=True), Integer(2)))",
       "latex": "U = \\frac{Q^{2}}{2 C}",
+      "note": "",
       "result_unit": "J",
       "variables": {
         "Q": {
@@ -504,6 +518,7 @@
       "expr": "k*q1*q2/r**2",
       "expr_srepr": "Mul(Symbol('k', real=True), Symbol('q1', real=True), Symbol('q2', real=True), Pow(Symbol('r', real=True), Integer(-2)))",
       "latex": "F = \\frac{k q_{1} q_{2}}{r^{2}}",
+      "note": "",
       "result_unit": "N",
       "variables": {
         "k": {
@@ -544,6 +559,7 @@
       "expr": "k*q/r**2",
       "expr_srepr": "Mul(Symbol('k', real=True), Symbol('q', real=True), Pow(Symbol('r', real=True), Integer(-2)))",
       "latex": "E = \\frac{k q}{r^{2}}",
+      "note": "",
       "result_unit": "N/C",
       "variables": {
         "k": {
@@ -579,12 +595,14 @@
       "lhs": "\\mathcal{E}",
       "expr": "-dPhidt",
       "expr_srepr": "Mul(Integer(-1), Symbol('dPhidt', real=True))",
-      "latex": "\\mathcal{E} = - dPhidt",
+      "latex": "\\mathcal{E} = - \\frac{d\\Phi}{dt}",
+      "note": "",
       "result_unit": "V",
       "variables": {
         "dPhidt": {
           "unit": "Wb/s",
-          "desc": "rate of change of magnetic flux dΦ/dt"
+          "desc": "rate of change of magnetic flux dΦ/dt",
+          "latex": "\\frac{d\\Phi}{dt}"
         }
       },
       "assumptions": [
@@ -609,7 +627,8 @@
       "lhs": "\\Phi",
       "expr": "B*A",
       "expr_srepr": "Mul(Symbol('A', real=True), Symbol('B', real=True))",
-      "latex": "\\Phi = A B",
+      "latex": "\\Phi = B A",
+      "note": "",
       "result_unit": "Wb",
       "variables": {
         "B": {
@@ -641,7 +660,8 @@
       "lhs": "\\mathcal{E}_L",
       "expr": "L*dIdt",
       "expr_srepr": "Mul(Symbol('L', real=True), Symbol('dIdt', real=True))",
-      "latex": "\\mathcal{E}_L = L dIdt",
+      "latex": "\\mathcal{E}_L = L \\frac{dI}{dt}",
+      "note": "",
       "result_unit": "V",
       "variables": {
         "L": {
@@ -650,7 +670,8 @@
         },
         "dIdt": {
           "unit": "A/s",
-          "desc": "rate of change of current dI/dt"
+          "desc": "rate of change of current dI/dt",
+          "latex": "\\frac{dI}{dt}"
         }
       },
       "assumptions": [
@@ -675,7 +696,8 @@
       "lhs": "\\omega",
       "expr": "1/sqrt(L*C)",
       "expr_srepr": "Pow(Mul(Symbol('C', real=True), Symbol('L', real=True)), Rational(-1, 2))",
-      "latex": "\\omega = \\frac{1}{\\sqrt{C L}}",
+      "latex": "\\omega = \\frac{1}{\\sqrt{L C}}",
+      "note": "",
       "result_unit": "1/s",
       "variables": {
         "L": {
@@ -709,7 +731,8 @@
       "lhs": "T",
       "expr": "2*pi*sqrt(L*C)",
       "expr_srepr": "Mul(Integer(2), pi, Pow(Mul(Symbol('C', real=True), Symbol('L', real=True)), Rational(1, 2)))",
-      "latex": "T = 2 \\pi \\sqrt{C L}",
+      "latex": "T = 2 \\pi \\sqrt{L C}",
+      "note": "",
       "result_unit": "s",
       "variables": {
         "L": {
@@ -743,7 +766,8 @@
       "lhs": "F",
       "expr": "q*v*B",
       "expr_srepr": "Mul(Symbol('B', real=True), Symbol('q', real=True), Symbol('v', real=True))",
-      "latex": "F = B q v",
+      "latex": "F = q v B",
+      "note": "",
       "result_unit": "N",
       "variables": {
         "q": {
@@ -780,6 +804,7 @@
       "expr": "B*L*v",
       "expr_srepr": "Mul(Symbol('B', real=True), Symbol('L', real=True), Symbol('v', real=True))",
       "latex": "\\mathcal{E} = B L v",
+      "note": "",
       "result_unit": "V",
       "variables": {
         "B": {
@@ -816,6 +841,7 @@
       "expr": "I*R",
       "expr_srepr": "Mul(Symbol('I', real=True), Symbol('R', real=True))",
       "latex": "V = I R",
+      "note": "",
       "result_unit": "V",
       "variables": {
         "I": {
@@ -848,6 +874,7 @@
       "expr": "k*q1*q2/r",
       "expr_srepr": "Mul(Symbol('k', real=True), Symbol('q1', real=True), Symbol('q2', real=True), Pow(Symbol('r', real=True), Integer(-1)))",
       "latex": "U = \\frac{k q_{1} q_{2}}{r}",
+      "note": "",
       "result_unit": "J",
       "variables": {
         "k": {
@@ -889,6 +916,7 @@
       "expr": "k*q/r",
       "expr_srepr": "Mul(Symbol('k', real=True), Symbol('q', real=True), Pow(Symbol('r', real=True), Integer(-1)))",
       "latex": "V = \\frac{k q}{r}",
+      "note": "",
       "result_unit": "V",
       "variables": {
         "k": {
@@ -926,6 +954,7 @@
       "expr": "I*V",
       "expr_srepr": "Mul(Symbol('I', real=True), Symbol('V', real=True))",
       "latex": "P = I V",
+      "note": "",
       "result_unit": "W",
       "variables": {
         "I": {
@@ -957,7 +986,8 @@
       "lhs": "Q",
       "expr": "C*V*(1 - exp(-t/(R*C)))",
       "expr_srepr": "Mul(Symbol('C', real=True), Symbol('V', real=True), Add(Integer(1), Mul(Integer(-1), exp(Mul(Integer(-1), Pow(Symbol('C', real=True), Integer(-1)), Pow(Symbol('R', real=True), Integer(-1)), Symbol('t', real=True))))))",
-      "latex": "Q = C V \\left(1 - e^{- \\frac{t}{C R}}\\right)",
+      "latex": "Q = C \\left(1 - e^{- \\frac{t}{C R}}\\right) V",
+      "note": "",
       "result_unit": "C",
       "variables": {
         "C": {
@@ -997,7 +1027,8 @@
       "lhs": "\\tau",
       "expr": "R*C",
       "expr_srepr": "Mul(Symbol('C', real=True), Symbol('R', real=True))",
-      "latex": "\\tau = C R",
+      "latex": "\\tau = R C",
+      "note": "",
       "result_unit": "s",
       "variables": {
         "R": {
@@ -1030,6 +1061,7 @@
       "expr": "B*I*L",
       "expr_srepr": "Mul(Symbol('B', real=True), Symbol('I', real=True), Symbol('L', real=True))",
       "latex": "F = B I L",
+      "note": "",
       "result_unit": "N",
       "variables": {
         "B": {
@@ -1066,6 +1098,7 @@
       "expr": "m*v**2/2",
       "expr_srepr": "Mul(Rational(1, 2), Symbol('m', real=True), Pow(Symbol('v', real=True), Integer(2)))",
       "latex": "K = \\frac{m v^{2}}{2}",
+      "note": "",
       "result_unit": "J",
       "variables": {
         "m": {
@@ -1096,7 +1129,8 @@
       "lhs": "E",
       "expr": "m*v**2/2 + m*g*h",
       "expr_srepr": "Add(Mul(Symbol('g', real=True), Symbol('h', real=True), Symbol('m', real=True)), Mul(Rational(1, 2), Symbol('m', real=True), Pow(Symbol('v', real=True), Integer(2))))",
-      "latex": "E = g h m + \\frac{m v^{2}}{2}",
+      "latex": "E = \\frac{m v^{2}}{2} + m g h",
+      "note": "",
       "result_unit": "J",
       "variables": {
         "m": {
@@ -1137,6 +1171,7 @@
       "expr": "F*v",
       "expr_srepr": "Mul(Symbol('F', real=True), Symbol('v', real=True))",
       "latex": "P = F v",
+      "note": "",
       "result_unit": "W",
       "variables": {
         "F": {
@@ -1168,6 +1203,7 @@
       "expr": "k*x**2/2",
       "expr_srepr": "Mul(Rational(1, 2), Symbol('k', real=True), Pow(Symbol('x', real=True), Integer(2)))",
       "latex": "U_s = \\frac{k x^{2}}{2}",
+      "note": "",
       "result_unit": "J",
       "variables": {
         "k": {
@@ -1199,6 +1235,7 @@
       "expr": "F*d",
       "expr_srepr": "Mul(Symbol('F', real=True), Symbol('d', real=True))",
       "latex": "W = F d",
+      "note": "",
       "result_unit": "J",
       "variables": {
         "F": {
@@ -1229,7 +1266,8 @@
       "lhs": "P_0",
       "expr": "P + rho*v**2/2 + rho*g*h",
       "expr_srepr": "Add(Symbol('P', real=True), Mul(Symbol('g', real=True), Symbol('h', real=True), Symbol('rho', real=True)), Mul(Rational(1, 2), Symbol('rho', real=True), Pow(Symbol('v', real=True), Integer(2))))",
-      "latex": "P_0 = P + g h \\rho + \\frac{\\rho v^{2}}{2}",
+      "latex": "P_0 = P + \\frac{\\rho v^{2}}{2} + \\rho g h",
+      "note": "",
       "result_unit": "Pa",
       "variables": {
         "P": {
@@ -1273,7 +1311,8 @@
       "lhs": "F_b",
       "expr": "rho*g*Vdisp",
       "expr_srepr": "Mul(Symbol('Vdisp', real=True), Symbol('g', real=True), Symbol('rho', real=True))",
-      "latex": "F_b = Vdisp g \\rho",
+      "latex": "F_b = \\rho g V_{\\text{disp}}",
+      "note": "",
       "result_unit": "N",
       "variables": {
         "rho": {
@@ -1286,7 +1325,8 @@
         },
         "Vdisp": {
           "unit": "m**3",
-          "desc": "volume of fluid displaced"
+          "desc": "volume of fluid displaced",
+          "latex": "V_{\\text{disp}}"
         }
       },
       "assumptions": [
@@ -1310,6 +1350,7 @@
       "expr": "A*v",
       "expr_srepr": "Mul(Symbol('A', real=True), Symbol('v', real=True))",
       "latex": "Q = A v",
+      "note": "",
       "result_unit": "m**3/s",
       "variables": {
         "A": {
@@ -1341,7 +1382,8 @@
       "lhs": "F",
       "expr": "rho*g*w*H**2/2",
       "expr_srepr": "Mul(Rational(1, 2), Pow(Symbol('H', real=True), Integer(2)), Symbol('g', real=True), Symbol('rho', real=True), Symbol('w', real=True))",
-      "latex": "F = \\frac{H^{2} g \\rho w}{2}",
+      "latex": "F = \\frac{\\rho g w H^{2}}{2}",
+      "note": "",
       "result_unit": "N",
       "variables": {
         "rho": {
@@ -1383,7 +1425,8 @@
       "lhs": "P",
       "expr": "rho*g*h",
       "expr_srepr": "Mul(Symbol('g', real=True), Symbol('h', real=True), Symbol('rho', real=True))",
-      "latex": "P = g h \\rho",
+      "latex": "P = \\rho g h",
+      "note": "",
       "result_unit": "Pa",
       "variables": {
         "rho": {
@@ -1420,6 +1463,7 @@
       "expr": "G*m1*m2/r**2",
       "expr_srepr": "Mul(Symbol('G', real=True), Symbol('m1', real=True), Symbol('m2', real=True), Pow(Symbol('r', real=True), Integer(-2)))",
       "latex": "F = \\frac{G m_{1} m_{2}}{r^{2}}",
+      "note": "",
       "result_unit": "N",
       "variables": {
         "G": {
@@ -1460,6 +1504,7 @@
       "expr": "a",
       "expr_srepr": "Symbol('a', real=True)",
       "latex": "a = a",
+      "note": "The seed of the integral ladder: hold $a$ constant and the velocity $v=\\int a\\,dt$ and position $x=\\int v\\,dt$ accumulate from it — the constant-acceleration formulas are those integrals, evaluated.",
       "result_unit": "m/s**2",
       "variables": {
         "a": {
@@ -1488,7 +1533,8 @@
       "lhs": "v",
       "expr": "v0 + a*t",
       "expr_srepr": "Add(Mul(Symbol('a', real=True), Symbol('t', real=True)), Symbol('v0', real=True))",
-      "latex": "v = a t + v_{0}",
+      "latex": "v = v_{0} + a t",
+      "note": "",
       "result_unit": "m/s",
       "variables": {
         "v0": {
@@ -1529,7 +1575,8 @@
       "lhs": "x",
       "expr": "x0 + v0*t + a*t**2/2",
       "expr_srepr": "Add(Mul(Rational(1, 2), Symbol('a', real=True), Pow(Symbol('t', real=True), Integer(2))), Mul(Symbol('t', real=True), Symbol('v0', real=True)), Symbol('x0', real=True))",
-      "latex": "x = \\frac{a t^{2}}{2} + t v_{0} + x_{0}",
+      "latex": "x = x_{0} + v_{0} t + \\frac{t^{2} a}{2}",
+      "note": "",
       "result_unit": "m",
       "variables": {
         "x0": {
@@ -1575,6 +1622,7 @@
       "expr": "h/p",
       "expr_srepr": "Mul(Symbol('h', real=True), Pow(Symbol('p', real=True), Integer(-1)))",
       "latex": "\\lambda = \\frac{h}{p}",
+      "note": "",
       "result_unit": "m",
       "variables": {
         "h": {
@@ -1606,7 +1654,8 @@
       "lhs": "N",
       "expr": "N0*exp(-lam*t)",
       "expr_srepr": "Mul(Symbol('N0', real=True), exp(Mul(Integer(-1), Symbol('lam', real=True), Symbol('t', real=True))))",
-      "latex": "N = N_{0} e^{- lam t}",
+      "latex": "N = N_{0} e^{- \\lambda t}",
+      "note": "",
       "result_unit": "1",
       "variables": {
         "N0": {
@@ -1615,7 +1664,8 @@
         },
         "lam": {
           "unit": "1/s",
-          "desc": "decay constant λ"
+          "desc": "decay constant λ",
+          "latex": "\\lambda"
         },
         "t": {
           "unit": "s",
@@ -1624,7 +1674,7 @@
       },
       "assumptions": [
         "a large number of identical nuclei, each decaying independently",
-        "lam is the decay constant (probability of decay per unit time)"
+        "λ is the decay constant (probability of decay per unit time)"
       ],
       "derivation": null,
       "lessons": [],
@@ -1642,17 +1692,18 @@
       "lhs": "t_{1/2}",
       "expr": "log(2)/lam",
       "expr_srepr": "Mul(Pow(Symbol('lam', real=True), Integer(-1)), log(Integer(2)))",
-      "latex": "t_{1/2} = \\frac{\\log{\\left(2 \\right)}}{lam}",
+      "latex": "t_{1/2} = \\frac{\\ln{\\left(2 \\right)}}{\\lambda}",
+      "note": "",
       "result_unit": "s",
       "variables": {
         "lam": {
           "unit": "1/s",
-          "desc": "decay constant λ"
+          "desc": "decay constant λ",
+          "latex": "\\lambda"
         }
       },
       "assumptions": [
-        "exponential decay with decay constant lam",
-        "log is the natural logarithm (ln)"
+        "exponential decay with decay constant λ"
       ],
       "derivation": null,
       "lessons": [],
@@ -1670,7 +1721,8 @@
       "lhs": "E",
       "expr": "m*c**2",
       "expr_srepr": "Mul(Pow(Symbol('c', real=True), Integer(2)), Symbol('m', real=True))",
-      "latex": "E = c^{2} m",
+      "latex": "E = m c^{2}",
+      "note": "",
       "result_unit": "J",
       "variables": {
         "m": {
@@ -1702,7 +1754,8 @@
       "lhs": "K_{\\max}",
       "expr": "h*f - phi",
       "expr_srepr": "Add(Mul(Symbol('f', real=True), Symbol('h', real=True)), Mul(Integer(-1), Symbol('phi', real=True)))",
-      "latex": "K_{\\max} = f h - \\phi",
+      "latex": "K_{\\max} = h f - \\phi",
+      "note": "",
       "result_unit": "J",
       "variables": {
         "h": {
@@ -1738,7 +1791,8 @@
       "lhs": "E",
       "expr": "h*f",
       "expr_srepr": "Mul(Symbol('f', real=True), Symbol('h', real=True))",
-      "latex": "E = f h",
+      "latex": "E = h f",
+      "note": "",
       "result_unit": "J",
       "variables": {
         "h": {
@@ -1771,6 +1825,7 @@
       "expr": "F*t",
       "expr_srepr": "Mul(Symbol('F', real=True), Symbol('t', real=True))",
       "latex": "J = F t",
+      "note": "",
       "result_unit": "N*s",
       "variables": {
         "F": {
@@ -1802,6 +1857,7 @@
       "expr": "(m1*v1 + m2*v2)/(m1 + m2)",
       "expr_srepr": "Mul(Pow(Add(Symbol('m1', real=True), Symbol('m2', real=True)), Integer(-1)), Add(Mul(Symbol('m1', real=True), Symbol('v1', real=True)), Mul(Symbol('m2', real=True), Symbol('v2', real=True))))",
       "latex": "v_f = \\frac{m_{1} v_{1} + m_{2} v_{2}}{m_{1} + m_{2}}",
+      "note": "",
       "result_unit": "m/s",
       "variables": {
         "m1": {
@@ -1842,6 +1898,7 @@
       "expr": "m*v",
       "expr_srepr": "Mul(Symbol('m', real=True), Symbol('v', real=True))",
       "latex": "p = m v",
+      "note": "",
       "result_unit": "kg*m/s",
       "variables": {
         "m": {
@@ -1872,16 +1929,19 @@
       "lhs": "m",
       "expr": "-di/do",
       "expr_srepr": "Mul(Integer(-1), Symbol('di', real=True), Pow(Symbol('do', real=True), Integer(-1)))",
-      "latex": "m = - \\frac{di}{do}",
+      "latex": "m = - \\frac{d_i}{d_o}",
+      "note": "",
       "result_unit": "1",
       "variables": {
         "di": {
           "unit": "m",
-          "desc": "image distance"
+          "desc": "image distance",
+          "latex": "d_i"
         },
         "do": {
           "unit": "m",
-          "desc": "object distance"
+          "desc": "object distance",
+          "latex": "d_o"
         }
       },
       "assumptions": [
@@ -1904,7 +1964,8 @@
       "lhs": "\\theta_2",
       "expr": "asin(n1*sin(theta1)/n2)",
       "expr_srepr": "asin(Mul(Symbol('n1', real=True), Pow(Symbol('n2', real=True), Integer(-1)), sin(Symbol('theta1', real=True))))",
-      "latex": "\\theta_2 = \\operatorname{asin}{\\left(\\frac{n_{1} \\sin{\\left(\\theta_{1} \\right)}}{n_{2}} \\right)}",
+      "latex": "\\theta_2 = \\arcsin{\\left(\\frac{n_{1} \\sin{\\left(\\theta_{1} \\right)}}{n_{2}} \\right)}",
+      "note": "",
       "result_unit": "rad",
       "variables": {
         "n1": {
@@ -1940,16 +2001,19 @@
       "lhs": "\\frac{1}{f}",
       "expr": "1/do + 1/di",
       "expr_srepr": "Add(Pow(Symbol('do', real=True), Integer(-1)), Pow(Symbol('di', real=True), Integer(-1)))",
-      "latex": "\\frac{1}{f} = \\frac{1}{do} + \\frac{1}{di}",
+      "latex": "\\frac{1}{f} = \\frac{1}{d_o} + \\frac{1}{d_i}",
+      "note": "",
       "result_unit": "1/m",
       "variables": {
         "do": {
           "unit": "m",
-          "desc": "object distance"
+          "desc": "object distance",
+          "latex": "d_o"
         },
         "di": {
           "unit": "m",
-          "desc": "image distance"
+          "desc": "image distance",
+          "latex": "d_i"
         }
       },
       "assumptions": [
@@ -1973,6 +2037,7 @@
       "expr": "2*pi*sqrt(R**3/(G*M))",
       "expr_srepr": "Mul(Integer(2), pi, Pow(Mul(Pow(Symbol('G', real=True), Integer(-1)), Pow(Symbol('M', real=True), Integer(-1)), Pow(Symbol('R', real=True), Integer(3))), Rational(1, 2)))",
       "latex": "T = 2 \\pi \\sqrt{\\frac{R^{3}}{G M}}",
+      "note": "",
       "result_unit": "s",
       "variables": {
         "G": {
@@ -2010,6 +2075,7 @@
       "expr": "sqrt(G*M/R)",
       "expr_srepr": "Pow(Mul(Symbol('G', real=True), Symbol('M', real=True), Pow(Symbol('R', real=True), Integer(-1))), Rational(1, 2))",
       "latex": "v = \\sqrt{\\frac{G M}{R}}",
+      "note": "",
       "result_unit": "m/s",
       "variables": {
         "G": {
@@ -2047,6 +2113,7 @@
       "expr": "I*omega",
       "expr_srepr": "Mul(Symbol('I', real=True), Symbol('omega', real=True))",
       "latex": "L = I \\omega",
+      "note": "",
       "result_unit": "kg*m**2/s",
       "variables": {
         "I": {
@@ -2078,6 +2145,7 @@
       "expr": "I*omega**2/2",
       "expr_srepr": "Mul(Rational(1, 2), Symbol('I', real=True), Pow(Symbol('omega', real=True), Integer(2)))",
       "latex": "K_{\\text{rot}} = \\frac{I \\omega^{2}}{2}",
+      "note": "",
       "result_unit": "J",
       "variables": {
         "I": {
@@ -2109,6 +2177,7 @@
       "expr": "M*R**2/2",
       "expr_srepr": "Mul(Rational(1, 2), Symbol('M', real=True), Pow(Symbol('R', real=True), Integer(2)))",
       "latex": "I = \\frac{M R^{2}}{2}",
+      "note": "",
       "result_unit": "kg*m**2",
       "variables": {
         "M": {
@@ -2140,7 +2209,8 @@
       "lhs": "I",
       "expr": "M*L**2/3",
       "expr_srepr": "Mul(Rational(1, 3), Pow(Symbol('L', real=True), Integer(2)), Symbol('M', real=True))",
-      "latex": "I = \\frac{L^{2} M}{3}",
+      "latex": "I = \\frac{M L^{2}}{3}",
+      "note": "",
       "result_unit": "kg*m**2",
       "variables": {
         "M": {
@@ -2174,12 +2244,14 @@
       "lhs": "I",
       "expr": "Icm + M*d**2",
       "expr_srepr": "Add(Symbol('Icm', real=True), Mul(Symbol('M', real=True), Pow(Symbol('d', real=True), Integer(2))))",
-      "latex": "I = Icm + M d^{2}",
+      "latex": "I = I_{\\text{cm}} + M d^{2}",
+      "note": "",
       "result_unit": "kg*m**2",
       "variables": {
         "Icm": {
           "unit": "kg*m**2",
-          "desc": "moment of inertia about the centre of mass"
+          "desc": "moment of inertia about the centre of mass",
+          "latex": "I_{\\text{cm}}"
         },
         "M": {
           "unit": "kg",
@@ -2210,7 +2282,8 @@
       "lhs": "\\tau",
       "expr": "r*F",
       "expr_srepr": "Mul(Symbol('F', real=True), Symbol('r', real=True))",
-      "latex": "\\tau = F r",
+      "latex": "\\tau = r F",
+      "note": "",
       "result_unit": "N*m",
       "variables": {
         "r": {
@@ -2242,6 +2315,7 @@
       "expr": "tau*theta",
       "expr_srepr": "Mul(Symbol('tau', real=True), Symbol('theta', real=True))",
       "latex": "W = \\tau \\theta",
+      "note": "",
       "result_unit": "J",
       "variables": {
         "tau": {
@@ -2274,6 +2348,7 @@
       "expr": "sqrt(k/m)",
       "expr_srepr": "Pow(Mul(Symbol('k', real=True), Pow(Symbol('m', real=True), Integer(-1))), Rational(1, 2))",
       "latex": "\\omega = \\sqrt{\\frac{k}{m}}",
+      "note": "",
       "result_unit": "1/s",
       "variables": {
         "k": {
@@ -2308,6 +2383,7 @@
       "expr": "2*pi/omega",
       "expr_srepr": "Mul(Integer(2), pi, Pow(Symbol('omega', real=True), Integer(-1)))",
       "latex": "T = \\frac{2 \\pi}{\\omega}",
+      "note": "",
       "result_unit": "s",
       "variables": {
         "omega": {
@@ -2337,7 +2413,8 @@
       "lhs": "x",
       "expr": "x0*cos(omega*t) + (v0/omega)*sin(omega*t)",
       "expr_srepr": "Add(Mul(Symbol('x0', real=True), cos(Mul(Symbol('omega', real=True), Symbol('t', real=True)))), Mul(Pow(Symbol('omega', real=True), Integer(-1)), Symbol('v0', real=True), sin(Mul(Symbol('omega', real=True), Symbol('t', real=True)))))",
-      "latex": "x = x_{0} \\cos{\\left(\\omega t \\right)} + \\frac{v_{0} \\sin{\\left(\\omega t \\right)}}{\\omega}",
+      "latex": "x = x_{0} \\cos{\\left(\\omega t \\right)} + \\frac{\\sin{\\left(\\omega t \\right)} v_{0}}{\\omega}",
+      "note": "",
       "result_unit": "m",
       "variables": {
         "x0": {
@@ -2380,6 +2457,7 @@
       "expr": "P1*(V1/V2)**gamma",
       "expr_srepr": "Mul(Symbol('P1', real=True), Pow(Mul(Symbol('V1', real=True), Pow(Symbol('V2', real=True), Integer(-1))), Symbol('gamma', real=True)))",
       "latex": "P_2 = P_{1} \\left(\\frac{V_{1}}{V_{2}}\\right)^{\\gamma}",
+      "note": "",
       "result_unit": "Pa",
       "variables": {
         "P1": {
@@ -2421,7 +2499,8 @@
       "lhs": "W",
       "expr": "n*Cv*(T1 - T2)",
       "expr_srepr": "Mul(Symbol('Cv', real=True), Symbol('n', real=True), Add(Symbol('T1', real=True), Mul(Integer(-1), Symbol('T2', real=True))))",
-      "latex": "W = Cv n \\left(T_{1} - T_{2}\\right)",
+      "latex": "W = n C_V \\left(T_{1} - T_{2}\\right)",
+      "note": "",
       "result_unit": "J",
       "variables": {
         "n": {
@@ -2430,7 +2509,8 @@
         },
         "Cv": {
           "unit": "J/(mol*K)",
-          "desc": "molar heat capacity at constant volume"
+          "desc": "molar heat capacity at constant volume",
+          "latex": "C_V"
         },
         "T1": {
           "unit": "K",
@@ -2463,16 +2543,19 @@
       "lhs": "\\eta",
       "expr": "1 - Tc/Th",
       "expr_srepr": "Add(Mul(Integer(-1), Symbol('Tc', real=True), Pow(Symbol('Th', real=True), Integer(-1))), Integer(1))",
-      "latex": "\\eta = - \\frac{Tc}{Th} + 1",
+      "latex": "\\eta = 1 - \\frac{T_C}{T_H}",
+      "note": "",
       "result_unit": "1",
       "variables": {
         "Tc": {
           "unit": "K",
-          "desc": "cold-reservoir temperature"
+          "desc": "cold-reservoir temperature",
+          "latex": "T_C"
         },
         "Th": {
           "unit": "K",
-          "desc": "hot-reservoir temperature"
+          "desc": "hot-reservoir temperature",
+          "latex": "T_H"
         }
       },
       "assumptions": [
@@ -2496,6 +2579,7 @@
       "expr": "Q - W",
       "expr_srepr": "Add(Symbol('Q', real=True), Mul(Integer(-1), Symbol('W', real=True)))",
       "latex": "\\Delta U = Q - W",
+      "note": "",
       "result_unit": "J",
       "variables": {
         "Q": {
@@ -2527,7 +2611,8 @@
       "lhs": "Q",
       "expr": "m*c*dT",
       "expr_srepr": "Mul(Symbol('c', real=True), Symbol('dT', real=True), Symbol('m', real=True))",
-      "latex": "Q = c dT m",
+      "latex": "Q = m c \\Delta T",
+      "note": "",
       "result_unit": "J",
       "variables": {
         "m": {
@@ -2540,7 +2625,8 @@
         },
         "dT": {
           "unit": "K",
-          "desc": "temperature change ΔT"
+          "desc": "temperature change ΔT",
+          "latex": "\\Delta T"
         }
       },
       "assumptions": [
@@ -2563,7 +2649,8 @@
       "lhs": "P",
       "expr": "n*R*T/V",
       "expr_srepr": "Mul(Symbol('R', real=True), Symbol('T', real=True), Pow(Symbol('V', real=True), Integer(-1)), Symbol('n', real=True))",
-      "latex": "P = \\frac{R T n}{V}",
+      "latex": "P = \\frac{n R T}{V}",
+      "note": "",
       "result_unit": "Pa",
       "variables": {
         "n": {
@@ -2602,7 +2689,8 @@
       "lhs": "U",
       "expr": "3*n*R*T/2",
       "expr_srepr": "Mul(Rational(3, 2), Symbol('R', real=True), Symbol('T', real=True), Symbol('n', real=True))",
-      "latex": "U = \\frac{3 R T n}{2}",
+      "latex": "U = \\frac{3 n R T}{2}",
+      "note": "",
       "result_unit": "J",
       "variables": {
         "n": {
@@ -2638,7 +2726,8 @@
       "lhs": "W",
       "expr": "P*(V2-V1)",
       "expr_srepr": "Mul(Symbol('P', real=True), Add(Mul(Integer(-1), Symbol('V1', real=True)), Symbol('V2', real=True)))",
-      "latex": "W = P \\left(- V_{1} + V_{2}\\right)",
+      "latex": "W = P \\left(V_{2} - V_{1}\\right)",
+      "note": "",
       "result_unit": "J",
       "variables": {
         "P": {
@@ -2676,7 +2765,8 @@
       "lhs": "W",
       "expr": "n*R*T*log(V2/V1)",
       "expr_srepr": "Mul(Symbol('R', real=True), Symbol('T', real=True), Symbol('n', real=True), log(Mul(Pow(Symbol('V1', real=True), Integer(-1)), Symbol('V2', real=True))))",
-      "latex": "W = R T n \\log{\\left(\\frac{V_{2}}{V_{1}} \\right)}",
+      "latex": "W = n R T \\ln{\\left(\\frac{V_{2}}{V_{1}} \\right)}",
+      "note": "",
       "result_unit": "J",
       "variables": {
         "n": {
@@ -2721,6 +2811,7 @@
       "expr": "1/f",
       "expr_srepr": "Pow(Symbol('f', real=True), Integer(-1))",
       "latex": "T = \\frac{1}{f}",
+      "note": "",
       "result_unit": "s",
       "variables": {
         "f": {
@@ -2748,7 +2839,8 @@
       "lhs": "v",
       "expr": "f*lam",
       "expr_srepr": "Mul(Symbol('f', real=True), Symbol('lam', real=True))",
-      "latex": "v = f lam",
+      "latex": "v = f \\lambda",
+      "note": "",
       "result_unit": "m/s",
       "variables": {
         "f": {
@@ -2757,7 +2849,8 @@
         },
         "lam": {
           "unit": "m",
-          "desc": "wavelength λ"
+          "desc": "wavelength λ",
+          "latex": "\\lambda"
         }
       },
       "assumptions": [
@@ -2781,6 +2874,7 @@
       "expr": "n*v/(2*L)",
       "expr_srepr": "Mul(Rational(1, 2), Pow(Symbol('L', real=True), Integer(-1)), Symbol('n', real=True), Symbol('v', real=True))",
       "latex": "f_n = \\frac{n v}{2 L}",
+      "note": "",
       "result_unit": "Hz",
       "variables": {
         "n": {
@@ -2817,6 +2911,7 @@
       "expr": "2*L/n",
       "expr_srepr": "Mul(Integer(2), Symbol('L', real=True), Pow(Symbol('n', real=True), Integer(-1)))",
       "latex": "\\lambda_n = \\frac{2 L}{n}",
+      "note": "",
       "result_unit": "m",
       "variables": {
         "L": {
@@ -2848,12 +2943,14 @@
       "lhs": "v",
       "expr": "sqrt(FT/mu)",
       "expr_srepr": "Pow(Mul(Symbol('FT', real=True), Pow(Symbol('mu', real=True), Integer(-1))), Rational(1, 2))",
-      "latex": "v = \\sqrt{\\frac{FT}{\\mu}}",
+      "latex": "v = \\sqrt{\\frac{F_T}{\\mu}}",
+      "note": "",
       "result_unit": "m/s",
       "variables": {
         "FT": {
           "unit": "N",
-          "desc": "tension in the string"
+          "desc": "tension in the string",
+          "latex": "F_T"
         },
         "mu": {
           "unit": "kg/m",

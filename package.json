@@ -15,8 +15,9 @@
     "check:parity": "node scripts/validate/check-parity.mjs",
     "check:trajectory": "node scripts/validate/check-trajectory.mjs",
     "check:katex": "node scripts/validate/check-katex.mjs",
+    "check:latex-quality": "node scripts/validate/check-latex-quality.mjs",
     "validate:scan": "node scripts/validate/scan-text.mjs",
-    "validate": "npm run validate:solutions && npm run validate:reference && npm run check:parity && npm run check:trajectory && npm run check:katex && npm run validate:scan",
+    "validate": "npm run validate:solutions && npm run validate:reference && npm run check:parity && npm run check:trajectory && npm run check:katex && npm run check:latex-quality && npm run validate:scan",
     "prepare:data": "npm run produce && npm run validate",
     "build": "npm run validate && astro build"
   },

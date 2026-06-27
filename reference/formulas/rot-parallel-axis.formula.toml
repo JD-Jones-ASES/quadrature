@@ -9,7 +9,7 @@ assumptions = ["axis parallel to one through the centre of mass, offset by d", "
 citations = []
 
 [variables]
-Icm = { unit = "kg*m**2", desc = "moment of inertia about the centre of mass" }
+Icm = { unit = "kg*m**2", desc = "moment of inertia about the centre of mass", latex = 'I_{\text{cm}}' }
 M = { unit = "kg", desc = "total mass" }
 d = { unit = "m", desc = "distance between the two parallel axes" }
 

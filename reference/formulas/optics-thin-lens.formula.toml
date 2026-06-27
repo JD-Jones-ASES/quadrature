@@ -9,8 +9,8 @@ assumptions = ["thin lens, paraxial rays", "sign convention: real images at posi
 citations = []
 
 [variables]
-do = { unit = "m", desc = "object distance" }
-di = { unit = "m", desc = "image distance" }
+do = { unit = "m", desc = "object distance", latex = 'd_o' }
+di = { unit = "m", desc = "image distance", latex = 'd_i' }
 
 [[edges]]
 type = "related-to"

@@ -14,7 +14,7 @@ citations = []
 
 [variables]
 n = { unit = "mol", desc = "amount of substance" }
-Cv = { unit = "J/(mol*K)", desc = "molar heat capacity at constant volume" }
+Cv = { unit = "J/(mol*K)", desc = "molar heat capacity at constant volume", latex = 'C_V' }
 T1 = { unit = "K", desc = "initial temperature" }
 T2 = { unit = "K", desc = "final temperature" }
 

@@ -5,7 +5,7 @@ regime = 2
 expr = "N0*exp(-lam*t)"
 lhs = "N"
 result_unit = "1"
-assumptions = ["a large number of identical nuclei, each decaying independently", "lam is the decay constant (probability of decay per unit time)"]
+assumptions = ["a large number of identical nuclei, each decaying independently", "λ is the decay constant (probability of decay per unit time)"]
 citations = []
 
 [variables]
