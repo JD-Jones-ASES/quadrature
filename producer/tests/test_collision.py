@@ -60,3 +60,27 @@ def test_finals_are_dimensionally_clean():
     cmap = {s: parse_unit(uu, "t") for s, uu in c.unit_map.items()}
     check_homogeneous(c.v1f_expr, cmap, "t: v1'")            # → m/s
     check_homogeneous(c.v2f_expr, cmap, "t: v2'")            # → m/s
+
+
+# Head-on, opposite signs: the second collision lesson (m1=1@+4 meets m2=2@−2, so the total momentum is
+# exactly zero). The closed forms already cover negative velocities; this pins the hand-physics of the
+# striking case — a perfectly inelastic collision brings the pair to a DEAD STOP, losing ALL the kinetic energy.
+HEADON = {"id": "h", "parameters": {"m1": 1, "m2": 2, "v1": 4, "v2": -2}}
+
+
+def test_head_on_opposite_signs_dead_stop_and_total_loss():
+    r = col.build(HEADON).algebra["result"]
+    assert math.isclose(r["v1_elastic"]["value"], -4.0, abs_tol=1e-9)   # block 1 rebounds left
+    assert math.isclose(r["v2_elastic"]["value"], 2.0, abs_tol=1e-9)    # block 2 rebounds right
+    assert math.isclose(r["v_inelastic"]["value"], 0.0, abs_tol=1e-9)   # total p = 0 → common velocity 0
+    # KE before = ½·1·4² + ½·2·2² = 8 + 4 = 12 J, and it is ALL lost when they stick (final KE is 0)
+    assert math.isclose(r["ke_lost_inelastic"]["value"], 12.0, abs_tol=1e-9)
+
+
+def test_total_momentum_is_zero_and_conserved_head_on():
+    scn = col.build(HEADON)
+    # every momentum_conserved check holds; and here the conserved total is identically zero
+    e, m1, m2, v1, v2 = col.e, col.m1, col.m2, col.v1, col.v2
+    v1f, v2f = col._finals()
+    subs = {m1: 1, m2: 2, v1: 4, v2: -2}
+    assert sp.simplify((m1 * v1f + m2 * v2f).subs(subs)) == 0   # net momentum is zero for all e

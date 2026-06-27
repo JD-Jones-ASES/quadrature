@@ -5,6 +5,17 @@ plan in [`ROADMAP.md`](./ROADMAP.md).
 
 ## [Unreleased] — Phase 1: full mechanics (in progress)
 
+- **A second collision lesson (head-on) + signed momentum bars (ADR-0027).** $m_1=1$ kg at $+4$ m/s meets
+  $m_2=2$ kg at $-2$ m/s, so the **total momentum is exactly zero**: perfectly inelastic → the pair stops dead
+  ($v_{cm}=0$) and **all** 12 J of kinetic energy is lost; elastic → they rebound. The cleanest proof that
+  momentum and kinetic-energy conservation are independent.
+  - The collision *model* already handled arbitrary signs, but both renderers assumed positive momenta. Both
+    (`Collision.svelte` + the `render_collision` poster) now draw momentum on a **signed, floating baseline**
+    (each body's segment stacks $+p$ up / $-p$ down, the tip at the net total) — **backward-compatible** (an
+    all-positive collision is pixel-identical; verified the existing `collision` lesson as a regression). KE
+    panel unchanged.
+  - Spec + 2 producer tests, **no model change**. 33 lessons; 121 producer tests; parity 6776.
+
 - **The interlinking backbone — the reference becomes the navigational spine (brief §8, ADR-0026).** Frontend-only,
   no producer/schema/gate/data change (reuses `formulas.json` + a build-time lesson-slug→title map).
   - **Lesson → reference (hover opens the entry).** Each "Formulas used" chip shows the formula's name and a

@@ -263,16 +263,21 @@ def render_collision(col, out_path: Path) -> None:
     fig, (axp, axk) = plt.subplots(1, 2, figsize=(7.0, 4.0), facecolor=PAPER,
                                    gridspec_kw={"wspace": 0.28})
 
-    def stacked(ax, cols, title, ceiling):
+    def stacked(ax, cols, title, *, ceiling=None, ylim=None):
+        # `ceiling` → the old all-positive chart (baseline 0); `ylim` → a signed chart whose bars float
+        # (head-on collisions have opposite-sign momenta). Identical output to before when ylim is None.
         ax.set_facecolor(PAPER)
+        lo, hi = ylim if ylim else (0, ceiling * 1.20)
+        span = max(hi - lo, 1e-9)
         for x, (s1, s2, lbl) in cols.items():
             ax.bar(x, s1, width=0.62, color=ACCENT, edgecolor=PAPER, lw=0.5)
             ax.bar(x, s2, width=0.62, bottom=s1, color=INK, edgecolor=PAPER, lw=0.5)
-            ax.text(x, s1 + s2 + ceiling * 0.03, f"{s1 + s2:.0f}", ha="center", va="bottom",
-                    fontsize=9, color=INK)
+            tot = s1 + s2
+            ax.text(x, tot + (0.03 if tot >= 0 else -0.03) * span, f"{tot:.0f}",
+                    ha="center", va="bottom" if tot >= 0 else "top", fontsize=9, color=INK)
         ax.set_xticks(list(range(len(cols))))
         ax.set_xticklabels([c[2] for c in cols.values()], fontsize=8.5, color=INK)
-        ax.set_ylim(0, ceiling * 1.20)
+        ax.set_ylim(lo, hi)
         ax.set_title(title, fontsize=10, color=INK)
         ax.tick_params(colors=FAINT, labelsize=8)
         for s in ("top", "right"):
@@ -280,15 +285,23 @@ def render_collision(col, out_path: Path) -> None:
         for s in ("left", "bottom"):
             ax.spines[s].set_color(GRID)
 
-    pceil = max(p1b + p2b, p1e + p2e, p1i + p2i, 1e-9)
-    stacked(axp, {0: (p1b, p2b, "before"), 1: (p1e, p2e, "after")},
-            "Momentum  (kg·m/s)", pceil)
+    # momentum: signed, floating baseline (the segments stack up for +p and down for −p, the tip at the net
+    # total) so an opposite-sign head-on collision reads honestly. For an all-positive collision plo = 0 and
+    # the (0, ceiling·1.20) limits below reproduce the original bottom-anchored chart exactly.
+    pvals = [0.0, p1b, p1b + p2b, p1e, p1e + p2e]
+    plo, phi = min(pvals), max(pvals)
+    pspan = max(phi - plo, 1e-9)
+    pceil = max(phi, 1e-9)
+    stacked(axp, {0: (p1b, p2b, "before"), 1: (p1e, p2e, "after")}, "Momentum  (kg·m/s)",
+            ylim=(plo - 0.14 * pspan, pceil * 1.20) if plo < -1e-9 else (0, pceil * 1.20))
+    if plo < -1e-9:
+        axp.axhline(0, color=GRID, lw=1.0)
     axp.axhline(p1b + p2b, color=FAINT, lw=1.2, ls="--")
-    axp.text(0.5, (p1b + p2b) * 1.06, "conserved", ha="center", va="bottom", fontsize=8, color=FAINT)
+    axp.text(0.5, (p1b + p2b) + 0.045 * pspan, "conserved", ha="center", va="bottom", fontsize=8, color=FAINT)
 
     kceil = max(k1b + k2b, k1e + k2e, k1i + k2i, 1e-9)
     stacked(axk, {0: (k1b, k2b, "before"), 1: (k1e, k2e, "elastic"), 2: (k1i, k2i, "inelastic")},
-            "Kinetic energy  (J)", kceil)
+            "Kinetic energy  (J)", ceiling=kceil)
     axk.axhline(k1b + k2b, color=FAINT, lw=1.0, ls=":")
     # shade the energy lost in the inelastic case
     axk.add_patch(plt.Rectangle((2 - 0.31, k1i + k2i), 0.62, (k1b + k2b) - (k1i + k2i),

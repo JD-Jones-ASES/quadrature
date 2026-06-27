@@ -1,0 +1,67 @@
+id = "head-on-collision"
+title = "Head-on collision: momentum can be zero — and still conserved"
+topic = "momentum"
+slug = "head-on-collision"
+model = "collision"
+regime = 2
+author = "Quadrature"
+created = "2026-06-27"
+scenario = "A $m_1 = 1$ kg block moving right at $v_1 = +4$ m/s meets a $m_2 = 2$ kg block moving **left** at $v_2 = -2$ m/s, head-on. Their momenta are equal and opposite, so the **total momentum is exactly zero**. Slide the coefficient of restitution $e$ from $1$ (perfectly elastic — the blocks bounce apart) down to $0$ (perfectly inelastic — they latch together): the **momentum** total stays pinned at zero the whole way (only the split between the two bodies flips, above and below the line), while the **kinetic-energy** total collapses — at $e = 0$ the pair comes to a *dead stop* and *all* $12$ J is lost. Zero total momentum is still a conserved momentum; it does not mean the collision does nothing."
+formulas_used = ["mom-momentum", "mom-impulse", "en-kinetic", "mom-inelastic-v"]
+
+[parameters]
+m1 = 1                 # kg — block moving right (the slider)
+m2 = 2                 # kg — block moving left (constant)
+v1 = 4                 # m/s — moving right (constant)
+v2 = -2                # m/s — moving left, head-on (constant)
+
+[[assumptions]]
+claim = "An isolated 1D collision: no external horizontal force during contact, so the total momentum is conserved (the blocks' mutual forces are internal). Up the track is positive, so $v_2 < 0$ is genuinely the leftward block."
+kind = "model"
+
+[[assumptions]]
+claim = "The outcome is summarised by a single coefficient of restitution $e \\in [0, 1]$ — the ratio of the relative speed of separation to the relative speed of approach — rather than modelling the contact force in detail."
+kind = "model"
+
+[[graphs]]
+kind = "collision"
+mode = "interactive"
+annotate = ["momentum_conserved", "ke_lost"]
+
+[misconception]
+claim = "When two equal-and-opposite momenta cancel to a total of zero, there is 'no momentum' to conserve — so a head-on collision like this is a special case where conservation doesn't really say anything."
+refuted_by = "Zero is a perfectly good value of the total momentum, and it is conserved: it stays zero before, during, and after, at *every* $e$. Conservation is not silent here — it is what *forces* the two final momenta to remain equal and opposite. And it is independent of kinetic energy: drag $e$ to $0$ and the blocks stop dead (the common velocity is $v_{cm} = (m_1v_1+m_2v_2)/(m_1+m_2) = 0$), losing **all** $\\tfrac12\\mu(v_1-v_2)^2 = 12$ J of kinetic energy, while the momentum total never budges from zero. A zero total momentum is the cleanest possible proof that momentum conservation and kinetic-energy conservation are two different statements."
+
+[[practice]]
+id = "elastic-rebound"
+asks = "the final velocity of block 1 after a perfectly elastic head-on collision"
+answer = "result:v1_elastic"
+prompt = 'The $1$ kg block ($+4$ m/s) hits the $2$ kg block ($-2$ m/s) in a perfectly **elastic** ($e=1$) head-on collision. What is the final velocity of block 1?'
+include = ["algebra", "calculus"]
+
+  [[practice.distractor]]
+  method = "swap_velocities"
+  transform = "v2"
+  misconception = 'Assumed the blocks simply swap velocities. That only happens for *equal* masses; with $m_1 \neq m_2$ you must use $v_{1f} = \frac{(m_1-m_2)v_1 + 2m_2v_2}{m_1+m_2}$.'
+
+  [[practice.distractor]]
+  method = "used_inelastic"
+  transform = "(m1*v1+m2*v2)/(m1+m2)"
+  misconception = 'That is the perfectly-*inelastic* common velocity (here $0$). An elastic collision ($e=1$) is the opposite extreme — the blocks bounce apart, they do not move together.'
+
+[[practice]]
+id = "ke-lost-headon"
+asks = "the kinetic energy lost in the perfectly inelastic head-on collision"
+answer = "result:ke_lost_inelastic"
+prompt = 'When the two blocks meet head-on and stick ($e=0$), they come to a dead stop. How much **kinetic energy** is lost?'
+include = ["algebra", "calculus"]
+
+  [[practice.distractor]]
+  method = "block1_only"
+  transform = "0.5*m1*v1**2"
+  misconception = 'That is only the kinetic energy of block 1. Block 2 is moving too and also stops, so its energy is lost as well — the total lost is the sum.'
+
+  [[practice.distractor]]
+  method = "block2_only"
+  transform = "0.5*m2*v2**2"
+  misconception = 'That is only the kinetic energy of block 2. Both blocks stop, so the energy lost is $\tfrac12 m_1 v_1^2 + \tfrac12 m_2 v_2^2$ (the final kinetic energy is zero).'

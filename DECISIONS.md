@@ -670,3 +670,34 @@ entry," and every lesson already declares `formulas_used`. All seven gates uncha
 (reference lesson-links + derivation-link + graph deep-link selecting/centring the node; lesson popover revealing
 the typeset formula on focus). A future extension could add the in-prose token hover and a formula's *dual* link
 (the regime-1 algebra↔integral pair) once the dual is represented as first-class data rather than an edge.
+
+## ADR-0027 — A second collision lesson (head-on), and signed momentum bars on the collision instrument (2026-06-27)
+
+**Context.** The collision instrument (ADR-0018) was the obvious home for a second momentum lesson, and AGENTS.md
+named the candidate: "head-on with opposite signs." The producer *model* (`collision.py`) already handled
+arbitrary signs (its proof samples $v_1,v_2\in[-6,6]$). But **both renderers assumed positive momenta**: the
+`render_collision` poster and `Collision.svelte` drew momentum as a bottom-anchored stacked bar with a
+`max(total)` ceiling — so a body moving in $-x$ rendered as a zero-height (invisible) segment, and a near-zero
+total blew up the scale. The instrument silently mishandled exactly the collision class the second lesson needed.
+
+**Decision.** Generalize the **momentum** panel of both renderers to a **signed, floating baseline** and add the
+lesson. The new lesson is a deliberately extreme case: $m_1=1$ kg at $+4$ m/s meets $m_2=2$ kg at $-2$ m/s, so
+the **total momentum is exactly zero**. Perfectly inelastic ($e=0$) → the pair stops *dead* ($v_{cm}=0$) and
+**all** 12 J of kinetic energy is lost; perfectly elastic ($e=1$) → they rebound ($-4$, $+2$). It is the cleanest
+possible demonstration that momentum conservation and kinetic-energy conservation are independent statements.
+1. **Signed bars.** Each body's momentum segment stacks from a zero line — $+p$ upward, $-p$ downward — with the
+   bar's tip at the net total; the "conserved" line sits at that net total (the same before and after, even when
+   it is zero). The scale spans $[\min, \max]$ of the cumulative values. **Backward-compatible by construction:**
+   when no momentum is negative, the low bound is $0$ and the chart is pixel-identical to the old bottom-anchored
+   one — verified live on the existing `collision` lesson (momentum $6\to6$, full bar from the baseline). The
+   **kinetic-energy** panel is unchanged (KE is never negative).
+2. **Spec + tests, no model change.** The lesson is `problems/momentum/head-on-collision.problem.toml` on the
+   existing `collision` model; two producer tests pin the head-on hand-physics (dead stop, total KE loss, net
+   momentum identically zero for all $e$). Distractors avoid the $v_{cm}=0$ degeneracy (a mass-weighted
+   distractor would collide with the zero answer) by asking the *elastic* final velocity and the KE lost instead.
+
+**Consequences.** 33 lessons; the collision instrument now honestly renders **any** 1D collision, including
+opposite directions — a latent limitation fixed, not just worked around. Verified both renderers live (the
+interactive island at $e=1$ and $e=0$, and the Matplotlib poster showing the $-4\!\to\!+4$ split and the full
+"lost" region), plus the existing lesson as a regression. 121 producer tests, parity 6776, all seven gates green.
+A third collision lesson (2D oblique) would still need a genuinely new instrument — the before/after bars are 1D.

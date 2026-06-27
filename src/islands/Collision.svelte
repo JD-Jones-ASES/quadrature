@@ -53,8 +53,15 @@
   // --- bars ---
   const BASE = H - 30, TOP = 150;                         // bar band vertical extent
   const barPx = (v, ceil) => (ceil > 1e-9 ? (v / ceil) * (BASE - TOP) : 0);
-  const pCeil = $derived(Math.max(pTotB, pTotA, 1e-9));
   const kCeil = $derived(Math.max(kTotB, kTotA, 1e-9));
+  // momentum uses a SIGNED, floating baseline so head-on (opposite-sign) momenta read honestly: each body's
+  // segment stacks from zero — +p upward, −p downward — with the bar's tip at the net total. For an
+  // all-positive collision pLo = 0 and pY(·) reduces to the old bottom-anchored stacked bar.
+  const pExtremes = $derived([0, p1b, p1b + p2b, p1a, p1a + p2a]);
+  const pHi = $derived(Math.max(...pExtremes, 1e-9));
+  const pLo = $derived(Math.min(...pExtremes, 0));
+  const pY = (v) => BASE - ((v - pLo) / (pHi - pLo)) * (BASE - TOP);
+  const segY = (a, b) => ({ y: Math.min(pY(a), pY(b)), h: Math.abs(pY(a) - pY(b)) });
 </script>
 
 <div class="collision">
@@ -92,16 +99,18 @@
     <line x1="14" y1="134" x2={W - 14} y2="134" class="rule" />
 
     <!-- ===================== bars: momentum (left) · kinetic energy (right) ===================== -->
-    <!-- MOMENTUM -->
+    <!-- MOMENTUM (signed, floating baseline so head-on opposite-sign momenta read correctly) -->
     <text x="120" y="150" class="title" text-anchor="middle">Momentum  (kg·m/s)</text>
-    <line x1="40" y1={BASE - barPx(pTotB, pCeil)} x2="210" y2={BASE - barPx(pTotB, pCeil)} class="conserved" />
-    <text x="210" y={BASE - barPx(pTotB, pCeil) - 4} class="clab" text-anchor="end">conserved</text>
+    <line x1="40" y1={pY(0)} x2="200" y2={pY(0)} class="axis" />
+    <line x1="40" y1={pY(pTotB)} x2="210" y2={pY(pTotB)} class="conserved" />
+    <text x="210" y={pY(pTotB) - 4} class="clab" text-anchor="end">conserved</text>
     {#each [{ x: 70, p1: p1b, p2: p2b, lbl: "before" }, { x: 150, p1: p1a, p2: p2a, lbl: "after" }] as col}
-      <rect x={col.x} y={BASE - barPx(col.p1, pCeil)} width="48" height={Math.max(0, barPx(col.p1, pCeil))} class="seg b1" />
-      <rect x={col.x} y={BASE - barPx(col.p1 + col.p2, pCeil)} width="48" height={Math.max(0, barPx(col.p2, pCeil))} class="seg b2" />
-      <line x1={col.x} y1={BASE} x2={col.x + 48} y2={BASE} class="axis" />
-      <text x={col.x + 24} y={BASE + 13} class="lbl" text-anchor="middle">{col.lbl}</text>
-      <text x={col.x + 24} y={BASE - barPx(col.p1 + col.p2, pCeil) - 4} class="val" text-anchor="middle">{fmt(col.p1 + col.p2)}</text>
+      {@const s1 = segY(0, col.p1)}
+      {@const s2 = segY(col.p1, col.p1 + col.p2)}
+      <rect x={col.x} y={s1.y} width="48" height={s1.h} class="seg b1" />
+      <rect x={col.x} y={s2.y} width="48" height={s2.h} class="seg b2" />
+      <text x={col.x + 24} y={pY(0) + 13} class="lbl" text-anchor="middle">{col.lbl}</text>
+      <text x={col.x + 24} y={col.p1 + col.p2 >= 0 ? pY(col.p1 + col.p2) - 4 : pY(col.p1 + col.p2) + 12} class="val" text-anchor="middle">{fmt(col.p1 + col.p2)}</text>
     {/each}
 
     <!-- KINETIC ENERGY -->

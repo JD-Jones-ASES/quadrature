@@ -188,7 +188,7 @@ See [`ROADMAP.md`](./ROADMAP.md) and the latest [`docs/sessions/`](./docs/sessio
 complete and reviewed**; **Phase 1 (mechanics)** is in progress, **Phase 2 (E&M)** is deepening (capacitor,
 Coulomb PE, **RC charging**, **line-charge field** + a reference cluster), and **Phase 3 (thermo, fluids, and
 now opened modern)** is deepening. The site is **live and public** at https://jd-jones-ases.github.io/quadrature/
-(push to `main` auto-deploys). Shipped: **32 lessons** across 12 units — free fall, **projectile (drag-free)**,
+(push to `main` auto-deploys). Shipped: **33 lessons** across 12 units — free fall, **projectile (drag-free)**,
 **incline with friction** (`a=g(sinθ−μcosθ)`, opens Dynamics), **rotational kinematics**, and the **circular
 orbit** (regime 1, trajectory on a centred frame — `v=√(μ/R)`, Kepler's `T²∝R³`); SHM, terminal velocity, the
 damped oscillator, **work–energy**, **projectile with quadratic drag**, **impulse–momentum**, **gravitational
@@ -197,7 +197,8 @@ stack — `I` is the slope of `Q`), **the field of a charged rod** (`∫kλ/x² 
 (regime 2, E&M), **moment of inertia** (`∫r² dm`), **rotational work–energy** (`∫τ dθ → ½Iω²`), **hydrostatic
 force on a wall** (`∫ρg w h dh`), **Torricelli / a draining tank** (energy bars, `v=√(2gh)`, opens fluid
 dynamics), the **elliptical orbit** (numerical — Kepler's three laws from `r̈=−μr/r³`), **conservation of
-energy** (energy bars — path-independent `v=√(2gH)`), **collisions / momentum** (before/after collision bars),
+energy** (energy bars — path-independent `v=√(2gH)`), **collisions / momentum** (before/after collision bars —
+target-at-rest **and** a head-on opposite-sign variant with total momentum zero, ADR-0027),
 and **radioactive decay** (the N / dN/dt 2-panel stack, `dN/dt=−λN`, opens Modern) (regime 2); **isothermal**,
 **adiabatic**, and **isobaric PV-work** (regime 3); **LC oscillation** and **Faraday induction** (the electrical
 spring and the AC generator, 2-panel stack); **standing waves** (the spatial-mode instrument — opens Waves &
@@ -277,8 +278,12 @@ is per-domain *depth* and a couple of small, well-scoped engine extensions, flag
      `e`, KE bars equal only when elastic, the lost KE shaded. Proof `governing` (momentum conservation = the
      time-integral of Newton's third law; the KE deficit is `½μ(1−e²)(Δv)²`). New `CollisionPlot` +
      `Collision.svelte` + `render_collision` + `collision_series`/`consts` schema, parity-verified `v1f,v2f`,
-     no new gate. A future second collision lesson (head-on with opposite signs, or a 2D oblique collision)
-     would be model + spec + test.
+     no new gate. **A second collision lesson is now shipped (ADR-0027): a head-on, opposite-sign collision
+     (`head-on-collision`, total momentum exactly zero → dead stop + total KE loss at `e=0`).** It needed no
+     model change, but it exposed that both renderers assumed positive momenta — so the momentum panel of
+     `Collision.svelte` + `render_collision` was generalized to **signed, floating bars** (backward-compatible:
+     all-positive collisions render identically). A 2D oblique collision would still need a genuinely new
+     instrument (the before/after bars are 1D).
 2. **More area-instrument lessons (zero engine change — model + spec + test)** — Coulomb PE and rotational work
    are now **done** (`coulomb_pe.py`, `rotational_work.py`); still open: **isobaric** PV-work (the trivial
    rectangle, completes the PV-process trio), and later E&M field integrals (`∫E·dl`, `∫dq/r²`) and a
