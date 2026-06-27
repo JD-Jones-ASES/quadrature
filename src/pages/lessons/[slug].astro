@@ -4,6 +4,11 @@ import Base from "../../layouts/Base.astro";
 import SolutionPlayer from "../../islands/SolutionPlayer.svelte";
 import { withBase } from "../../lib/withBase.js";
 import { renderSolution } from "../../lib/view.js";
+import { tex } from "../../lib/katex.js";
+import formulaData from "../../../derived/reference/formulas.json";
+
+// Interlinking backbone (brief §8): each "formula used" chip hovers/focuses open its reference entry.
+const formulaById = Object.fromEntries(formulaData.formulas.map((f) => [f.id, f]));
 
 export function getStaticPaths() {
   const all = import.meta.glob("../../../derived/**/*.solution.json", { eager: true });
@@ -66,10 +71,29 @@ const figureCaption = isArea
 
   <section class="links">
     <h2>Formulas used</h2>
-    <p class="muted">Each links into the <a href={withBase("/reference/")}>reference</a> and the{" "}
-      <a href={withBase("/reference/graph/")}>concept graph</a>:</p>
+    <p class="muted">Hover a formula to preview its reference entry; click to open it in the{" "}
+      <a href={withBase("/reference/")}>reference</a> (or the{" "}
+      <a href={withBase("/reference/graph/")}>concept graph</a>):</p>
     <ul>
-      {solution.formulas_used.map((id) => <li><a href={withBase("/reference/#" + id)}><code>{id}</code></a></li>)}
+      {solution.formulas_used.map((id) => {
+        const f = formulaById[id];
+        return (
+          <li class="fchip">
+            <a class="fchip-link" href={withBase("/reference/#" + id)}>
+              {f ? <span class="fname">{f.name}</span> : <code>{id}</code>}
+            </a>
+            {f && (
+              <div class="fcard" role="tooltip">
+                <div class="fmath" set:html={tex(f.latex)} />
+                {f.assumptions?.length > 0 && (
+                  <p class="fassume"><strong>Valid when:</strong> {f.assumptions.join("; ")}</p>
+                )}
+                <p class="fgo">Open in reference →</p>
+              </div>
+            )}
+          </li>
+        );
+      })}
     </ul>
   </section>
 
@@ -87,8 +111,20 @@ const figureCaption = isArea
     .svgwrap :global(svg) { width: 100%; height: auto; display: block; }
     .links { margin-top: 2rem; }
     .links ul { list-style: none; padding: 0; display: flex; gap: 0.6rem; flex-wrap: wrap; }
-    .links a { text-decoration: none; }
-    .links code { background: var(--paper-sunk); padding: 0.2rem 0.5rem; border-radius: 6px; }
-    .links a:hover code { background: var(--accent-soft); color: var(--accent); }
+    /* §8 interlinking: a chip per formula used, with a hover/focus popover previewing the reference entry. */
+    .fchip { position: relative; }
+    .fchip-link { text-decoration: none; display: inline-block; }
+    .fname, .fchip code { display: inline-block; background: var(--paper-sunk); padding: 0.25rem 0.6rem; border-radius: 6px; }
+    .fchip-link:hover .fname, .fchip-link:focus-visible .fname, .fchip-link:hover code { background: var(--accent-soft); color: var(--accent); }
+    .fcard {
+      display: none; position: absolute; bottom: calc(100% + 0.5rem); left: 0; z-index: 20;
+      min-width: 16rem; max-width: 24rem; padding: 0.7rem 0.85rem;
+      background: var(--paper-2); border: 1px solid var(--line); border-radius: var(--radius);
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.18);
+    }
+    .fchip:hover .fcard, .fchip:focus-within .fcard { display: block; }
+    .fcard .fmath { overflow-x: auto; margin: 0.1rem 0 0.4rem; }
+    .fassume { font-size: 0.82rem; color: var(--ink-2); margin: 0.3rem 0 0; }
+    .fgo { font-size: 0.78rem; color: var(--accent); margin: 0.45rem 0 0; }
   </style>
 </Base>

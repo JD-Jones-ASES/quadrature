@@ -636,3 +636,37 @@ ASCII-spelled symbol a `latex` glyph (the gate tells you if you forget). The RHS
 "no transcription typos" claim is now *enforced*, not merely asserted. Seven gates green; 119 producer tests,
 32 lessons, parity 6652, 82 formulas leak-free. The subclass is pinned to SymPy 1.14 (it mirrors `_print_Mul`);
 if SymPy is bumped, re-check that one method.
+
+## ADR-0026 — The interlinking backbone: the reference becomes the navigational spine (brief §8) (2026-06-27)
+
+**Context.** Brief §8 calls for the reference to be "the navigational backbone of the whole site": *hovering or
+clicking any formula anywhere in any lesson opens its reference entry; from the entry, jump to its derivation,
+its dual, its graph, or the lessons that use it.* The pieces existed but weren't wired: a lesson's "Formulas
+used" listed bare ids linking to reference anchors; the reference card showed `used in: <slugs>` as **plain
+text** and the derivation target as a non-clickable `<code>`; the concept graph had no deep-link. ADR-0025 made
+the reference typographically trustworthy — the right moment to promote it to the spine.
+
+**Decision.** A frontend-only pass over the existing committed JSON — **no producer, schema, gate, or data
+change** (it reuses `formulas.json` fields + a lesson-slug→title map built from the solution JSONs at build time):
+1. **Reference entry → lessons.** The card footer's `used in:` renders each lesson as a link to `/lessons/<slug>/`
+   with the lesson's real title (slug→title from `import.meta.glob` of the solutions; plain-text fallback if a
+   slug has no lesson yet).
+2. **Reference entry → derivation.** The derivation line links its target to that formula's `#id` anchor and
+   shows the target's name ("integral-of *Velocity under constant acceleration*"), so a formula is one click
+   from where it comes from.
+3. **Reference entry → its graph.** Each card gets a `concept graph ↗` link to `/reference/graph/#<id>`, and
+   `ConceptGraph.svelte` gained an `onMount` hash reader that **selects and centres** that node (defensive
+   no-op if the hash names no node). The graph is the site's relationship map; this lands you on the right node.
+4. **Lesson → reference (hover opens the entry).** Each "Formulas used" chip now shows the formula's **name** and
+   carries a **CSS-only hover/focus popover** previewing the reference entry — the rendered LaTeX (ADR-0025
+   glyphs/order) + its "Valid when" assumptions — with click still opening the full entry. Pure CSS
+   (`:hover`/`:focus-within`), so it needs no hydration and works on the static lesson page; keyboard-accessible.
+
+**Consequences.** The reference is now the hub the brief describes: lesson→formula (hover preview + click),
+formula→lesson, formula→derivation, formula→graph all navigable. Deliberately **not** attempted: tokenizing
+"any formula token" inside lesson *prose* — the rendered-KaTeX-span → formula-id mapping is ambiguous and would
+need a design pass; the `formulas_used` chips are the honest, bounded surface for "hover opens its reference
+entry," and every lesson already declares `formulas_used`. All seven gates unchanged and green; verified live
+(reference lesson-links + derivation-link + graph deep-link selecting/centring the node; lesson popover revealing
+the typeset formula on focus). A future extension could add the in-prose token hover and a formula's *dual* link
+(the regime-1 algebra↔integral pair) once the dual is represented as first-class data rather than an edge.

@@ -218,7 +218,10 @@ feeds `sp.latex(symbol_names=…)` so ASCII names (`lam`/`dPhidt`/`di`) print as
 subclass orders factors/terms by the author's written order (`E=mc²`, `F=qvB`, not SymPy's sort) without ever
 rebuilding the expression. A new gate `check-latex-quality.mjs` fails the build on any leaked multi-char ASCII
 run — typography breaks the build the way a bad unit does. `kin-a-const` carries a `note` caption framing `a=a`
-as the seed of the integral ladder.**
+as the seed of the integral ladder.** **The reference is now the navigational spine (ADR-0026, brief §8):**
+lesson formula chips hover-preview their reference entry; reference cards link their derivation target, the
+lessons that use them, and a `concept graph ↗` deep-link that selects+centres the node — frontend-only, no
+engine change.
 
 **Frontend rendering (ADR-0019): the interactive graph islands' scoped CSS is delivered via
 `svelte({ compilerOptions: { css: "injected" } })` in `astro.config.mjs`.** Without it, Astro only delivers the
@@ -294,9 +297,13 @@ is per-domain *depth* and a couple of small, well-scoped engine extensions, flag
    temporal stack is hard-wired to three panels (x/v/a); RC is a two-quantity (Q, I) derivative pair, so it
    needs either a 2-panel stack variant or a reframe onto the area instrument. Then magnetism, induction, and a
    continuous-charge field integral (`∫dq/r²`) on the area instrument.
-5. **The §8 interlinking backbone** — hover-to-reference from any formula token in a lesson, and formula→lesson
-   navigation, so the reference becomes the site's navigational spine (brief §8). Frontend work over the
-   existing `formulas.json` + `concept-graph.json` (now 56 nodes — denser, more useful as a spine).
+5. **The §8 interlinking backbone — LARGELY DONE (ADR-0026).** The reference is now the navigational spine:
+   lesson "Formulas used" chips carry a hover/focus popover previewing the reference entry (name + LaTeX + valid-
+   when) and link to it; reference cards link their derivation target, the lessons that use them, and a
+   `concept graph ↗` deep-link that selects+centres the node (`ConceptGraph` reads the URL hash on mount). All
+   frontend over the existing `formulas.json` + solution slugs — no engine/schema/gate change. **Still open:**
+   tokenizing "any formula token" inside lesson *prose* (ambiguous KaTeX-span→id mapping, needs a design pass)
+   and a first-class algebra↔integral *dual* link (the regime-1 pair as data, not just a graph edge).
 
 The ADR-0012 parked question (a no-closed-form `sampled` region) is **resolved** (ADR-0015): the
 quadratic-drag trajectory is numerically integrated by RK4, each frame producer-verified (converged + EOM

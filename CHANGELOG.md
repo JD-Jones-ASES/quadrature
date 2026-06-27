@@ -5,6 +5,18 @@ plan in [`ROADMAP.md`](./ROADMAP.md).
 
 ## [Unreleased] — Phase 1: full mechanics (in progress)
 
+- **The interlinking backbone — the reference becomes the navigational spine (brief §8, ADR-0026).** Frontend-only,
+  no producer/schema/gate/data change (reuses `formulas.json` + a build-time lesson-slug→title map).
+  - **Lesson → reference (hover opens the entry).** Each "Formulas used" chip shows the formula's name and a
+    CSS-only hover/focus popover previewing its reference entry — the rendered LaTeX + "Valid when" — click still
+    opens the full entry. Pure CSS, no hydration, keyboard-accessible.
+  - **Reference entry → lessons** that use it (footer links with real lesson titles, plain-text fallback).
+  - **Reference entry → derivation** target (linked to its `#id`, shown by name).
+  - **Reference entry → its graph**: a `concept graph ↗` link to `/reference/graph/#<id>`; `ConceptGraph` now
+    reads the URL hash on mount and **selects + centres** that node.
+  - Not attempted (needs a design pass): tokenizing "any formula token" inside lesson prose, and a first-class
+    algebra↔integral *dual* link.
+
 - **Formula reference typography: generated RHS with physics glyphs + author order, gate-enforced (ADR-0025).**
   - **Root cause.** The reference RHS was `sp.latex(expr)`, so the ASCII symbol names chosen for `sympify`
     leaked onto the page (`\mathcal{E} = -dPhidt`, `N = N₀e^{-lam t}`, `v = √(FT/μ)`, `log`/`asin`), and SymPy's

@@ -10,6 +10,14 @@ const DOMAIN_LABEL = {
 };
 const byDomain = {};
 for (const f of data.formulas) (byDomain[f.domain] ??= []).push(f);
+
+// Interlinking backbone (brief §8): make each entry jump to its derivation, the lessons that use it, and its
+// node in the concept graph. lesson slug -> title (for "used in" links); formula id -> name (for derivation).
+const solutionMods = import.meta.glob("../../../derived/**/*.solution.json", { eager: true });
+const lessonTitle = {};
+for (const m of Object.values(solutionMods)) lessonTitle[m.default.slug] = m.default.title;
+const formulaName = {};
+for (const f of data.formulas) formulaName[f.id] = f.name;
 ---
 
 <Base title="Formula reference — Quadrature" description="A SymPy-verified, fully interlinked physics formula reference.">
@@ -44,12 +52,24 @@ for (const f of data.formulas) (byDomain[f.domain] ??= []).push(f);
             )}
             {f.derivation && (
               <p class="deriv"><span class="badge machine"><span class="dot" /></span>
-                {f.derivation.relationship} <code>{f.derivation.target}</code> (d/d{f.derivation.variable}),
-                proven by SymPy</p>
+                {f.derivation.relationship}{" "}
+                <a href={`#${f.derivation.target}`}>{formulaName[f.derivation.target] ?? f.derivation.target}</a>
+                {" "}(d/d{f.derivation.variable}), proven by SymPy</p>
             )}
             <footer>
               <span class="badge machine"><span class="dot" />units checked</span>
-              {f.lessons?.length > 0 && <span class="faint">used in: {f.lessons.join(", ")}</span>}
+              <a class="graphlink" href={withBase(`/reference/graph/#${f.id}`)}>concept graph ↗</a>
+              {f.lessons?.length > 0 && (
+                <span class="faint">used in:{" "}
+                  {f.lessons.map((slug, i) => (
+                    <Fragment>{i > 0 ? ", " : ""}{
+                      lessonTitle[slug]
+                        ? <a href={withBase(`/lessons/${slug}/`)}>{lessonTitle[slug]}</a>
+                        : slug
+                    }</Fragment>
+                  ))}
+                </span>
+              )}
             </footer>
           </article>
         ))}
@@ -75,6 +95,10 @@ for (const f of data.formulas) (byDomain[f.domain] ??= []).push(f);
     .assume { font-size: 0.88rem; color: var(--ink-2); margin: 0.6rem 0 0.3rem; }
     .deriv { font-size: 0.85rem; color: var(--ink-2); margin: 0.5rem 0; display: flex; align-items: center; gap: 0.4rem; }
     .deriv code { background: var(--paper-sunk); padding: 0.1rem 0.35rem; border-radius: 5px; }
-    .formula footer { display: flex; align-items: center; gap: 0.6rem; margin-top: 0.6rem; font-size: 0.82rem; }
+    .formula footer { display: flex; align-items: center; flex-wrap: wrap; gap: 0.4rem 0.6rem; margin-top: 0.6rem; font-size: 0.82rem; }
+    .graphlink { text-decoration: none; color: var(--accent); white-space: nowrap; }
+    .graphlink:hover { text-decoration: underline; }
+    .deriv a, .formula footer .faint a { color: var(--accent); text-decoration: none; }
+    .deriv a:hover, .formula footer .faint a:hover { text-decoration: underline; }
   </style>
 </Base>

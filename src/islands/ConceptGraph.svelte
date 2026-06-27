@@ -3,6 +3,7 @@
   // Portal's lexicon force-graph. Layout is frozen at build time (ADR-0008, domain-clustered in ADR-0020) and
   // used as the initial positions; nodes are then click-to-select AND drag-to-reposition (pointer events), and
   // the whole canvas pans/zooms (so 71 nodes stay explorable). Renders plain SVG, color-coded by domain.
+  import { onMount } from "svelte";
   let { graph, formulas } = $props();
   const byId = Object.fromEntries(formulas.map((f) => [f.id, f]));
 
@@ -124,6 +125,17 @@
 
   const selectedEdges = $derived(selected ? graph.edges.filter((e) => e.source === selected) : []);
   const sel = $derived(selected ? byId[selected] : null);
+
+  // Deep-link from the reference (brief §8 "jump to its graph"): /reference/graph/#<formula-id> opens the
+  // graph with that node selected and centred. Defensive — a no-op if the hash doesn't name a real node.
+  onMount(() => {
+    const id = decodeURIComponent((location.hash || "").slice(1));
+    if (id && byId[id] && positions[id]) {
+      selected = id;
+      const k = 1.6, p = positions[id];
+      view = { x: W / 2 - k * p.x, y: H / 2 - k * p.y, k };
+    }
+  });
 </script>
 
 <div class="cg">
