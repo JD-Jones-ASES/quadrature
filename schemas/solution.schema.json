@@ -58,7 +58,8 @@
       "additionalProperties": false,
       "required": ["steps"],
       "properties": {
-        "steps": { "type": "array", "items": { "$ref": "#/$defs/step" } }
+        "steps": { "type": "array", "items": { "$ref": "#/$defs/step" } },
+        "register_label": { "type": "string" }
       }
     },
     "proof": {
@@ -224,7 +225,7 @@
         "window": { "enum": ["landing", "fixed"] },
         "annotate": { "type": "array", "items": { "type": "string" } },
         "svg": { "type": "string" },
-        "series": { "anyOf": [ { "$ref": "#/$defs/series" }, { "$ref": "#/$defs/area_series" }, { "$ref": "#/$defs/traj_series" }, { "$ref": "#/$defs/energy_series" }, { "$ref": "#/$defs/collision_series" }, { "$ref": "#/$defs/panel_series" }, { "$ref": "#/$defs/standing_series" } ] },
+        "series": { "anyOf": [ { "$ref": "#/$defs/series" }, { "$ref": "#/$defs/area_series" }, { "$ref": "#/$defs/traj_series" }, { "$ref": "#/$defs/energy_series" }, { "$ref": "#/$defs/collision_series" }, { "$ref": "#/$defs/panel_series" }, { "$ref": "#/$defs/standing_series" }, { "$ref": "#/$defs/lens_series" } ] },
         "closed_form": { "type": "object", "additionalProperties": { "type": "string" } },
         "closed_form_params": { "type": "array", "items": { "type": "string" } },
         "u_label": { "type": "string" },
@@ -372,6 +373,15 @@
           }
         },
         {
+          "if": { "required": ["kind"], "properties": { "kind": { "const": "lens" } } },
+          "then": {
+            "required": [
+              "series", "closed_form", "closed_form_params", "params",
+              "cursor", "u_label", "consts"
+            ]
+          }
+        },
+        {
           "if": {
             "allOf": [
               { "properties": { "mode": { "not": { "const": "sampled" } } } },
@@ -434,6 +444,18 @@
       "properties": {
         "u": { "type": "array", "items": { "type": "number" } },
         "y": { "type": "array", "items": { "type": "number" } },
+        "u_max": { "type": "number" }
+      }
+    },
+    "lens_series": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["u", "di", "hi", "m", "u_max"],
+      "properties": {
+        "u": { "type": "array", "items": { "type": "number" } },
+        "di": { "type": "array", "items": { "type": "number" } },
+        "hi": { "type": "array", "items": { "type": "number" } },
+        "m": { "type": "array", "items": { "type": "number" } },
         "u_max": { "type": "number" }
       }
     },

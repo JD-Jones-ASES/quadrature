@@ -1,0 +1,74 @@
+id = "diverging-lens"
+title = "The diverging lens: one image, always virtual"
+topic = "optics"
+slug = "diverging-lens"
+model = "thin-lens"
+regime = 3
+author = "Quadrature"
+created = "2026-06-27"
+scenario = "A **diverging** lens (concave — thinner in the middle) with focal length $f = -1$ m. The focal length is *negative* because parallel rays leave it **spreading apart**, as if they had come from a focus *in front* of the lens. An object $h_o = 0.4$ m tall stands a distance $d_o$ in front. Here is the surprise: no matter where you put the object — right up close or far away — a diverging lens makes only **one** kind of image: **virtual, upright, and shrunken**, on the same side as the object. Slide the object and watch — the image never flips, never enlarges, never lands on a screen. This is the lens in a door peephole and the front group of a wide-angle view."
+formulas_used = ["optics-thin-lens", "optics-magnification"]
+
+[parameters]
+f = -1.0                # m — NEGATIVE focal length (a diverging lens); no singularity, so the range need not straddle it
+ho = 0.4                # m — object height (default)
+do_default = 1.5        # m — object distance shown first
+do_min = 0.3            # m — cursor min (object up close)
+do_max = 4.0            # m — cursor max (far object)
+ho_min = 0.2            # m — object-height slider min
+ho_max = 0.6            # m — object-height slider max
+
+[[assumptions]]
+claim = "A *thin* lens: its thickness is negligible next to the focal length, so both refractions happen in one plane at the lens center."
+kind = "model"
+
+[[assumptions]]
+claim = "*Paraxial* rays — all rays stay close to the axis, so a point object maps to a single point image. Real wide lenses blur this."
+kind = "model"
+
+[[assumptions]]
+claim = "A single diverging lens, $f < 0$, with the sign convention that a virtual image (on the object's side, seen through the lens) has $d_i < 0$ and an upright image has $m > 0$."
+kind = "model"
+
+[[graphs]]
+kind = "lens"
+mode = "interactive"
+annotate = ["principal_rays", "always_virtual"]
+
+[misconception]
+claim = "If you move the object close enough to a diverging lens, you can magnify it or catch a real image on a screen."
+refuted_by = "You cannot. A diverging lens has no real focus in front of it — parallel rays *spread*, and only their backward extensions meet, at a virtual focus *behind* the object. So for **every** object distance the image distance $d_i = d_o f/(d_o - f)$ comes out **negative** (virtual) and the magnification $|m| < 1$ (reduced and upright). Drag the object from $0.3$ m to $4$ m: the image only ever shrinks toward the focal point, always right-side-up, never on the far side. Only a converging lens ($f > 0$) can magnify or project."
+
+[[practice]]
+id = "image-distance"
+asks = "the image distance"
+answer = "result:image_distance"
+prompt = "A diverging lens has focal length $f = -1$ m. An object sits at $d_o = 1.5$ m. Where is the image — what is $d_i$?"
+include = ["algebra", "calculus"]
+
+  [[practice.distractor]]
+  method = "dropped_sign"
+  transform = "Abs(answer)"
+  misconception = "Dropped the minus sign. A diverging lens always makes a **virtual** image, so $d_i$ is **negative** — the image is on the same side as the object, not the far side."
+
+  [[practice.distractor]]
+  method = "used_positive_f"
+  transform = "do*1/(do - 1)"
+  misconception = "Treated the lens as converging ($f = +1$). A diverging lens has $f < 0$; with $f = -1$ m, $d_i = d_o f/(d_o - f)$ works out negative, not positive."
+
+[[practice]]
+id = "magnification"
+asks = "the magnification"
+answer = "result:magnification"
+prompt = "The same diverging lens ($f = -1$ m) with the object at $d_o = 1.5$ m forms its image at $d_i = -0.6$ m. What is the magnification $m$?"
+include = ["algebra", "calculus"]
+
+  [[practice.distractor]]
+  method = "assumed_inverted"
+  transform = "-answer"
+  misconception = "Made it negative. A diverging-lens image is **upright**, so $m > 0$. (A negative $m$ would mean an inverted image — that only happens for a *real* image from a converging lens.)"
+
+  [[practice.distractor]]
+  method = "wrong_denominator"
+  transform = "-f/(do + f)"
+  misconception = "Used $d_o + f$ in the denominator. The magnification is $m = -f/(d_o - f)$ — with $f = -1$ that is $1/2.5 = 0.4$, a reduced upright image."

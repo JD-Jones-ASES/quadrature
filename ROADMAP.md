@@ -42,7 +42,11 @@ from `JD.md`), then fill depth-first, and close with a doc sweep. Status lives h
   E=mc², photoelectric).
   **Fluid dynamics** now has its first lesson (**Torricelli**, energy bars) and **modern physics is opened**
   (**radioactive decay**, the N / dN/dt 2-panel stack, `dN/dt=−λN`).
-- **Reference: 74 formulas across all five domains**, all SymPy-unit-verified, 74-node / 108-edge concept graph.
+- **Reference: 82 formulas across all five domains**, all SymPy-unit-verified, 82-node / 125-edge concept graph.
+- **Waves & optics now has three lessons** — standing waves (ADR-0023) and **thin-lens optics** (ADR-0024,
+  the ray-diagram instrument, the 7th), plus a **diverging-lens** variant (the same instrument with f<0, always
+  a virtual image) — closing the last domain gap on the engine. Engine now has **seven graph instruments**.
+  Verified practice (ADR-0022) rides on every lesson. **32 lessons, 119 producer tests, parity 6652.**
 
 ---
 

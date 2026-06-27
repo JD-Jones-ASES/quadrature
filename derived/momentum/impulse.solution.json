@@ -422,6 +422,63 @@
           "emphasis": true
         }
       ]
+    },
+    {
+      "id": "average-force",
+      "asks": "the average force over the pulse",
+      "prompt": "For the same half-sine force pulse ($F_{\\max} = 200$ N over $\\tau = 0.02$ s), what is the **average** force during contact?",
+      "answer": {
+        "value": 127.323954,
+        "display": "127.3",
+        "unit": "N",
+        "symbolic_latex": "\\tfrac{2}{\\pi}F_{\\max}"
+      },
+      "choices": [
+        {
+          "value": 127.323954,
+          "display": "127.3",
+          "correct": true
+        },
+        {
+          "value": 200.0,
+          "display": "200",
+          "correct": false,
+          "method": "peak_for_average",
+          "misconception": "That is the **peak** force. The force reaches $F_{\\max}$ only for an instant; averaged over the pulse it is smaller — here $\\bar F = 2F_{\\max}/\\pi$."
+        },
+        {
+          "value": 100.0,
+          "display": "100",
+          "correct": false,
+          "method": "triangle_average",
+          "misconception": "Half the peak is the average of a *triangular* pulse. A half-sine pulse averages $2F_{\\max}/\\pi \\approx 0.64\\,F_{\\max}$ — a bit more than half."
+        }
+      ],
+      "algebra_steps": [
+        {
+          "label": "What the algebra-based course hands you",
+          "latex": "J = \\bar F\\,\\Delta t \\qquad J = \\Delta p = m\\,\\Delta v",
+          "prose": "Impulse is the average force times the contact time, and it equals the change in momentum. But a real collision force is not constant — it rises and falls over a few milliseconds — so 'average force' hides where the number comes from."
+        }
+      ],
+      "calculus_steps": [
+        {
+          "label": "Impulse is the area under the force–time curve",
+          "latex": "J = \\int F\\,dt",
+          "prose": "Impulse is the integral of force over time — the area under the $F$–$t$ curve. For a constant force this is a rectangle ($\\bar F\\,\\Delta t$); for a real pulse it is the area under the curve."
+        },
+        {
+          "label": "Evaluate for the contact pulse $F(t) = F_{\\max}\\sin(\\pi t/\\tau)$",
+          "latex": "J = \\int_0^{\\tau} F_{\\max}\\sin\\!\\frac{\\pi t}{\\tau}\\,dt = \\frac{2}{\\pi}F_{\\max}\\tau",
+          "prose": "The area under a half-sine pulse is $\\tfrac{2}{\\pi}F_{\\max}\\tau$ — so the effective average force is $\\tfrac{2}{\\pi}F_{\\max}\\approx 0.64\\,F_{\\max}$. Its slope at any instant is the force $F(t)$."
+        },
+        {
+          "label": "The change in momentum falls out of the same integral",
+          "latex": "\\int F\\,dt = \\int m\\,\\frac{dv}{dt}\\,dt = m\\,\\Delta v \\ \\Longrightarrow\\ J = \\Delta p",
+          "prose": "Because $F = m\\,dv/dt$, the impulse integral is exactly $m\\,\\Delta v$. The impulse–momentum theorem is not a separate fact — it is the area under the force curve. Drag the cursor: the shaded area and the momentum change grow together.",
+          "emphasis": true
+        }
+      ]
     }
   ]
 }

@@ -51,3 +51,20 @@ include = ["algebra", "calculus"]
   method = "cos_for_sin"
   transform = "v0**2*cos(2*theta_deg*pi/180)/(-g)"
   misconception = 'Used $\cos 2\theta$ where the range formula carries $\sin 2\theta$ (the horizontal and vertical motions combine to a sine).'
+
+[[practice]]
+id = "max-height"
+asks = "the maximum height"
+answer = "result:max_height"
+prompt = 'The same projectile ($v_0 = 20$ m/s at $40°$) — how high does it rise at the top of its arc?'
+include = ["algebra", "calculus"]
+
+  [[practice.distractor]]
+  method = "forgot_sin"
+  transform = "v0**2/20"
+  misconception = 'Used the **full launch speed**. Only the vertical component $v_0\sin\theta$ climbs, so the peak height is $(v_0\sin\theta)^2/2g$ — not $v_0^2/2g$.'
+
+  [[practice.distractor]]
+  method = "dropped_factor_2"
+  transform = "2*answer"
+  misconception = 'Dropped the factor of $2$ in $H = (v_0\sin\theta)^2/(2g)$. The vertical motion decelerates at $g$, so the rise is $v_y^2/2g$ — *half* of $v_y^2/g$.'

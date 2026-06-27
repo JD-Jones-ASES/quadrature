@@ -3,7 +3,7 @@
   // options are named misconceptions, plus (when the lesson supplies them) the algebra and calculus
   // step-throughs reused verbatim. It computes NOTHING and stores NOTHING — every value came from the producer,
   // proven finite and distinct from the answer at build time. This is practice as a reveal, not a graded quiz.
-  let { question } = $props();
+  let { question, calcLabel = "Calculus" } = $props();
 
   // a stable, SSR-safe shuffle: order choices by a hash of (id, value) so the correct answer isn't always
   // first, while the server and client render the same order (no hydration mismatch from Math.random).
@@ -35,7 +35,7 @@
       <button role="tab" aria-selected={mode === "algebra"} onclick={() => (mode = "algebra")}>Algebra</button>
     {/if}
     {#if hasCalculus}
-      <button role="tab" aria-selected={mode === "calculus"} onclick={() => (mode = "calculus")}>Calculus</button>
+      <button role="tab" aria-selected={mode === "calculus"} onclick={() => (mode = "calculus")}>{calcLabel}</button>
     {/if}
   </div>
 
@@ -68,7 +68,7 @@
           {#if question.answer.symbolicHtml}<span class="pq-sym">= {@html question.answer.symbolicHtml}</span>{/if}
         </p>
         {#if hasAlgebra || hasCalculus}
-          <p class="pq-hint">Step through the {hasAlgebra ? "Algebra" : ""}{hasAlgebra && hasCalculus ? " and " : ""}{hasCalculus ? "Calculus" : ""} above to see <em>why</em>.</p>
+          <p class="pq-hint">Step through the {hasAlgebra ? "Algebra" : ""}{hasAlgebra && hasCalculus ? " and " : ""}{hasCalculus ? calcLabel : ""} above to see <em>why</em>.</p>
         {/if}
       </div>
     {/if}
@@ -86,7 +86,7 @@
       </nav>
     </div>
   {:else}
-    <div class="pq-stepper" role="tabpanel" aria-label="Calculus step-through">
+    <div class="pq-stepper" role="tabpanel" aria-label={`${calcLabel} step-through`}>
       <div class="pq-step" class:emph={question.calculus_steps[stepC].emphasis}>
         <div class="pq-step-label">{@html question.calculus_steps[stepC].labelHtml}</div>
         <div class="pq-math">{@html question.calculus_steps[stepC].latexHtml}</div>

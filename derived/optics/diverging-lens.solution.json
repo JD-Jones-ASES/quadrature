@@ -1,0 +1,581 @@
+{
+  "id": "diverging-lens",
+  "title": "The diverging lens: one image, always virtual",
+  "topic": "optics",
+  "slug": "diverging-lens",
+  "scenario": "A **diverging** lens (concave — thinner in the middle) with focal length $f = -1$ m. The focal length is *negative* because parallel rays leave it **spreading apart**, as if they had come from a focus *in front* of the lens. An object $h_o = 0.4$ m tall stands a distance $d_o$ in front. Here is the surprise: no matter where you put the object — right up close or far away — a diverging lens makes only **one** kind of image: **virtual, upright, and shrunken**, on the same side as the object. Slide the object and watch — the image never flips, never enlarges, never lands on a screen. This is the lens in a door peephole and the front group of a wide-angle view.",
+  "regime": 3,
+  "constants": {
+    "f": -1.0,
+    "do": 1.5,
+    "ho": 0.4
+  },
+  "initial_conditions": {},
+  "assumptions": [
+    {
+      "claim": "A *thin* lens: its thickness is negligible next to the focal length, so both refractions happen in one plane at the lens center.",
+      "kind": "model"
+    },
+    {
+      "claim": "*Paraxial* rays — all rays stay close to the axis, so a point object maps to a single point image. Real wide lenses blur this.",
+      "kind": "model"
+    },
+    {
+      "claim": "A single diverging lens, $f < 0$, with the sign convention that a virtual image (on the object's side, seen through the lens) has $d_i < 0$ and an upright image has $m > 0$.",
+      "kind": "model"
+    }
+  ],
+  "algebra": {
+    "steps": [
+      {
+        "label": "What the algebra-based course hands you (two rules)",
+        "latex": "\\frac{1}{d_o} + \\frac{1}{d_i} = \\frac{1}{f}, \\qquad m = -\\frac{d_i}{d_o} = \\frac{h_i}{h_o}",
+        "prose": "Two memorized equations. The first locates the image; the second gives its size and orientation. A negative $m$ means the image is inverted; $|m| < 1$ means reduced; a negative $d_i$ means the image is virtual (on the object's side)."
+      },
+      {
+        "label": "Solve the lens equation for the image distance",
+        "latex": "\\frac{1}{d_i} = \\frac{1}{f} - \\frac{1}{d_o} \\ \\Longrightarrow\\ d_i = \\frac{d_o f}{d_o - f} = -0.6\\ \\text{m}",
+        "prose": "With $f = -1$ m and $d_o = 1.5$ m, the image distance is $d_i = -0.6$ m. It is **negative**, so the image is **virtual** — it forms on the *same* side as the object. You cannot catch it on a screen; you see it by looking *through* the lens."
+      },
+      {
+        "label": "Read off the magnification and image height",
+        "latex": "m = -\\frac{d_i}{d_o} = 0.4, \\qquad h_i = m\\,h_o = 0.16\\ \\text{m}",
+        "prose": "The magnification is $m = 0.4$: the sign is positive, so the image is **upright**, and $|m| < 1$, so it is **reduced** — a diverging lens does this at *every* object distance — the image is always virtual, upright, and shrunken, and can never be projected."
+      }
+    ],
+    "result": {
+      "image_distance": {
+        "label": "Image distance $d_i = d_o f/(d_o-f)$ at $d_o = 1.5$ m",
+        "unit": "m",
+        "symbolic_latex": "\\dfrac{d_o\\,f}{d_o - f}",
+        "value": -0.6,
+        "display": "-0.6"
+      },
+      "magnification": {
+        "label": "Magnification $m = -d_i/d_o$ at $d_o = 1.5$ m (a pure number)",
+        "unit": "",
+        "symbolic_latex": "-\\dfrac{d_i}{d_o}",
+        "value": 0.4,
+        "display": "0.4"
+      },
+      "image_height": {
+        "label": "Image height $h_i = m\\,h_o$ at $d_o = 1.5$ m, $h_o = 0.4$ m",
+        "unit": "m",
+        "symbolic_latex": "-\\dfrac{h_o\\,f}{d_o - f}",
+        "value": 0.16,
+        "display": "0.16"
+      }
+    }
+  },
+  "calculus": {
+    "register_label": "Ray diagram",
+    "steps": [
+      {
+        "label": "Draw three rays from the tip of the object — no equation needed",
+        "latex": "\\text{(1) parallel}\\leftrightarrow F \\qquad \\text{(2) through center}\\to\\text{straight} \\qquad \\text{(3) } F' \\leftrightarrow \\text{parallel}",
+        "prose": "Geometric optics needs no calculus and, at first, no algebra. From the object tip, the ray *parallel* to the axis bends **outward**, as if it had come from the near focus $F$; the ray through the lens *center* goes straight; the ray aimed at the far focus $F'$ leaves *parallel*. The refracted rays diverge — but traced *backward* they meet, and that crossing is the (virtual) image."
+      },
+      {
+        "label": "Two of the rays give the magnification two different ways (similar triangles)",
+        "latex": "\\underbrace{\\frac{h_i}{h_o} = -\\frac{d_i}{d_o}}_{\\text{center ray}} \\qquad \\underbrace{\\frac{h_i}{h_o} = -\\frac{d_i - f}{f}}_{\\text{parallel ray}}",
+        "prose": "The center ray makes two similar triangles (object–axis–center and image–axis–center), so $h_i/h_o = -d_i/d_o$. The parallel ray makes two more about a focal point, so $h_i/h_o = -(d_i - f)/f$. Same ratio $h_i/h_o$, computed from two different rays."
+      },
+      {
+        "label": "Set the two equal — and the thin-lens equation falls out",
+        "latex": "-\\frac{d_i}{d_o} = -\\frac{d_i - f}{f} \\ \\Longrightarrow\\ d_i f = d_o(d_i - f) \\ \\Longrightarrow\\ \\frac{1}{f} = \\frac{1}{d_o} + \\frac{1}{d_i}",
+        "prose": "Demanding that the two rays cross at one point — that the two magnifications agree — and clearing fractions gives $1/f = 1/d_o + 1/d_i$ exactly. The equation you memorized is the algebra of *the rays meet*. (Deeper still, Fermat's principle: every path takes a stationary time, $dL = 0$ — the one genuinely calculus statement underneath it all.)",
+        "emphasis": true
+      }
+    ]
+  },
+  "proof": {
+    "kind": "governing",
+    "heading": "The thin-lens equation is the algebra of “the three principal-ray constructions locate one image” — SymPy proves the chief, parallel, and focal rays all agree.",
+    "checked_by": "sympy",
+    "holds": true,
+    "detail": "check $d_i = d_o f/(d_o-f)$ solves $1/d_o+1/d_i=1/f$; chief ray $m=-d_i/d_o$; parallel & focal rays give the same $m$; $m = f/(f-d_o)$",
+    "checks": [
+      {
+        "key": "lens_equation",
+        "claim": "The closed form $d_i = \\dfrac{d_o f}{d_o - f}$ satisfies the thin-lens equation $\\dfrac{1}{d_o} + \\dfrac{1}{d_i} = \\dfrac{1}{f}$ — back-substituting leaves zero.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "chief_ray",
+        "claim": "The ray through the lens *center* is undeviated, so the object and image triangles about the center are similar: $m = h_i/h_o = -d_i/d_o$.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "parallel_ray_agrees",
+        "claim": "The *parallel* ray refracts toward (or away from) the focus, giving $m = -(d_i - f)/f$ by similar triangles. It equals the chief-ray value $-d_i/d_o$ — the two independent constructions locate the *same* image point, and that agreement is exactly the thin-lens equation.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "focal_ray_agrees",
+        "claim": "The *focal* ray (through a focus, emerging parallel) gives $m = -f/(d_o - f)$ — the same magnification again. All three principal-ray constructions locate one image point.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "magnification_form",
+        "claim": "The magnification in terms of $d_o, f$ alone: $m = -\\dfrac{d_i}{d_o} = \\dfrac{f}{f - d_o}$ — its sign sets the orientation (upright when $m>0$, inverted when $m<0$), its size the scale.",
+        "holds": true,
+        "tier": "structural"
+      }
+    ]
+  },
+  "units_check": {
+    "checked_by": "sympy",
+    "holds": true
+  },
+  "graphs": [
+    {
+      "kind": "lens",
+      "mode": "interactive",
+      "window": "fixed",
+      "annotate": [
+        "principal_rays",
+        "always_virtual"
+      ],
+      "svg": "assets/graphs/diverging-lens-0.svg",
+      "series": {
+        "u": [
+          0.3,
+          0.361666667,
+          0.423333333,
+          0.485,
+          0.546666667,
+          0.608333333,
+          0.67,
+          0.731666667,
+          0.793333333,
+          0.855,
+          0.916666667,
+          0.978333333,
+          1.04,
+          1.101666667,
+          1.163333333,
+          1.225,
+          1.286666667,
+          1.348333333,
+          1.41,
+          1.471666667,
+          1.533333333,
+          1.595,
+          1.656666667,
+          1.718333333,
+          1.78,
+          1.841666667,
+          1.903333333,
+          1.965,
+          2.026666667,
+          2.088333333,
+          2.15,
+          2.211666667,
+          2.273333333,
+          2.335,
+          2.396666667,
+          2.458333333,
+          2.52,
+          2.581666667,
+          2.643333333,
+          2.705,
+          2.766666667,
+          2.828333333,
+          2.89,
+          2.951666667,
+          3.013333333,
+          3.075,
+          3.136666667,
+          3.198333333,
+          3.26,
+          3.321666667,
+          3.383333333,
+          3.445,
+          3.506666667,
+          3.568333333,
+          3.63,
+          3.691666667,
+          3.753333333,
+          3.815,
+          3.876666667,
+          3.938333333,
+          4.0
+        ],
+        "di": [
+          -0.2307692308,
+          -0.2656058753,
+          -0.2974238874,
+          -0.3265993266,
+          -0.353448276,
+          -0.3782383418,
+          -0.4011976048,
+          -0.4225216555,
+          -0.4423791821,
+          -0.460916442,
+          -0.4782608697,
+          -0.49452401,
+          -0.5098039216,
+          -0.5241871531,
+          -0.5377503851,
+          -0.5505617978,
+          -0.5626822158,
+          -0.5741660752,
+          -0.5850622407,
+          -0.5954147,
+          -0.6052631578,
+          -0.6146435453,
+          -0.6235884568,
+          -0.6321275291,
+          -0.6402877698,
+          -0.6480938417,
+          -0.6555683122,
+          -0.6627318718,
+          -0.6696035243,
+          -0.6762007555,
+          -0.6825396825,
+          -0.6886351843,
+          -0.6945010183,
+          -0.700149925,
+          -0.7055937194,
+          -0.7108433735,
+          -0.7159090909,
+          -0.7208003723,
+          -0.725526075,
+          -0.7300944669,
+          -0.7345132744,
+          -0.7387897257,
+          -0.7429305913,
+          -0.7469422185,
+          -0.7508305648,
+          -0.754601227,
+          -0.7582594682,
+          -0.7618102421,
+          -0.765258216,
+          -0.7686077902,
+          -0.7718631179,
+          -0.7750281215,
+          -0.7781065089,
+          -0.7811017877,
+          -0.7840172786,
+          -0.7868561279,
+          -0.7896213184,
+          -0.7923156802,
+          -0.7949419002,
+          -0.7975025312,
+          -0.8
+        ],
+        "hi": [
+          0.3076923077,
+          0.2937576499,
+          0.281030445,
+          0.2693602694,
+          0.2586206896,
+          0.2487046633,
+          0.2395209581,
+          0.2309913378,
+          0.2230483272,
+          0.2156334232,
+          0.2086956521,
+          0.202190396,
+          0.1960784314,
+          0.1903251387,
+          0.1848998459,
+          0.1797752809,
+          0.1749271137,
+          0.1703335699,
+          0.1659751037,
+          0.16183412,
+          0.1578947369,
+          0.1541425819,
+          0.1505646173,
+          0.1471489884,
+          0.1438848921,
+          0.1407624633,
+          0.1377726751,
+          0.1349072513,
+          0.1321585903,
+          0.1295196978,
+          0.126984127,
+          0.1245459263,
+          0.1221995927,
+          0.11994003,
+          0.1177625123,
+          0.1156626506,
+          0.1136363636,
+          0.1116798511,
+          0.10978957,
+          0.1079622132,
+          0.1061946903,
+          0.1044841097,
+          0.1028277635,
+          0.1012231126,
+          0.0996677741,
+          0.0981595092,
+          0.0966962127,
+          0.0952759031,
+          0.0938967136,
+          0.0925568839,
+          0.0912547529,
+          0.0899887514,
+          0.0887573964,
+          0.0875592849,
+          0.0863930886,
+          0.0852575488,
+          0.0841514727,
+          0.0830737279,
+          0.0820232399,
+          0.0809989875,
+          0.08
+        ],
+        "m": [
+          0.7692307692,
+          0.7343941247,
+          0.7025761126,
+          0.6734006734,
+          0.646551724,
+          0.6217616582,
+          0.5988023952,
+          0.5774783445,
+          0.5576208179,
+          0.539083558,
+          0.5217391303,
+          0.50547599,
+          0.4901960784,
+          0.4758128469,
+          0.4622496149,
+          0.4494382022,
+          0.4373177842,
+          0.4258339248,
+          0.4149377593,
+          0.4045853,
+          0.3947368422,
+          0.3853564547,
+          0.3764115432,
+          0.3678724709,
+          0.3597122302,
+          0.3519061583,
+          0.3444316878,
+          0.3372681282,
+          0.3303964757,
+          0.3237992445,
+          0.3174603175,
+          0.3113648157,
+          0.3054989817,
+          0.299850075,
+          0.2944062806,
+          0.2891566265,
+          0.2840909091,
+          0.2791996277,
+          0.274473925,
+          0.2699055331,
+          0.2654867256,
+          0.2612102743,
+          0.2570694087,
+          0.2530577815,
+          0.2491694352,
+          0.245398773,
+          0.2417405318,
+          0.2381897579,
+          0.234741784,
+          0.2313922098,
+          0.2281368821,
+          0.2249718785,
+          0.2218934911,
+          0.2188982123,
+          0.2159827214,
+          0.2131438721,
+          0.2103786816,
+          0.2076843198,
+          0.2050580998,
+          0.2024974688,
+          0.2
+        ],
+        "u_max": 4.0
+      },
+      "closed_form": {
+        "di": "-u/(u + 1)",
+        "hi": "ho/(u + 1)",
+        "m": "1/(u + 1)"
+      },
+      "closed_form_params": [
+        "ho",
+        "u"
+      ],
+      "params": {
+        "ho": {
+          "min": 0.2,
+          "max": 0.6,
+          "default": 0.4
+        }
+      },
+      "cursor": {
+        "name": "u",
+        "label": "object distance  dₒ  (m)",
+        "unit": "m",
+        "min": 0.3,
+        "max": 4.0,
+        "default": 1.5
+      },
+      "u_label": "object distance  dₒ  (m)",
+      "consts": {
+        "f": -1.0
+      },
+      "u0": 0.3
+    }
+  ],
+  "misconception": {
+    "claim": "If you move the object close enough to a diverging lens, you can magnify it or catch a real image on a screen.",
+    "refuted_by": "You cannot. A diverging lens has no real focus in front of it — parallel rays *spread*, and only their backward extensions meet, at a virtual focus *behind* the object. So for **every** object distance the image distance $d_i = d_o f/(d_o - f)$ comes out **negative** (virtual) and the magnification $|m| < 1$ (reduced and upright). Drag the object from $0.3$ m to $4$ m: the image only ever shrinks toward the focal point, always right-side-up, never on the far side. Only a converging lens ($f > 0$) can magnify or project."
+  },
+  "formulas_used": [
+    "optics-thin-lens",
+    "optics-magnification"
+  ],
+  "provenance": {
+    "producer": "quadrature_producer",
+    "version": "0.1.0",
+    "sympy": "1.14.0",
+    "author": "Quadrature",
+    "created": "2026-06-27"
+  },
+  "practice": [
+    {
+      "id": "image-distance",
+      "asks": "the image distance",
+      "prompt": "A diverging lens has focal length $f = -1$ m. An object sits at $d_o = 1.5$ m. Where is the image — what is $d_i$?",
+      "answer": {
+        "value": -0.6,
+        "display": "-0.6",
+        "unit": "m",
+        "symbolic_latex": "\\dfrac{d_o\\,f}{d_o - f}"
+      },
+      "choices": [
+        {
+          "value": -0.6,
+          "display": "-0.6",
+          "correct": true
+        },
+        {
+          "value": 0.6,
+          "display": "0.6",
+          "correct": false,
+          "method": "dropped_sign",
+          "misconception": "Dropped the minus sign. A diverging lens always makes a **virtual** image, so $d_i$ is **negative** — the image is on the same side as the object, not the far side."
+        },
+        {
+          "value": 3.0,
+          "display": "3",
+          "correct": false,
+          "method": "used_positive_f",
+          "misconception": "Treated the lens as converging ($f = +1$). A diverging lens has $f < 0$; with $f = -1$ m, $d_i = d_o f/(d_o - f)$ works out negative, not positive."
+        }
+      ],
+      "algebra_steps": [
+        {
+          "label": "What the algebra-based course hands you (two rules)",
+          "latex": "\\frac{1}{d_o} + \\frac{1}{d_i} = \\frac{1}{f}, \\qquad m = -\\frac{d_i}{d_o} = \\frac{h_i}{h_o}",
+          "prose": "Two memorized equations. The first locates the image; the second gives its size and orientation. A negative $m$ means the image is inverted; $|m| < 1$ means reduced; a negative $d_i$ means the image is virtual (on the object's side)."
+        },
+        {
+          "label": "Solve the lens equation for the image distance",
+          "latex": "\\frac{1}{d_i} = \\frac{1}{f} - \\frac{1}{d_o} \\ \\Longrightarrow\\ d_i = \\frac{d_o f}{d_o - f} = -0.6\\ \\text{m}",
+          "prose": "With $f = -1$ m and $d_o = 1.5$ m, the image distance is $d_i = -0.6$ m. It is **negative**, so the image is **virtual** — it forms on the *same* side as the object. You cannot catch it on a screen; you see it by looking *through* the lens."
+        },
+        {
+          "label": "Read off the magnification and image height",
+          "latex": "m = -\\frac{d_i}{d_o} = 0.4, \\qquad h_i = m\\,h_o = 0.16\\ \\text{m}",
+          "prose": "The magnification is $m = 0.4$: the sign is positive, so the image is **upright**, and $|m| < 1$, so it is **reduced** — a diverging lens does this at *every* object distance — the image is always virtual, upright, and shrunken, and can never be projected."
+        }
+      ],
+      "calculus_steps": [
+        {
+          "label": "Draw three rays from the tip of the object — no equation needed",
+          "latex": "\\text{(1) parallel}\\leftrightarrow F \\qquad \\text{(2) through center}\\to\\text{straight} \\qquad \\text{(3) } F' \\leftrightarrow \\text{parallel}",
+          "prose": "Geometric optics needs no calculus and, at first, no algebra. From the object tip, the ray *parallel* to the axis bends **outward**, as if it had come from the near focus $F$; the ray through the lens *center* goes straight; the ray aimed at the far focus $F'$ leaves *parallel*. The refracted rays diverge — but traced *backward* they meet, and that crossing is the (virtual) image."
+        },
+        {
+          "label": "Two of the rays give the magnification two different ways (similar triangles)",
+          "latex": "\\underbrace{\\frac{h_i}{h_o} = -\\frac{d_i}{d_o}}_{\\text{center ray}} \\qquad \\underbrace{\\frac{h_i}{h_o} = -\\frac{d_i - f}{f}}_{\\text{parallel ray}}",
+          "prose": "The center ray makes two similar triangles (object–axis–center and image–axis–center), so $h_i/h_o = -d_i/d_o$. The parallel ray makes two more about a focal point, so $h_i/h_o = -(d_i - f)/f$. Same ratio $h_i/h_o$, computed from two different rays."
+        },
+        {
+          "label": "Set the two equal — and the thin-lens equation falls out",
+          "latex": "-\\frac{d_i}{d_o} = -\\frac{d_i - f}{f} \\ \\Longrightarrow\\ d_i f = d_o(d_i - f) \\ \\Longrightarrow\\ \\frac{1}{f} = \\frac{1}{d_o} + \\frac{1}{d_i}",
+          "prose": "Demanding that the two rays cross at one point — that the two magnifications agree — and clearing fractions gives $1/f = 1/d_o + 1/d_i$ exactly. The equation you memorized is the algebra of *the rays meet*. (Deeper still, Fermat's principle: every path takes a stationary time, $dL = 0$ — the one genuinely calculus statement underneath it all.)",
+          "emphasis": true
+        }
+      ]
+    },
+    {
+      "id": "magnification",
+      "asks": "the magnification",
+      "prompt": "The same diverging lens ($f = -1$ m) with the object at $d_o = 1.5$ m forms its image at $d_i = -0.6$ m. What is the magnification $m$?",
+      "answer": {
+        "value": 0.4,
+        "display": "0.4",
+        "unit": "",
+        "symbolic_latex": "-\\dfrac{d_i}{d_o}"
+      },
+      "choices": [
+        {
+          "value": 0.4,
+          "display": "0.4",
+          "correct": true
+        },
+        {
+          "value": -0.4,
+          "display": "-0.4",
+          "correct": false,
+          "method": "assumed_inverted",
+          "misconception": "Made it negative. A diverging-lens image is **upright**, so $m > 0$. (A negative $m$ would mean an inverted image — that only happens for a *real* image from a converging lens.)"
+        },
+        {
+          "value": 2.0,
+          "display": "2",
+          "correct": false,
+          "method": "wrong_denominator",
+          "misconception": "Used $d_o + f$ in the denominator. The magnification is $m = -f/(d_o - f)$ — with $f = -1$ that is $1/2.5 = 0.4$, a reduced upright image."
+        }
+      ],
+      "algebra_steps": [
+        {
+          "label": "What the algebra-based course hands you (two rules)",
+          "latex": "\\frac{1}{d_o} + \\frac{1}{d_i} = \\frac{1}{f}, \\qquad m = -\\frac{d_i}{d_o} = \\frac{h_i}{h_o}",
+          "prose": "Two memorized equations. The first locates the image; the second gives its size and orientation. A negative $m$ means the image is inverted; $|m| < 1$ means reduced; a negative $d_i$ means the image is virtual (on the object's side)."
+        },
+        {
+          "label": "Solve the lens equation for the image distance",
+          "latex": "\\frac{1}{d_i} = \\frac{1}{f} - \\frac{1}{d_o} \\ \\Longrightarrow\\ d_i = \\frac{d_o f}{d_o - f} = -0.6\\ \\text{m}",
+          "prose": "With $f = -1$ m and $d_o = 1.5$ m, the image distance is $d_i = -0.6$ m. It is **negative**, so the image is **virtual** — it forms on the *same* side as the object. You cannot catch it on a screen; you see it by looking *through* the lens."
+        },
+        {
+          "label": "Read off the magnification and image height",
+          "latex": "m = -\\frac{d_i}{d_o} = 0.4, \\qquad h_i = m\\,h_o = 0.16\\ \\text{m}",
+          "prose": "The magnification is $m = 0.4$: the sign is positive, so the image is **upright**, and $|m| < 1$, so it is **reduced** — a diverging lens does this at *every* object distance — the image is always virtual, upright, and shrunken, and can never be projected."
+        }
+      ],
+      "calculus_steps": [
+        {
+          "label": "Draw three rays from the tip of the object — no equation needed",
+          "latex": "\\text{(1) parallel}\\leftrightarrow F \\qquad \\text{(2) through center}\\to\\text{straight} \\qquad \\text{(3) } F' \\leftrightarrow \\text{parallel}",
+          "prose": "Geometric optics needs no calculus and, at first, no algebra. From the object tip, the ray *parallel* to the axis bends **outward**, as if it had come from the near focus $F$; the ray through the lens *center* goes straight; the ray aimed at the far focus $F'$ leaves *parallel*. The refracted rays diverge — but traced *backward* they meet, and that crossing is the (virtual) image."
+        },
+        {
+          "label": "Two of the rays give the magnification two different ways (similar triangles)",
+          "latex": "\\underbrace{\\frac{h_i}{h_o} = -\\frac{d_i}{d_o}}_{\\text{center ray}} \\qquad \\underbrace{\\frac{h_i}{h_o} = -\\frac{d_i - f}{f}}_{\\text{parallel ray}}",
+          "prose": "The center ray makes two similar triangles (object–axis–center and image–axis–center), so $h_i/h_o = -d_i/d_o$. The parallel ray makes two more about a focal point, so $h_i/h_o = -(d_i - f)/f$. Same ratio $h_i/h_o$, computed from two different rays."
+        },
+        {
+          "label": "Set the two equal — and the thin-lens equation falls out",
+          "latex": "-\\frac{d_i}{d_o} = -\\frac{d_i - f}{f} \\ \\Longrightarrow\\ d_i f = d_o(d_i - f) \\ \\Longrightarrow\\ \\frac{1}{f} = \\frac{1}{d_o} + \\frac{1}{d_i}",
+          "prose": "Demanding that the two rays cross at one point — that the two magnifications agree — and clearing fractions gives $1/f = 1/d_o + 1/d_i$ exactly. The equation you memorized is the algebra of *the rays meet*. (Deeper still, Fermat's principle: every path takes a stationary time, $dL = 0$ — the one genuinely calculus statement underneath it all.)",
+          "emphasis": true
+        }
+      ]
+    }
+  ]
+}

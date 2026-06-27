@@ -47,3 +47,20 @@ include = ["algebra", "calculus"]
   method = "forgot_mass"
   transform = "2*Fmax*tau/pi"
   misconception = 'That is the impulse $J$ (in N·s). The velocity change is $\Delta v = J/m$ — divide by the mass.'
+
+[[practice]]
+id = "average-force"
+asks = "the average force over the pulse"
+answer = "result:avg_force"
+prompt = 'For the same half-sine force pulse ($F_{\max} = 200$ N over $\tau = 0.02$ s), what is the **average** force during contact?'
+include = ["algebra", "calculus"]
+
+  [[practice.distractor]]
+  method = "peak_for_average"
+  transform = "Fmax"
+  misconception = 'That is the **peak** force. The force reaches $F_{\max}$ only for an instant; averaged over the pulse it is smaller — here $\bar F = 2F_{\max}/\pi$.'
+
+  [[practice.distractor]]
+  method = "triangle_average"
+  transform = "Fmax/2"
+  misconception = 'Half the peak is the average of a *triangular* pulse. A half-sine pulse averages $2F_{\max}/\pi \approx 0.64\,F_{\max}$ — a bit more than half.'

@@ -9,11 +9,15 @@
   import EnergyBars from "./EnergyBars.svelte";
   import Collision from "./Collision.svelte";
   import StandingWave from "./StandingWave.svelte";
+  import Lens from "./Lens.svelte";
   import PracticeQuestion from "./PracticeQuestion.svelte";
 
   let { solution } = $props();
   const s = solution;
   const graph = s.graphs[0];
+  // most lessons' second register is calculus; a regime-3 lesson whose honest "second way" is geometric (e.g.
+  // the thin-lens ray diagram) overrides the tab label via calculus.register_label.
+  const calcLabel = s.calculus.register_label ?? "Calculus";
 
   let tab = $state("calculus");
   let stepA = $state(0);
@@ -51,7 +55,7 @@
   <!-- register tabs -->
   <div class="tabs" role="tablist">
     <button role="tab" aria-selected={tab === "algebra"} onclick={() => (tab = "algebra")}>Algebra</button>
-    <button role="tab" aria-selected={tab === "calculus"} onclick={() => (tab = "calculus")}>Calculus</button>
+    <button role="tab" aria-selected={tab === "calculus"} onclick={() => (tab = "calculus")}>{calcLabel}</button>
     <button role="tab" aria-selected={tab === "graph"} onclick={() => (tab = "graph")}>Graph</button>
     {#if s.practice?.length}
       <button role="tab" aria-selected={tab === "practice"} onclick={() => (tab = "practice")}>Practice</button>
@@ -72,7 +76,7 @@
       </nav>
     </div>
   {:else if tab === "calculus"}
-    <div class="stepper" role="tabpanel" aria-label="Calculus register">
+    <div class="stepper" role="tabpanel" aria-label={`${calcLabel} register`}>
       <div class="step" class:emph={cSteps[stepC].emphasis}>
         <div class="step-label">{@html cSteps[stepC].labelHtml}</div>
         <div class="math">{@html cSteps[stepC].latexHtml}</div>
@@ -96,6 +100,8 @@
         <Collision {graph} />
       {:else if graph.kind === "standing"}
         <StandingWave {graph} />
+      {:else if graph.kind === "lens"}
+        <Lens {graph} />
       {:else}
         <GraphStack {graph} />
       {/if}
@@ -104,7 +110,7 @@
     <div class="practicepanel" role="tabpanel" aria-label="Practice">
       <p class="practice-lede">Solve each one three ways — get the answer, then watch it fall out in the algebra and the calculus. Wrong options are common misconceptions, not random numbers.</p>
       {#each s.practice as q (q.id)}
-        <PracticeQuestion question={q} />
+        <PracticeQuestion question={q} {calcLabel} />
       {/each}
     </div>
   {/if}

@@ -20,6 +20,7 @@ const svg = readFileSync(
 const graph0 = solution.graphs[0];
 const isArea = graph0.kind === "area";
 const isTraj = graph0.kind === "trajectory";
+const isLens = graph0.kind === "lens";
 const fSym = (graph0.f_label ?? "").split("(")[0].trim();
 const uSym = (graph0.u_label ?? "").split("(")[0].trim();
 
@@ -30,15 +31,20 @@ const FRAMING = {
     : "Regime 2 — calculus does what algebra cannot. The acceleration isn't constant, so the algebra formulas don't apply; calculus is the only road in, and SymPy proves the closed form solves the equation of motion.",
   3: isArea
     ? "Regime 3 — an algebra-only domain, but the calculus underpinning is clean and worth seeing: the work is the area under the curve, ∫P dV. SymPy proves that area is exactly the memorized result — and that the constant-pressure case collapses to the rectangle."
+    : isLens
+    ? "Regime 3 — an algebra-only domain, and here the honest second register is geometry, not calculus: the ray diagram. The same image distance falls out of similar triangles, and SymPy proves the three principal-ray constructions agree — which IS the thin-lens equation."
     : "Regime 3 — an algebra-only topic.",
 };
 
 const figureHeading = isArea
   ? `The ${fSym}–${uSym} graph, fully annotated`
-  : isTraj ? "The trajectory, fully annotated" : "The stacked graph, fully annotated";
+  : isTraj ? "The trajectory, fully annotated"
+  : isLens ? "The ray diagram, fully annotated"
+  : "The stacked graph, fully annotated";
 const figureCaption = isArea
   ? `A static rendering (Matplotlib): the shaded area under ${fSym} is the accumulated integral ${graph0.g_label?.split("(")[0].trim()}, and the slope of ${graph0.g_label?.split("(")[0].trim()} is ${fSym}. The interactive version with a draggable cursor is in the Graph tab above.`
   : isTraj ? "A static rendering (Matplotlib) at the default launch — the path y vs x, with the apex and range marked. The interactive version with launch-angle and speed sliders is in the Graph tab above."
+  : isLens ? "A static rendering (Matplotlib) at the default object distance — the three principal rays converging to the real, inverted image. The interactive version, with object-distance and height sliders, is in the Graph tab above."
   : "A static rendering (Matplotlib) at the default parameters — the interactive version is in the Graph tab above.";
 ---
 

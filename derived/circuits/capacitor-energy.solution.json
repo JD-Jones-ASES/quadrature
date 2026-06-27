@@ -423,6 +423,63 @@
           "prose": "If a battery had held the voltage at $V$ the whole time, it would have done $W = VQ$ — the full rectangle. The capacitor stores only the triangle $\\tfrac12 VQ$; the other half is dissipated as heat in the wire's resistance while the charge flows. The constant-voltage rectangle is the quadrature; the real charging is the area under a rising line."
         }
       ]
+    },
+    {
+      "id": "battery-work",
+      "asks": "the work done by the battery",
+      "prompt": "Charging the same $C = 500\\,\\mu$F capacitor to $V = 200$ V, how much work does the **battery** do (which is more than the energy the capacitor ends up storing)?",
+      "answer": {
+        "value": 20.0,
+        "display": "20",
+        "unit": "J",
+        "symbolic_latex": "V\\,Q"
+      },
+      "choices": [
+        {
+          "value": 20.0,
+          "display": "20",
+          "correct": true
+        },
+        {
+          "value": 10.0,
+          "display": "10",
+          "correct": false,
+          "method": "gave_stored",
+          "misconception": "That is the energy **stored** in the capacitor, $\\tfrac12 CV^2$. The battery does $QV = CV^2$ — *twice* as much; the other half is dissipated while charging."
+        },
+        {
+          "value": 40.0,
+          "display": "40",
+          "correct": false,
+          "method": "double_counted",
+          "misconception": "Doubled it. The battery moves charge $Q$ through a steady potential $V$, doing $QV$ — there is no extra factor of $2$."
+        }
+      ],
+      "algebra_steps": [
+        {
+          "label": "What the algebra-based course hands you",
+          "latex": "U = \\tfrac12 C V^2 = \\tfrac12 Q V \\qquad(\\bar V = \\tfrac12 V,\\ \\text{the average voltage})",
+          "prose": "The energy in a capacitor is handed to you as $\\tfrac12 C V^2$, usually justified by an *average voltage*: the voltage ramps from $0$ to $V$, so on average the charge crosses $\\tfrac12 V$, giving $U = \\tfrac12 Q V$. That works — but only because the voltage rises *linearly*, and the algebra cannot say why the factor is $\\tfrac12$ rather than $1$."
+        }
+      ],
+      "calculus_steps": [
+        {
+          "label": "Energy is the area under the voltage–charge line",
+          "latex": "U = \\int_0^Q V\\,dq",
+          "prose": "Pushing a charge $dq$ across the capacitor's voltage $V$ costs energy $V\\,dq$. The total stored energy is the integral of voltage over charge — the area under the $V$–$q$ graph. Because $V = q/C$ rises from zero, that area is a triangle, not a rectangle."
+        },
+        {
+          "label": "Evaluate for the linear law $V(q) = q/C$",
+          "latex": "U = \\int_0^{Q} \\frac{q}{C}\\,dq = \\frac{Q^2}{2C} = \\tfrac12 C V^2",
+          "prose": "The area under a straight line from the origin is $\\tfrac12\\,(\\text{base})\\,(\\text{height}) = \\tfrac12\\,Q\\,(Q/C) = Q^2/2C$. Substituting $Q = CV$ gives the memorized $\\tfrac12 C V^2$ — it is exactly the area, and its slope is $V(q)$.",
+          "emphasis": true
+        },
+        {
+          "label": "Where the other half went",
+          "latex": "\\boxed{\\,U = \\tfrac12 V Q \\quad\\text{but a battery does}\\quad W = V Q\\,}",
+          "prose": "If a battery had held the voltage at $V$ the whole time, it would have done $W = VQ$ — the full rectangle. The capacitor stores only the triangle $\\tfrac12 VQ$; the other half is dissipated as heat in the wire's resistance while the charge flows. The constant-voltage rectangle is the quadrature; the real charging is the area under a rising line."
+        }
+      ]
     }
   ]
 }

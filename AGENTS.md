@@ -188,7 +188,7 @@ See [`ROADMAP.md`](./ROADMAP.md) and the latest [`docs/sessions/`](./docs/sessio
 complete and reviewed**; **Phase 1 (mechanics)** is in progress, **Phase 2 (E&M)** is deepening (capacitor,
 Coulomb PE, **RC charging**, **line-charge field** + a reference cluster), and **Phase 3 (thermo, fluids, and
 now opened modern)** is deepening. The site is **live and public** at https://jd-jones-ases.github.io/quadrature/
-(push to `main` auto-deploys). Shipped: **26 lessons** across 11 units — free fall, **projectile (drag-free)**,
+(push to `main` auto-deploys). Shipped: **32 lessons** across 12 units — free fall, **projectile (drag-free)**,
 **incline with friction** (`a=g(sinθ−μcosθ)`, opens Dynamics), **rotational kinematics**, and the **circular
 orbit** (regime 1, trajectory on a centred frame — `v=√(μ/R)`, Kepler's `T²∝R³`); SHM, terminal velocity, the
 damped oscillator, **work–energy**, **projectile with quadratic drag**, **impulse–momentum**, **gravitational
@@ -198,36 +198,49 @@ stack — `I` is the slope of `Q`), **the field of a charged rod** (`∫kλ/x² 
 force on a wall** (`∫ρg w h dh`), **Torricelli / a draining tank** (energy bars, `v=√(2gh)`, opens fluid
 dynamics), the **elliptical orbit** (numerical — Kepler's three laws from `r̈=−μr/r³`), **conservation of
 energy** (energy bars — path-independent `v=√(2gH)`), **collisions / momentum** (before/after collision bars),
-and **radioactive decay** (the N / dN/dt 2-panel stack, `dN/dt=−λN`, opens Modern) (regime 2); and **isothermal**
-and **adiabatic PV-work** (regime 3) — plus a **74-formula reference spanning all five domains** (mechanics incl.
-fluids & rotation, E&M incl. magnetism, thermo, waves & optics, modern) and a 74-node / 108-edge concept graph,
+and **radioactive decay** (the N / dN/dt 2-panel stack, `dN/dt=−λN`, opens Modern) (regime 2); **isothermal**,
+**adiabatic**, and **isobaric PV-work** (regime 3); **LC oscillation** and **Faraday induction** (the electrical
+spring and the AC generator, 2-panel stack); **standing waves** (the spatial-mode instrument — opens Waves &
+optics, ADR-0023); and **thin-lens optics** (the ray-diagram instrument — the geometric second register,
+ADR-0024) — plus an **82-formula reference spanning all five domains** (mechanics incl.
+fluids & rotation, E&M incl. magnetism, thermo, waves & optics, modern) and an 82-node / 125-edge concept graph,
 all SymPy-verified. The producer is a model registry (`constant-accel`, `shm`, `linear-drag`, `damped-shm`,
 `work-energy`, `pv-work`, `projectile`, `impulse`, `rotation`, `gravity-pe`, `capacitor-energy`, `adiabatic`,
 `moment-of-inertia`, `coulomb-pe`, `hydrostatic-force`, `rotational-work`, `orbit`, `energy-conservation`,
-`collision`, `rc-charging`, `incline-friction`, `decay`, `torricelli`, `line-charge-field`). The concept-graph
+`collision`, `rc-charging`, `incline-friction`, `decay`, `torricelli`, `line-charge-field`, `lc-oscillation`,
+`isobaric-work`, `faraday-induction`, `standing-wave`, `thin-lens`). The concept-graph
 nodes have **clean Unicode labels**, a **domain-clustered layout** (ADR-0020), and pan/zoom + click-select +
-drag-to-reposition.
+drag-to-reposition. **Verified practice (ADR-0022, "solve it three ways")** rides on every lesson; some
+regime-3 lessons override the second-register label (`calculus.register_label`, e.g. thin lens → "Ray diagram"),
+and authored prose supports `**bold**`/`*italic*` markdown in `inline()` (ADR-0024).
 
 **Frontend rendering (ADR-0019): the interactive graph islands' scoped CSS is delivered via
 `svelte({ compilerOptions: { css: "injected" } })` in `astro.config.mjs`.** Without it, Astro only delivers the
-*top-level* island's CSS, and *child* graph islands (GraphStack/AreaPlot/Trajectory/EnergyBars/Collision) render
-with default **black** SVG fills — do not remove it. The site declares `color-scheme: light dark` (Base.astro
+*top-level* island's CSS, and *child* graph islands (GraphStack/AreaPlot/Trajectory/EnergyBars/Collision/
+StandingWave/Lens) render with default **black** SVG fills — do not remove it. The site declares `color-scheme: light dark` (Base.astro
 meta + portal.css) and has a full dark theme; static Matplotlib posters sit on a fixed-light `.svgwrap` figure
 card. **Verify graph colors with `getComputedStyle().fill/stroke`, not just DOM geometry** — colors were the one
 thing prior paint-checks missed.
 
-Graphs come in five instruments: the **temporal stack** (`kind:"stack"`, modes `static` | `interactive` |
-`sampled`; **generalized to N panels** beyond x/v/a via `Scenario.panels`, ADR-0021 — used by RC charging and
-decay), the **area/integral instrument** (`kind:"area"`, ADR-0014 — area under `f(u)` = the accumulated
-integral `g(u)`, off the time axis), the **2D trajectory instrument** (`kind:"trajectory"`, ADR-0015 — the
-path y vs x; drag-free is exact/interactive, quadratic drag is numerically integrated; a centred `frame:"orbit"`
-draws closed orbits, ADR-0016), the **energy-exchange bars** (`kind:"energy"`, ADR-0017 — KE/PE bars that
-trade as a cursor moves while the Total stays flat; an `EnergyPlot` carrying `ke_expr`/`pe_expr`, wired like the
-area instrument), and the **before/after collision bars** (`kind:"collision"`, ADR-0018 — momentum bars equal
-before/after at every restitution `e`, KE bars equal only when elastic; a `CollisionPlot` carrying the final
-velocities `v1f`/`v2f`, also wired like the area instrument).
+Graphs come in seven instruments: the **temporal stack** (`kind:"stack"`, modes `static` | `interactive` |
+`sampled`; **generalized to N panels** beyond x/v/a via `Scenario.panels`, ADR-0021 — used by RC charging,
+decay, LC, Faraday), the **area/integral instrument** (`kind:"area"`, ADR-0014 — area under `f(u)` = the
+accumulated integral `g(u)`, off the time axis), the **2D trajectory instrument** (`kind:"trajectory"`,
+ADR-0015 — the path y vs x; drag-free is exact/interactive, quadratic drag is numerically integrated; a centred
+`frame:"orbit"` draws closed orbits, ADR-0016), the **energy-exchange bars** (`kind:"energy"`, ADR-0017 — KE/PE
+bars that trade as a cursor moves while the Total stays flat; an `EnergyPlot` carrying `ke_expr`/`pe_expr`, wired
+like the area instrument), the **before/after collision bars** (`kind:"collision"`, ADR-0018 — momentum bars
+equal before/after at every restitution `e`, KE bars equal only when elastic; a `CollisionPlot` carrying the
+final velocities `v1f`/`v2f`), the **standing-wave spatial modes** (`kind:"standing"`, ADR-0023 — y(x)=A·sin(nπx/L)
+over a discrete integer mode cursor n; nodes pinned as n changes), and the **thin-lens ray diagram**
+(`kind:"lens"`, ADR-0024 — a lens with d_o as cursor; the three principal rays are drawn and clipped
+to the viewport, and the image flips real↔virtual as d_o crosses f; the **same instrument handles a diverging
+lens with f<0** — always virtual/upright/reduced — via sign-general ray directions and computed image-character
+prose, no engine change). The last five all reuse the canonical `u` axis, so the **parity oracle re-checks them
+with no gate change**.
 Proof kinds: `equivalence` (regime 1) · `governing` (regime-2 ODE / numerical motion / a conserved first
-integral / a collision conservation law) · `integral` (area instrument).
+integral / a collision conservation law / a wave-equation mode / a thin-lens ray construction) · `integral`
+(area instrument).
 
 ## Where this might go next (paths for a future session)
 

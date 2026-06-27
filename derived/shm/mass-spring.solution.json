@@ -507,6 +507,68 @@
           "emphasis": true
         }
       ]
+    },
+    {
+      "id": "max-speed",
+      "asks": "the maximum speed of the oscillation",
+      "prompt": "The same $1$ kg mass on the $k = 4$ N/m spring is pulled to amplitude $A = 0.3$ m and released. What is its **maximum speed**?",
+      "answer": {
+        "value": 0.6,
+        "display": "0.6",
+        "unit": "m/s",
+        "symbolic_latex": "\\omega \\sqrt{x_{0}^{2} + \\frac{v_{0}^{2}}{\\omega^{2}}}"
+      },
+      "choices": [
+        {
+          "value": 0.6,
+          "display": "0.6",
+          "correct": true
+        },
+        {
+          "value": 0.3,
+          "display": "0.3",
+          "correct": false,
+          "method": "gave_amplitude",
+          "misconception": "That is the **amplitude** (the maximum displacement, in metres), not the speed. The peak speed is $v_{\\max} = \\omega A$."
+        },
+        {
+          "value": 1.2,
+          "display": "1.2",
+          "correct": false,
+          "method": "used_max_accel",
+          "misconception": "That is $\\omega^2 A$ — the maximum *acceleration*. The maximum speed is one power of $\\omega$ lower: $v_{\\max} = \\omega A$."
+        }
+      ],
+      "algebra_steps": [
+        {
+          "label": "What the algebra-based course hands you (memorized, no derivation)",
+          "latex": "T = 2\\pi\\sqrt{\\tfrac{m}{k}} \\qquad v_{\\max} = \\omega A",
+          "prose": "You are told the motion is sinusoidal and given the period to memorize — but not *why* the motion is a cosine, or where the period comes from. Calculus is the only road to the why."
+        }
+      ],
+      "calculus_steps": [
+        {
+          "label": "Newton's second law with Hooke's law",
+          "latex": "m\\,x'' = -k\\,x \\;\\;\\Longrightarrow\\;\\; x'' = -\\omega^2 x,\\quad \\omega^2 = \\tfrac{k}{m}",
+          "prose": "The spring force is proportional to displacement and points back toward equilibrium. This is the equation of motion — a differential equation, not an algebra formula."
+        },
+        {
+          "label": "Solve the equation of motion",
+          "latex": "x(t) = x_0\\cos\\omega t + \\tfrac{v_0}{\\omega}\\sin\\omega t",
+          "prose": "The function whose second derivative is −ω² times itself is a sinusoid. The two constants are fixed by the initial position and velocity."
+        },
+        {
+          "label": "Differentiate for velocity and acceleration",
+          "latex": "v(t) = -x_0\\,\\omega\\sin\\omega t + v_0\\cos\\omega t,\\qquad a(t) = -\\omega^2 x(t)",
+          "prose": "Acceleration is always −ω² times the displacement: largest at the extremes, zero at equilibrium. On the stacked graph, v leads x by a quarter period."
+        },
+        {
+          "label": "The memorized period emerges",
+          "latex": "\\boxed{\\,T = \\dfrac{2\\pi}{\\omega} = 2\\pi\\sqrt{\\dfrac{m}{k}}\\,}",
+          "prose": "The cosine repeats every 2π/ω — and SymPy proves x(t+T) = x(t). The result the algebra course made you memorize is exactly the period of the solution.",
+          "emphasis": true
+        }
+      ]
     }
   ]
 }

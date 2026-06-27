@@ -5,6 +5,39 @@ plan in [`ROADMAP.md`](./ROADMAP.md).
 
 ## [Unreleased] — Phase 1: full mechanics (in progress)
 
+- **Thin-lens optics — a seventh graph instrument (the ray diagram), + practice fan-out (ADR-0024).**
+  - **The 7th instrument, `kind:"lens"`** — the first *geometric construction*. A converging lens of fixed
+    focal length f; the **object distance d_o is the cursor**, an **object height h_o** slider. `Lens.svelte`
+    draws the three principal rays (with Liang–Barsky viewport clipping) and reads off the image, which flips
+    **real/inverted ↔ virtual/upright/enlarged** as d_o crosses f (dashed backward rays in the virtual case).
+    Model `thin_lens.py` (regime 3): parity-verified `d_i = d_o f/(d_o−f)`, `h_i`, `m`, over the canonical `u`
+    axis (so the parity oracle re-checks it with no gate change); proof `governing` — the closed-form d_i
+    satisfies the lens equation and the chief/parallel/focal ray constructions all agree (which *is* the lens
+    equation). f is a fixed constant so the d_o=f singularity never moves; the sampler straddles it and fails
+    loud on a hit.
+  - **Honest second register.** Optics is geometry, not calculus, so the second register reads **"Ray diagram"** —
+    a per-lesson `calculus.register_label` override threaded through the player and the practice step-throughs
+    (default "Calculus").
+  - **Markdown emphasis in authored prose (root-cause fix).** `inline()` was math-only, so the `**bold**` /
+    `*italic*` carried pervasively in scenarios/steps/misconceptions rendered as **literal asterisks**. Added
+    escape-then-emphasize (bold before italic; unmatched asterisks left literal; non-math segments only) — one
+    function, fixes every authored surface.
+  - **Practice fan-out (ADR-0022).** A second verified, misconception-distractored question on eight foundational
+    lessons (projectile max height, energy mass-independence, impulse average-vs-peak force, collision KE lost,
+    mass-spring max speed, orbit period, variable-force final speed, capacitor battery work) + the thin-lens
+    lesson's own two.
+  - **Diverging-lens variant (same instrument, f < 0).** The `thin-lens` model and `kind:"lens"` island
+    generalize to a negative focal length with no engine change: the straddle guard is gated on f>0; the step
+    prose and the island readout/chips are driven by the *computed* image character (the parallel-ray slope
+    −hₒ/f diverges when f<0, focal labels use |f|, the lens glyph draws inward arrowheads, `render_lens` gained
+    a virtual-image branch). New lesson *the diverging lens: one image, always virtual* (f=−1 → dᵢ=−0.6, m=0.4 —
+    virtual, upright, reduced at every object distance) + two verified practice questions. Converging lesson
+    regression-checked.
+  - **32 lessons, 82-formula reference, 119 producer tests, all six gates green** (parity 6652, KaTeX 2590);
+    production build clean (38 pages). Seven instruments now: stack · area · trajectory · energy bars ·
+    collision bars · standing waves · thin-lens ray diagram (converging + diverging). Waves & optics has three
+    lessons; the last domain gap on the engine is closed.
+
 - **Site review pass — fixed the black graphs, reorganized lessons, rebuilt the concept graph, +5 lessons.**
   - **Graph rendering bug fixed (the marquee fix).** Every interactive graph instrument was rendering as solid
     black SVGs — broken in light mode (black-on-cream), invisible in dark. Root cause (ADR-0019): Astro

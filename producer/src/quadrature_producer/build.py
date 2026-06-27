@@ -20,13 +20,14 @@ import sympy as sp
 
 from . import BuildError, __version__
 from .dims import check_homogeneous, parse_unit
-from .emit import (closed_form, closed_form_area, closed_form_collision, closed_form_energy, closed_form_of,
-                   closed_form_panels, closed_form_params, closed_form_params_area,
-                   closed_form_params_collision, closed_form_params_energy, closed_form_params_panels,
-                   closed_form_params_standing, closed_form_params_traj, closed_form_standing, closed_form_traj,
-                   sample_area_series, sample_collision_series, sample_energy_series, sample_panels_series,
-                   sample_series, sample_series_of, sample_standing_series, sample_traj_series)
-from .graph import (render_area, render_collision, render_energy, render_panels, render_stack,
+from .emit import (closed_form, closed_form_area, closed_form_collision, closed_form_energy, closed_form_lens,
+                   closed_form_of, closed_form_panels, closed_form_params, closed_form_params_area,
+                   closed_form_params_collision, closed_form_params_energy, closed_form_params_lens,
+                   closed_form_params_panels, closed_form_params_standing, closed_form_params_traj,
+                   closed_form_standing, closed_form_traj, sample_area_series, sample_collision_series,
+                   sample_energy_series, sample_lens_series, sample_panels_series, sample_series,
+                   sample_series_of, sample_standing_series, sample_traj_series)
+from .graph import (render_area, render_collision, render_energy, render_lens, render_panels, render_stack,
                     render_standing, render_trajectory)
 from .models import MODELS
 from .practice import emit_practice
@@ -71,6 +72,11 @@ def build_problem(path: Path, root: Path) -> tuple[dict, str]:
     if scn.standing is not None:
         smap = {s: parse_unit(uu, ctx) for s, uu in scn.standing.unit_map.items()}
         check_homogeneous(scn.standing.y_expr, smap, f"{ctx}: y(x)")
+    if scn.lens is not None:
+        lmap = {s: parse_unit(uu, ctx) for s, uu in scn.lens.unit_map.items()}
+        check_homogeneous(scn.lens.di_expr, lmap, f"{ctx}: di(do)")
+        check_homogeneous(scn.lens.hi_expr, lmap, f"{ctx}: hi(do)")
+        check_homogeneous(scn.lens.m_expr, lmap, f"{ctx}: m(do)")
     if scn.trajectory is not None and scn.trajectory.x_expr is not None:
         tmap = {s: parse_unit(uu, ctx) for s, uu in scn.trajectory.unit_map.items()}
         check_homogeneous(scn.trajectory.x_expr, tmap, f"{ctx}: x(t)")
@@ -163,6 +169,25 @@ def build_problem(path: Path, root: Path) -> tuple[dict, str]:
             gobj["u_label"] = st.u_label
             gobj["y_label"] = st.y_label
             gobj["u0"] = 0.0
+            graphs.append(gobj)
+            continue
+
+        if kind == "lens":
+            if scn.lens is None:
+                raise BuildError(f"{ctx}: graph kind 'lens' but the model produced no LensPlot")
+            lp = scn.lens
+            render_lens(lp, root / "derived" / svg_rel)
+            gobj["mode"] = "interactive"
+            gobj["series"] = sample_lens_series(lp)
+            gobj["closed_form"] = closed_form_lens(lp)
+            gobj["closed_form_params"] = closed_form_params_lens(lp)
+            gobj["params"] = {sl.name: {"min": sl.min, "max": sl.max, "default": sl.default}
+                              for sl in lp.sliders}
+            gobj["cursor"] = {"name": "u", "label": lp.u_label, "unit": lp.u_unit,
+                              "min": lp.cursor.min, "max": lp.cursor.max, "default": lp.cursor.default}
+            gobj["u_label"] = lp.u_label
+            gobj["consts"] = lp.consts_export
+            gobj["u0"] = lp.cursor.min
             graphs.append(gobj)
             continue
 

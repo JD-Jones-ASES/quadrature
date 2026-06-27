@@ -1,0 +1,79 @@
+id = "thin-lens"
+title = "Image formation by a thin lens: why the ray diagram is the lens equation"
+topic = "optics"
+slug = "thin-lens"
+model = "thin-lens"
+regime = 3
+author = "Quadrature"
+created = "2026-06-27"
+scenario = "A converging lens with focal length $f = 1$ m. An object $h_o = 0.4$ m tall stands a distance $d_o$ to the left. Slide the object along the axis: outside the focal point it makes a **real, inverted** image you could catch on a screen (a projector); slide it *inside* the focal point and the image flips to **virtual, upright, and enlarged** (a magnifying glass). The thin-lens equation $1/d_o + 1/d_i = 1/f$ tells you *where* the image is — but the **ray diagram** shows you *why*, with three straight lines and no equation at all."
+formulas_used = ["optics-thin-lens", "optics-magnification"]
+
+[parameters]
+f = 1.0                 # m — focal length (FIXED: the singularity at do = f must not move)
+ho = 0.4                # m — object height (default; a slider scales it but not the magnification)
+do_default = 1.5        # m — object distance shown first (between f and 2f → real, inverted, enlarged)
+do_min = 0.5            # m — cursor min (inside the focal point: virtual images)
+do_max = 4.0            # m — cursor max (far object: small real images)
+ho_min = 0.2            # m — object-height slider min
+ho_max = 0.6            # m — object-height slider max
+
+[[assumptions]]
+claim = "A *thin* lens: its thickness is negligible next to the focal length, so both refractions happen in one plane at the lens center."
+kind = "model"
+
+[[assumptions]]
+claim = "*Paraxial* rays — all rays stay close to the axis, so a point object maps to a single point image. Real lenses with wide apertures blur this (spherical aberration)."
+kind = "model"
+
+[[assumptions]]
+claim = "A single converging lens, $f > 0$, with the sign convention that a real image (on the far side, catchable on a screen) has $d_i > 0$ and a virtual image has $d_i < 0$."
+kind = "model"
+
+[[graphs]]
+kind = "lens"
+mode = "interactive"
+annotate = ["principal_rays", "real_virtual"]
+
+[misconception]
+claim = "A taller object is magnified more — the magnification depends on the object's size."
+refuted_by = "It does not. The magnification $m = -d_i/d_o$ is fixed by the two *distances* alone — a property of the lens and where you place the object, not of the object's height. Drag the object-height slider: the image grows and shrinks in step with the object, but $m$ (and whether the image is enlarged or reduced) never changes. Magnification is about the *geometry of the rays*, which is why the same lens magnifies a tall tree and a short flower by the same factor at the same distance."
+
+[[practice]]
+id = "image-distance"
+asks = "the image distance"
+answer = "result:image_distance"
+prompt = "A converging lens has focal length $f = 1$ m. An object sits at $d_o = 1.5$ m. Where does the image form — what is $d_i$?"
+include = ["algebra", "calculus"]
+
+  [[practice.distractor]]
+  method = "subtracted_distances"
+  transform = "do - f"
+  misconception = "Subtracted the distances ($d_o - f$). The *reciprocals* add: $1/d_i = 1/f - 1/d_o$, so $d_i = d_o f/(d_o - f)$ — you cannot just subtract $f$ from $d_o$."
+
+  [[practice.distractor]]
+  method = "wrong_denominator_sign"
+  transform = "do*f/(do + f)"
+  misconception = "Used $d_o + f$ in the denominator. Solving $1/d_o + 1/d_i = 1/f$ gives $d_i = d_o f/(d_o - f)$, with a *minus* sign — the two terms are subtracted when you isolate $1/d_i$."
+
+  [[practice.distractor]]
+  method = "image_at_focus"
+  transform = "f"
+  misconception = "The image forms *at* the focal point only for an object infinitely far away. Here $d_o$ is finite, so the image is farther out: $d_i = d_o f/(d_o - f)$."
+
+[[practice]]
+id = "magnification"
+asks = "the magnification"
+answer = "result:magnification"
+prompt = "The same lens ($f = 1$ m) with the object at $d_o = 1.5$ m forms its image at $d_i = 3$ m. What is the magnification $m$?"
+include = ["algebra", "calculus"]
+
+  [[practice.distractor]]
+  method = "forgot_sign"
+  transform = "f/(do - f)"
+  misconception = "Dropped the minus sign. A real image is *inverted*, so $m = -d_i/d_o$ is negative. A positive $m$ would mean an upright image — which only happens for a virtual image, $d_o < f$."
+
+  [[practice.distractor]]
+  method = "inverted_ratio"
+  transform = "-(do - f)/f"
+  misconception = "Flipped the ratio to $-d_o/d_i$. Magnification is image distance *over* object distance: $m = -d_i/d_o$, not $-d_o/d_i$."

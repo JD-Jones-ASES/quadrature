@@ -47,3 +47,20 @@ include = ["algebra", "calculus"]
   method = "dropped_factor_2"
   transform = "sqrt(g*H)"
   misconception = 'Dropped the factor of $2$. Energy conservation gives $\tfrac12 mv^2 = mgH$, so $v = \sqrt{2gH}$, not $\sqrt{gH}$.'
+
+[[practice]]
+id = "mass-independence"
+asks = "the bottom speed of a heavier block"
+answer = "result:bottom_speed"
+prompt = 'A second block, **twice as heavy**, is released from rest down the same frictionless track from $H = 20$ m. How fast is it moving at the bottom?'
+include = ["algebra", "calculus"]
+
+  [[practice.distractor]]
+  method = "twice_as_fast"
+  transform = "2*answer"
+  misconception = 'Twice the mass does *not* mean twice the speed. In $\tfrac12 mv^2 = mgH$ the mass **cancels**, so $v = \sqrt{2gH}$ is the same for any mass.'
+
+  [[practice.distractor]]
+  method = "root_two_heavier"
+  transform = "sqrt(2)*answer"
+  misconception = 'The mass cancels entirely — it never enters $v = \sqrt{2gH}$. A heavy block and a light block reach the bottom at the **same speed**.'

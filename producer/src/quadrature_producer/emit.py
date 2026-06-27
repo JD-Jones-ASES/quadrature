@@ -225,6 +225,55 @@ def sample_standing_series(st, n: int = 121) -> dict:
     return {"u": us, "y": ys, "u_max": round(float(st.length), 9)}
 
 
+def _norm_lens(lp, expr):
+    return expr.subs(lp.constants).subs(lp.u, _AXIS)
+
+
+def closed_form_lens(lp) -> dict[str, str]:
+    """JS-evaluable di(u), hi(u, ho), m(u) for the lens instrument (f substituted; axis u + the ho slider
+    free). u is the object distance d_o."""
+    out = {}
+    for name, expr in (("di", lp.di_expr), ("hi", lp.hi_expr), ("m", lp.m_expr)):
+        e = _norm_lens(lp, expr)
+        try:
+            out[name] = jscode(e)
+        except Exception as ex:
+            raise BuildError(f"lens closed_form.{name}: cannot emit JS for {sp.srepr(e)}: {ex}") from ex
+    return out
+
+
+def closed_form_params_lens(lp) -> list[str]:
+    syms: set[str] = set()
+    for expr in (lp.di_expr, lp.hi_expr, lp.m_expr):
+        syms |= {str(s) for s in _norm_lens(lp, expr).free_symbols}
+    return sorted(syms)
+
+
+def sample_lens_series(lp, n: int = 61) -> dict:
+    """SymPy's di(u), hi(u), m(u) at the default object height over the object-distance cursor range — the
+    parity truth. Rounds u first, then evaluates AT the rounded u (so the JS player reproduces it exactly).
+    Axis key is `u` (object distance). Guards the singularity at u = f: a sample landing on the focal length
+    would make di blow up, so the build fails loud rather than emit a non-finite point."""
+    base = dict(lp.constants)
+    for sl in lp.sliders:
+        base[sl.sym] = sp.nsimplify(sl.default)
+    u = lp.u
+    lo, hi = sp.nsimplify(lp.cursor.min), sp.nsimplify(lp.cursor.max)
+    span = hi - lo
+    us, dis, his, ms = [], [], [], []
+    for i in range(n):
+        ui = round(float(lo + sp.Rational(i, n - 1) * span), 9)
+        if abs(ui - lp.focal_length) < 1e-7:
+            raise BuildError(f"lens sample u={ui} lands on the focal length f={lp.focal_length} (di → ∞); "
+                             f"choose a cursor range/sample count that straddles f without hitting it")
+        sub = {**base, u: sp.Rational(str(ui))}
+        us.append(ui)
+        dis.append(round(float(sp.N(lp.di_expr.subs(sub), 30)), 10))
+        his.append(round(float(sp.N(lp.hi_expr.subs(sub), 30)), 10))
+        ms.append(round(float(sp.N(lp.m_expr.subs(sub), 30)), 10))
+    return {"u": us, "di": dis, "hi": his, "m": ms, "u_max": round(float(lp.cursor.max), 9)}
+
+
 def closed_form_traj(traj) -> dict[str, str]:
     """JS-evaluable x(t) and y(t) for the trajectory instrument (constants substituted; t + sliders free)."""
     out = {}

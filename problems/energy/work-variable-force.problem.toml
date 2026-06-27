@@ -56,3 +56,20 @@ include = ["algebra", "calculus"]
   method = "reported_force"
   transform = "b*d"
   misconception = 'That is the peak force $F_{\max} = bd$ (in newtons), not the work (in joules). Work is the area under the force–distance curve.'
+
+[[practice]]
+id = "final-speed"
+asks = "the final speed of the block"
+answer = "result:final_speed"
+prompt = 'The block ($m = 2$ kg) starts from rest, and the force $F = bx$ ($b = 8$ N/m) does $9$ J of work over $d = 1.5$ m. What is its **final speed**?'
+include = ["algebra", "calculus"]
+
+  [[practice.distractor]]
+  method = "gave_energy"
+  transform = "0.5*b*d**2"
+  misconception = 'That is the work / kinetic energy in **joules**, not the speed. Solve $\tfrac12 mv^2 = W$ for $v = \sqrt{2W/m}$.'
+
+  [[practice.distractor]]
+  method = "dropped_half"
+  transform = "sqrt(2*b*d**2/m)"
+  misconception = 'Used the *full rectangle* $bd^2$ for the work. The force ramps up linearly, so the work is the triangle $\tfrac12 bd^2$ — and $v = \sqrt{2W/m}$ from there.'

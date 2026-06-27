@@ -48,3 +48,20 @@ include = ["algebra", "calculus"]
   method = "wrong_denominator"
   transform = "(m1*v1+m2*v2)/m1"
   misconception = 'Divided by only $m_1$. The carts move together with the combined mass $m_1 + m_2$ in the denominator.'
+
+[[practice]]
+id = "ke-lost"
+asks = "the kinetic energy lost in the inelastic collision"
+answer = "result:ke_lost_inelastic"
+prompt = 'When the $2$ kg cart at $3$ m/s sticks to the stationary $1$ kg cart, how much **kinetic energy** is lost to deformation and heat?'
+include = ["algebra", "calculus"]
+
+  [[practice.distractor]]
+  method = "all_initial_ke"
+  transform = "0.5*m1*v1**2"
+  misconception = 'That is *all* the initial kinetic energy. The stuck pair keeps moving, so it still has kinetic energy — only the part in the centre-of-mass frame is lost.'
+
+  [[practice.distractor]]
+  method = "retained_ke"
+  transform = "0.5*m1*v1**2 - answer"
+  misconception = 'That is the kinetic energy the pair **retains** after sticking. The energy *lost* is the initial amount minus what remains.'

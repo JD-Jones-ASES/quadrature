@@ -425,6 +425,63 @@
           "prose": "Drag the cursor: potential energy converts to kinetic and back, but the Total bar never moves. At the top it is all potential; at the bottom all kinetic, with speed $\\sqrt{2gH}$. The bars are the conservation law made visible."
         }
       ]
+    },
+    {
+      "id": "mass-independence",
+      "asks": "the bottom speed of a heavier block",
+      "prompt": "A second block, **twice as heavy**, is released from rest down the same frictionless track from $H = 20$ m. How fast is it moving at the bottom?",
+      "answer": {
+        "value": 20.0,
+        "display": "20",
+        "unit": "m/s",
+        "symbolic_latex": "\\sqrt{2gH}"
+      },
+      "choices": [
+        {
+          "value": 20.0,
+          "display": "20",
+          "correct": true
+        },
+        {
+          "value": 40.0,
+          "display": "40",
+          "correct": false,
+          "method": "twice_as_fast",
+          "misconception": "Twice the mass does *not* mean twice the speed. In $\\tfrac12 mv^2 = mgH$ the mass **cancels**, so $v = \\sqrt{2gH}$ is the same for any mass."
+        },
+        {
+          "value": 28.284271,
+          "display": "28.28",
+          "correct": false,
+          "method": "root_two_heavier",
+          "misconception": "The mass cancels entirely — it never enters $v = \\sqrt{2gH}$. A heavy block and a light block reach the bottom at the **same speed**."
+        }
+      ],
+      "algebra_steps": [
+        {
+          "label": "What the algebra-based course hands you (a conservation rule)",
+          "latex": "\\tfrac12 mv^2 + mgh = E \\ \\Longrightarrow\\ v = \\sqrt{2g(H-h)}",
+          "prose": "The algebra course states that mechanical energy is conserved and lets you solve for the speed at any height. It works — but it is handed to you as a rule, with no account of *why* energy is conserved, or why the speed at the bottom does not depend on the shape of the ramp."
+        }
+      ],
+      "calculus_steps": [
+        {
+          "label": "Energy conservation is the first integral of $F = ma$",
+          "latex": "m\\,\\frac{dv}{dt} = F \\ \\Longrightarrow\\ m\\,v\\,dv = F\\,dx \\ \\Longrightarrow\\ \\tfrac12 mv^2 = \\int F\\,dx",
+          "prose": "Start from Newton's second law and multiply by $dx$: since $dv/dt\\cdot dx = v\\,dv$, the equation becomes $mv\\,dv = F\\,dx$. Integrating once gives $\\tfrac12 mv^2 = \\int F\\,dx$ — the kinetic energy is the work done by the force. Energy is not a separate principle; it is the equation of motion, integrated."
+        },
+        {
+          "label": "For gravity the work is $mg(H-h)$ — and it is path-independent",
+          "latex": "\\int_h^H mg\\,dh' = mg(H-h) = \\text{KE} \\ \\Longrightarrow\\ \\tfrac12 mv^2 + mgh = mgH",
+          "prose": "Gravity is a conservative force, so the work it does depends only on the change in height, not the route: $\\int mg\\,dh' = mg(H-h)$. That is the kinetic energy gained, so $\\tfrac12 mv^2 + mgh$ is constant. A steep ramp and a gentle ramp to the same depth give the *same speed* — only the time differs.",
+          "emphasis": true
+        },
+        {
+          "label": "Watch the energies trade with the total fixed",
+          "latex": "\\boxed{\\,v(h) = \\sqrt{2g(H-h)}\\,}",
+          "prose": "Drag the cursor: potential energy converts to kinetic and back, but the Total bar never moves. At the top it is all potential; at the bottom all kinetic, with speed $\\sqrt{2gH}$. The bars are the conservation law made visible."
+        }
+      ]
     }
   ]
 }

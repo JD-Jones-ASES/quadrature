@@ -535,3 +535,56 @@ as a rule vs. derived from the wave equation + boundary conditions). Six instrum
 area/integral · trajectory · energy bars · collision bars · **standing waves**. 110 producer tests, 30 lessons,
 parity 6274, all six gates green. Thin-lens optics still has no instrument (a ray-diagram renderer is a separate
 future build); standing waves were the higher-value opener.
+
+
+## ADR-0024 — The thin-lens ray-diagram instrument: a geometric construction as the second register (2026-06-27)
+
+**Context.** Thin-lens optics was the last flagged gap in Waves & optics (ADR-0023 noted it "still has no
+instrument"). It fits none of the six prior instruments: there is no time axis, no integration axis, no mode
+ladder — image formation is a *geometric construction*. And its honest "second way" is not calculus at all:
+optics at this level is geometry, so forcing it into a "Calculus" register would be the same dishonesty
+ADR-0023 refused for standing waves.
+
+**Decision.** Add a seventh instrument, `kind:"lens"` (`LensPlot` + `Lens.svelte` + `thin_lens.py` +
+`render_lens`), plus a small honesty-preserving frontend generalization:
+1. **The instrument is a live ray tracer.** A converging lens of *fixed* focal length f sits at the origin; the
+   object distance d_o is the cursor (mapped to the canonical `u` axis, so the kind-agnostic parity oracle
+   re-checks the closed forms with **no gate change** — only a `lens_series {u,di,hi,m}` schema def and a
+   `kind=="lens"` required-fields branch were added). The producer ships parity-verified closed forms
+   d_i(d_o)=d_o f/(d_o−f), h_i(d_o,h_o)=−h_o f/(d_o−f), m(d_o)=−f/(d_o−f); the island *draws the three
+   principal rays* (parallel→F′, chief through the centre, focal→parallel) with Liang–Barsky viewport clipping
+   and reads off where they cross. As d_o crosses f the image flips real/inverted (projector) ↔ virtual/upright/
+   enlarged (magnifying glass), with dashed backward-extension rays in the virtual case. **f is a fixed
+   constant, never a slider**, so the singularity at d_o=f never moves; the sample grid is chosen to straddle it
+   without landing on it (the sampler fails loud if a sample lands within 1e-7 of f).
+2. **Proof `governing`, regime 3.** The second register is the ray diagram, and SymPy proves it *is* the lens
+   equation: the closed-form d_i satisfies 1/d_o+1/d_i=1/f; the chief ray gives m=−d_i/d_o by similar triangles;
+   the parallel and focal rays give the *same* magnification (the three constructions agree at one point — which
+   is exactly the thin-lens equation); and m=f/(f−d_o). (Fermat's stationary-path principle is noted as the one
+   genuinely-calculus statement underneath, but not derived.)
+3. **A per-lesson `register_label` override** (optional `calculus.register_label`, default "Calculus"): a
+   regime-3 lesson whose honest second register is *not* calculus relabels the tab — here "Ray diagram." Threaded
+   through `SolutionPlayer` (the register tab + aria) and `PracticeQuestion` (the practice step-through tab), so
+   the dishonesty of calling geometry "calculus" never appears. The schema gained one optional string field.
+4. **Markdown emphasis in authored prose (`inline()`).** Authored scenarios/steps/misconceptions carry
+   `**bold**`/`*italic*` pervasively (≈65 bold + ≈272 italic pairs site-wide) that `inline()` — math-only — had
+   been emitting as **literal asterisks**. Added escape-then-emphasize (bold before italic; unmatched asterisks
+   left literal; applied only to non-`$…$` segments). One function, no gate change, fixes every authored surface
+   at once. (The earlier guide-page fix had worked *around* this for one string; this fixes the root.)
+
+**Consequences.** Seven instruments now; Waves & optics has both its lessons (standing waves + thin lens) and
+the last domain gap on the proven engine is closed. The `register_label` override is the general hook for any
+future regime-3 lesson whose second way is geometric/graphical rather than calculus. Practice also fanned out
+further (a verified second question on eight foundational lessons across kinematics, energy, momentum,
+oscillations, gravitation, and circuits). 117 producer tests, 31 lessons, parity 6467, all six gates green.
+
+**Variant (same session): the diverging lens.** The instrument generalizes to **f < 0** with no engine change —
+the same model, closed forms, proof, and `kind:"lens"` island, parameterized by the sign of f. The model's
+straddle guard is gated on f>0 (a diverging lens has no singularity to straddle); its step prose and the
+island's readout/chips are driven by the *computed* image character (real/virtual, upright/inverted,
+enlarged/reduced) rather than hard-coded converging language; the island's parallel-ray direction is written
+sign-generally (slope −hₒ/f, so it diverges when f<0) and the focal-point labels use |f| (F left, F′ right, no
+swap); the lens glyph draws inward arrowheads for a diverging element; and `render_lens` grew a virtual-image
+branch (dashed backward extensions). The new lesson — *the diverging lens: one image, always virtual* — shows
+that for **every** object distance dᵢ<0 and 0<m<1 (virtual, upright, reduced), the complement to the converging
+lens. 119 producer tests, 32 lessons, parity 6652, all six gates green.

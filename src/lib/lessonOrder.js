@@ -64,6 +64,8 @@ export const ORDER = [
   ["faraday-generator",   "em"],            // Faraday induction — Φ/EMF on the 2-panel stack, the AC generator
   // Waves & optics
   ["standing-wave",       "waves"],         // standing waves on a string — opens Waves & optics (the 6th instrument)
+  ["thin-lens",           "waves"],         // thin-lens image formation — the ray-diagram instrument (the 7th)
+  ["diverging-lens",      "waves"],         // diverging lens — the always-virtual variant on the ray-diagram instrument
   // Modern physics
   ["decay",               "modern"],        // radioactive decay — opens Modern (the N / dN/dt 2-panel stack)
 ];

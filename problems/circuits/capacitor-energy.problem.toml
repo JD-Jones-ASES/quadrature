@@ -47,3 +47,20 @@ include = ["algebra", "calculus"]
   method = "forgot_square"
   transform = "C*V/2"
   misconception = 'Forgot to square the voltage. The stored energy is $\tfrac12 CV^2$, not $\tfrac12 CV$.'
+
+[[practice]]
+id = "battery-work"
+asks = "the work done by the battery"
+answer = "result:battery_work"
+prompt = 'Charging the same $C = 500\,\mu$F capacitor to $V = 200$ V, how much work does the **battery** do (which is more than the energy the capacitor ends up storing)?'
+include = ["algebra", "calculus"]
+
+  [[practice.distractor]]
+  method = "gave_stored"
+  transform = "0.5*C*V**2"
+  misconception = 'That is the energy **stored** in the capacitor, $\tfrac12 CV^2$. The battery does $QV = CV^2$ — *twice* as much; the other half is dissipated while charging.'
+
+  [[practice.distractor]]
+  method = "double_counted"
+  transform = "2*Q*V"
+  misconception = 'Doubled it. The battery moves charge $Q$ through a steady potential $V$, doing $QV$ — there is no extra factor of $2$.'

@@ -493,6 +493,63 @@
           "emphasis": true
         }
       ]
+    },
+    {
+      "id": "max-height",
+      "asks": "the maximum height",
+      "prompt": "The same projectile ($v_0 = 20$ m/s at $40°$) — how high does it rise at the top of its arc?",
+      "answer": {
+        "value": 8.263518,
+        "display": "8.264",
+        "unit": "m",
+        "symbolic_latex": "- \\frac{v_{0}^{2} \\sin^{2}{\\left(\\frac{\\pi \\theta}{180} \\right)}}{2 g}"
+      },
+      "choices": [
+        {
+          "value": 8.263518,
+          "display": "8.264",
+          "correct": true
+        },
+        {
+          "value": 20.0,
+          "display": "20",
+          "correct": false,
+          "method": "forgot_sin",
+          "misconception": "Used the **full launch speed**. Only the vertical component $v_0\\sin\\theta$ climbs, so the peak height is $(v_0\\sin\\theta)^2/2g$ — not $v_0^2/2g$."
+        },
+        {
+          "value": 16.527036,
+          "display": "16.53",
+          "correct": false,
+          "method": "dropped_factor_2",
+          "misconception": "Dropped the factor of $2$ in $H = (v_0\\sin\\theta)^2/(2g)$. The vertical motion decelerates at $g$, so the rise is $v_y^2/2g$ — *half* of $v_y^2/g$."
+        }
+      ],
+      "algebra_steps": [
+        {
+          "label": "What the algebra-based course hands you (memorized)",
+          "latex": "R = \\frac{v_0^2\\sin 2\\theta}{|g|}\\qquad H = \\frac{(v_0\\sin\\theta)^2}{2|g|}\\qquad T = \\frac{2v_0\\sin\\theta}{|g|}",
+          "prose": "Three formulas to memorize for range, height, and flight time — but not *why* the path is a parabola, or where the $\\sin 2\\theta$ comes from. Calculus gives all three from one idea: each direction is just constant-acceleration motion."
+        }
+      ],
+      "calculus_steps": [
+        {
+          "label": "Split the launch into independent x and y motions",
+          "latex": "a_x = 0,\\quad a_y = g \\qquad v_{x0} = v_0\\cos\\theta,\\quad v_{y0} = v_0\\sin\\theta",
+          "prose": "Gravity acts only vertically, so the horizontal and vertical motions are independent. Horizontally the acceleration is zero; vertically it is the constant $g$ — two constant-acceleration problems, side by side."
+        },
+        {
+          "label": "Integrate each component (the regime-1 quadrature, twice)",
+          "latex": "x(t) = v_0\\cos\\theta\\,t \\qquad y(t) = v_0\\sin\\theta\\,t + \\tfrac12 g t^2",
+          "prose": "Integrate the constant accelerations: $x$ grows linearly (constant velocity), $y$ is the throw-up parabola. The path $y$ vs $x$ is their parametric trace — a parabola."
+        },
+        {
+          "label": "The memorized formulas fall out",
+          "latex": "y=0 \\Rightarrow T = \\frac{2v_0\\sin\\theta}{|g|};\\quad R = x(T) = \\frac{v_0^2\\sin 2\\theta}{|g|};\\quad H = y(T/2) = \\frac{(v_0\\sin\\theta)^2}{2|g|}",
+          "prose": "Set $y=0$ for the flight time, put it into $x$ for the range (the $\\sin 2\\theta$ is just $2\\sin\\theta\\cos\\theta$), and evaluate $y$ at the apex for the height. SymPy proves each memorized formula equals the integral evaluated.",
+          "emphasis": true
+        }
+      ]
     }
   ]
 }

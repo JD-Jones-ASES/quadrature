@@ -121,6 +121,81 @@ def render_standing(st, out_path: Path) -> None:
     plt.close(fig)
 
 
+def render_lens(lp, out_path: Path) -> None:
+    """Static poster for the thin-lens ray-diagram instrument (ADR-0024): a lens at the origin, the object arrow
+    to the left at the default dₒ, the three principal rays, and the image where they cross. Handles both a
+    converging lens (f>0: a real image where the forward rays cross) and a diverging lens (f<0: a virtual image
+    where the backward extensions cross, drawn dashed). The static analogue of the interactive ray tracer."""
+    f = lp.focal_length
+    af = abs(f)
+    converging = f > 0
+    do_v = float(lp.cursor.default)
+    ho_v = float(lp.sliders[0].default)
+    di_v = float(lp.di_expr.subs({lp.u: sp.nsimplify(do_v), **lp.constants}))
+    hi_v = float(lp.hi_expr.subs({lp.u: sp.nsimplify(do_v),
+                                  lp.sliders[0].sym: sp.nsimplify(ho_v), **lp.constants}))
+    is_real = di_v > 0
+
+    fig, ax = plt.subplots(figsize=(7.2, 3.6), facecolor=PAPER)
+    ax.set_facecolor(PAPER)
+
+    xlo = min(-(do_v + 0.6), di_v - 0.6)
+    xhi = max(di_v if is_real else 0.0, 2 * af) + 0.6
+    ymag = max(abs(hi_v), ho_v) + 0.25
+    ax.set_xlim(xlo, xhi)
+    ax.set_ylim(-ymag, ymag)
+
+    ax.axhline(0, color=FAINT, lw=1)                                   # optical axis
+    ax.plot([0, 0], [-ymag * 0.92, ymag * 0.92], color=INK, lw=2)      # the lens
+    head = 1 if converging else -1                                     # arrowheads out (converging) / in (diverging)
+    for yy in (ymag * 0.92, -ymag * 0.92):
+        dy = -0.07 * ymag * head if yy > 0 else 0.07 * ymag * head
+        ax.plot([0, 0.10], [yy, yy + dy], color=INK, lw=2)
+        ax.plot([0, -0.10], [yy, yy + dy], color=INK, lw=2)
+    for fx, lbl in ((-af, "F"), (af, "F'"), (-2 * af, "2F"), (2 * af, "2F'")):
+        if xlo < fx < xhi:
+            ax.plot(fx, 0, "o", color=FAINT, ms=4)
+            ax.annotate(lbl, (fx, 0), textcoords="offset points", xytext=(0, 5),
+                        ha="center", fontsize=8, color=FAINT)
+
+    # object (upright, solid) and image (solid if real, dashed if virtual)
+    ax.annotate("", (-do_v, ho_v), (-do_v, 0), arrowprops=dict(arrowstyle="-|>", color=INK, lw=2.2))
+    ax.annotate("", (di_v, hi_v), (di_v, 0),
+                arrowprops=dict(arrowstyle="-|>", color=ACCENT, lw=2.2,
+                                linestyle="-" if is_real else "--"))
+    ax.text(-do_v, ho_v + 0.06 * ymag, "object", ha="center", va="bottom", fontsize=8.5, color=INK)
+    ax.text(di_v, hi_v + (0.06 * ymag if hi_v >= 0 else -0.06 * ymag), "image",
+            ha="center", va="bottom" if hi_v >= 0 else "top", fontsize=8.5, color=ACCENT)
+
+    Otip = (-do_v, ho_v)
+    # each refracted ray runs through the lens-hit point with slope (hit→image); extend it forward to the window
+    # edge (solid) and, for a virtual image, back to the image point (dashed).
+    lens_pts = ((0.0, ho_v), (0.0, 0.0), (0.0, hi_v))   # parallel / chief / focal hit points
+    for P in lens_pts:
+        ax.plot([Otip[0], P[0]], [Otip[1], P[1]], color=ACCENT, lw=1.1, alpha=0.85)   # incident
+        dx, dy = di_v - P[0], hi_v - P[1]
+        if dx < 0:
+            dx, dy = -dx, -dy
+        norm = (dx * dx + dy * dy) ** 0.5 or 1.0
+        ext = (xhi - xlo) + 2 * ymag
+        fwd = (P[0] + dx / norm * ext, P[1] + dy / norm * ext)
+        ax.plot([P[0], fwd[0]], [P[1], fwd[1]], color=ACCENT, lw=1.1, alpha=0.85)      # forward refracted
+        if not is_real:
+            ax.plot([P[0], di_v], [P[1], hi_v], color=ACCENT, lw=1.0, alpha=0.6, ls="--")  # backward extension
+
+    ax.set_xlabel("distance along axis  (m)", fontsize=10, color=INK)
+    ax.set_yticks([])
+    ax.tick_params(colors=FAINT, labelsize=8)
+    for s in ("top", "right", "left"):
+        ax.spines[s].set_visible(False)
+    ax.spines["bottom"].set_color(GRID)
+    ax.annotate(lp.annot, (0.5, 0.02), xycoords="axes fraction", ha="center", va="bottom",
+                fontsize=8.4, color=INK, bbox=_bbox())
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    fig.savefig(out_path, format="svg", bbox_inches="tight", facecolor=PAPER)
+    plt.close(fig)
+
+
 def render_energy(en, out_path: Path) -> None:
     """Static poster for the energy-exchange instrument: KE(u) rising, PE(u) falling, and their sum (Total) a
     flat line — the visual proof that energy is conserved as the system moves."""

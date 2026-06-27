@@ -175,6 +175,42 @@ class StandingPlot:
 
 
 @dataclass
+class LensPlot:
+    """The thin-lens ray-diagram instrument (the 7th, ADR-0024): image formation by a converging lens.
+
+    A GEOMETRIC plot — not a curve over time or an integration variable, but a *construction*. A converging
+    lens of fixed focal length f sits at the origin; an upright object of height h_o stands a distance d_o to
+    the left (the cursor). The producer ships the parity-verified closed forms for the image distance
+    d_i(d_o) = d_o·f/(d_o−f), the image height h_i(d_o, h_o) = −h_o·f/(d_o−f), and the magnification
+    m(d_o) = −d_i/d_o = −f/(d_o−f), all over the canonical `u` axis (u = object distance d_o). The island
+    *draws the three principal rays* and reads off where they cross — the image — recomputing as the cursor
+    moves. As d_o crosses the focal point f, the image flips from real/inverted (d_o > f) to virtual/upright/
+    magnified (d_o < f): a projector becomes a magnifying glass.
+
+    Regime 3 (algebra-only at the course level: the thin-lens equation 1/d_o + 1/d_i = 1/f and m = −d_i/d_o are
+    handed down as rules), but with the honest geometric underpinning surfaced as the *second register*: the
+    same image distance falls out of similar triangles in the ray diagram, and SymPy proves that the two
+    independent ray constructions (the chief ray and the parallel ray) agree exactly — which IS the thin-lens
+    equation. Because the cursor axis maps to the canonical `u`, the kind-agnostic parity oracle re-checks the
+    closed forms with no gate change. f is a FIXED constant (not a slider), so the singularity at d_o = f never
+    moves and the sample grid is chosen to straddle it without landing on it. Graph kind "lens".
+    """
+    u: sp.Symbol              # the object-distance axis d_o (mapped to the browser's canonical `u`)
+    di_expr: sp.Expr          # image distance d_i(d_o) = d_o·f/(d_o−f)  (f substituted via `constants`)
+    hi_expr: sp.Expr          # image height h_i(d_o, h_o) = −h_o·f/(d_o−f)  (function of u + the h_o slider)
+    m_expr: sp.Expr           # magnification m(d_o) = −f/(d_o−f)  (dimensionless)
+    focal_length: float       # f (the fixed focal length; the image-side/object-side focal points sit at ±f)
+    cursor: Slider            # the object distance d_o over [d_o,min, d_o,max], straddling f
+    sliders: list             # parameter sliders free in h_i (the object height h_o)
+    constants: dict           # {f: } substituted for the graph + closed form
+    consts_export: dict       # {"f": } the island needs to place the focal points and scale the diagram
+    unit_map: dict            # {sym: unit string} for the dimensional check on d_i, h_i (m is dimensionless)
+    u_label: str = "object distance  dₒ  (m)"
+    u_unit: str = "m"
+    annot: str = ""           # one-line static-figure annotation
+
+
+@dataclass
 class TrajMarker:
     """A point annotation in (x, y) space on the trajectory poster (apex, range, launch)."""
     x: float
@@ -257,6 +293,7 @@ class Scenario:
     collision: "CollisionPlot | None" = None  # the before/after collision bars (ADR-0018); kind "collision"
     panels: "list | None" = None  # an N-panel temporal stack (ADR-0021); when set, replaces the x/v/a panels
     standing: "StandingPlot | None" = None  # the spatial standing-wave instrument (ADR-0023); kind "standing"
+    lens: "LensPlot | None" = None  # the thin-lens ray-diagram instrument (ADR-0024); kind "lens"
 
 
 def make_result(expr: sp.Expr, subs: dict, unit: str, label: str) -> dict:

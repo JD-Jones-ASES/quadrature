@@ -48,3 +48,20 @@ include = ["algebra", "calculus"]
   method = "radius_in_numerator"
   transform = "sqrt(mu*R)"
   misconception = 'Used $\sqrt{\mu R}$. The orbital speed is $\sqrt{\mu/R}$ — closer orbits are faster, so $R$ sits in the denominator.'
+
+[[practice]]
+id = "period"
+asks = "the orbital period"
+answer = "result:period"
+prompt = 'The same satellite orbits at speed $v = \sqrt{\mu/R}$ at radius $R = 7000$ km. How long does **one full orbit** take?'
+include = ["algebra", "calculus"]
+
+  [[practice.distractor]]
+  method = "forgot_two_pi"
+  transform = "R/v"
+  misconception = 'Forgot the $2\pi$. The period is the **full circumference** $2\pi R$ divided by the speed: $T = 2\pi R/v$.'
+
+  [[practice.distractor]]
+  method = "half_circumference"
+  transform = "pi*R/v"
+  misconception = 'Used $\pi R$ — only *half* the circle. A full orbit covers $2\pi R$, so $T = 2\pi R/v$.'

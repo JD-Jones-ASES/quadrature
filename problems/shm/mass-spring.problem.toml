@@ -52,3 +52,20 @@ include = ["algebra", "calculus"]
   method = "inverted"
   transform = "sqrt(m/k)"
   misconception = 'Used $\sqrt{m/k}$ — that is $1/\omega$ (it appears in the period $T = 2\pi\sqrt{m/k}$), not $\omega$ itself.'
+
+[[practice]]
+id = "max-speed"
+asks = "the maximum speed of the oscillation"
+answer = "result:max_speed"
+prompt = 'The same $1$ kg mass on the $k = 4$ N/m spring is pulled to amplitude $A = 0.3$ m and released. What is its **maximum speed**?'
+include = ["algebra", "calculus"]
+
+  [[practice.distractor]]
+  method = "gave_amplitude"
+  transform = "x0"
+  misconception = 'That is the **amplitude** (the maximum displacement, in metres), not the speed. The peak speed is $v_{\max} = \omega A$.'
+
+  [[practice.distractor]]
+  method = "used_max_accel"
+  transform = "(k/m)*x0"
+  misconception = 'That is $\omega^2 A$ — the maximum *acceleration*. The maximum speed is one power of $\omega$ lower: $v_{\max} = \omega A$.'

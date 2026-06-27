@@ -441,6 +441,68 @@
           "prose": "Read the work off the area, set it equal to $\\tfrac12 m v^2$, and the speed at any displacement follows. Drag the cursor: the shaded area and the kinetic energy move together because they are the same quantity."
         }
       ]
+    },
+    {
+      "id": "final-speed",
+      "asks": "the final speed of the block",
+      "prompt": "The block ($m = 2$ kg) starts from rest, and the force $F = bx$ ($b = 8$ N/m) does $9$ J of work over $d = 1.5$ m. What is its **final speed**?",
+      "answer": {
+        "value": 3.0,
+        "display": "3",
+        "unit": "m/s",
+        "symbolic_latex": "\\sqrt{b/m}\\,d"
+      },
+      "choices": [
+        {
+          "value": 3.0,
+          "display": "3",
+          "correct": true
+        },
+        {
+          "value": 9.0,
+          "display": "9",
+          "correct": false,
+          "method": "gave_energy",
+          "misconception": "That is the work / kinetic energy in **joules**, not the speed. Solve $\\tfrac12 mv^2 = W$ for $v = \\sqrt{2W/m}$."
+        },
+        {
+          "value": 4.242641,
+          "display": "4.243",
+          "correct": false,
+          "method": "dropped_half",
+          "misconception": "Used the *full rectangle* $bd^2$ for the work. The force ramps up linearly, so the work is the triangle $\\tfrac12 bd^2$ — and $v = \\sqrt{2W/m}$ from there."
+        }
+      ],
+      "algebra_steps": [
+        {
+          "label": "What the algebra-based course hands you",
+          "latex": "W = F\\,d \\qquad(\\text{constant force}) \\qquad\\Longrightarrow\\qquad W = \\bar F\\,d,\\ \\ \\bar F = \\tfrac12 F_{\\max}",
+          "prose": "For a constant force, work is force times distance. When the force *varies*, the algebra course patches it with an average force — which is only exact here because the force happens to rise linearly. It can compute the number but cannot say *why* the answer is an area."
+        }
+      ],
+      "calculus_steps": [
+        {
+          "label": "Work is the area under the force–displacement curve",
+          "latex": "W = \\int F\\,dx",
+          "prose": "Work is defined as the integral of force over displacement. For a constant force this integral is a rectangle (and gives $W = F d$); for any force it is the area under the $F$–$x$ curve. The algebra formula is the special case where the area is a rectangle."
+        },
+        {
+          "label": "Evaluate for the linear force $F(x) = b x$",
+          "latex": "W = \\int_0^{x} b\\,u\\,du = \\tfrac12 b\\,x^2",
+          "prose": "The area under a straight line from the origin is a triangle: $\\tfrac12\\,(\\text{base})\\,(\\text{height}) = \\tfrac12\\,x\\,(b x) = \\tfrac12 b x^2$. Its slope is $bx = F(x)$ — the force is the rate at which work accumulates."
+        },
+        {
+          "label": "The kinetic energy falls out of the same integral",
+          "latex": "\\int F\\,dx = \\int m\\,\\frac{dv}{dt}\\,dx = \\int m\\,v\\,dv = \\tfrac12 m v^2 \\ \\Longrightarrow\\ \\tfrac12 m v^2 = W",
+          "prose": "Substituting $F = m\\,dv/dt$ and $dx = v\\,dt$ turns the work integral into $\\int m v\\,dv$. The memorized $\\tfrac12 m v^2$ is not a separate fact — it is exactly the accumulated work. The area under the force curve IS the kinetic energy.",
+          "emphasis": true
+        },
+        {
+          "label": "So the speed follows from the area",
+          "latex": "\\boxed{\\,v(x) = \\sqrt{\\tfrac{2W}{m}} = \\sqrt{\\tfrac{b}{m}}\\;x\\,}",
+          "prose": "Read the work off the area, set it equal to $\\tfrac12 m v^2$, and the speed at any displacement follows. Drag the cursor: the shaded area and the kinetic energy move together because they are the same quantity."
+        }
+      ]
     }
   ]
 }
