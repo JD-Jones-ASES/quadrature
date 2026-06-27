@@ -1,0 +1,460 @@
+{
+  "id": "faraday-generator",
+  "title": "The AC generator: the induced EMF is the slope of the flux",
+  "topic": "circuits",
+  "slug": "faraday-generator",
+  "scenario": "A coil of area $A = 0.1$ m² spins at $\\omega = 10$ rad/s in a uniform magnetic field $B = 0.5$ T. The flux through it varies as $\\Phi(t) = BA\\cos(\\omega t)$, and the **induced EMF is its rate of change**, $\\mathcal{E} = -d\\Phi/dt = BA\\omega\\sin(\\omega t)$ — a sinusoid a quarter cycle ahead of the flux. This is how a generator turns rotation into alternating current. Plotted as a stacked $\\Phi$–$t$ over EMF–$t$, the slope of the flux *is* the (negated) EMF at every instant. Drag $B$ or $\\omega$: when the flux is at its peak the EMF is zero, and when the flux crosses zero the EMF is at its peak.",
+  "regime": 2,
+  "constants": {
+    "B": 0.5,
+    "A": 0.1,
+    "omega": 10.0
+  },
+  "initial_conditions": {
+    "Phi0": 0.05,
+    "EMF0": 0.0
+  },
+  "assumptions": [
+    {
+      "claim": "A uniform, constant magnetic field, and a single-turn coil rotating at constant angular velocity $\\omega$.",
+      "kind": "model"
+    },
+    {
+      "claim": "An ideal EMF source (no coil resistance), so the terminal voltage is the induced EMF $\\mathcal{E} = -d\\Phi/dt$ exactly.",
+      "kind": "model"
+    }
+  ],
+  "algebra": {
+    "steps": [
+      {
+        "label": "What the algebra-based course hands you (Faraday's law as a rule)",
+        "latex": "\\mathcal{E} = -N\\,\\frac{\\Delta\\Phi}{\\Delta t}, \\qquad \\Phi = BA\\cos(\\omega t)",
+        "prose": "Faraday's law says the induced EMF is set by how fast the flux changes. The algebra-based course uses it to find *average* EMFs over an interval — flux change divided by time — and hands you the result that a coil spinning in a field makes alternating current, with no account of the instant-by-instant shape."
+      }
+    ],
+    "result": {
+      "peak_emf": {
+        "label": "Peak EMF $\\mathcal{E}_0 = BA\\omega$",
+        "unit": "V",
+        "symbolic_latex": "BA\\omega",
+        "value": 0.5,
+        "display": "0.5"
+      },
+      "peak_flux": {
+        "label": "Peak flux $\\Phi_0 = BA$",
+        "unit": "Wb",
+        "symbolic_latex": "BA",
+        "value": 0.05,
+        "display": "0.05"
+      },
+      "period": {
+        "label": "Period $T = 2\\pi/\\omega$",
+        "unit": "s",
+        "symbolic_latex": "\\dfrac{2\\pi}{\\omega}",
+        "value": 0.628319,
+        "display": "0.6283"
+      }
+    }
+  },
+  "calculus": {
+    "steps": [
+      {
+        "label": "The instantaneous EMF is the derivative of the flux",
+        "latex": "\\mathcal{E}(t) = -\\frac{d\\Phi}{dt}, \\quad \\Phi(t) = BA\\cos(\\omega t)",
+        "prose": "Faraday's law in its exact form uses the *instantaneous* rate of change — a derivative, not a ratio of finite changes. For a coil rotating at constant $\\omega$, the flux is a cosine, $\\Phi = BA\\cos(\\omega t)$."
+      },
+      {
+        "label": "Differentiate the flux — a sine EMF falls out, 90° ahead",
+        "latex": "\\mathcal{E}(t) = -\\frac{d}{dt}\\big[BA\\cos(\\omega t)\\big] = BA\\omega\\sin(\\omega t)",
+        "prose": "Differentiating the cosine gives a sine: the EMF is $BA\\omega\\sin(\\omega t)$, with peak $\\mathcal{E}_0 = BA\\omega$. Because the derivative of a cosine is a sine, the EMF is a quarter cycle ahead of the flux — when the flux is at its crest, its slope (and so the EMF) is zero. The EMF is the *slope* of the flux.",
+        "emphasis": true
+      },
+      {
+        "label": "Watch the two panels — EMF is the slope of Φ",
+        "latex": "\\boxed{\\,\\mathcal{E}(t) = -\\frac{d\\Phi}{dt}\\,}\\qquad \\int_0^t \\mathcal{E}\\,dt' = -\\Delta\\Phi",
+        "prose": "Drag $B$ or $\\omega$: the flux $\\Phi$ and EMF oscillate, and at every instant the (negated) slope of the upper $\\Phi$–$t$ curve is the value of the lower EMF–$t$ curve. The area under the EMF is the flux change. Raising $\\omega$ packs more cycles in and raises the peak EMF $BA\\omega$ — spin a generator faster and it makes more voltage."
+      }
+    ]
+  },
+  "proof": {
+    "kind": "governing",
+    "heading": "The induced EMF is the slope of the flux — Faraday's law as the slope↔value pivot, with the AC sinusoid falling out of a rotating coil.",
+    "checked_by": "sympy",
+    "holds": true,
+    "detail": "check $\\mathcal{E} = -d\\Phi/dt$; check $\\int_0^t \\mathcal{E}\\,dt' = -\\Delta\\Phi$; peak $\\mathcal{E}_0 = BA\\omega$; $90^\\circ$ phase; period $T = 2\\pi/\\omega$",
+    "checks": [
+      {
+        "key": "emf_is_slope",
+        "claim": "The EMF is the negative slope of the flux: $\\mathcal{E} = -\\dfrac{d\\Phi}{dt}$ (Faraday's law).",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "flux_is_integral",
+        "claim": "Integrating the EMF recovers the change in flux: $\\int_0^t \\mathcal{E}\\,dt' = -\\Delta\\Phi$ — the area↔change pivot, one domain over.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "peak_emf",
+        "claim": "The peak EMF is $\\mathcal{E}_0 = BA\\omega$, reached a quarter period in (when the flux crosses zero).",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "phase_90",
+        "claim": "The EMF is zero exactly when the flux is at its peak (here $t=0$) — the slope of a cosine at its crest is flat, so flux and EMF are $90^\\circ$ out of phase.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "period",
+        "claim": "The generator repeats every period $T = 2\\pi/\\omega$: $\\Phi(t+T) = \\Phi(t)$.",
+        "holds": true,
+        "tier": "structural"
+      }
+    ]
+  },
+  "units_check": {
+    "checked_by": "sympy",
+    "holds": true
+  },
+  "graphs": [
+    {
+      "kind": "stack",
+      "mode": "interactive",
+      "window": "fixed",
+      "annotate": [
+        "emf_is_slope",
+        "ninety_degree_phase"
+      ],
+      "svg": "assets/graphs/faraday-generator-0.svg",
+      "panels": [
+        {
+          "key": "Phi",
+          "label": "Φ  (Wb)",
+          "unit": "Wb",
+          "accent": false
+        },
+        {
+          "key": "EMF",
+          "label": "EMF  (V)",
+          "unit": "V",
+          "accent": true
+        }
+      ],
+      "series": {
+        "t": [
+          0.0,
+          0.025,
+          0.05,
+          0.075,
+          0.1,
+          0.125,
+          0.15,
+          0.175,
+          0.2,
+          0.225,
+          0.25,
+          0.275,
+          0.3,
+          0.325,
+          0.35,
+          0.375,
+          0.4,
+          0.425,
+          0.45,
+          0.475,
+          0.5,
+          0.525,
+          0.55,
+          0.575,
+          0.6,
+          0.625,
+          0.65,
+          0.675,
+          0.7,
+          0.725,
+          0.75,
+          0.775,
+          0.8,
+          0.825,
+          0.85,
+          0.875,
+          0.9,
+          0.925,
+          0.95,
+          0.975,
+          1.0,
+          1.025,
+          1.05,
+          1.075,
+          1.1,
+          1.125,
+          1.15,
+          1.175,
+          1.2,
+          1.225,
+          1.25,
+          1.275,
+          1.3,
+          1.325,
+          1.35,
+          1.375,
+          1.4,
+          1.425,
+          1.45,
+          1.475,
+          1.5
+        ],
+        "Phi": [
+          0.05,
+          0.0484456211,
+          0.0438791281,
+          0.0365844434,
+          0.0270151153,
+          0.0157661181,
+          0.0035368601,
+          -0.0089123028,
+          -0.0208073418,
+          -0.0314086811,
+          -0.0400571808,
+          -0.0462151189,
+          -0.0494996248,
+          -0.0497064838,
+          -0.0468228344,
+          -0.0410279679,
+          -0.032682181,
+          -0.0223043745,
+          -0.01053979,
+          0.0018801076,
+          0.0141831093,
+          0.0256042739,
+          0.0354334887,
+          0.0430596209,
+          0.0480085143,
+          0.0499724709,
+          0.0488293813,
+          0.0446503172,
+          0.0376951127,
+          0.0283962087,
+          0.0173317659,
+          0.0051897179,
+          -0.0072750017,
+          -0.0192873969,
+          -0.0301005951,
+          -0.0390422842,
+          -0.0455565131,
+          -0.0492382587,
+          -0.0498586078,
+          -0.0473789902,
+          -0.0419535765,
+          -0.0339196925,
+          -0.0237768464,
+          -0.0121556711,
+          0.0002212849,
+          0.0125844825,
+          0.0241652379,
+          0.0342435159,
+          0.0421926979,
+          0.0475185424,
+          0.049889914,
+          0.0491593724,
+          0.0453723391,
+          0.0387642735,
+          0.0297460332,
+          0.0188783286,
+          0.0068368609,
+          -0.0056296896,
+          -0.0177462133,
+          -0.0287593635,
+          -0.0379843956
+        ],
+        "EMF": [
+          0.0,
+          0.1237019796,
+          0.2397127693,
+          0.34081938,
+          0.4207354924,
+          0.4744923097,
+          0.4987474933,
+          0.4919929734,
+          0.4546487134,
+          0.3890365984,
+          0.2992360721,
+          0.190830496,
+          0.070560004,
+          -0.0540975673,
+          -0.1753916138,
+          -0.2857806594,
+          -0.3784012477,
+          -0.4474946791,
+          -0.4887650588,
+          -0.4996463945,
+          -0.4794621373,
+          -0.4294672467,
+          -0.3527701628,
+          -0.2541395387,
+          -0.1397077491,
+          -0.0165896083,
+          0.107559994,
+          0.2250220369,
+          0.3284932994,
+          0.4115404395,
+          0.4689999884,
+          0.4972993896,
+          0.4946791233,
+          0.4613021051,
+          0.3992435563,
+          0.3123619769,
+          0.2060592426,
+          0.0869447427,
+          -0.0375755602,
+          -0.1597595968,
+          -0.2720105554,
+          -0.3673492152,
+          -0.43984788,
+          -0.484998934,
+          -0.4999951033,
+          -0.4839039988,
+          -0.4377260873,
+          -0.3643324879,
+          -0.268286459,
+          -0.1555596775,
+          -0.0331609487,
+          0.0912995673,
+          0.2100835184,
+          0.3158054939,
+          0.4018922133,
+          0.4629912214,
+          0.4953036778,
+          0.4968205506,
+          0.4674475278,
+          0.4090108817,
+          0.3251439201
+        ],
+        "t_max": 1.5
+      },
+      "closed_form": {
+        "Phi": "(1/10)*B*Math.cos(omega*t)",
+        "EMF": "(1/10)*B*omega*Math.sin(omega*t)"
+      },
+      "closed_form_params": [
+        "B",
+        "omega",
+        "t"
+      ],
+      "params": {
+        "B": {
+          "min": 0.1,
+          "max": 2.0,
+          "default": 0.5
+        },
+        "omega": {
+          "min": 2.0,
+          "max": 20.0,
+          "default": 10.0
+        }
+      }
+    }
+  ],
+  "misconception": {
+    "claim": "The flux and the EMF reach their maxima at the same time — they are in phase.",
+    "refuted_by": "No. The EMF is the *rate of change* of the flux, $\\mathcal{E} = -d\\Phi/dt$, so it is $90^\\circ$ out of phase. When the flux $\\Phi$ is at its peak, its slope is zero, so the EMF is zero. When the flux passes through zero (its steepest point), $|d\\Phi/dt|$ is largest, so the EMF is at its peak. Watch the two panels: the EMF (lower) crests exactly halfway between the flux (upper) crests — a sine riding a quarter cycle ahead of the cosine."
+  },
+  "formulas_used": [
+    "em-faraday-law",
+    "em-ac-generator-emf",
+    "em-flux"
+  ],
+  "provenance": {
+    "producer": "quadrature_producer",
+    "version": "0.1.0",
+    "sympy": "1.14.0",
+    "author": "Quadrature",
+    "created": "2026-06-27"
+  },
+  "practice": [
+    {
+      "id": "peak-emf",
+      "asks": "the peak (amplitude) of the induced EMF",
+      "prompt": "The coil ($A = 0.1$ m²) spins at $\\omega = 10$ rad/s in a field $B = 0.5$ T. What is the peak induced EMF?",
+      "answer": {
+        "value": 0.5,
+        "display": "0.5",
+        "unit": "V",
+        "symbolic_latex": "BA\\omega"
+      },
+      "choices": [
+        {
+          "value": 0.5,
+          "display": "0.5",
+          "correct": true
+        },
+        {
+          "value": 0.05,
+          "display": "0.05",
+          "correct": false,
+          "method": "forgot_omega",
+          "misconception": "Reported the peak *flux* $BA$ (in webers), not the peak *EMF*. The EMF is the rate of change of flux, so it carries an extra factor of $\\omega$: $\\mathcal{E}_0 = BA\\omega$ (in volts)."
+        },
+        {
+          "value": 0.0,
+          "display": "0",
+          "correct": false,
+          "method": "average_is_zero",
+          "misconception": "Computed the *average* EMF over a full cycle, which is zero — the sinusoid spends equal time positive and negative. The question asks for the *peak*, $BA\\omega$."
+        }
+      ],
+      "algebra_steps": [
+        {
+          "label": "What the algebra-based course hands you (Faraday's law as a rule)",
+          "latex": "\\mathcal{E} = -N\\,\\frac{\\Delta\\Phi}{\\Delta t}, \\qquad \\Phi = BA\\cos(\\omega t)",
+          "prose": "Faraday's law says the induced EMF is set by how fast the flux changes. The algebra-based course uses it to find *average* EMFs over an interval — flux change divided by time — and hands you the result that a coil spinning in a field makes alternating current, with no account of the instant-by-instant shape."
+        }
+      ],
+      "calculus_steps": [
+        {
+          "label": "The instantaneous EMF is the derivative of the flux",
+          "latex": "\\mathcal{E}(t) = -\\frac{d\\Phi}{dt}, \\quad \\Phi(t) = BA\\cos(\\omega t)",
+          "prose": "Faraday's law in its exact form uses the *instantaneous* rate of change — a derivative, not a ratio of finite changes. For a coil rotating at constant $\\omega$, the flux is a cosine, $\\Phi = BA\\cos(\\omega t)$."
+        },
+        {
+          "label": "Differentiate the flux — a sine EMF falls out, 90° ahead",
+          "latex": "\\mathcal{E}(t) = -\\frac{d}{dt}\\big[BA\\cos(\\omega t)\\big] = BA\\omega\\sin(\\omega t)",
+          "prose": "Differentiating the cosine gives a sine: the EMF is $BA\\omega\\sin(\\omega t)$, with peak $\\mathcal{E}_0 = BA\\omega$. Because the derivative of a cosine is a sine, the EMF is a quarter cycle ahead of the flux — when the flux is at its crest, its slope (and so the EMF) is zero. The EMF is the *slope* of the flux.",
+          "emphasis": true
+        },
+        {
+          "label": "Watch the two panels — EMF is the slope of Φ",
+          "latex": "\\boxed{\\,\\mathcal{E}(t) = -\\frac{d\\Phi}{dt}\\,}\\qquad \\int_0^t \\mathcal{E}\\,dt' = -\\Delta\\Phi",
+          "prose": "Drag $B$ or $\\omega$: the flux $\\Phi$ and EMF oscillate, and at every instant the (negated) slope of the upper $\\Phi$–$t$ curve is the value of the lower EMF–$t$ curve. The area under the EMF is the flux change. Raising $\\omega$ packs more cycles in and raises the peak EMF $BA\\omega$ — spin a generator faster and it makes more voltage."
+        }
+      ]
+    },
+    {
+      "id": "emf-at-flux-peak",
+      "asks": "the EMF at the instant of maximum flux",
+      "prompt": "At the instant the flux $\\Phi$ is at its maximum, what is the induced EMF?",
+      "answer": {
+        "value": 0.0,
+        "display": "0",
+        "unit": "V"
+      },
+      "choices": [
+        {
+          "value": 0.0,
+          "display": "0",
+          "correct": true
+        },
+        {
+          "value": 0.5,
+          "display": "0.5",
+          "correct": false,
+          "method": "in_phase",
+          "misconception": "Assumed the EMF peaks together with the flux. It is the opposite: $\\mathcal{E} = -d\\Phi/dt$ is the *slope* of the flux, which is zero at the flux's peak. The EMF peaks a quarter cycle later, when the flux crosses zero."
+        }
+      ]
+    }
+  ]
+}

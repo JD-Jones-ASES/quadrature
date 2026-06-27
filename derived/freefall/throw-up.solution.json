@@ -496,5 +496,121 @@
         "state": "speeding up"
       }
     ]
-  }
+  },
+  "practice": [
+    {
+      "id": "max-height",
+      "asks": "the maximum height above the ground",
+      "prompt": "The ball leaves your hand at $v_0 = 20$ m/s from a height of $1.5$ m. What is the greatest height it reaches above the *ground*?",
+      "answer": {
+        "value": 21.5,
+        "display": "21.5",
+        "unit": "m",
+        "symbolic_latex": "x_{0} - \\frac{v_{0}^{2}}{2 a}"
+      },
+      "choices": [
+        {
+          "value": 21.5,
+          "display": "21.5",
+          "correct": true
+        },
+        {
+          "value": 20.0,
+          "display": "20",
+          "correct": false,
+          "method": "forgot_release_height",
+          "misconception": "Found only the height *gained* above your hand, $v_0^2/2|g|$, and forgot to add the $1.5$ m release height. The question asks for the height above the ground."
+        },
+        {
+          "value": 41.5,
+          "display": "41.5",
+          "correct": false,
+          "method": "dropped_half",
+          "misconception": "Dropped the factor of $\\tfrac12$. Setting $v^2 = v_0^2 - 2|g|h$ to zero gives $h = v_0^2/2|g|$ — the $\\tfrac12$ is exactly the one that appears when you integrate $v\\,dv$."
+        }
+      ],
+      "algebra_steps": [
+        {
+          "label": "Assert the constant-acceleration relations",
+          "latex": "v = v_0 + a t \\qquad x = x_0 + v_0 t + \\tfrac{1}{2} a t^2",
+          "prose": "These are the formulas the algebra-based course memorizes. (They are quadratures — we will see them fall out of the calculus.)"
+        },
+        {
+          "label": "Apex: the top is where velocity is zero",
+          "latex": "v = 0 \\;\\implies\\; t_{\\text{apex}} = - \\frac{v_{0}}{a}",
+          "prose": "Velocity is zero only for an instant — but acceleration is not. The ball is still being pulled down at g."
+        },
+        {
+          "label": "Maximum height from the timeless equation",
+          "latex": "0 = v_0^2 + 2a\\,(x - x_0) \\;\\implies\\; x_{\\max} = x_{0} - \\frac{v_{0}^{2}}{2 a}",
+          "prose": "Set v = 0 in v² = v₀² + 2a(x − x₀). No time needed — this is the equation an algebra student is handed without its derivation."
+        },
+        {
+          "label": "Time of flight: solve for when it returns to the ground",
+          "latex": "x_0 + v_0 t + \\tfrac{1}{2} a t^2 = 0 \\;\\implies\\; t_{\\text{flight}} = \\frac{- v_{0} - \\sqrt{- 2 a x_{0} + v_{0}^{2}}}{a}",
+          "prose": "The physical (later) root of the quadratic — the moment it lands."
+        },
+        {
+          "label": "Impact velocity at the ground",
+          "latex": "v_{\\text{impact}} = - \\sqrt{- 2 a x_{0} + v_{0}^{2}}",
+          "prose": "Negative because it is moving downward at impact (up is positive)."
+        }
+      ],
+      "calculus_steps": [
+        {
+          "label": "Start from the acceleration",
+          "latex": "a(t) = a",
+          "prose": "Constant — the only force acting is gravity. On the stacked graph this is a flat line."
+        },
+        {
+          "label": "Velocity is the integral of acceleration",
+          "latex": "v(t) = \\int a \\, dt = v_0 + a t",
+          "prose": "The constant of integration is v₀ (the velocity at t = 0). The slope of the v–t graph is a; the area under the a–t graph is the change in v."
+        },
+        {
+          "label": "Position is the integral of velocity",
+          "latex": "x(t) = \\int v \\, dt = \\int (v_0 + a t)\\, dt = x_0 + v_0 t + \\tfrac{1}{2} a t^2",
+          "prose": "The constant of integration is x₀. The slope of the x–t graph is v; the area under the v–t graph is the change in x."
+        },
+        {
+          "label": "The algebra formula has emerged",
+          "latex": "\\boxed{\\,x = x_0 + v_0 t + \\tfrac{1}{2} a t^2\\,}",
+          "prose": "This is exactly the formula the algebra course memorizes — here it is the integral with the integrand (a) frozen to a constant. Freeze the integrand and the integral becomes multiply-and-add. That is the algebra.",
+          "emphasis": true
+        }
+      ]
+    },
+    {
+      "id": "apex-time",
+      "asks": "the time to reach the apex",
+      "prompt": "At what time does the ball reach the top of its flight?",
+      "answer": {
+        "value": 2.0,
+        "display": "2",
+        "unit": "s",
+        "symbolic_latex": "- \\frac{v_{0}}{a}"
+      },
+      "choices": [
+        {
+          "value": 2.0,
+          "display": "2",
+          "correct": true
+        },
+        {
+          "value": 4.0,
+          "display": "4",
+          "correct": false,
+          "method": "whole_flight",
+          "misconception": "That is the *round-trip* time (up and back). The apex is reached halfway up, at $t = v_0/|g|$ — half as long."
+        },
+        {
+          "value": -2.0,
+          "display": "-2",
+          "correct": false,
+          "method": "sign_of_g",
+          "misconception": "Mishandled the sign: $t = -v_0/a$ with $a = -10$ gives $+2$ s, not $-2$ s. A time cannot be negative."
+        }
+      ]
+    }
+  ]
 }

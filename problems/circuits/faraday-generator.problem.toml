@@ -1,0 +1,61 @@
+id = "faraday-generator"
+title = "The AC generator: the induced EMF is the slope of the flux"
+topic = "circuits"
+slug = "faraday-generator"
+model = "faraday-induction"
+regime = 2
+author = "Quadrature"
+created = "2026-06-27"
+scenario = "A coil of area $A = 0.1$ m² spins at $\\omega = 10$ rad/s in a uniform magnetic field $B = 0.5$ T. The flux through it varies as $\\Phi(t) = BA\\cos(\\omega t)$, and the **induced EMF is its rate of change**, $\\mathcal{E} = -d\\Phi/dt = BA\\omega\\sin(\\omega t)$ — a sinusoid a quarter cycle ahead of the flux. This is how a generator turns rotation into alternating current. Plotted as a stacked $\\Phi$–$t$ over EMF–$t$, the slope of the flux *is* the (negated) EMF at every instant. Drag $B$ or $\\omega$: when the flux is at its peak the EMF is zero, and when the flux crosses zero the EMF is at its peak."
+formulas_used = ["em-faraday-law", "em-ac-generator-emf", "em-flux"]
+
+[parameters]
+B = 0.5                # T — magnetic field (slider; sets the EMF amplitude)
+A = 0.1                # m² — coil area (constant)
+omega = 10             # rad/s — rotation rate (slider; sets the frequency and the EMF amplitude)
+
+[[assumptions]]
+claim = "A uniform, constant magnetic field, and a single-turn coil rotating at constant angular velocity $\\omega$."
+kind = "model"
+
+[[assumptions]]
+claim = "An ideal EMF source (no coil resistance), so the terminal voltage is the induced EMF $\\mathcal{E} = -d\\Phi/dt$ exactly."
+kind = "model"
+
+[[graphs]]
+kind = "stack"
+mode = "interactive"
+annotate = ["emf_is_slope", "ninety_degree_phase"]
+
+[misconception]
+claim = "The flux and the EMF reach their maxima at the same time — they are in phase."
+refuted_by = "No. The EMF is the *rate of change* of the flux, $\\mathcal{E} = -d\\Phi/dt$, so it is $90^\\circ$ out of phase. When the flux $\\Phi$ is at its peak, its slope is zero, so the EMF is zero. When the flux passes through zero (its steepest point), $|d\\Phi/dt|$ is largest, so the EMF is at its peak. Watch the two panels: the EMF (lower) crests exactly halfway between the flux (upper) crests — a sine riding a quarter cycle ahead of the cosine."
+
+[[practice]]
+id = "peak-emf"
+asks = "the peak (amplitude) of the induced EMF"
+answer = "result:peak_emf"
+prompt = "The coil ($A = 0.1$ m²) spins at $\\omega = 10$ rad/s in a field $B = 0.5$ T. What is the peak induced EMF?"
+include = ["algebra", "calculus"]
+
+  [[practice.distractor]]
+  method = "forgot_omega"
+  transform = "B*A"
+  misconception = "Reported the peak *flux* $BA$ (in webers), not the peak *EMF*. The EMF is the rate of change of flux, so it carries an extra factor of $\\omega$: $\\mathcal{E}_0 = BA\\omega$ (in volts)."
+
+  [[practice.distractor]]
+  method = "average_is_zero"
+  transform = "0"
+  misconception = "Computed the *average* EMF over a full cycle, which is zero — the sinusoid spends equal time positive and negative. The question asks for the *peak*, $BA\\omega$."
+
+[[practice]]
+id = "emf-at-flux-peak"
+asks = "the EMF at the instant of maximum flux"
+answer = "0"
+unit = "V"
+prompt = "At the instant the flux $\\Phi$ is at its maximum, what is the induced EMF?"
+
+  [[practice.distractor]]
+  method = "in_phase"
+  transform = "B*A*omega"
+  misconception = "Assumed the EMF peaks together with the flux. It is the opposite: $\\mathcal{E} = -d\\Phi/dt$ is the *slope* of the flux, which is zero at the flux's peak. The EMF peaks a quarter cycle later, when the flux crosses zero."

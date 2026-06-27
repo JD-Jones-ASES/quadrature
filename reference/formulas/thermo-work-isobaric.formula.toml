@@ -1,0 +1,28 @@
+id = "thermo-work-isobaric"
+name = "Isobaric work (constant pressure)"
+domain = "thermo"
+regime = 3
+expr = "P*(V2-V1)"
+lhs = "W"
+result_unit = "J"
+assumptions = [
+  "constant pressure (isobaric process)",
+  "work is the area under the P–V curve, W = ∫P dV — here a rectangle",
+]
+lessons = ["isobaric-work"]
+citations = []
+
+[variables]
+P = { unit = "Pa", desc = "constant pressure" }
+V1 = { unit = "m**3", desc = "initial volume" }
+V2 = { unit = "m**3", desc = "final volume" }
+
+[[edges]]
+type = "related-to"
+target = "thermo-work-isothermal"
+gloss = "the constant-pressure rectangle vs the isothermal logarithm — the same ∫P dV on a different process path"
+
+[[edges]]
+type = "related-to"
+target = "thermo-first-law"
+gloss = "this W is the work term in ΔU = Q − W"

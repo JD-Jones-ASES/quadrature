@@ -153,3 +153,33 @@ the lesson appears. The page shows a regime-appropriate framing, the player, the
 
 Write inline math in `scenario`, step prose, and `misconception` with `$...$` (e.g. `$v = v_0 + at$`); it is
 KaTeX-rendered at build time and validated by `check:katex`. Units like "m/s²" can stay as plain text.
+
+## Practice questions (optional)
+
+A lesson can carry `[[practice]]` blocks — the "solve it three ways" content type (ADR-0022). Each is
+build-time SymPy-verified: the answer is one of the lesson's already-proven results, and every multiple-choice
+distractor is *computed from a named misconception and proven distinct from the answer* (a collision fails the
+build).
+
+```toml
+[[practice]]
+id = "max-height"                    # unique within the lesson
+asks = "the maximum height above the ground"
+answer = "result:max_height"         # a verified algebra.result key — or a SymPy expr in the scenario symbols
+prompt = "How high does the ball rise above the ground?"
+include = ["algebra", "calculus"]    # reuse THIS lesson's step registers as the step-throughs (no re-authoring)
+
+  [[practice.distractor]]
+  method = "dropped_half"            # the misconception's short name
+  transform = "x0 - v0**2/g"         # a SymPy expr in the scenario's constants + initial conditions (and `answer`)
+  misconception = "Dropped the $\tfrac12$ from integrating $v\,dv$ …"   # $...$ inline math allowed
+```
+
+- **`answer`** is either `"result:<key>"` (pulls value + unit + symbolic form from `algebra.result`) or a bare
+  SymPy expression — the latter needs an explicit `unit = "…"`.
+- **`transform`** is evaluated at the scenario defaults; it may use any exported constant, any initial condition
+  (e.g. `x0`, `v0`), and the symbol `answer`. Non-finite or answer-colliding distractors fail the build.
+- **`include`** is omitted for a multiple-choice-only quick-check; list `"algebra"` / `"calculus"` to also offer
+  those step-throughs (reused verbatim from the lesson — author no extra step prose).
+- Every question needs ≥1 distractor (so the multiple-choice has ≥2 options). All prompts/misconceptions render
+  through `check:katex`. The player reveals; it never grades.

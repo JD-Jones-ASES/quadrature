@@ -37,6 +37,21 @@ export function renderSolution(sol) {
     s.sign_analysis.ruleHtml = inline(s.sign_analysis.rule);
     s.sign_analysis.segments = s.sign_analysis.segments.map((g) => ({ ...g, stateHtml: inline(g.state) }));
   }
+  if (s.practice) {
+    s.practice = s.practice.map((q) => ({
+      ...q,
+      promptHtml: inline(q.prompt),
+      asksHtml: inline(q.asks),
+      answer: { ...q.answer, symbolicHtml: q.answer.symbolic_latex ? tex(q.answer.symbolic_latex, false) : null },
+      choices: q.choices.map((c) => ({
+        ...c,
+        displayHtml: inline(c.display),
+        misconceptionHtml: c.misconception ? inline(c.misconception) : null,
+      })),
+      algebra_steps: (q.algebra_steps ?? []).map(step),
+      calculus_steps: (q.calculus_steps ?? []).map(step),
+    }));
+  }
   return s;
 }
 

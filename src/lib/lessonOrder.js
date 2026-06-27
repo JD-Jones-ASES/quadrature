@@ -52,6 +52,7 @@ export const ORDER = [
   ["hydrostatic-force",   "fluids"],
   ["torricelli",          "fluids"],        // (planned) Torricelli / Bernoulli — draining tank
   // Thermodynamics
+  ["isobaric-work",       "thermo"],        // constant-pressure work — the rectangle (the quadrature)
   ["isothermal-work",     "thermo"],
   ["adiabatic-work",      "thermo"],
   // Electricity & magnetism
@@ -59,6 +60,8 @@ export const ORDER = [
   ["line-charge-field",   "em"],            // (planned) field from a continuous charge, ∫k dq/r²
   ["capacitor-energy",    "em"],
   ["rc-charging",         "em"],            // (planned) RC charging, Q(t)/I(t) on the 2-panel stack
+  ["lc-oscillation",      "em"],            // LC oscillator — Q/I on the 2-panel stack, the electrical spring
+  ["faraday-generator",   "em"],            // Faraday induction — Φ/EMF on the 2-panel stack, the AC generator
   // Modern physics
   ["decay",               "modern"],        // radioactive decay — opens Modern (the N / dN/dt 2-panel stack)
 ];

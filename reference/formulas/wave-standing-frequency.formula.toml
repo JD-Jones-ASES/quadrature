@@ -1,0 +1,29 @@
+id = "wave-standing-frequency"
+name = "Standing-wave harmonics (string fixed at both ends)"
+domain = "waves-optics"
+regime = 3
+expr = "n*v/(2*L)"
+lhs = "f_n"
+result_unit = "Hz"
+assumptions = ["string fixed at both ends (a node at each end)", "n = 1, 2, 3, … selects the harmonic"]
+citations = []
+
+[variables]
+n = { unit = "1", desc = "harmonic number (1 = fundamental)" }
+v = { unit = "m/s", desc = "wave speed on the string" }
+L = { unit = "m", desc = "length of the string" }
+
+[[edges]]
+type = "related-to"
+target = "wave-standing-wavelength"
+gloss = "fₙ = v/λₙ with λₙ = 2L/n — the boundary conditions quantise both"
+
+[[edges]]
+type = "related-to"
+target = "wave-string-speed"
+gloss = "v is set by the string's tension and mass density"
+
+[[edges]]
+type = "related-to"
+target = "wave-speed"
+gloss = "the same v = fλ, now restricted to the discrete λₙ that fit between the fixed ends"

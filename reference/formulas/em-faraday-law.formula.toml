@@ -1,0 +1,28 @@
+id = "em-faraday-law"
+name = "Faraday's law of induction"
+domain = "em"
+regime = 2
+expr = "-dPhidt"
+lhs = '\mathcal{E}'
+result_unit = "V"
+assumptions = ["single-turn loop (multiply by N turns)", "the minus sign is Lenz's law: the EMF opposes the change in flux"]
+lessons = ["faraday-generator"]
+citations = []
+
+[variables]
+dPhidt = { unit = "Wb/s", desc = "rate of change of magnetic flux dΦ/dt" }
+
+[[edges]]
+type = "related-to"
+target = "em-flux"
+gloss = "it is the time rate of change of this flux that drives the EMF"
+
+[[edges]]
+type = "related-to"
+target = "em-motional-emf"
+gloss = "motional EMF is Faraday's law for a loop whose area is changing in a steady field"
+
+[[edges]]
+type = "related-to"
+target = "em-inductance"
+gloss = "self-inductance applies Faraday's law to a coil's own changing current"

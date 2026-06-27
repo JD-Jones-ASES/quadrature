@@ -1,0 +1,50 @@
+id = "isobaric-work"
+title = "Constant-pressure work: the area is a rectangle"
+topic = "thermo"
+slug = "isobaric-work"
+model = "isobaric-work"
+regime = 3
+author = "Quadrature"
+created = "2026-06-27"
+scenario = "A gas expands at constant pressure $P = 100$ kPa from $V_1 = 1$ L to $V_2 = 3$ L (a piston under a fixed load). How much work does it do? Because the pressure never changes, the $P$–$V$ curve is a horizontal line and the work is the rectangular area under it: $W = P\\,\\Delta V$. This is the simplest integral in the course — a constant integrand — so the memorized algebra formula and the calculus area are literally the same. Drag $P$ to scale the rectangle; sweep the cursor to watch the work accumulate as a straight line."
+formulas_used = ["thermo-work-isobaric", "thermo-ideal-gas", "thermo-first-law"]
+
+[parameters]
+P = 100000             # Pa — constant pressure (slider; the height of the rectangle)
+V1 = 0.001             # m³ — initial volume (1 L)
+V2 = 0.003             # m³ — final volume (3 L)
+v_window = 0.0035      # m³ — how far the cursor can sweep
+
+[[assumptions]]
+claim = "The pressure is held constant throughout the expansion (an isobaric process — e.g. a piston free to move under a fixed external load)."
+kind = "model"
+
+[[assumptions]]
+claim = "Work is the area under the P–V curve, $W = \\int P\\,dV$, with no friction or dissipation."
+kind = "model"
+
+[[graphs]]
+kind = "area"
+mode = "interactive"
+annotate = ["rectangle_work", "slope_is_pressure"]
+
+[misconception]
+claim = "Every expansion from $V_1$ to $V_2$ does the same work, since the volume change is the same."
+refuted_by = "No — work is the *area* under the $P$–$V$ curve, and the path sets the area. At constant pressure the area is the full rectangle $P\\,\\Delta V$. If instead the gas expands isothermally or adiabatically, the pressure *falls* as it expands, so the area under the curve is smaller and the work is less. Same $\\Delta V$, lower average pressure, less work. The isobaric rectangle is the largest of the three for a given starting pressure."
+
+[[practice]]
+id = "work"
+asks = "the work done by the gas"
+answer = "result:isobaric_work"
+prompt = "The gas expands at constant pressure $P = 100$ kPa from $V_1 = 1$ L to $V_2 = 3$ L. How much work does it do?"
+include = ["algebra", "calculus"]
+
+  [[practice.distractor]]
+  method = "used_final_volume"
+  transform = "P*V2"
+  misconception = "Multiplied pressure by the *final* volume, $P V_2$, instead of the *change* in volume. Work is $P\\,\\Delta V = P(V_2 - V_1)$ — only the volume the gas actually sweeps through counts."
+
+  [[practice.distractor]]
+  method = "half_rectangle"
+  transform = "P*(V2-V1)/2"
+  misconception = "Took half the rectangle, $\\tfrac12 P\\,\\Delta V$ — that triangle is the work when a force ramps up linearly from zero (like a spring), but here the pressure is *constant* the whole way, so the full rectangle $P\\,\\Delta V$ is the work."

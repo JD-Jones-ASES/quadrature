@@ -107,6 +107,22 @@ for (const file of files.sort()) {
     for (const fid of data.formulas_used)
       if (!knownFormulaIds.has(fid))
         fail(`${rel}: formulas_used '${fid}' has no reference entry`);
+
+  // practice questions (ADR-0022): unique ids, exactly one correct choice, finite numeric values
+  if (data.practice) {
+    const pids = new Set();
+    for (const q of data.practice) {
+      if (pids.has(q.id)) fail(`${rel}: duplicate practice id '${q.id}'`);
+      pids.add(q.id);
+      const correct = q.choices.filter((c) => c.correct === true);
+      if (correct.length !== 1)
+        fail(`${rel}: practice '${q.id}' must have exactly one correct choice (has ${correct.length})`);
+      if (!Number.isFinite(q.answer.value))
+        fail(`${rel}: practice '${q.id}' answer value is not finite`);
+      for (const [ci, c] of q.choices.entries())
+        if (!Number.isFinite(c.value)) fail(`${rel}: practice '${q.id}' choice[${ci}] value is not finite`);
+    }
+  }
 }
 
 if (errors.length) {

@@ -77,6 +77,24 @@ for (const file of walk(DERIVED, ".solution.json").sort()) {
     tryInline(d.sign_analysis.rule, `${rel} sign_analysis.rule`);
     d.sign_analysis.segments.forEach((g, i) => tryInline(g.state, `${rel} sign_analysis.segments[${i}]`));
   }
+  // practice questions (ADR-0022): prompts, the answer's symbolic form, each choice's misconception, and the
+  // reused algebra/calculus step-throughs must all render.
+  (d.practice ?? []).forEach((q, qi) => {
+    tryInline(q.prompt, `${rel} practice[${qi}].prompt`);
+    tryInline(q.asks, `${rel} practice[${qi}].asks`);
+    if (q.answer.symbolic_latex) tryRender(q.answer.symbolic_latex, `${rel} practice[${qi}].answer`);
+    q.choices.forEach((c, ci) => {
+      tryInline(c.display, `${rel} practice[${qi}].choices[${ci}].display`);
+      tryInline(c.misconception, `${rel} practice[${qi}].choices[${ci}].misconception`);
+    });
+    [["algebra_steps", q.algebra_steps], ["calculus_steps", q.calculus_steps]].forEach(([key, steps]) => {
+      (steps ?? []).forEach((s, si) => {
+        tryRender(s.latex, `${rel} practice[${qi}].${key}[${si}]`);
+        tryInline(s.label, `${rel} practice[${qi}].${key}[${si}].label`);
+        tryInline(s.prose, `${rel} practice[${qi}].${key}[${si}].prose`);
+      });
+    });
+  });
 }
 
 // reference: each formula's generated LaTeX

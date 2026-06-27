@@ -1,0 +1,61 @@
+id = "lc-oscillation"
+title = "The LC oscillator: the current is the slope of the charge"
+topic = "circuits"
+slug = "lc-oscillation"
+model = "lc-oscillation"
+regime = 2
+author = "Quadrature"
+created = "2026-06-27"
+scenario = "A capacitor $C = 100\\ \\mu$F is charged to $Q_0 = 0.01$ C and then connected across an inductor $L = 10$ mH. With no resistance to drain it, the charge $Q(t)$ and the current $I(t)$ oscillate forever at angular frequency $\\omega = 1/\\sqrt{LC}$. Plotted as a stacked $Q$–$t$ over $I$–$t$, the slope of the charge *is* the current at every instant — the same slope↔value pivot as position and velocity, and the electrical twin of a mass on a spring. Drag $L$ and watch the period $T = 2\\pi\\sqrt{LC}$ stretch; the energy sloshes between the capacitor and the inductor while the total stays fixed."
+formulas_used = ["em-lc-frequency", "em-lc-period", "em-inductance", "em-capacitance"]
+
+[parameters]
+L = 0.01               # H — inductance (slider; sets the period τ with C)
+C = 0.0001             # F — capacitance (constant; 100 μF)
+Q0 = 0.01              # C — initial charge amplitude (slider; sets the height)
+
+[[assumptions]]
+claim = "An ideal LC circuit: a perfect inductor and capacitor with no resistance, so no energy is dissipated and the oscillation never decays."
+kind = "model"
+
+[[assumptions]]
+claim = "The capacitor starts fully charged to $Q_0$ and the initial current is zero, $I(0) = 0$ — all the energy begins in the capacitor's electric field."
+kind = "model"
+
+[[graphs]]
+kind = "stack"
+mode = "interactive"
+annotate = ["slope_is_current", "energy_oscillates"]
+
+[misconception]
+claim = "The charge and current both start large and fade away, the way they do when a capacitor charges through a resistor (RC)."
+refuted_by = "Not here. With no resistor there is nothing to dissipate the energy, so nothing decays — the charge and current oscillate forever. They are $90^\\circ$ out of phase: when the charge $Q$ is at its peak the current $I$ is zero (the capacitor is full and momentarily not flowing), and a quarter cycle later $Q = 0$ while $I$ is at its peak (the capacitor is empty and the current is greatest). The energy trades back and forth between the capacitor's $Q^2/2C$ and the inductor's $\\tfrac12 LI^2$, but the total is constant. RC *relaxes*; LC *rings*."
+
+[[practice]]
+id = "period"
+asks = "the period of the oscillation"
+answer = "result:period"
+prompt = "The capacitor ($C = 100\\ \\mu$F) and inductor ($L = 10$ mH) ring as an LC circuit. What is the period $T$ of the oscillation?"
+include = ["algebra", "calculus"]
+
+  [[practice.distractor]]
+  method = "ratio_for_product"
+  transform = "2*pi*sqrt(L/C)"
+  misconception = "Used $T = 2\\pi\\sqrt{L/C}$ — the *ratio* $L/C$ in place of the *product* $LC$. The period depends on $LC$ (the same product that sets $\\omega = 1/\\sqrt{LC}$), not $L/C$."
+
+  [[practice.distractor]]
+  method = "reciprocal"
+  transform = "1/(2*pi*sqrt(L*C))"
+  misconception = "Reported the frequency $f = 1/(2\\pi\\sqrt{LC})$ in hertz, not the period $T$ in seconds — the two are reciprocals."
+
+[[practice]]
+id = "phase"
+asks = "the current at the instant of maximum charge"
+answer = "0"
+unit = "A"
+prompt = "At the instant the charge $Q$ reaches its maximum, what is the current $I$?"
+
+  [[practice.distractor]]
+  method = "peak_current"
+  transform = "Q0/sqrt(L*C)"
+  misconception = "Assumed the current peaks together with the charge. It is the opposite: $I = dQ/dt$, so the current is *zero* exactly when the charge is at a maximum (zero slope of $Q$), and largest when the charge crosses zero."

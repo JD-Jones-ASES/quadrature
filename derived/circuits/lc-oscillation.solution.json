@@ -1,0 +1,468 @@
+{
+  "id": "lc-oscillation",
+  "title": "The LC oscillator: the current is the slope of the charge",
+  "topic": "circuits",
+  "slug": "lc-oscillation",
+  "scenario": "A capacitor $C = 100\\ \\mu$F is charged to $Q_0 = 0.01$ C and then connected across an inductor $L = 10$ mH. With no resistance to drain it, the charge $Q(t)$ and the current $I(t)$ oscillate forever at angular frequency $\\omega = 1/\\sqrt{LC}$. Plotted as a stacked $Q$–$t$ over $I$–$t$, the slope of the charge *is* the current at every instant — the same slope↔value pivot as position and velocity, and the electrical twin of a mass on a spring. Drag $L$ and watch the period $T = 2\\pi\\sqrt{LC}$ stretch; the energy sloshes between the capacitor and the inductor while the total stays fixed.",
+  "regime": 2,
+  "constants": {
+    "L": 0.01,
+    "C": 0.0001,
+    "Q0": 0.01
+  },
+  "initial_conditions": {
+    "Q0": 0.01,
+    "I0": 0.0
+  },
+  "assumptions": [
+    {
+      "claim": "An ideal LC circuit: a perfect inductor and capacitor with no resistance, so no energy is dissipated and the oscillation never decays.",
+      "kind": "model"
+    },
+    {
+      "claim": "The capacitor starts fully charged to $Q_0$ and the initial current is zero, $I(0) = 0$ — all the energy begins in the capacitor's electric field.",
+      "kind": "model"
+    }
+  ],
+  "algebra": {
+    "steps": [
+      {
+        "label": "What the algebra-based course hands you (a ringing circuit and a period)",
+        "latex": "Q(t) = Q_0\\cos(\\omega t), \\qquad T = 2\\pi\\sqrt{LC}, \\qquad \\omega = \\frac{1}{\\sqrt{LC}}",
+        "prose": "An LC circuit oscillates: with no resistance to dissipate energy, the charge and current swing back and forth forever at angular frequency $\\omega = 1/\\sqrt{LC}$, period $T = 2\\pi\\sqrt{LC}$. You are handed the period as a rule — the same form as the spring's $T = 2\\pi\\sqrt{m/k}$ — with no account of *why* the circuit rings or where $\\omega = 1/\\sqrt{LC}$ comes from."
+      }
+    ],
+    "result": {
+      "angular_frequency": {
+        "label": "Angular frequency $\\omega = 1/\\sqrt{LC}$",
+        "unit": "1/s",
+        "symbolic_latex": "\\dfrac{1}{\\sqrt{LC}}",
+        "value": 1000.0,
+        "display": "1000"
+      },
+      "period": {
+        "label": "Period $T = 2\\pi\\sqrt{LC}$",
+        "unit": "s",
+        "symbolic_latex": "2\\pi\\sqrt{LC}",
+        "value": 0.006283,
+        "display": "0.006283"
+      },
+      "peak_current": {
+        "label": "Peak current $I_{\\max} = Q_0\\omega = Q_0/\\sqrt{LC}$",
+        "unit": "A",
+        "symbolic_latex": "\\dfrac{Q_0}{\\sqrt{LC}}",
+        "value": 10.0,
+        "display": "10"
+      },
+      "total_energy": {
+        "label": "Total energy $E = Q_0^2/2C$ (constant)",
+        "unit": "J",
+        "symbolic_latex": "\\dfrac{Q_0^2}{2C}",
+        "value": 0.5,
+        "display": "0.5"
+      }
+    }
+  },
+  "calculus": {
+    "steps": [
+      {
+        "label": "Kirchhoff's voltage law is a second-order differential equation",
+        "latex": "L\\,\\frac{dI}{dt} + \\frac{Q}{C} = 0, \\quad I = \\frac{dQ}{dt} \\ \\Longrightarrow\\ L\\,\\frac{d^2Q}{dt^2} + \\frac{Q}{C} = 0",
+        "prose": "Around the loop, the inductor's back-EMF $L\\,dI/dt$ balances the capacitor voltage $Q/C$. Because the current is the rate of change of charge, $I = dQ/dt$, this is a *second-order* differential equation for $Q(t)$ — the exact shape of the mass–spring equation $x'' = -\\omega^2 x$, with $\\omega^2 = 1/(LC)$."
+      },
+      {
+        "label": "Solving it gives the oscillation; its slope is the current",
+        "latex": "Q(t) = Q_0\\cos(\\omega t),\\ \\ \\omega = \\frac{1}{\\sqrt{LC}} \\ \\Longrightarrow\\ I(t) = \\frac{dQ}{dt} = -Q_0\\,\\omega\\sin(\\omega t)",
+        "prose": "The solution is a cosine at $\\omega = 1/\\sqrt{LC}$ — so $T = 2\\pi\\sqrt{LC}$ falls straight out of the equation. Differentiating the charge gives the current: it lags a quarter cycle behind, peaking when the charge is zero. The current is the *slope* of the charge.",
+        "emphasis": true
+      },
+      {
+        "label": "Watch the two panels — I is the slope of Q, and energy sloshes",
+        "latex": "\\boxed{\\,I(t) = \\frac{dQ}{dt}\\,}\\qquad \\frac{Q^2}{2C} + \\tfrac12 LI^2 = \\text{const}",
+        "prose": "Drag $L$ or $Q_0$: the charge $Q$ and current $I$ oscillate, and at every instant the slope of the upper $Q$–$t$ curve is the value of the lower $I$–$t$ curve — the same relationship as position and velocity, in a circuit. The energy trades between the capacitor ($Q^2/2C$, full when $Q$ peaks) and the inductor ($\\tfrac12 LI^2$, full when $I$ peaks) while the total stays fixed. Raising $L$ stretches the period $2\\pi\\sqrt{LC}$."
+      }
+    ]
+  },
+  "proof": {
+    "kind": "governing",
+    "heading": "The current is the slope of the charge, and the charge solves the LC equation — the mass–spring oscillator, one domain over.",
+    "checked_by": "sympy",
+    "holds": true,
+    "detail": "check $I = dQ/dt$; check $L\\,Q'' + Q/C = 0$; energy $\\tfrac{Q^2}{2C} + \\tfrac12 LI^2$ constant; $T = 2\\pi\\sqrt{LC}$; quarter-period $90^\\circ$ phase",
+    "checks": [
+      {
+        "key": "current_is_slope",
+        "claim": "The current is the slope of the charge: $I = \\dfrac{dQ}{dt}$ — exactly as velocity is the slope of position.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "governing_eqn",
+        "claim": "The charge solves the LC equation $L\\,\\dfrac{d^2Q}{dt^2} + \\dfrac{Q}{C} = 0$ — the electrical twin of the spring's $x'' = -\\omega^2 x$.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "energy_conserved",
+        "claim": "Energy trades between the capacitor $\\tfrac{Q^2}{2C}$ and the inductor $\\tfrac12 LI^2$; the total stays at the initial $\\tfrac{Q_0^2}{2C}$.",
+        "holds": true,
+        "tier": "simplify"
+      },
+      {
+        "key": "period",
+        "claim": "The period is $T = 2\\pi\\sqrt{LC}$: a full cycle later the charge repeats, $Q(t+T) = Q(t)$.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "quarter_phase",
+        "claim": "A quarter period in, the capacitor is empty ($Q = 0$) while the current peaks — charge and current are $90^\\circ$ out of phase.",
+        "holds": true,
+        "tier": "structural"
+      }
+    ]
+  },
+  "units_check": {
+    "checked_by": "sympy",
+    "holds": true
+  },
+  "graphs": [
+    {
+      "kind": "stack",
+      "mode": "interactive",
+      "window": "fixed",
+      "annotate": [
+        "slope_is_current",
+        "energy_oscillates"
+      ],
+      "svg": "assets/graphs/lc-oscillation-0.svg",
+      "panels": [
+        {
+          "key": "Q",
+          "label": "Q  (C)",
+          "unit": "C",
+          "accent": false
+        },
+        {
+          "key": "I",
+          "label": "I  (A)",
+          "unit": "A",
+          "accent": true
+        }
+      ],
+      "series": {
+        "t": [
+          0.0,
+          0.00025,
+          0.0005,
+          0.00075,
+          0.001,
+          0.00125,
+          0.0015,
+          0.00175,
+          0.002,
+          0.00225,
+          0.0025,
+          0.00275,
+          0.003,
+          0.00325,
+          0.0035,
+          0.00375,
+          0.004,
+          0.00425,
+          0.0045,
+          0.00475,
+          0.005,
+          0.00525,
+          0.0055,
+          0.00575,
+          0.006,
+          0.00625,
+          0.0065,
+          0.00675,
+          0.007,
+          0.00725,
+          0.0075,
+          0.00775,
+          0.008,
+          0.00825,
+          0.0085,
+          0.00875,
+          0.009,
+          0.00925,
+          0.0095,
+          0.00975,
+          0.01,
+          0.01025,
+          0.0105,
+          0.01075,
+          0.011,
+          0.01125,
+          0.0115,
+          0.01175,
+          0.012,
+          0.01225,
+          0.0125,
+          0.01275,
+          0.013,
+          0.01325,
+          0.0135,
+          0.01375,
+          0.014,
+          0.01425,
+          0.0145,
+          0.01475,
+          0.015
+        ],
+        "Q": [
+          0.01,
+          0.0096891242,
+          0.0087758256,
+          0.0073168887,
+          0.0054030231,
+          0.0031532236,
+          0.000707372,
+          -0.0017824606,
+          -0.0041614684,
+          -0.0062817362,
+          -0.0080114362,
+          -0.0092430238,
+          -0.009899925,
+          -0.0099412968,
+          -0.0093645669,
+          -0.0082055936,
+          -0.0065364362,
+          -0.0044608749,
+          -0.002107958,
+          0.0003760215,
+          0.0028366219,
+          0.0051208548,
+          0.0070866977,
+          0.0086119242,
+          0.0096017029,
+          0.0099944942,
+          0.0097658763,
+          0.0089300634,
+          0.0075390225,
+          0.0056792417,
+          0.0034663532,
+          0.0010379436,
+          -0.0014550003,
+          -0.0038574794,
+          -0.006020119,
+          -0.0078084568,
+          -0.0091113026,
+          -0.0098476517,
+          -0.0099717216,
+          -0.009475798,
+          -0.0083907153,
+          -0.0067839385,
+          -0.0047553693,
+          -0.0024311342,
+          4.4257e-05,
+          0.0025168965,
+          0.0048330476,
+          0.0068487032,
+          0.0084385396,
+          0.0095037085,
+          0.0099779828,
+          0.0098318745,
+          0.0090744678,
+          0.0077528547,
+          0.0059492066,
+          0.0037756657,
+          0.0013673722,
+          -0.0011259379,
+          -0.0035492427,
+          -0.0057518727,
+          -0.0075968791
+        ],
+        "I": [
+          0.0,
+          -2.4740395925,
+          -4.794255386,
+          -6.8163876002,
+          -8.4147098481,
+          -9.4898461936,
+          -9.974949866,
+          -9.8398594687,
+          -9.0929742683,
+          -7.7807319689,
+          -5.984721441,
+          -3.8166099205,
+          -1.4112000806,
+          1.0819513453,
+          3.5078322769,
+          5.7156131874,
+          7.5680249531,
+          8.9498935823,
+          9.7753011767,
+          9.9929278898,
+          9.5892427466,
+          8.5893449343,
+          7.0554032557,
+          5.082790775,
+          2.794154982,
+          0.3317921655,
+          -2.1511998809,
+          -4.5004407378,
+          -6.5698659872,
+          -8.2308087901,
+          -9.3799997677,
+          -9.9459877911,
+          -9.8935824662,
+          -9.2260421024,
+          -7.9848711262,
+          -6.2472395375,
+          -4.1211848524,
+          -1.7388948538,
+          0.7515112046,
+          3.1951919362,
+          5.4402111089,
+          7.346984304,
+          8.7969575997,
+          9.6999786792,
+          9.9999020655,
+          9.6780799751,
+          8.7545217469,
+          7.2866497583,
+          5.36572918,
+          3.1111935498,
+          0.6632189735,
+          -1.8259913463,
+          -4.2016703683,
+          -6.3161098772,
+          -8.0378442655,
+          -9.2598244281,
+          -9.9060735569,
+          -9.9364110113,
+          -9.3489505552,
+          -8.1802176345,
+          -6.5028784016
+        ],
+        "t_max": 0.015
+      },
+      "closed_form": {
+        "Q": "Q0*Math.cos(100*t/Math.sqrt(L))",
+        "I": "-100*Q0*Math.sin(100*t/Math.sqrt(L))/Math.sqrt(L)"
+      },
+      "closed_form_params": [
+        "L",
+        "Q0",
+        "t"
+      ],
+      "params": {
+        "L": {
+          "min": 0.005,
+          "max": 0.05,
+          "default": 0.01
+        },
+        "Q0": {
+          "min": 0.005,
+          "max": 0.02,
+          "default": 0.01
+        }
+      }
+    }
+  ],
+  "misconception": {
+    "claim": "The charge and current both start large and fade away, the way they do when a capacitor charges through a resistor (RC).",
+    "refuted_by": "Not here. With no resistor there is nothing to dissipate the energy, so nothing decays — the charge and current oscillate forever. They are $90^\\circ$ out of phase: when the charge $Q$ is at its peak the current $I$ is zero (the capacitor is full and momentarily not flowing), and a quarter cycle later $Q = 0$ while $I$ is at its peak (the capacitor is empty and the current is greatest). The energy trades back and forth between the capacitor's $Q^2/2C$ and the inductor's $\\tfrac12 LI^2$, but the total is constant. RC *relaxes*; LC *rings*."
+  },
+  "formulas_used": [
+    "em-lc-frequency",
+    "em-lc-period",
+    "em-inductance",
+    "em-capacitance"
+  ],
+  "provenance": {
+    "producer": "quadrature_producer",
+    "version": "0.1.0",
+    "sympy": "1.14.0",
+    "author": "Quadrature",
+    "created": "2026-06-27"
+  },
+  "practice": [
+    {
+      "id": "period",
+      "asks": "the period of the oscillation",
+      "prompt": "The capacitor ($C = 100\\ \\mu$F) and inductor ($L = 10$ mH) ring as an LC circuit. What is the period $T$ of the oscillation?",
+      "answer": {
+        "value": 0.006283,
+        "display": "0.006283",
+        "unit": "s",
+        "symbolic_latex": "2\\pi\\sqrt{LC}"
+      },
+      "choices": [
+        {
+          "value": 0.006283,
+          "display": "0.006283",
+          "correct": true
+        },
+        {
+          "value": 62.831853,
+          "display": "62.83",
+          "correct": false,
+          "method": "ratio_for_product",
+          "misconception": "Used $T = 2\\pi\\sqrt{L/C}$ — the *ratio* $L/C$ in place of the *product* $LC$. The period depends on $LC$ (the same product that sets $\\omega = 1/\\sqrt{LC}$), not $L/C$."
+        },
+        {
+          "value": 159.154943,
+          "display": "159.2",
+          "correct": false,
+          "method": "reciprocal",
+          "misconception": "Reported the frequency $f = 1/(2\\pi\\sqrt{LC})$ in hertz, not the period $T$ in seconds — the two are reciprocals."
+        }
+      ],
+      "algebra_steps": [
+        {
+          "label": "What the algebra-based course hands you (a ringing circuit and a period)",
+          "latex": "Q(t) = Q_0\\cos(\\omega t), \\qquad T = 2\\pi\\sqrt{LC}, \\qquad \\omega = \\frac{1}{\\sqrt{LC}}",
+          "prose": "An LC circuit oscillates: with no resistance to dissipate energy, the charge and current swing back and forth forever at angular frequency $\\omega = 1/\\sqrt{LC}$, period $T = 2\\pi\\sqrt{LC}$. You are handed the period as a rule — the same form as the spring's $T = 2\\pi\\sqrt{m/k}$ — with no account of *why* the circuit rings or where $\\omega = 1/\\sqrt{LC}$ comes from."
+        }
+      ],
+      "calculus_steps": [
+        {
+          "label": "Kirchhoff's voltage law is a second-order differential equation",
+          "latex": "L\\,\\frac{dI}{dt} + \\frac{Q}{C} = 0, \\quad I = \\frac{dQ}{dt} \\ \\Longrightarrow\\ L\\,\\frac{d^2Q}{dt^2} + \\frac{Q}{C} = 0",
+          "prose": "Around the loop, the inductor's back-EMF $L\\,dI/dt$ balances the capacitor voltage $Q/C$. Because the current is the rate of change of charge, $I = dQ/dt$, this is a *second-order* differential equation for $Q(t)$ — the exact shape of the mass–spring equation $x'' = -\\omega^2 x$, with $\\omega^2 = 1/(LC)$."
+        },
+        {
+          "label": "Solving it gives the oscillation; its slope is the current",
+          "latex": "Q(t) = Q_0\\cos(\\omega t),\\ \\ \\omega = \\frac{1}{\\sqrt{LC}} \\ \\Longrightarrow\\ I(t) = \\frac{dQ}{dt} = -Q_0\\,\\omega\\sin(\\omega t)",
+          "prose": "The solution is a cosine at $\\omega = 1/\\sqrt{LC}$ — so $T = 2\\pi\\sqrt{LC}$ falls straight out of the equation. Differentiating the charge gives the current: it lags a quarter cycle behind, peaking when the charge is zero. The current is the *slope* of the charge.",
+          "emphasis": true
+        },
+        {
+          "label": "Watch the two panels — I is the slope of Q, and energy sloshes",
+          "latex": "\\boxed{\\,I(t) = \\frac{dQ}{dt}\\,}\\qquad \\frac{Q^2}{2C} + \\tfrac12 LI^2 = \\text{const}",
+          "prose": "Drag $L$ or $Q_0$: the charge $Q$ and current $I$ oscillate, and at every instant the slope of the upper $Q$–$t$ curve is the value of the lower $I$–$t$ curve — the same relationship as position and velocity, in a circuit. The energy trades between the capacitor ($Q^2/2C$, full when $Q$ peaks) and the inductor ($\\tfrac12 LI^2$, full when $I$ peaks) while the total stays fixed. Raising $L$ stretches the period $2\\pi\\sqrt{LC}$."
+        }
+      ]
+    },
+    {
+      "id": "phase",
+      "asks": "the current at the instant of maximum charge",
+      "prompt": "At the instant the charge $Q$ reaches its maximum, what is the current $I$?",
+      "answer": {
+        "value": 0.0,
+        "display": "0",
+        "unit": "A"
+      },
+      "choices": [
+        {
+          "value": 0.0,
+          "display": "0",
+          "correct": true
+        },
+        {
+          "value": 10.0,
+          "display": "10",
+          "correct": false,
+          "method": "peak_current",
+          "misconception": "Assumed the current peaks together with the charge. It is the opposite: $I = dQ/dt$, so the current is *zero* exactly when the charge is at a maximum (zero slope of $Q$), and largest when the charge crosses zero."
+        }
+      ]
+    }
+  ]
+}

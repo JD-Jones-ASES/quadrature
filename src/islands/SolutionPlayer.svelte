@@ -8,6 +8,7 @@
   import Trajectory from "./Trajectory.svelte";
   import EnergyBars from "./EnergyBars.svelte";
   import Collision from "./Collision.svelte";
+  import PracticeQuestion from "./PracticeQuestion.svelte";
 
   let { solution } = $props();
   const s = solution;
@@ -51,6 +52,9 @@
     <button role="tab" aria-selected={tab === "algebra"} onclick={() => (tab = "algebra")}>Algebra</button>
     <button role="tab" aria-selected={tab === "calculus"} onclick={() => (tab = "calculus")}>Calculus</button>
     <button role="tab" aria-selected={tab === "graph"} onclick={() => (tab = "graph")}>Graph</button>
+    {#if s.practice?.length}
+      <button role="tab" aria-selected={tab === "practice"} onclick={() => (tab = "practice")}>Practice</button>
+    {/if}
   </div>
 
   {#if tab === "algebra"}
@@ -79,7 +83,7 @@
         <button onclick={() => (stepC = clamp(stepC + 1, cSteps.length))} disabled={stepC === cSteps.length - 1}>Next ›</button>
       </nav>
     </div>
-  {:else}
+  {:else if tab === "graph"}
     <div class="graphpanel" role="tabpanel" aria-label="Graph">
       {#if graph.kind === "area"}
         <AreaPlot {graph} />
@@ -92,6 +96,13 @@
       {:else}
         <GraphStack {graph} />
       {/if}
+    </div>
+  {:else if tab === "practice"}
+    <div class="practicepanel" role="tabpanel" aria-label="Practice">
+      <p class="practice-lede">Solve each one three ways — get the answer, then watch it fall out in the algebra and the calculus. Wrong options are common misconceptions, not random numbers.</p>
+      {#each s.practice as q (q.id)}
+        <PracticeQuestion question={q} />
+      {/each}
     </div>
   {/if}
 
@@ -192,4 +203,7 @@
 
   .assumptions summary { cursor: pointer; color: var(--ink-2); }
   .assumptions ul { color: var(--ink-2); font-size: 0.93rem; }
+
+  .practicepanel { display: grid; gap: 0.9rem; }
+  .practice-lede { margin: 0; color: var(--ink-2); font-size: 0.95rem; }
 </style>

@@ -29,6 +29,7 @@ from .emit import (closed_form, closed_form_area, closed_form_collision, closed_
 from .graph import (render_area, render_collision, render_energy, render_panels, render_stack,
                     render_trajectory)
 from .models import MODELS
+from .practice import emit_practice
 from .reference import build_reference
 
 
@@ -243,6 +244,8 @@ def build_problem(path: Path, root: Path) -> tuple[dict, str]:
     }
     if scn.sign_analysis is not None:
         solution["sign_analysis"] = scn.sign_analysis
+    if spec.get("practice"):
+        solution["practice"] = emit_practice(scn, spec, ctx)
 
     out_rel = f"{spec['topic']}/{spec['slug']}.solution.json"
     return solution, out_rel

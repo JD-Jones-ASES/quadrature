@@ -368,5 +368,64 @@
     "sympy": "1.14.0",
     "author": "Quadrature",
     "created": "2026-06-26"
-  }
+  },
+  "practice": [
+    {
+      "id": "work",
+      "asks": "the work done by the expanding gas",
+      "prompt": "One mole of gas at $T = 300$ K expands isothermally from $V_1 = 0.025$ m³ to $V_2 = 0.075$ m³. How much work does it do?",
+      "answer": {
+        "value": 2740.323562,
+        "display": "2740",
+        "unit": "J",
+        "symbolic_latex": "nRT\\ln\\!\\frac{V_2}{V_1}"
+      },
+      "choices": [
+        {
+          "value": 2740.323562,
+          "display": "2740",
+          "correct": true
+        },
+        {
+          "value": 4988.7,
+          "display": "4989",
+          "correct": false,
+          "method": "initial_pressure_rectangle",
+          "misconception": "Used the rectangle $P_1\\,\\Delta V$ — pressure times volume change at the *initial* pressure. But the pressure *falls* as the gas expands, so the true work is the smaller area under the curve, $nRT\\ln(V_2/V_1)$."
+        },
+        {
+          "value": 2494.35,
+          "display": "2494",
+          "correct": false,
+          "method": "dropped_log",
+          "misconception": "Dropped the $\\ln(V_2/V_1)$ factor — wrote $W = nRT$ instead of $W = nRT\\ln(V_2/V_1)$. That logarithm *is* the area under the $1/V$ curve."
+        }
+      ],
+      "algebra_steps": [
+        {
+          "label": "What the algebra-based course hands you (two memorized cases)",
+          "latex": "W = P\\,\\Delta V \\quad(\\text{constant pressure}) \\qquad W = nRT\\ln\\!\\frac{V_2}{V_1}\\quad(\\text{constant temperature})",
+          "prose": "At constant pressure, work is pressure times volume change — a rectangle. For an isothermal expansion you are handed a logarithm to memorize, with no account of where it comes from. The algebra course can use both but cannot say why one is a rectangle and the other a logarithm."
+        }
+      ],
+      "calculus_steps": [
+        {
+          "label": "Work is the area under the pressure–volume curve",
+          "latex": "W = \\int_{V_1}^{V_2} P\\,dV",
+          "prose": "Work done by the gas is the integral of pressure over volume — the area under the $P$–$V$ curve. At constant pressure the area is a rectangle ($P\\,\\Delta V$); when the pressure varies, it is the area under a curve."
+        },
+        {
+          "label": "Use the ideal-gas law at constant temperature",
+          "latex": "P = \\frac{nRT}{V} \\ \\Longrightarrow\\ W = \\int_{V_1}^{V_2}\\frac{nRT}{V}\\,dV = nRT\\ln\\!\\frac{V_2}{V_1}",
+          "prose": "For an isotherm, $PV = nRT$ makes $P$ inversely proportional to $V$ — a hyperbola. The area under $1/V$ is a logarithm, so the memorized isothermal work is exactly the area under the curve. Its slope at any volume is $P(V)$.",
+          "emphasis": true
+        },
+        {
+          "label": "Why the pressure case is the special one",
+          "latex": "P = \\text{const} \\ \\Longrightarrow\\ W = \\int_{V_1}^{V_2} P\\,dV = P\\,(V_2 - V_1)",
+          "prose": "When pressure does not vary, the integrand is constant and the integral collapses to the rectangle $P\\,\\Delta V$ — the algebra formula is the quadrature, the area already evaluated. The expanding-gas work is less than this rectangle because the pressure falls as the gas expands."
+        }
+      ]
+    }
+  ]
 }

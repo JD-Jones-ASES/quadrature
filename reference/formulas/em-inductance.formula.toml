@@ -1,0 +1,24 @@
+id = "em-inductance"
+name = "Inductor EMF"
+domain = "em"
+regime = 2
+expr = "L*dIdt"
+lhs = '\mathcal{E}_L'
+result_unit = "V"
+assumptions = ["ideal inductor", "the self-induced EMF opposes the change in current (Lenz's law)"]
+lessons = ["lc-oscillation"]
+citations = []
+
+[variables]
+L = { unit = "H", desc = "inductance" }
+dIdt = { unit = "A/s", desc = "rate of change of current dI/dt" }
+
+[[edges]]
+type = "related-to"
+target = "em-lc-frequency"
+gloss = "with a capacitor, L and C set the oscillation frequency ω = 1/√(LC)"
+
+[[edges]]
+type = "related-to"
+target = "em-faraday-law"
+gloss = "self-inductance is Faraday's law applied to a coil's own changing flux"

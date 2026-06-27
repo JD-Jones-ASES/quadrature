@@ -39,3 +39,36 @@ annotate = ["slope_of_x_is_v", "area_under_v_is_displacement", "a_nonzero_at_ape
 [misconception]
 claim = "At the top of the trajectory, the acceleration is zero (the ball 'stops')."
 refuted_by = "On the v-t graph the velocity passes through zero at the apex, but the line never bends: its slope is $a = -10$ m/s² the whole way. $v = 0$ for an instant; $a$ is never zero."
+
+[[practice]]
+id = "max-height"
+asks = "the maximum height above the ground"
+answer = "result:max_height"
+prompt = "The ball leaves your hand at $v_0 = 20$ m/s from a height of $1.5$ m. What is the greatest height it reaches above the *ground*?"
+include = ["algebra", "calculus"]
+
+  [[practice.distractor]]
+  method = "forgot_release_height"
+  transform = "v0**2/(-2*g)"
+  misconception = "Found only the height *gained* above your hand, $v_0^2/2|g|$, and forgot to add the $1.5$ m release height. The question asks for the height above the ground."
+
+  [[practice.distractor]]
+  method = "dropped_half"
+  transform = "x0 - v0**2/g"
+  misconception = "Dropped the factor of $\\tfrac12$. Setting $v^2 = v_0^2 - 2|g|h$ to zero gives $h = v_0^2/2|g|$ — the $\\tfrac12$ is exactly the one that appears when you integrate $v\\,dv$."
+
+[[practice]]
+id = "apex-time"
+asks = "the time to reach the apex"
+answer = "result:apex_time"
+prompt = "At what time does the ball reach the top of its flight?"
+
+  [[practice.distractor]]
+  method = "whole_flight"
+  transform = "-2*v0/g"
+  misconception = "That is the *round-trip* time (up and back). The apex is reached halfway up, at $t = v_0/|g|$ — half as long."
+
+  [[practice.distractor]]
+  method = "sign_of_g"
+  transform = "v0/g"
+  misconception = "Mishandled the sign: $t = -v_0/a$ with $a = -10$ gives $+2$ s, not $-2$ s. A time cannot be negative."

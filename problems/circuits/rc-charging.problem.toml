@@ -30,3 +30,36 @@ annotate = ["slope_is_current", "tau_is_rc"]
 [misconception]
 claim = "The capacitor charges at a steady rate, so the current stays constant while it fills up."
 refuted_by = "It does not. The current is *largest at the start* and decays exponentially as the capacitor fills: $I(t) = (V/R)\\,e^{-t/RC}$. As charge accumulates, the capacitor's voltage $Q/C$ rises and opposes the battery, leaving a smaller voltage across the resistor and so a smaller current. Because the current is the slope of the charge, $I = dQ/dt$, a decaying current is exactly why the charging curve bends over and levels off instead of climbing in a straight line. Watch the panels: where $Q$ is steepest (at $t=0$) the $I$ curve is highest; where $Q$ flattens, $I$ approaches zero."
+
+[[practice]]
+id = "time-constant"
+asks = "the time constant of the circuit"
+answer = "result:time_constant"
+prompt = "The capacitor ($C = 1$ mF) charges through the resistor ($R = 1$ k$\\Omega$). What is the time constant $\\tau$?"
+include = ["algebra", "calculus"]
+
+  [[practice.distractor]]
+  method = "ratio_for_product"
+  transform = "R/C"
+  misconception = "Used $R/C$ instead of the *product* $RC$. The time constant is $\\tau = RC$ — ohms × farads gives seconds, while $R/C$ does not."
+
+  [[practice.distractor]]
+  method = "full_charge_time"
+  transform = "5*R*C"
+  misconception = "That's roughly the time to charge *fully* (about $5\\tau$ reaches 99%). One time constant $\\tau = RC$ is the time to reach 63%."
+
+[[practice]]
+id = "initial-current"
+asks = "the current at the instant charging begins"
+answer = "result:initial_current"
+prompt = "At $t = 0$, the instant the switch closes on the *uncharged* capacitor, what is the current?"
+
+  [[practice.distractor]]
+  method = "thinks_zero"
+  transform = "0"
+  misconception = "At $t=0$ the uncharged capacitor acts like a plain wire (a short circuit), so the current is at its *largest*, $I_0 = V/R$. It decays to zero only as $t\\to\\infty$."
+
+  [[practice.distractor]]
+  method = "multiplied"
+  transform = "V*R"
+  misconception = "Multiplied instead of divided. Ohm's law across the resistor gives $I_0 = V/R$, not $VR$."

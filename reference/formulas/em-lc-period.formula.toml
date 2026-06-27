@@ -1,0 +1,19 @@
+id = "em-lc-period"
+name = "LC period"
+domain = "em"
+regime = 2
+expr = "2*pi*sqrt(L*C)"
+lhs = "T"
+result_unit = "s"
+assumptions = ["ideal LC circuit, no resistance", "free oscillation at ω = 1/√(LC)"]
+lessons = ["lc-oscillation"]
+citations = []
+
+[variables]
+L = { unit = "H", desc = "inductance" }
+C = { unit = "F", desc = "capacitance" }
+
+[[edges]]
+type = "related-to"
+target = "shm-period"
+gloss = "the electrical twin of the spring's T = 2π√(m/k)"

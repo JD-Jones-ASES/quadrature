@@ -355,6 +355,44 @@
       }
     },
     {
+      "id": "em-ac-generator-emf",
+      "name": "Peak EMF of an AC generator",
+      "domain": "em",
+      "regime": 2,
+      "lhs": "\\mathcal{E}_0",
+      "expr": "B*A*omega",
+      "expr_srepr": "Mul(Symbol('A', real=True), Symbol('B', real=True), Symbol('omega', real=True))",
+      "latex": "\\mathcal{E}_0 = A B \\omega",
+      "result_unit": "V",
+      "variables": {
+        "B": {
+          "unit": "T",
+          "desc": "magnetic flux density"
+        },
+        "A": {
+          "unit": "m**2",
+          "desc": "coil area"
+        },
+        "omega": {
+          "unit": "1/s",
+          "desc": "angular rotation rate ω"
+        }
+      },
+      "assumptions": [
+        "single-turn coil rotating at constant ω in a uniform field B",
+        "peak of ℰ(t) = BAω sin(ωt)"
+      ],
+      "derivation": null,
+      "lessons": [
+        "faraday-generator"
+      ],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
       "id": "em-bfield-wire",
       "name": "Magnetic field of a long straight wire",
       "domain": "em",
@@ -534,6 +572,36 @@
       }
     },
     {
+      "id": "em-faraday-law",
+      "name": "Faraday's law of induction",
+      "domain": "em",
+      "regime": 2,
+      "lhs": "\\mathcal{E}",
+      "expr": "-dPhidt",
+      "expr_srepr": "Mul(Integer(-1), Symbol('dPhidt', real=True))",
+      "latex": "\\mathcal{E} = - dPhidt",
+      "result_unit": "V",
+      "variables": {
+        "dPhidt": {
+          "unit": "Wb/s",
+          "desc": "rate of change of magnetic flux dΦ/dt"
+        }
+      },
+      "assumptions": [
+        "single-turn loop (multiply by N turns)",
+        "the minus sign is Lenz's law: the EMF opposes the change in flux"
+      ],
+      "derivation": null,
+      "lessons": [
+        "faraday-generator"
+      ],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
       "id": "em-flux",
       "name": "Magnetic flux",
       "domain": "em",
@@ -559,6 +627,108 @@
       ],
       "derivation": null,
       "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "em-inductance",
+      "name": "Inductor EMF",
+      "domain": "em",
+      "regime": 2,
+      "lhs": "\\mathcal{E}_L",
+      "expr": "L*dIdt",
+      "expr_srepr": "Mul(Symbol('L', real=True), Symbol('dIdt', real=True))",
+      "latex": "\\mathcal{E}_L = L dIdt",
+      "result_unit": "V",
+      "variables": {
+        "L": {
+          "unit": "H",
+          "desc": "inductance"
+        },
+        "dIdt": {
+          "unit": "A/s",
+          "desc": "rate of change of current dI/dt"
+        }
+      },
+      "assumptions": [
+        "ideal inductor",
+        "the self-induced EMF opposes the change in current (Lenz's law)"
+      ],
+      "derivation": null,
+      "lessons": [
+        "lc-oscillation"
+      ],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "em-lc-frequency",
+      "name": "LC angular frequency",
+      "domain": "em",
+      "regime": 2,
+      "lhs": "\\omega",
+      "expr": "1/sqrt(L*C)",
+      "expr_srepr": "Pow(Mul(Symbol('C', real=True), Symbol('L', real=True)), Rational(-1, 2))",
+      "latex": "\\omega = \\frac{1}{\\sqrt{C L}}",
+      "result_unit": "1/s",
+      "variables": {
+        "L": {
+          "unit": "H",
+          "desc": "inductance"
+        },
+        "C": {
+          "unit": "F",
+          "desc": "capacitance"
+        }
+      },
+      "assumptions": [
+        "ideal LC circuit, no resistance",
+        "free oscillation L Q'' + Q/C = 0"
+      ],
+      "derivation": null,
+      "lessons": [
+        "lc-oscillation"
+      ],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "em-lc-period",
+      "name": "LC period",
+      "domain": "em",
+      "regime": 2,
+      "lhs": "T",
+      "expr": "2*pi*sqrt(L*C)",
+      "expr_srepr": "Mul(Integer(2), pi, Pow(Mul(Symbol('C', real=True), Symbol('L', real=True)), Rational(1, 2)))",
+      "latex": "T = 2 \\pi \\sqrt{C L}",
+      "result_unit": "s",
+      "variables": {
+        "L": {
+          "unit": "H",
+          "desc": "inductance"
+        },
+        "C": {
+          "unit": "F",
+          "desc": "capacitance"
+        }
+      },
+      "assumptions": [
+        "ideal LC circuit, no resistance",
+        "free oscillation at ω = 1/√(LC)"
+      ],
+      "derivation": null,
+      "lessons": [
+        "lc-oscillation"
+      ],
       "citations": [],
       "verified": {
         "units": true,
@@ -2461,6 +2631,44 @@
       }
     },
     {
+      "id": "thermo-work-isobaric",
+      "name": "Isobaric work (constant pressure)",
+      "domain": "thermo",
+      "regime": 3,
+      "lhs": "W",
+      "expr": "P*(V2-V1)",
+      "expr_srepr": "Mul(Symbol('P', real=True), Add(Mul(Integer(-1), Symbol('V1', real=True)), Symbol('V2', real=True)))",
+      "latex": "W = P \\left(- V_{1} + V_{2}\\right)",
+      "result_unit": "J",
+      "variables": {
+        "P": {
+          "unit": "Pa",
+          "desc": "constant pressure"
+        },
+        "V1": {
+          "unit": "m**3",
+          "desc": "initial volume"
+        },
+        "V2": {
+          "unit": "m**3",
+          "desc": "final volume"
+        }
+      },
+      "assumptions": [
+        "constant pressure (isobaric process)",
+        "work is the area under the P–V curve, W = ∫P dV — here a rectangle"
+      ],
+      "derivation": null,
+      "lessons": [
+        "isobaric-work"
+      ],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
       "id": "thermo-work-isothermal",
       "name": "Isothermal work (ideal gas)",
       "domain": "thermo",
@@ -2555,6 +2763,74 @@
       "assumptions": [
         "periodic wave",
         "v set by the medium; frequency and wavelength trade off at fixed v"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "wave-standing-frequency",
+      "name": "Standing-wave harmonics (string fixed at both ends)",
+      "domain": "waves-optics",
+      "regime": 3,
+      "lhs": "f_n",
+      "expr": "n*v/(2*L)",
+      "expr_srepr": "Mul(Rational(1, 2), Pow(Symbol('L', real=True), Integer(-1)), Symbol('n', real=True), Symbol('v', real=True))",
+      "latex": "f_n = \\frac{n v}{2 L}",
+      "result_unit": "Hz",
+      "variables": {
+        "n": {
+          "unit": "1",
+          "desc": "harmonic number (1 = fundamental)"
+        },
+        "v": {
+          "unit": "m/s",
+          "desc": "wave speed on the string"
+        },
+        "L": {
+          "unit": "m",
+          "desc": "length of the string"
+        }
+      },
+      "assumptions": [
+        "string fixed at both ends (a node at each end)",
+        "n = 1, 2, 3, … selects the harmonic"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "wave-standing-wavelength",
+      "name": "Standing-wave wavelengths (string fixed at both ends)",
+      "domain": "waves-optics",
+      "regime": 3,
+      "lhs": "\\lambda_n",
+      "expr": "2*L/n",
+      "expr_srepr": "Mul(Integer(2), Symbol('L', real=True), Pow(Symbol('n', real=True), Integer(-1)))",
+      "latex": "\\lambda_n = \\frac{2 L}{n}",
+      "result_unit": "m",
+      "variables": {
+        "L": {
+          "unit": "m",
+          "desc": "length of the string"
+        },
+        "n": {
+          "unit": "1",
+          "desc": "harmonic number (1 = fundamental)"
+        }
+      },
+      "assumptions": [
+        "string fixed at both ends (a node at each end)",
+        "an integer number of half-wavelengths fits the length"
       ],
       "derivation": null,
       "lessons": [],

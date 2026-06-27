@@ -84,6 +84,19 @@ for (const file of walk(DERIVED).sort()) {
                   () => undefined);
       });
   });
+
+  // practice answers (ADR-0022): re-assert the producer's invariant without Python — every answer and choice
+  // value is finite, and every distractor is distinct from the correct answer.
+  (data.practice ?? []).forEach((q) => {
+    const a = q.answer.value;
+    if (!Number.isFinite(a)) fail(`${rel} practice '${q.id}': answer value not finite`);
+    q.choices.forEach((c, ci) => {
+      if (!Number.isFinite(c.value)) fail(`${rel} practice '${q.id}' choice[${ci}]: value not finite`);
+      if (c.correct !== true && Math.abs(c.value - a) <= ATOL + RTOL * Math.abs(a))
+        fail(`${rel} practice '${q.id}' choice[${ci}]: distractor ${c.value} collides with answer ${a}`);
+    });
+    count++;
+  });
 }
 
 if (errors.length) {

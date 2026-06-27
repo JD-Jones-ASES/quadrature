@@ -381,5 +381,96 @@
     "sympy": "1.14.0",
     "author": "Quadrature",
     "created": "2026-06-27"
-  }
+  },
+  "practice": [
+    {
+      "id": "time-constant",
+      "asks": "the time constant of the circuit",
+      "prompt": "The capacitor ($C = 1$ mF) charges through the resistor ($R = 1$ k$\\Omega$). What is the time constant $\\tau$?",
+      "answer": {
+        "value": 1.0,
+        "display": "1",
+        "unit": "s",
+        "symbolic_latex": "RC"
+      },
+      "choices": [
+        {
+          "value": 1.0,
+          "display": "1",
+          "correct": true
+        },
+        {
+          "value": 1000000.0,
+          "display": "1000000",
+          "correct": false,
+          "method": "ratio_for_product",
+          "misconception": "Used $R/C$ instead of the *product* $RC$. The time constant is $\\tau = RC$ — ohms × farads gives seconds, while $R/C$ does not."
+        },
+        {
+          "value": 5.0,
+          "display": "5",
+          "correct": false,
+          "method": "full_charge_time",
+          "misconception": "That's roughly the time to charge *fully* (about $5\\tau$ reaches 99%). One time constant $\\tau = RC$ is the time to reach 63%."
+        }
+      ],
+      "algebra_steps": [
+        {
+          "label": "What the algebra-based course hands you (a charging curve and a time constant)",
+          "latex": "Q(t) = CV\\left(1 - e^{-t/RC}\\right), \\qquad \\tau = RC",
+          "prose": "The capacitor charges toward $Q_\\infty = CV$, and the time constant $\\tau = RC$ sets how fast: after one $\\tau$ it is about $63\\%$ charged, after $5\\tau$ essentially full. You are handed the curve and the time constant as rules, with no account of *why* the approach is exponential or where $\\tau = RC$ comes from."
+        }
+      ],
+      "calculus_steps": [
+        {
+          "label": "Kirchhoff's voltage law is a differential equation",
+          "latex": "V = IR + \\frac{Q}{C}, \\quad I = \\frac{dQ}{dt} \\ \\Longrightarrow\\ R\\,\\frac{dQ}{dt} + \\frac{Q}{C} = V",
+          "prose": "Around the loop, the battery EMF equals the resistor drop $IR$ plus the capacitor voltage $Q/C$. Because the current is the rate of change of charge, $I = dQ/dt$, this is a first-order differential equation for $Q(t)$ — not an algebra equation."
+        },
+        {
+          "label": "Solving it gives the charging curve; its slope is the current",
+          "latex": "Q(t) = CV\\left(1 - e^{-t/RC}\\right) \\ \\Longrightarrow\\ I(t) = \\frac{dQ}{dt} = \\frac{V}{R}\\,e^{-t/RC}",
+          "prose": "The solution is the exponential approach to $CV$, with the time constant $\\tau = RC$ falling straight out of the equation. Differentiating the charge gives the current: it starts at $V/R$ and decays. The current is the *slope* of the charge.",
+          "emphasis": true
+        },
+        {
+          "label": "Watch the two panels — I is the slope of Q",
+          "latex": "\\boxed{\\,I(t) = \\frac{dQ}{dt}\\,}",
+          "prose": "Drag $R$ or $V$: the charge $Q$ rises and levels off while the current $I$ decays, and at every instant the slope of the upper $Q$–$t$ curve is the value of the lower $I$–$t$ curve — the same relationship as position and velocity, in a circuit. The area under $I$ is the charge delivered. Raising $R$ stretches the time constant $RC$, slowing both."
+        }
+      ]
+    },
+    {
+      "id": "initial-current",
+      "asks": "the current at the instant charging begins",
+      "prompt": "At $t = 0$, the instant the switch closes on the *uncharged* capacitor, what is the current?",
+      "answer": {
+        "value": 0.01,
+        "display": "0.01",
+        "unit": "A",
+        "symbolic_latex": "V/R"
+      },
+      "choices": [
+        {
+          "value": 0.01,
+          "display": "0.01",
+          "correct": true
+        },
+        {
+          "value": 0.0,
+          "display": "0",
+          "correct": false,
+          "method": "thinks_zero",
+          "misconception": "At $t=0$ the uncharged capacitor acts like a plain wire (a short circuit), so the current is at its *largest*, $I_0 = V/R$. It decays to zero only as $t\\to\\infty$."
+        },
+        {
+          "value": 10000.0,
+          "display": "10000",
+          "correct": false,
+          "method": "multiplied",
+          "misconception": "Multiplied instead of divided. Ohm's law across the resistor gives $I_0 = V/R$, not $VR$."
+        }
+      ]
+    }
+  ]
 }

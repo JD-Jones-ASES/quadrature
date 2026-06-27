@@ -1,0 +1,25 @@
+id = "em-ac-generator-emf"
+name = "Peak EMF of an AC generator"
+domain = "em"
+regime = 2
+expr = "B*A*omega"
+lhs = '\mathcal{E}_0'
+result_unit = "V"
+assumptions = ["single-turn coil rotating at constant ω in a uniform field B", "peak of ℰ(t) = BAω sin(ωt)"]
+lessons = ["faraday-generator"]
+citations = []
+
+[variables]
+B = { unit = "T", desc = "magnetic flux density" }
+A = { unit = "m**2", desc = "coil area" }
+omega = { unit = "1/s", desc = "angular rotation rate ω" }
+
+[[edges]]
+type = "derived-from"
+target = "em-faraday-law"
+gloss = "differentiate the rotating-coil flux Φ = BA cos(ωt) and take the amplitude"
+
+[[edges]]
+type = "related-to"
+target = "em-flux"
+gloss = "BA is the peak flux; ω turns its rate of change into the EMF amplitude"

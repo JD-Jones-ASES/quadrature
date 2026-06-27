@@ -1,0 +1,122 @@
+---
+import Base from "../layouts/Base.astro";
+import { withBase } from "../lib/withBase.js";
+import { inline } from "../lib/katex.js";
+
+// A short, provider-neutral reading guide: the one idea, the three regimes (when algebra suffices and when you
+// need calculus), how to read a lesson, and how the "solve it three ways" practice works. Prose with inline
+// math baked at build time (no KaTeX shipped to the browser).
+const H = (s) => inline(s);
+
+const regimes = [
+  {
+    tag: "Regime 1",
+    head: "Algebra is calculus, evaluated",
+    body: "When the acceleration (or force) is constant, the calculus integrals can be done once and frozen into formulas. The constant-acceleration kinematics rules $x = x_0 + v_0 t + \\tfrac12 a t^2$ are exactly $\\int v\\,dt$ with the integrand held constant — a <em>quadrature</em>, an integral already evaluated. Here algebra and calculus give the same answer, and the lesson proves it.",
+    egText: "A ball thrown straight up",
+    egHref: "/lessons/throw-up/",
+  },
+  {
+    tag: "Regime 2",
+    head: "Calculus does what algebra cannot",
+    body: "When the force varies — drag, a spring, gravity over distance, a charging capacitor, a ringing $LC$ circuit — there is no constant to freeze. You must set up a derivative or an integral or a differential equation and solve it. The algebra course hands you the answer as a rule; the calculus shows where it comes from. This is the half where calculus stops being optional.",
+    egText: "Charging a capacitor (RC)",
+    egHref: "/lessons/rc-charging/",
+  },
+  {
+    tag: "Regime 3",
+    head: "Algebra-only — with a calculus underpinning where it is honest",
+    body: "Some topics (fluids, thermodynamics, optics, waves) have no calculus-based counterpart at this level. We do not force one. But where a clean calculus idea sits underneath — work as the area under a pressure–volume curve, $W = \\int P\\,dV$ — we surface it on the same area instrument, and where it does not, we say so.",
+    egText: "Work by an expanding gas",
+    egHref: "/lessons/isothermal-work/",
+  },
+];
+---
+
+<Base title="How to read this course — Quadrature">
+  <h1>How to read this course</h1>
+  <p class="muted lede">
+    Quadrature teaches physics in two registers at once — <strong>algebra-based</strong> and{" "}
+    <strong>calculus-based</strong> — and lets a computer-algebra system prove, for every scenario, that the two
+    agree. You are never <em>told</em> they agree; the proof is shown. This page is the short version of how the
+    pieces fit, and how to practice.
+  </p>
+
+  <section class="block">
+    <h2>The one idea</h2>
+    <p set:html={H("Stack a position–time graph over a velocity–time graph. The <strong>slope</strong> of the upper curve is the <strong>value</strong> of the lower one; the <strong>area</strong> under the lower is the <strong>change</strong> in the upper. Slope is the derivative; area is the integral. That single pivot — slope↔value, area↔change — is the bridge between the two registers, and it recurs in every domain: position and velocity, charge and current $I = dQ/dt$, flux and induced EMF $\\mathcal{E} = -d\\Phi/dt$, pressure and work $W = \\int P\\,dV$.")} />
+  </section>
+
+  <section class="block">
+    <h2>Three regimes — when algebra is enough, and when you need calculus</h2>
+    <p class="muted">The relationship between the two registers has three honest regimes. Each lesson is tagged
+      with its regime, so you always know which kind of problem you are looking at.</p>
+    <div class="regimes">
+      {regimes.map((r) => (
+        <div class="regime-card">
+          <span class="tag">{r.tag}</span>
+          <h3>{r.head}</h3>
+          <p set:html={H(r.body)} />
+          <a class="eg" href={withBase(r.egHref)}>Example: {r.egText} →</a>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>How to read a lesson</h2>
+    <p>Each <a href={withBase("/lessons/")}>lesson</a> is one verified scenario with several reconciled views:</p>
+    <ul class="how">
+      <li><strong>Scenario</strong> — the question, in words.</li>
+      <li><strong>Algebra</strong> and <strong>Calculus</strong> tabs — the same problem stepped through in each
+        register. Watch the memorized algebra formula <em>emerge</em> from the calculus.</li>
+      <li><strong>Graph</strong> — an interactive instrument; drag the sliders and the curves, areas, and
+        results move together, evaluated from a closed form in your browser (no server).</li>
+      <li><strong>SymPy proof</strong> — the shown, not asserted, machine check that the registers agree (or that
+        the closed form solves the governing equation). Every tick is a verified identity.</li>
+      <li><strong>Common misconception</strong> — a documented wrong belief, refuted by the math and the graph
+        rather than by assertion.</li>
+      <li><strong>Modeling assumptions</strong> — the author-asserted simplifications (e.g. <em>g</em> = −10, no
+        air resistance), disclosed, never hidden inside the derivation.</li>
+    </ul>
+  </section>
+
+  <section class="block">
+    <h2>How the practice works — solve it three ways</h2>
+    <p>Where a lesson has a <strong>Practice</strong> tab, each question can be answered three ways — the same
+      problem, your choice of register:</p>
+    <ol class="how">
+      <li><strong>Just the answer</strong> — multiple choice. Pick a value; the correct one is revealed. The{" "}
+        <em>wrong</em> options are not random numbers — each is the answer you would get from a specific, named
+        mistake (a dropped factor of ½, a sign error, the wrong formula), and choosing it tells you
+        which.</li>
+      <li><strong>Algebra step-through</strong> — the memorized-formula route, one step at a time.</li>
+      <li><strong>Calculus step-through</strong> — the derivative/integral route, one step at a time.</li>
+    </ol>
+    <p class="muted">This is practice as understanding, not a graded quiz: nothing is scored, nothing is stored,
+      no sign-in. And like everything else here, every answer and every wrong option is computed and checked by
+      SymPy when the site is built — a wrong option is even <em>proven</em> to differ from the right one.</p>
+  </section>
+
+  <p class="foot muted">
+    The breadth of formulas lives in the <a href={withBase("/reference/")}>reference</a> and its
+    <a href={withBase("/reference/graph/")}>concept graph</a>; how the whole thing is verified is on the
+    <a href={withBase("/verification/")}>verification</a> page.
+  </p>
+
+  <style>
+    h1 { font-size: 1.9rem; }
+    .lede { max-width: 50rem; }
+    .block { margin-top: 1.8rem; }
+    .block h2 { font-size: 1.25rem; border-bottom: 1px solid var(--line); padding-bottom: 0.3rem; }
+    .regimes { display: grid; gap: 0.9rem; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); margin-top: 0.8rem; }
+    .regime-card { background: var(--paper-2); border: 1px solid var(--line); border-radius: var(--radius); padding: 1rem 1.1rem; }
+    .regime-card .tag { font-size: 0.72rem; font-family: var(--font-mono); color: var(--accent); }
+    .regime-card h3 { font-size: 1.02rem; margin: 0.2rem 0 0.4rem; }
+    .regime-card p { color: var(--ink-2); font-size: 0.93rem; margin: 0; }
+    .regime-card .eg { display: inline-block; margin-top: 0.6rem; font-size: 0.88rem; }
+    .how { color: var(--ink-2); line-height: 1.7; max-width: 50rem; }
+    .how strong { color: var(--ink); }
+    .foot { margin-top: 2rem; border-top: 1px solid var(--line); padding-top: 0.8rem; }
+  </style>
+</Base>

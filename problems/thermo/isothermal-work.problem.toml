@@ -36,3 +36,20 @@ annotate = ["area_is_work", "slope_is_pressure"]
 [misconception]
 claim = "The work done by an expanding gas is just pressure times the change in volume, $W = P\\,\\Delta V$."
 refuted_by = "That is only true at *constant* pressure (a rectangle). In an isothermal expansion the pressure *falls* as the gas expands — $P = nRT/V$ — so the work is the area under a curved hyperbola, $nRT\\ln(V_2/V_1)$, which is less than $P_1\\,\\Delta V$. Drag the cursor: the shaded area under the curve, not a rectangle, is the work."
+
+[[practice]]
+id = "work"
+asks = "the work done by the expanding gas"
+answer = "result:isothermal_work"
+prompt = "One mole of gas at $T = 300$ K expands isothermally from $V_1 = 0.025$ m³ to $V_2 = 0.075$ m³. How much work does it do?"
+include = ["algebra", "calculus"]
+
+  [[practice.distractor]]
+  method = "initial_pressure_rectangle"
+  transform = "n*R*T/V1*(V2-V1)"
+  misconception = "Used the rectangle $P_1\\,\\Delta V$ — pressure times volume change at the *initial* pressure. But the pressure *falls* as the gas expands, so the true work is the smaller area under the curve, $nRT\\ln(V_2/V_1)$."
+
+  [[practice.distractor]]
+  method = "dropped_log"
+  transform = "n*R*T"
+  misconception = "Dropped the $\\ln(V_2/V_1)$ factor — wrote $W = nRT$ instead of $W = nRT\\ln(V_2/V_1)$. That logarithm *is* the area under the $1/V$ curve."

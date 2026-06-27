@@ -23,6 +23,7 @@ UNIT_NAMESPACE: dict[str, object] = {
     "K": u.kelvin, "mol": u.mole, "cd": u.candela,
     "N": u.newton, "Pa": u.pascal, "J": u.joule, "W": u.watt, "Hz": u.hertz,
     "C": u.coulomb, "V": u.volt, "ohm": u.ohm, "F": u.farad, "T": u.tesla, "Wb": u.weber,
+    "H": u.henry,
     "rad": u.radian,
     "mm": u.millimeter, "cm": u.centimeter, "km": u.kilometer,
     "g": u.gram, "kPa": u.kilo * u.pascal, "MPa": u.mega * u.pascal,

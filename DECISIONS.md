@@ -463,3 +463,44 @@ back-substitutes, τ=RC falls out) and **radioactive decay** (regime 2, N–t ov
 Paint-verified: both render 2 panels with the rate panel accented and the sliders driving the curves; the
 existing x/v/a stacks (throw-up interactive, damped sampled) are unaffected. LC oscillation is now a near-free
 clone.
+
+
+## ADR-0022 — Verified practice questions: "solve it three ways" (2026-06-27)
+
+**Context.** Lessons teach a concept in two registers; practice should cement it *in the same two registers*,
+not bolt on a generic homework grader. The course's principle is "we are not an interactive homework site —
+practice is built from what we already do well." Reasoning-heavy physics exams test the *same* scenario at two
+math levels (a memorized-formula answer vs. a derivative/integral/ODE derivation) and lean on
+misconception-based multiple-choice distractors. That maps exactly onto the engine we already have: verified
+results, stepped algebra/calculus registers, and the misconception register.
+
+**Decision.** A new **opt-in, build-time-verified content type**, with no new gate and no new engine.
+1. **Authoring** — `[[practice]]` blocks in `problems/<topic>/<slug>.problem.toml`. Each names the quantity
+   asked (`answer = "result:<key>"` into the lesson's verified `algebra.result`, or a SymPy expression in the
+   scenario's symbols + initial conditions), a prompt, an optional `include = ["algebra","calculus"]` (which
+   *reuses the lesson's own step registers* — no duplicate step prose), and `[[practice.distractor]]`s, each a
+   `method` (named misconception key) + a SymPy `transform` + a `misconception` explanation.
+2. **Producer** (`practice.py`, hooked in `build.py`) — evaluates the answer and every distractor at the
+   scenario defaults and **fails the build loud if any distractor is non-finite or collides with the correct
+   answer**. A distractor that equals the truth is a build break, exactly like a failed parity check. So every
+   wrong answer is *machine-derived from a stated misconception* and *proven wrong*.
+3. **Schema** — an optional top-level `practice[]` + `$defs/practice_question` (`additionalProperties:false`),
+   reusing `$defs/step` for the step-throughs. The multiple-choice block requires ≥2 choices and exactly one
+   `correct`.
+4. **Gates (extended, none added)** — Ajv validates the block; `validate-solutions` enforces unique ids /
+   exactly-one-correct / finite values; `check-katex` renders every prompt, choice, misconception, and reused
+   step; `check-parity` re-asserts (without Python) that the answer and choices are finite and that each
+   distractor is distinct from the answer; `scan-text` already covers the new prose.
+5. **Frontend** — `PracticeQuestion.svelte` (a "Practice" tab in `SolutionPlayer`, shown only when the lesson
+   has questions): a multiple-choice reveal (pick → mark correct/incorrect, surface the chosen distractor's
+   misconception, show the answer + its symbolic form) plus Algebra and Calculus step-throughs. It **computes
+   nothing and stores nothing** — no scoring, no persistence, no login. Choices are ordered by a stable hash of
+   `(id, value)` so the answer isn't always first and SSR/hydration agree. All LaTeX is baked to HTML at build
+   time by `renderSolution` (`view.js`).
+
+**Consequences.** Practice is as verified as the lesson: every answer is the already-proven result and every
+distractor is SymPy-derived from a named error and proven distinct. Piloted one-per-regime (`throw-up` R1,
+`rc-charging` R2, `isothermal-work` R3) with a "solve-it-three-ways" anchor + misconception multiple-choice
+quick-checks, and seeded on the three new lessons (LC, isobaric, Faraday). Fanning practice out to the
+remaining lessons is pure authoring. Natural follow-ons: FRQ-style multi-part chains and the §8
+hover-to-reference backbone.

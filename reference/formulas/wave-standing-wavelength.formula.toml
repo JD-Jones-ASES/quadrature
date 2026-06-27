@@ -1,0 +1,18 @@
+id = "wave-standing-wavelength"
+name = "Standing-wave wavelengths (string fixed at both ends)"
+domain = "waves-optics"
+regime = 3
+expr = "2*L/n"
+lhs = '\lambda_n'
+result_unit = "m"
+assumptions = ["string fixed at both ends (a node at each end)", "an integer number of half-wavelengths fits the length"]
+citations = []
+
+[variables]
+L = { unit = "m", desc = "length of the string" }
+n = { unit = "1", desc = "harmonic number (1 = fundamental)" }
+
+[[edges]]
+type = "related-to"
+target = "wave-period"
+gloss = "with the wave speed, λₙ sets the period and frequency of each mode"

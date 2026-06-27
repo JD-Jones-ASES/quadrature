@@ -132,6 +132,7 @@
       }
     },
     "formulas_used": { "type": "array", "items": { "type": "string", "pattern": "^[a-z0-9-]+$" } },
+    "practice": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/practice_question" } },
     "provenance": {
       "type": "object",
       "additionalProperties": false,
@@ -155,6 +156,50 @@
         "latex": { "type": "string" },
         "prose": { "type": "string" },
         "emphasis": { "type": "boolean" }
+      }
+    },
+    "practice_question": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "asks", "prompt", "answer", "choices"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+        "asks": { "type": "string" },
+        "prompt": { "type": "string" },
+        "answer": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["value", "display", "unit"],
+          "properties": {
+            "value": { "type": "number" },
+            "display": { "type": "string" },
+            "unit": { "type": "string" },
+            "symbolic_latex": { "type": "string" }
+          }
+        },
+        "choices": {
+          "type": "array",
+          "minItems": 2,
+          "contains": {
+            "type": "object",
+            "required": ["correct"],
+            "properties": { "correct": { "const": true } }
+          },
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["value", "display", "correct"],
+            "properties": {
+              "value": { "type": "number" },
+              "display": { "type": "string" },
+              "correct": { "type": "boolean" },
+              "method": { "type": "string" },
+              "misconception": { "type": "string" }
+            }
+          }
+        },
+        "algebra_steps": { "type": "array", "items": { "$ref": "#/$defs/step" } },
+        "calculus_steps": { "type": "array", "items": { "$ref": "#/$defs/step" } }
       }
     },
     "series": {

@@ -58,6 +58,11 @@ One validated object per scenario (brief §6). Shape (see the schema for the con
   closed form exists `closed_form` + `closed_form_params` (+ `params` when interactive), plus `annotate[]`.
 - `misconception` — `{ claim, refuted_by }`: the wrong belief and what kills it.
 - `formulas_used[]` — ids linking into the reference.
+- `practice[]` (optional, ADR-0022) — "solve it three ways" questions. Each `{ id, asks, prompt, answer, choices[]
+  }` plus optional `algebra_steps[]`/`calculus_steps[]` (reused `$defs/step` from the lesson's registers). The
+  `answer` is a verified result (or a SymPy expression) and each `choice` is the answer or a distractor
+  *machine-derived from a named misconception* and proven finite + distinct from the answer at build time
+  (`practice.py`, re-checked by `check-parity.mjs`). The player reveals; it computes and stores nothing.
 
 ## The closed-form contract (interactivity without Python)
 

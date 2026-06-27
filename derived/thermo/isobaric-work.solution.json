@@ -1,0 +1,413 @@
+{
+  "id": "isobaric-work",
+  "title": "Constant-pressure work: the area is a rectangle",
+  "topic": "thermo",
+  "slug": "isobaric-work",
+  "scenario": "A gas expands at constant pressure $P = 100$ kPa from $V_1 = 1$ L to $V_2 = 3$ L (a piston under a fixed load). How much work does it do? Because the pressure never changes, the $P$–$V$ curve is a horizontal line and the work is the rectangular area under it: $W = P\\,\\Delta V$. This is the simplest integral in the course — a constant integrand — so the memorized algebra formula and the calculus area are literally the same. Drag $P$ to scale the rectangle; sweep the cursor to watch the work accumulate as a straight line.",
+  "regime": 3,
+  "constants": {
+    "P": 100000.0,
+    "V1": 0.001,
+    "V2": 0.003
+  },
+  "initial_conditions": {},
+  "assumptions": [
+    {
+      "claim": "The pressure is held constant throughout the expansion (an isobaric process — e.g. a piston free to move under a fixed external load).",
+      "kind": "model"
+    },
+    {
+      "claim": "Work is the area under the P–V curve, $W = \\int P\\,dV$, with no friction or dissipation.",
+      "kind": "model"
+    }
+  ],
+  "algebra": {
+    "steps": [
+      {
+        "label": "What the algebra-based course hands you (a rectangle of work)",
+        "latex": "W = P\\,\\Delta V = P\\,(V_2 - V_1)\\quad(\\text{constant pressure})",
+        "prose": "At constant pressure, work is pressure times volume change — the area of a rectangle on the $P$–$V$ diagram. The algebra course uses this directly; it is the one process whose work is just 'height times width,' with no curve to integrate."
+      }
+    ],
+    "result": {
+      "isobaric_work": {
+        "label": "Isobaric work $W = P\\,\\Delta V$ (the shaded rectangle)",
+        "unit": "J",
+        "symbolic_latex": "P\\,\\Delta V",
+        "value": 200.0,
+        "display": "200"
+      },
+      "pressure": {
+        "label": "Pressure $P$ (constant — the height of the rectangle)",
+        "unit": "Pa",
+        "symbolic_latex": "P",
+        "value": 100000.0,
+        "display": "100000"
+      },
+      "volume_change": {
+        "label": "Volume change $\\Delta V = V_2 - V_1$ (the width)",
+        "unit": "m**3",
+        "symbolic_latex": "V_2 - V_1",
+        "value": 0.002,
+        "display": "0.002"
+      }
+    }
+  },
+  "calculus": {
+    "steps": [
+      {
+        "label": "Work is the area under the pressure–volume curve",
+        "latex": "W = \\int_{V_1}^{V_2} P\\,dV",
+        "prose": "Work done by the gas is the integral of pressure over volume — the area under the $P$–$V$ curve, for *any* process. The shape of that area depends on how $P$ varies as the gas expands."
+      },
+      {
+        "label": "A constant pressure makes the integrand constant — the area is a rectangle",
+        "latex": "P = \\text{const} \\ \\Longrightarrow\\ W = \\int_{V_1}^{V_2} P\\,dV = P\\,(V_2 - V_1)",
+        "prose": "When the pressure does not vary, $P$ comes straight out of the integral and what is left, $\\int_{V_1}^{V_2} dV = V_2 - V_1$, is just the width. The area is a rectangle $P\\,\\Delta V$ — the algebra formula is the integral already evaluated, the simplest *quadrature*. Its slope at every volume is the constant height $P$.",
+        "emphasis": true
+      },
+      {
+        "label": "Why this is the easy one (and the others are not)",
+        "latex": "\\text{isobar: } P=\\text{const}\\quad\\text{vs}\\quad \\text{isotherm: } P=\\frac{nRT}{V}\\ \\ (\\text{a curve})",
+        "prose": "Compare the isothermal expansion, where $P = nRT/V$ falls as the gas expands: that area is under a hyperbola, a logarithm, not a rectangle. The isobaric case is special precisely because its integrand is constant — the same reason the constant-acceleration kinematics formulas are quadratures."
+      }
+    ]
+  },
+  "proof": {
+    "kind": "integral",
+    "heading": "The work is the area under the P–V curve — and because the pressure is constant, that area is a rectangle, W = PΔV (the quadrature).",
+    "checked_by": "sympy",
+    "holds": true,
+    "detail": "check $\\tfrac{dW}{dV} = P$; check $W = \\int_{V_1}^{V} P\\,dV'$; collapse the constant-integrand integral to the rectangle $P\\,\\Delta V$",
+    "checks": [
+      {
+        "key": "ftc_slope",
+        "claim": "The work's slope is the pressure: $\\tfrac{dW}{dV} = P$ — the area's rate of growth is the (constant) height.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "area_is_integral",
+        "claim": "The accumulated work is the area: $W(V) = \\int_{V_1}^{V} P\\,dV'$.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "rectangle_quadrature",
+        "claim": "A constant integrand makes the integral a rectangle: $\\int_{V_1}^{V_2} P\\,dV = P\\,\\Delta V$ — the algebra formula *is* the integral already evaluated.",
+        "holds": true,
+        "tier": "structural"
+      }
+    ]
+  },
+  "units_check": {
+    "checked_by": "sympy",
+    "holds": true
+  },
+  "graphs": [
+    {
+      "kind": "area",
+      "mode": "interactive",
+      "window": "fixed",
+      "annotate": [
+        "rectangle_work",
+        "slope_is_pressure"
+      ],
+      "svg": "assets/graphs/isobaric-work-0.svg",
+      "series": {
+        "u": [
+          0.001,
+          0.001041667,
+          0.001083333,
+          0.001125,
+          0.001166667,
+          0.001208333,
+          0.00125,
+          0.001291667,
+          0.001333333,
+          0.001375,
+          0.001416667,
+          0.001458333,
+          0.0015,
+          0.001541667,
+          0.001583333,
+          0.001625,
+          0.001666667,
+          0.001708333,
+          0.00175,
+          0.001791667,
+          0.001833333,
+          0.001875,
+          0.001916667,
+          0.001958333,
+          0.002,
+          0.002041667,
+          0.002083333,
+          0.002125,
+          0.002166667,
+          0.002208333,
+          0.00225,
+          0.002291667,
+          0.002333333,
+          0.002375,
+          0.002416667,
+          0.002458333,
+          0.0025,
+          0.002541667,
+          0.002583333,
+          0.002625,
+          0.002666667,
+          0.002708333,
+          0.00275,
+          0.002791667,
+          0.002833333,
+          0.002875,
+          0.002916667,
+          0.002958333,
+          0.003,
+          0.003041667,
+          0.003083333,
+          0.003125,
+          0.003166667,
+          0.003208333,
+          0.00325,
+          0.003291667,
+          0.003333333,
+          0.003375,
+          0.003416667,
+          0.003458333,
+          0.0035
+        ],
+        "f": [
+          100000.0,
+          100000.0,
+          100000.0,
+          100000.0,
+          100000.0,
+          100000.0,
+          100000.0,
+          100000.0,
+          100000.0,
+          100000.0,
+          100000.0,
+          100000.0,
+          100000.0,
+          100000.0,
+          100000.0,
+          100000.0,
+          100000.0,
+          100000.0,
+          100000.0,
+          100000.0,
+          100000.0,
+          100000.0,
+          100000.0,
+          100000.0,
+          100000.0,
+          100000.0,
+          100000.0,
+          100000.0,
+          100000.0,
+          100000.0,
+          100000.0,
+          100000.0,
+          100000.0,
+          100000.0,
+          100000.0,
+          100000.0,
+          100000.0,
+          100000.0,
+          100000.0,
+          100000.0,
+          100000.0,
+          100000.0,
+          100000.0,
+          100000.0,
+          100000.0,
+          100000.0,
+          100000.0,
+          100000.0,
+          100000.0,
+          100000.0,
+          100000.0,
+          100000.0,
+          100000.0,
+          100000.0,
+          100000.0,
+          100000.0,
+          100000.0,
+          100000.0,
+          100000.0,
+          100000.0,
+          100000.0
+        ],
+        "g": [
+          0.0,
+          4.1667,
+          8.3333,
+          12.5,
+          16.6667,
+          20.8333,
+          25.0,
+          29.1667,
+          33.3333,
+          37.5,
+          41.6667,
+          45.8333,
+          50.0,
+          54.1667,
+          58.3333,
+          62.5,
+          66.6667,
+          70.8333,
+          75.0,
+          79.1667,
+          83.3333,
+          87.5,
+          91.6667,
+          95.8333,
+          100.0,
+          104.1667,
+          108.3333,
+          112.5,
+          116.6667,
+          120.8333,
+          125.0,
+          129.1667,
+          133.3333,
+          137.5,
+          141.6667,
+          145.8333,
+          150.0,
+          154.1667,
+          158.3333,
+          162.5,
+          166.6667,
+          170.8333,
+          175.0,
+          179.1667,
+          183.3333,
+          187.5,
+          191.6667,
+          195.8333,
+          200.0,
+          204.1667,
+          208.3333,
+          212.5,
+          216.6667,
+          220.8333,
+          225.0,
+          229.1667,
+          233.3333,
+          237.5,
+          241.6667,
+          245.8333,
+          250.0
+        ],
+        "u_max": 0.0035
+      },
+      "closed_form": {
+        "f": "P",
+        "g": "P*(u - 1/1000)"
+      },
+      "closed_form_params": [
+        "P",
+        "u"
+      ],
+      "params": {
+        "P": {
+          "min": 50000.0,
+          "max": 200000.0,
+          "default": 100000.0
+        }
+      },
+      "cursor": {
+        "name": "u",
+        "label": "V  (m³)",
+        "unit": "m³",
+        "min": 0.001,
+        "max": 0.0035,
+        "default": 0.003
+      },
+      "u_label": "V  (m³)",
+      "f_label": "P  (Pa)",
+      "g_label": "W  (J)",
+      "u0": 0.001
+    }
+  ],
+  "misconception": {
+    "claim": "Every expansion from $V_1$ to $V_2$ does the same work, since the volume change is the same.",
+    "refuted_by": "No — work is the *area* under the $P$–$V$ curve, and the path sets the area. At constant pressure the area is the full rectangle $P\\,\\Delta V$. If instead the gas expands isothermally or adiabatically, the pressure *falls* as it expands, so the area under the curve is smaller and the work is less. Same $\\Delta V$, lower average pressure, less work. The isobaric rectangle is the largest of the three for a given starting pressure."
+  },
+  "formulas_used": [
+    "thermo-work-isobaric",
+    "thermo-ideal-gas",
+    "thermo-first-law"
+  ],
+  "provenance": {
+    "producer": "quadrature_producer",
+    "version": "0.1.0",
+    "sympy": "1.14.0",
+    "author": "Quadrature",
+    "created": "2026-06-27"
+  },
+  "practice": [
+    {
+      "id": "work",
+      "asks": "the work done by the gas",
+      "prompt": "The gas expands at constant pressure $P = 100$ kPa from $V_1 = 1$ L to $V_2 = 3$ L. How much work does it do?",
+      "answer": {
+        "value": 200.0,
+        "display": "200",
+        "unit": "J",
+        "symbolic_latex": "P\\,\\Delta V"
+      },
+      "choices": [
+        {
+          "value": 200.0,
+          "display": "200",
+          "correct": true
+        },
+        {
+          "value": 300.0,
+          "display": "300",
+          "correct": false,
+          "method": "used_final_volume",
+          "misconception": "Multiplied pressure by the *final* volume, $P V_2$, instead of the *change* in volume. Work is $P\\,\\Delta V = P(V_2 - V_1)$ — only the volume the gas actually sweeps through counts."
+        },
+        {
+          "value": 100.0,
+          "display": "100",
+          "correct": false,
+          "method": "half_rectangle",
+          "misconception": "Took half the rectangle, $\\tfrac12 P\\,\\Delta V$ — that triangle is the work when a force ramps up linearly from zero (like a spring), but here the pressure is *constant* the whole way, so the full rectangle $P\\,\\Delta V$ is the work."
+        }
+      ],
+      "algebra_steps": [
+        {
+          "label": "What the algebra-based course hands you (a rectangle of work)",
+          "latex": "W = P\\,\\Delta V = P\\,(V_2 - V_1)\\quad(\\text{constant pressure})",
+          "prose": "At constant pressure, work is pressure times volume change — the area of a rectangle on the $P$–$V$ diagram. The algebra course uses this directly; it is the one process whose work is just 'height times width,' with no curve to integrate."
+        }
+      ],
+      "calculus_steps": [
+        {
+          "label": "Work is the area under the pressure–volume curve",
+          "latex": "W = \\int_{V_1}^{V_2} P\\,dV",
+          "prose": "Work done by the gas is the integral of pressure over volume — the area under the $P$–$V$ curve, for *any* process. The shape of that area depends on how $P$ varies as the gas expands."
+        },
+        {
+          "label": "A constant pressure makes the integrand constant — the area is a rectangle",
+          "latex": "P = \\text{const} \\ \\Longrightarrow\\ W = \\int_{V_1}^{V_2} P\\,dV = P\\,(V_2 - V_1)",
+          "prose": "When the pressure does not vary, $P$ comes straight out of the integral and what is left, $\\int_{V_1}^{V_2} dV = V_2 - V_1$, is just the width. The area is a rectangle $P\\,\\Delta V$ — the algebra formula is the integral already evaluated, the simplest *quadrature*. Its slope at every volume is the constant height $P$.",
+          "emphasis": true
+        },
+        {
+          "label": "Why this is the easy one (and the others are not)",
+          "latex": "\\text{isobar: } P=\\text{const}\\quad\\text{vs}\\quad \\text{isotherm: } P=\\frac{nRT}{V}\\ \\ (\\text{a curve})",
+          "prose": "Compare the isothermal expansion, where $P = nRT/V$ falls as the gas expands: that area is under a hyperbola, a logarithm, not a rectangle. The isobaric case is special precisely because its integrand is constant — the same reason the constant-acceleration kinematics formulas are quadratures."
+        }
+      ]
+    }
+  ]
+}

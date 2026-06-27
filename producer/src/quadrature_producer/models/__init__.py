@@ -9,7 +9,7 @@ from . import (constant_accel, shm, linear_drag, damped_shm, work_energy, pv_wor
                projectile, impulse, rotation, gravity_pe, capacitor_energy, adiabatic,
                moment_of_inertia, coulomb_pe, hydrostatic_force, rotational_work, orbit,
                energy_conservation, collision, rc_charging, incline_friction, decay,
-               torricelli, line_charge_field)
+               torricelli, line_charge_field, lc_oscillation, isobaric_work, faraday_induction)
 
 MODELS = {
     "constant-accel": constant_accel.build,
@@ -36,4 +36,7 @@ MODELS = {
     "decay": decay.build,
     "torricelli": torricelli.build,
     "line-charge-field": line_charge_field.build,
+    "lc-oscillation": lc_oscillation.build,
+    "isobaric-work": isobaric_work.build,
+    "faraday-induction": faraday_induction.build,
 }
