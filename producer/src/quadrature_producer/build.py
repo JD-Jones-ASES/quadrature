@@ -23,11 +23,11 @@ from .dims import check_homogeneous, parse_unit
 from .emit import (closed_form, closed_form_area, closed_form_collision, closed_form_energy, closed_form_of,
                    closed_form_panels, closed_form_params, closed_form_params_area,
                    closed_form_params_collision, closed_form_params_energy, closed_form_params_panels,
-                   closed_form_params_traj, closed_form_traj, sample_area_series, sample_collision_series,
-                   sample_energy_series, sample_panels_series, sample_series, sample_series_of,
-                   sample_traj_series)
+                   closed_form_params_standing, closed_form_params_traj, closed_form_standing, closed_form_traj,
+                   sample_area_series, sample_collision_series, sample_energy_series, sample_panels_series,
+                   sample_series, sample_series_of, sample_standing_series, sample_traj_series)
 from .graph import (render_area, render_collision, render_energy, render_panels, render_stack,
-                    render_trajectory)
+                    render_standing, render_trajectory)
 from .models import MODELS
 from .practice import emit_practice
 from .reference import build_reference
@@ -68,6 +68,9 @@ def build_problem(path: Path, root: Path) -> tuple[dict, str]:
         comap = {s: parse_unit(uu, ctx) for s, uu in scn.collision.unit_map.items()}
         check_homogeneous(scn.collision.v1f_expr, comap, f"{ctx}: v1'")
         check_homogeneous(scn.collision.v2f_expr, comap, f"{ctx}: v2'")
+    if scn.standing is not None:
+        smap = {s: parse_unit(uu, ctx) for s, uu in scn.standing.unit_map.items()}
+        check_homogeneous(scn.standing.y_expr, smap, f"{ctx}: y(x)")
     if scn.trajectory is not None and scn.trajectory.x_expr is not None:
         tmap = {s: parse_unit(uu, ctx) for s, uu in scn.trajectory.unit_map.items()}
         check_homogeneous(scn.trajectory.x_expr, tmap, f"{ctx}: x(t)")
@@ -142,6 +145,24 @@ def build_problem(path: Path, root: Path) -> tuple[dict, str]:
                               "min": col.cursor.min, "max": col.cursor.max, "default": col.cursor.default}
             gobj["u_label"] = col.u_label
             gobj["consts"] = col.consts_export
+            graphs.append(gobj)
+            continue
+
+        if kind == "standing":
+            if scn.standing is None:
+                raise BuildError(f"{ctx}: graph kind 'standing' but the model produced no StandingPlot")
+            st = scn.standing
+            render_standing(st, root / "derived" / svg_rel)
+            gobj["mode"] = "interactive"
+            gobj["series"] = sample_standing_series(st)
+            gobj["closed_form"] = closed_form_standing(st)
+            gobj["closed_form_params"] = closed_form_params_standing(st)
+            gobj["params"] = {st.n.name: {"min": 1, "max": st.n_max, "default": st.n_default}}
+            gobj["consts"] = {"v": st.speed, "L": st.length, "A": st.amplitude, "n_max": float(st.n_max)}
+            gobj["modes"] = st.modes
+            gobj["u_label"] = st.u_label
+            gobj["y_label"] = st.y_label
+            gobj["u0"] = 0.0
             graphs.append(gobj)
             continue
 

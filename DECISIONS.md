@@ -504,3 +504,34 @@ distractor is SymPy-derived from a named error and proven distinct. Piloted one-
 quick-checks, and seeded on the three new lessons (LC, isobaric, Faraday). Fanning practice out to the
 remaining lessons is pure authoring. Natural follow-ons: FRQ-style multi-part chains and the §8
 hover-to-reference backbone.
+
+
+## ADR-0023 — The standing-wave instrument: a spatial mode viewer (2026-06-27)
+
+**Context.** Waves & optics had a reference cluster but no lesson, because thin-lens and standing waves fit
+none of the five existing instruments — all of which assume a continuous *time* or *integration* axis. Standing
+waves are about *discrete spatial modes*: a shape y(x) that changes with an integer mode number n. Forcing them
+onto the temporal stack or the area instrument would be dishonest.
+
+**Decision.** Add a sixth instrument, `kind:"standing"` (`StandingPlot` + `StandingWave.svelte` +
+`standing_wave.py` + `render_standing`), modelled on the area instrument's data flow but with a **position
+axis** and an **integer mode cursor**:
+1. The producer ships the parity-verified closed form y(u; n) = A·sin(nπu/L) over the canonical `u` axis (u =
+   position x), an n-slider in `params`, a `consts` block (v, L, A, n_max), and a producer-computed `modes[]`
+   harmonic table (n, f_n, λ_n). Because it reuses the `u` axis, the **kind-agnostic parity oracle re-checks it
+   with no gate change** — only the schema gained a `standing_series` def, a `modes[]` property, and a
+   `kind=="standing"` required-fields branch.
+2. The proof is `governing` and surfaces the honest calculus underpinning of a regime-3 topic (Phase-3 policy):
+   the mode solves the wave equation ∂ₜₜy = v²∂ₓₓy; the fixed-end boundary conditions sin(kL)=sin(nπ)=0
+   **quantize** the modes (this is *why* only integer harmonics appear); the standing wave is a superposition of
+   two counter-propagating travelling waves; and f_n = nv/2L, λ_n = 2L/n fall out. (n is a SymPy integer symbol,
+   so sin(nπ) collapses to 0 at construction — the boundary check certifies symbolically.)
+3. The island draws the mode shape with its ±envelope, the **nodes pinned as n changes** (the visual heart of
+   "boundary conditions quantize"), the two walls, and a clickable harmonic table; the n-slider steps by
+   integers and the curve recomputes from the closed form.
+
+**Consequences.** Opens the Waves & optics unit with a genuine dual-register lesson (the harmonics handed down
+as a rule vs. derived from the wave equation + boundary conditions). Six instruments now: temporal stack ·
+area/integral · trajectory · energy bars · collision bars · **standing waves**. 110 producer tests, 30 lessons,
+parity 6274, all six gates green. Thin-lens optics still has no instrument (a ray-diagram renderer is a separate
+future build); standing waves were the higher-value opener.

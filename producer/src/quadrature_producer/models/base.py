@@ -146,6 +146,35 @@ class CollisionPlot:
 
 
 @dataclass
+class StandingPlot:
+    """The standing-wave instrument (the 6th, ADR-0023): the spatial mode shape of a string fixed at both ends.
+
+    A SPATIAL plot y(x) of the n-th harmonic y_n(x) = A·sin(nπx/L) over x ∈ [0, L], driven by a discrete
+    mode-number slider n (the cursor). Distinct from every other instrument, whose axis is time or an
+    integration variable — here the axis is *position* and the cursor is an *integer mode*. Regime 3
+    (algebra-only at the course level: the harmonics f_n = nv/2L are handed down as a rule), but with a genuine
+    calculus underpinning surfaced in the proof: the modes are the separable solutions of the wave equation
+    ∂²y/∂t² = v²∂²y/∂x², and the fixed-end boundary conditions y(0)=y(L)=0 QUANTIZE them — sin(kL)=0 forces
+    k_n = nπ/L, which is exactly where the integer harmonics come from. Wired like the area instrument: a
+    parity-verified closed form y(u; n) over the canonical `u` axis (u = position x). Graph kind "standing".
+    """
+    u: sp.Symbol               # the position axis x (mapped to the browser's canonical `u`)
+    n: sp.Symbol               # the mode-number slider symbol (declared integer ≥ 1)
+    y_expr: sp.Expr            # y(x, n) = A·sin(nπx/L) — function of u + n (A, L substituted via `constants`)
+    length: float              # L, the string length (axis max)
+    speed: float               # v, the wave speed (sets f_n; shown in the harmonic table)
+    amplitude: float           # A, the antinode amplitude
+    n_max: int                 # highest harmonic the slider reaches
+    n_default: int             # the harmonic shown by default (and the parity-sampled mode)
+    modes: list                # [{"n":, "f":, "lam":}] the harmonic table (producer-computed, parity-free)
+    constants: dict            # {A: , L: } substituted for the graph + closed form
+    unit_map: dict             # {sym: unit string} for the dimensional check on y
+    u_label: str = "x  (m)"
+    y_label: str = "y  (displacement)"
+    annot: str = ""            # one-line static-figure annotation
+
+
+@dataclass
 class TrajMarker:
     """A point annotation in (x, y) space on the trajectory poster (apex, range, launch)."""
     x: float
@@ -227,6 +256,7 @@ class Scenario:
     energy: "EnergyPlot | None" = None  # the energy-exchange bars instrument; graph kind "energy"
     collision: "CollisionPlot | None" = None  # the before/after collision bars (ADR-0018); kind "collision"
     panels: "list | None" = None  # an N-panel temporal stack (ADR-0021); when set, replaces the x/v/a panels
+    standing: "StandingPlot | None" = None  # the spatial standing-wave instrument (ADR-0023); kind "standing"
 
 
 def make_result(expr: sp.Expr, subs: dict, unit: str, label: str) -> dict:

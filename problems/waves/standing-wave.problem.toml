@@ -1,0 +1,51 @@
+id = "standing-wave"
+title = "Standing waves on a string: why only the harmonics fit"
+topic = "waves"
+slug = "standing-wave"
+model = "standing-wave"
+regime = 3
+author = "Quadrature"
+created = "2026-06-27"
+scenario = "A string of length $L = 1$ m, fixed at both ends, carries transverse waves at speed $v = 120$ m/s. It cannot vibrate at just any frequency — only at a discrete ladder of **standing waves**, the harmonics $f_n = nv/2L$. The $n$-th harmonic has $n$ half-wavelengths between the walls and $n-1$ interior nodes that never move. Drag the mode number: the shape changes, the nodes stay pinned, and the frequency climbs in exact integer steps. *Why* only integers? Because the ends are pinned — and that boundary condition is what quantizes the modes."
+formulas_used = ["wave-standing-frequency", "wave-standing-wavelength", "wave-speed"]
+
+[parameters]
+L = 1.0                # m — string length (an integer number of half-wavelengths must fit)
+v = 120                # m/s — wave speed (set by the string's tension and mass density)
+A = 1.0                # m — antinode amplitude (display scale)
+n_max = 5              # highest harmonic the slider reaches
+n_default = 3          # the harmonic shown first
+
+[[assumptions]]
+claim = "An ideal string fixed rigidly at both ends, so there is a displacement node at each end at all times."
+kind = "model"
+
+[[assumptions]]
+claim = "The wave speed $v$ is constant (a uniform string under constant tension); damping is neglected, so the modes are sharp."
+kind = "model"
+
+[[graphs]]
+kind = "standing"
+mode = "interactive"
+annotate = ["nodes_fixed", "modes_quantized"]
+
+[misconception]
+claim = "A string can be made to vibrate as a standing wave at any frequency you choose."
+refuted_by = "It cannot. The fixed ends force a node at each end, so only shapes with a whole number of half-wavelengths between them survive — the harmonics $f_n = nv/2L$. Drive the string at some other frequency and the reflections off the ends no longer line up: the wave interferes with itself and dies out instead of building a steady standing pattern. This is the same quantization that, one domain over, restricts an electron in a box to discrete energies — boundary conditions select a discrete ladder."
+
+[[practice]]
+id = "fundamental"
+asks = "the fundamental frequency"
+answer = "result:fundamental_frequency"
+prompt = "A string of length $L = 1$ m, fixed at both ends, has wave speed $v = 120$ m/s. What is its fundamental frequency $f_1$?"
+include = ["algebra", "calculus"]
+
+  [[practice.distractor]]
+  method = "forgot_factor_2"
+  transform = "v/L"
+  misconception = "Used $v/L$ — forgot the factor of $2$. The fundamental fits only *half* a wavelength between the walls, so $\\lambda_1 = 2L$ and $f_1 = v/2L$."
+
+  [[practice.distractor]]
+  method = "closed_pipe"
+  transform = "v/(4*L)"
+  misconception = "That is $v/4L$, the fundamental of a pipe closed at *one* end (where $\\lambda_1 = 4L$). A string fixed at *both* ends has $\\lambda_1 = 2L$, so $f_1 = v/2L$."

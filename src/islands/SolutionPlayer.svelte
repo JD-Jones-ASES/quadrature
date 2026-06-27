@@ -8,6 +8,7 @@
   import Trajectory from "./Trajectory.svelte";
   import EnergyBars from "./EnergyBars.svelte";
   import Collision from "./Collision.svelte";
+  import StandingWave from "./StandingWave.svelte";
   import PracticeQuestion from "./PracticeQuestion.svelte";
 
   let { solution } = $props();
@@ -93,6 +94,8 @@
         <EnergyBars {graph} />
       {:else if graph.kind === "collision"}
         <Collision {graph} />
+      {:else if graph.kind === "standing"}
+        <StandingWave {graph} />
       {:else}
         <GraphStack {graph} />
       {/if}

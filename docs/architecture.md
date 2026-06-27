@@ -51,11 +51,14 @@ One validated object per scenario (brief §6). Shape (see the schema for the con
   `kind` is `equivalence` (regime-1 algebra==calculus), `governing` (regime-2 ODE back-substitution, ADR-0013),
   or `integral` (the area instrument: FTC slope, area=integral, memorized-result-falls-out, ADR-0014).
 - `units_check` — `{ checked_by:"sympy", holds:true }`.
-- `graphs[]` — one of three instruments: the **temporal stack** (`kind:"stack"`, `series` of `t/x/v/a`), the
-  **area instrument** (`kind:"area"`, `series` of `u/f/g`, a `cursor`), or the **trajectory** (`kind:
-  "trajectory"`, `series` of `t/x/y`; drag-free is `interactive` with a closed form, quadratic drag is
-  `sampled` numerical `frames` + a drag-free `reference`). Each carries `svg` (static poster), and where a
-  closed form exists `closed_form` + `closed_form_params` (+ `params` when interactive), plus `annotate[]`.
+- `graphs[]` — one of six instruments: the **temporal stack** (`kind:"stack"`, `series` of `t/x/v/a`, or N
+  arbitrary panels, ADR-0021), the **area instrument** (`kind:"area"`, `series` of `u/f/g`, a `cursor`), the
+  **trajectory** (`kind:"trajectory"`, `series` of `t/x/y`; drag-free `interactive`, quadratic drag `sampled`
+  `frames` + a `reference`), the **energy bars** (`kind:"energy"`, `u/ke/pe`), the **collision bars**
+  (`kind:"collision"`, before/after over a restitution cursor), and the **standing-wave** spatial viewer
+  (`kind:"standing"`, ADR-0023 — `series` of `u/y` with an integer mode slider and a `modes[]` harmonic table).
+  Each carries `svg` (static poster), and where a closed form exists `closed_form` + `closed_form_params` (+
+  `params` when interactive), plus `annotate[]`.
 - `misconception` — `{ claim, refuted_by }`: the wrong belief and what kills it.
 - `formulas_used[]` — ids linking into the reference.
 - `practice[]` (optional, ADR-0022) — "solve it three ways" questions. Each `{ id, asks, prompt, answer, choices[]

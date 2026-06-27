@@ -224,7 +224,7 @@
         "window": { "enum": ["landing", "fixed"] },
         "annotate": { "type": "array", "items": { "type": "string" } },
         "svg": { "type": "string" },
-        "series": { "anyOf": [ { "$ref": "#/$defs/series" }, { "$ref": "#/$defs/area_series" }, { "$ref": "#/$defs/traj_series" }, { "$ref": "#/$defs/energy_series" }, { "$ref": "#/$defs/collision_series" }, { "$ref": "#/$defs/panel_series" } ] },
+        "series": { "anyOf": [ { "$ref": "#/$defs/series" }, { "$ref": "#/$defs/area_series" }, { "$ref": "#/$defs/traj_series" }, { "$ref": "#/$defs/energy_series" }, { "$ref": "#/$defs/collision_series" }, { "$ref": "#/$defs/panel_series" }, { "$ref": "#/$defs/standing_series" } ] },
         "closed_form": { "type": "object", "additionalProperties": { "type": "string" } },
         "closed_form_params": { "type": "array", "items": { "type": "string" } },
         "u_label": { "type": "string" },
@@ -234,6 +234,20 @@
         "pe_label": { "type": "string" },
         "total_label": { "type": "string" },
         "consts": { "type": "object", "additionalProperties": { "type": "number" } },
+        "modes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["n", "f", "lam"],
+            "properties": {
+              "n": { "type": "number" },
+              "f": { "type": "number" },
+              "lam": { "type": "number" }
+            }
+          }
+        },
         "panels": {
           "type": "array",
           "minItems": 1,
@@ -349,6 +363,15 @@
           }
         },
         {
+          "if": { "required": ["kind"], "properties": { "kind": { "const": "standing" } } },
+          "then": {
+            "required": [
+              "series", "closed_form", "closed_form_params", "params",
+              "consts", "modes", "u_label", "y_label"
+            ]
+          }
+        },
+        {
           "if": {
             "allOf": [
               { "properties": { "mode": { "not": { "const": "sampled" } } } },
@@ -401,6 +424,16 @@
         "u": { "type": "array", "items": { "type": "number" } },
         "v1f": { "type": "array", "items": { "type": "number" } },
         "v2f": { "type": "array", "items": { "type": "number" } },
+        "u_max": { "type": "number" }
+      }
+    },
+    "standing_series": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["u", "y", "u_max"],
+      "properties": {
+        "u": { "type": "array", "items": { "type": "number" } },
+        "y": { "type": "array", "items": { "type": "number" } },
         "u_max": { "type": "number" }
       }
     },

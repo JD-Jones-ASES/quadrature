@@ -192,6 +192,39 @@ def sample_collision_series(col, n: int = 61) -> dict:
     return {"u": us, "v1f": v1s, "v2f": v2s, "u_max": round(float(col.cursor.max), 9)}
 
 
+def _norm_standing(st, expr):
+    return expr.subs(st.constants).subs(st.u, _AXIS)
+
+
+def closed_form_standing(st) -> dict[str, str]:
+    """JS-evaluable mode shape y(u) for the standing-wave instrument (A, L substituted; axis u + mode n free)."""
+    e = _norm_standing(st, st.y_expr)
+    try:
+        return {"y": jscode(e)}
+    except Exception as ex:
+        raise BuildError(f"standing closed_form.y: cannot emit JS for {sp.srepr(e)}: {ex}") from ex
+
+
+def closed_form_params_standing(st) -> list[str]:
+    return sorted(str(s) for s in _norm_standing(st, st.y_expr).free_symbols)
+
+
+def sample_standing_series(st, n: int = 121) -> dict:
+    """SymPy's y(u) at the default harmonic over u in [0, L] — the parity truth. Rounds u first, then evaluates
+    AT the rounded u (so the JS player reproduces it exactly). Axis key is `u` (position along the string)."""
+    base = dict(st.constants)
+    base[st.n] = sp.Integer(st.n_default)
+    u = st.u
+    us, ys = [], []
+    span = sp.nsimplify(st.length)
+    for i in range(n):
+        ui = round(float(sp.Rational(i, n - 1) * span), 9)
+        sub = {**base, u: sp.Rational(str(ui))}
+        us.append(ui)
+        ys.append(round(float(sp.N(st.y_expr.subs(sub), 30)), 10))
+    return {"u": us, "y": ys, "u_max": round(float(st.length), 9)}
+
+
 def closed_form_traj(traj) -> dict[str, str]:
     """JS-evaluable x(t) and y(t) for the trajectory instrument (constants substituted; t + sliders free)."""
     out = {}

@@ -85,6 +85,42 @@ def render_area(area, out_path: Path) -> None:
     plt.close(fig)
 
 
+def render_standing(st, out_path: Path) -> None:
+    """Static poster for the standing-wave instrument (ADR-0023): the n-th harmonic shape A·sin(nπx/L) on a
+    string fixed at both ends, with the nodes (always-still points) dotted, the ±envelope showing the
+    oscillation range, and the two walls drawn."""
+    base = dict(st.constants)
+    base[st.n] = sp.Integer(st.n_default)
+    yf = sp.lambdify(st.u, st.y_expr.subs(base), "numpy")
+    Lv, A, nd = float(st.length), float(st.amplitude), st.n_default
+    xs = np.linspace(0.0, Lv, 300)
+    ys = np.broadcast_to(np.asarray(yf(xs), dtype=float), xs.shape)
+
+    fig, ax = plt.subplots(figsize=(6.6, 3.4), facecolor=PAPER)
+    ax.set_facecolor(PAPER)
+    ax.fill_between(xs, -np.abs(ys), np.abs(ys), color=ACCENT, alpha=0.10, lw=0)  # oscillation envelope
+    ax.plot(xs, ys, color=ACCENT, lw=2.4)                              # the snapshot shape
+    ax.plot(xs, -ys, color=ACCENT, lw=0.9, alpha=0.5, ls=":")          # the opposite extreme
+    ax.axhline(0, color=GRID, lw=1)
+    nodes = [j * Lv / nd for j in range(nd + 1)]                        # nodes at x = jL/n
+    ax.plot(nodes, [0] * len(nodes), "o", color=INK, ms=6, zorder=5)
+    for xw in (0.0, Lv):                                                # the fixed walls
+        ax.plot([xw, xw], [-A * 1.15, A * 1.15], color=FAINT, lw=2)
+    ax.set_xlim(-0.02 * Lv, 1.02 * Lv)
+    ax.set_ylim(-A * 1.35, A * 1.35)
+    ax.set_xlabel(st.u_label, fontsize=10, color=INK)
+    ax.set_ylabel(st.y_label, fontsize=10, color=INK)
+    ax.tick_params(colors=FAINT, labelsize=8)
+    for s in ("top", "right", "left"):
+        ax.spines[s].set_visible(False)
+    ax.spines["bottom"].set_color(GRID)
+    ax.annotate(f"n = {nd}:  {nd} half-wavelengths,  {nd - 1} interior node(s)",
+                (Lv * 0.5, A * 1.16), ha="center", va="center", fontsize=8.6, color=INK, bbox=_bbox())
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    fig.savefig(out_path, format="svg", bbox_inches="tight", facecolor=PAPER)
+    plt.close(fig)
+
+
 def render_energy(en, out_path: Path) -> None:
     """Static poster for the energy-exchange instrument: KE(u) rising, PE(u) falling, and their sum (Total) a
     flat line — the visual proof that energy is conserved as the system moves."""

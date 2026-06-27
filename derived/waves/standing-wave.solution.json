@@ -1,0 +1,514 @@
+{
+  "id": "standing-wave",
+  "title": "Standing waves on a string: why only the harmonics fit",
+  "topic": "waves",
+  "slug": "standing-wave",
+  "scenario": "A string of length $L = 1$ m, fixed at both ends, carries transverse waves at speed $v = 120$ m/s. It cannot vibrate at just any frequency — only at a discrete ladder of **standing waves**, the harmonics $f_n = nv/2L$. The $n$-th harmonic has $n$ half-wavelengths between the walls and $n-1$ interior nodes that never move. Drag the mode number: the shape changes, the nodes stay pinned, and the frequency climbs in exact integer steps. *Why* only integers? Because the ends are pinned — and that boundary condition is what quantizes the modes.",
+  "regime": 3,
+  "constants": {
+    "L": 1.0,
+    "v": 120.0,
+    "A": 1.0,
+    "n_max": 5.0,
+    "n_default": 3.0
+  },
+  "initial_conditions": {},
+  "assumptions": [
+    {
+      "claim": "An ideal string fixed rigidly at both ends, so there is a displacement node at each end at all times.",
+      "kind": "model"
+    },
+    {
+      "claim": "The wave speed $v$ is constant (a uniform string under constant tension); damping is neglected, so the modes are sharp.",
+      "kind": "model"
+    }
+  ],
+  "algebra": {
+    "steps": [
+      {
+        "label": "What the algebra-based course hands you (a harmonic series)",
+        "latex": "f_n = \\frac{n v}{2L}, \\qquad \\lambda_n = \\frac{2L}{n}, \\qquad n = 1, 2, 3, \\ldots",
+        "prose": "A string fixed at both ends can only vibrate at a discrete set of frequencies — the fundamental $f_1 = v/2L$ and its integer multiples (the harmonics). You are handed the series as a rule, with no account of *why* only whole-number multiples appear and not, say, $1.5\\,f_1$."
+      }
+    ],
+    "result": {
+      "fundamental_frequency": {
+        "label": "Fundamental frequency $f_1 = v/2L$",
+        "unit": "Hz",
+        "symbolic_latex": "\\dfrac{v}{2L}",
+        "value": 60.0,
+        "display": "60"
+      },
+      "fundamental_wavelength": {
+        "label": "Fundamental wavelength $\\lambda_1 = 2L$",
+        "unit": "m",
+        "symbolic_latex": "2L",
+        "value": 2.0,
+        "display": "2"
+      },
+      "nth_frequency": {
+        "label": "Frequency of harmonic $n=3$: $f_n = nv/2L$",
+        "unit": "Hz",
+        "symbolic_latex": "\\dfrac{nv}{2L}",
+        "value": 180.0,
+        "display": "180"
+      },
+      "nth_wavelength": {
+        "label": "Wavelength of harmonic $n=3$: $\\lambda_n = 2L/n$",
+        "unit": "m",
+        "symbolic_latex": "\\dfrac{2L}{n}",
+        "value": 0.666667,
+        "display": "0.6667"
+      }
+    }
+  },
+  "calculus": {
+    "steps": [
+      {
+        "label": "The string obeys the wave equation; its standing solutions separate",
+        "latex": "\\partial_{tt} y = v^2\\,\\partial_{xx} y \\ \\Longrightarrow\\ y(x,t) = A\\sin(kx)\\cos(\\omega t),\\quad \\omega = vk",
+        "prose": "Every small piece of the string obeys the wave equation. Looking for solutions that oscillate in place — a fixed shape times a time wobble — gives $y = A\\sin(kx)\\cos(\\omega t)$, which solves it whenever $\\omega = vk$. So far $k$ could be anything."
+      },
+      {
+        "label": "The fixed ends quantize k — only integer modes fit",
+        "latex": "y(0,t)=y(L,t)=0 \\ \\Longrightarrow\\ \\sin(kL)=0 \\ \\Longrightarrow\\ kL = n\\pi \\ \\Longrightarrow\\ k_n = \\frac{n\\pi}{L}",
+        "prose": "Now impose the physics: the string is pinned at both ends, so $y=0$ there at all times. $y(0)=0$ is automatic; $y(L)=0$ demands $\\sin(kL)=0$, which is only true when $kL$ is a whole multiple of $\\pi$. *That* is why $n$ must be an integer — the boundary conditions select a discrete ladder of modes. An integer number of half-wavelengths fits the length.",
+        "emphasis": true
+      },
+      {
+        "label": "The harmonic series falls out",
+        "latex": "f_n = \\frac{\\omega_n}{2\\pi} = \\frac{v k_n}{2\\pi} = \\frac{n v}{2L}, \\qquad \\lambda_n = \\frac{2\\pi}{k_n} = \\frac{2L}{n}",
+        "prose": "Each allowed $k_n$ gives a frequency $f_n = nv/2L$ and wavelength $\\lambda_n = 2L/n$ — the memorized series, now derived. Drag the mode slider: each harmonic adds one more antinode, the nodes (always-still points) stay pinned, and the frequency climbs in exact integer steps."
+      }
+    ]
+  },
+  "proof": {
+    "kind": "governing",
+    "heading": "The harmonics come from the wave equation plus the fixed ends — the boundary conditions quantize the modes, and $f_n = nv/2L$ falls out.",
+    "checked_by": "sympy",
+    "holds": true,
+    "detail": "check $\\partial_{tt}y = v^2\\partial_{xx}y$; fixed ends $\\sin(kL)=0$; standing = two travelling waves; $f_n = nv/2L$; $\\lambda_n = 2L/n$",
+    "checks": [
+      {
+        "key": "wave_equation",
+        "claim": "The mode solves the wave equation $\\partial_{tt} y = v^2\\,\\partial_{xx} y$ — back-substituting $y = A\\sin(kx)\\cos(\\omega t)$ leaves zero, with $\\omega = vk$.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "fixed_ends",
+        "claim": "The string is pinned at both ends: $y(0)=0$ automatically, and $y(L)=0$ forces $\\sin(kL)=\\sin(n\\pi)=0$ — the boundary condition that quantizes the modes to integer $n$.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "superposition",
+        "claim": "A standing wave is two counter-propagating travelling waves superposed: $\\tfrac12 A[\\sin(kx-\\omega t)+\\sin(kx+\\omega t)] = A\\sin(kx)\\cos(\\omega t)$.",
+        "holds": true,
+        "tier": "simplify"
+      },
+      {
+        "key": "frequency",
+        "claim": "The harmonic frequencies fall out: $f_n = \\omega_n/2\\pi = nv/(2L)$.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "wavelength",
+        "claim": "The wavelengths are $\\lambda_n = 2\\pi/k_n = 2L/n$ — an integer number of half-wavelengths fits the length.",
+        "holds": true,
+        "tier": "structural"
+      }
+    ]
+  },
+  "units_check": {
+    "checked_by": "sympy",
+    "holds": true
+  },
+  "graphs": [
+    {
+      "kind": "standing",
+      "mode": "interactive",
+      "window": "fixed",
+      "annotate": [
+        "nodes_fixed",
+        "modes_quantized"
+      ],
+      "svg": "assets/graphs/standing-wave-0.svg",
+      "series": {
+        "u": [
+          0.0,
+          0.008333333,
+          0.016666667,
+          0.025,
+          0.033333333,
+          0.041666667,
+          0.05,
+          0.058333333,
+          0.066666667,
+          0.075,
+          0.083333333,
+          0.091666667,
+          0.1,
+          0.108333333,
+          0.116666667,
+          0.125,
+          0.133333333,
+          0.141666667,
+          0.15,
+          0.158333333,
+          0.166666667,
+          0.175,
+          0.183333333,
+          0.191666667,
+          0.2,
+          0.208333333,
+          0.216666667,
+          0.225,
+          0.233333333,
+          0.241666667,
+          0.25,
+          0.258333333,
+          0.266666667,
+          0.275,
+          0.283333333,
+          0.291666667,
+          0.3,
+          0.308333333,
+          0.316666667,
+          0.325,
+          0.333333333,
+          0.341666667,
+          0.35,
+          0.358333333,
+          0.366666667,
+          0.375,
+          0.383333333,
+          0.391666667,
+          0.4,
+          0.408333333,
+          0.416666667,
+          0.425,
+          0.433333333,
+          0.441666667,
+          0.45,
+          0.458333333,
+          0.466666667,
+          0.475,
+          0.483333333,
+          0.491666667,
+          0.5,
+          0.508333333,
+          0.516666667,
+          0.525,
+          0.533333333,
+          0.541666667,
+          0.55,
+          0.558333333,
+          0.566666667,
+          0.575,
+          0.583333333,
+          0.591666667,
+          0.6,
+          0.608333333,
+          0.616666667,
+          0.625,
+          0.633333333,
+          0.641666667,
+          0.65,
+          0.658333333,
+          0.666666667,
+          0.675,
+          0.683333333,
+          0.691666667,
+          0.7,
+          0.708333333,
+          0.716666667,
+          0.725,
+          0.733333333,
+          0.741666667,
+          0.75,
+          0.758333333,
+          0.766666667,
+          0.775,
+          0.783333333,
+          0.791666667,
+          0.8,
+          0.808333333,
+          0.816666667,
+          0.825,
+          0.833333333,
+          0.841666667,
+          0.85,
+          0.858333333,
+          0.866666667,
+          0.875,
+          0.883333333,
+          0.891666667,
+          0.9,
+          0.908333333,
+          0.916666667,
+          0.925,
+          0.933333333,
+          0.941666667,
+          0.95,
+          0.958333333,
+          0.966666667,
+          0.975,
+          0.983333333,
+          0.991666667,
+          1.0
+        ],
+        "y": [
+          0.0,
+          0.0784590926,
+          0.1564344681,
+          0.2334453639,
+          0.3090169914,
+          0.3826834353,
+          0.4539904997,
+          0.522498562,
+          0.5877852548,
+          0.6494480483,
+          0.707106779,
+          0.7604059676,
+          0.8090169944,
+          0.8526401627,
+          0.8910065256,
+          0.9238795325,
+          0.9510565153,
+          0.9723699211,
+          0.9876883406,
+          0.9969173335,
+          1.0,
+          0.9969173337,
+          0.9876883411,
+          0.9723699197,
+          0.9510565163,
+          0.9238795337,
+          0.8910065228,
+          0.8526401644,
+          0.8090169962,
+          0.7604059636,
+          0.7071067812,
+          0.6494480507,
+          0.5877852498,
+          0.5224985647,
+          0.4539905025,
+          0.3826834295,
+          0.3090169944,
+          0.2334453669,
+          0.1564344619,
+          0.0784590957,
+          3.1e-09,
+          -0.0784590989,
+          -0.156434465,
+          -0.2334453608,
+          -0.3090169974,
+          -0.3826834324,
+          -0.4539904969,
+          -0.5224985674,
+          -0.5877852523,
+          -0.6494480459,
+          -0.7071067834,
+          -0.7604059656,
+          -0.8090169925,
+          -0.852640166,
+          -0.8910065242,
+          -0.9238795313,
+          -0.9510565173,
+          -0.9723699204,
+          -0.9876883401,
+          -0.996917334,
+          -1.0,
+          -0.996917334,
+          -0.9876883401,
+          -0.9723699204,
+          -0.9510565173,
+          -0.9238795313,
+          -0.8910065242,
+          -0.852640166,
+          -0.8090169925,
+          -0.7604059656,
+          -0.7071067834,
+          -0.6494480459,
+          -0.5877852523,
+          -0.5224985674,
+          -0.4539904969,
+          -0.3826834324,
+          -0.3090169974,
+          -0.2334453608,
+          -0.156434465,
+          -0.0784590989,
+          3.1e-09,
+          0.0784590957,
+          0.1564344619,
+          0.2334453669,
+          0.3090169944,
+          0.3826834295,
+          0.4539905025,
+          0.5224985647,
+          0.5877852498,
+          0.6494480507,
+          0.7071067812,
+          0.7604059636,
+          0.8090169962,
+          0.8526401644,
+          0.8910065228,
+          0.9238795337,
+          0.9510565163,
+          0.9723699197,
+          0.9876883411,
+          0.9969173337,
+          1.0,
+          0.9969173335,
+          0.9876883406,
+          0.9723699211,
+          0.9510565153,
+          0.9238795325,
+          0.8910065256,
+          0.8526401627,
+          0.8090169944,
+          0.7604059676,
+          0.707106779,
+          0.6494480483,
+          0.5877852548,
+          0.522498562,
+          0.4539904997,
+          0.3826834353,
+          0.3090169914,
+          0.2334453639,
+          0.1564344681,
+          0.0784590926,
+          0.0
+        ],
+        "u_max": 1.0
+      },
+      "closed_form": {
+        "y": "Math.sin(Math.PI*n*u)"
+      },
+      "closed_form_params": [
+        "n",
+        "u"
+      ],
+      "params": {
+        "n": {
+          "min": 1,
+          "max": 5,
+          "default": 3
+        }
+      },
+      "consts": {
+        "v": 120.0,
+        "L": 1.0,
+        "A": 1.0,
+        "n_max": 5.0
+      },
+      "modes": [
+        {
+          "n": 1,
+          "f": 60.0,
+          "lam": 2.0
+        },
+        {
+          "n": 2,
+          "f": 120.0,
+          "lam": 1.0
+        },
+        {
+          "n": 3,
+          "f": 180.0,
+          "lam": 0.666667
+        },
+        {
+          "n": 4,
+          "f": 240.0,
+          "lam": 0.5
+        },
+        {
+          "n": 5,
+          "f": 300.0,
+          "lam": 0.4
+        }
+      ],
+      "u_label": "x  (m)",
+      "y_label": "y  (m)",
+      "u0": 0.0
+    }
+  ],
+  "misconception": {
+    "claim": "A string can be made to vibrate as a standing wave at any frequency you choose.",
+    "refuted_by": "It cannot. The fixed ends force a node at each end, so only shapes with a whole number of half-wavelengths between them survive — the harmonics $f_n = nv/2L$. Drive the string at some other frequency and the reflections off the ends no longer line up: the wave interferes with itself and dies out instead of building a steady standing pattern. This is the same quantization that, one domain over, restricts an electron in a box to discrete energies — boundary conditions select a discrete ladder."
+  },
+  "formulas_used": [
+    "wave-standing-frequency",
+    "wave-standing-wavelength",
+    "wave-speed"
+  ],
+  "provenance": {
+    "producer": "quadrature_producer",
+    "version": "0.1.0",
+    "sympy": "1.14.0",
+    "author": "Quadrature",
+    "created": "2026-06-27"
+  },
+  "practice": [
+    {
+      "id": "fundamental",
+      "asks": "the fundamental frequency",
+      "prompt": "A string of length $L = 1$ m, fixed at both ends, has wave speed $v = 120$ m/s. What is its fundamental frequency $f_1$?",
+      "answer": {
+        "value": 60.0,
+        "display": "60",
+        "unit": "Hz",
+        "symbolic_latex": "\\dfrac{v}{2L}"
+      },
+      "choices": [
+        {
+          "value": 60.0,
+          "display": "60",
+          "correct": true
+        },
+        {
+          "value": 120.0,
+          "display": "120",
+          "correct": false,
+          "method": "forgot_factor_2",
+          "misconception": "Used $v/L$ — forgot the factor of $2$. The fundamental fits only *half* a wavelength between the walls, so $\\lambda_1 = 2L$ and $f_1 = v/2L$."
+        },
+        {
+          "value": 30.0,
+          "display": "30",
+          "correct": false,
+          "method": "closed_pipe",
+          "misconception": "That is $v/4L$, the fundamental of a pipe closed at *one* end (where $\\lambda_1 = 4L$). A string fixed at *both* ends has $\\lambda_1 = 2L$, so $f_1 = v/2L$."
+        }
+      ],
+      "algebra_steps": [
+        {
+          "label": "What the algebra-based course hands you (a harmonic series)",
+          "latex": "f_n = \\frac{n v}{2L}, \\qquad \\lambda_n = \\frac{2L}{n}, \\qquad n = 1, 2, 3, \\ldots",
+          "prose": "A string fixed at both ends can only vibrate at a discrete set of frequencies — the fundamental $f_1 = v/2L$ and its integer multiples (the harmonics). You are handed the series as a rule, with no account of *why* only whole-number multiples appear and not, say, $1.5\\,f_1$."
+        }
+      ],
+      "calculus_steps": [
+        {
+          "label": "The string obeys the wave equation; its standing solutions separate",
+          "latex": "\\partial_{tt} y = v^2\\,\\partial_{xx} y \\ \\Longrightarrow\\ y(x,t) = A\\sin(kx)\\cos(\\omega t),\\quad \\omega = vk",
+          "prose": "Every small piece of the string obeys the wave equation. Looking for solutions that oscillate in place — a fixed shape times a time wobble — gives $y = A\\sin(kx)\\cos(\\omega t)$, which solves it whenever $\\omega = vk$. So far $k$ could be anything."
+        },
+        {
+          "label": "The fixed ends quantize k — only integer modes fit",
+          "latex": "y(0,t)=y(L,t)=0 \\ \\Longrightarrow\\ \\sin(kL)=0 \\ \\Longrightarrow\\ kL = n\\pi \\ \\Longrightarrow\\ k_n = \\frac{n\\pi}{L}",
+          "prose": "Now impose the physics: the string is pinned at both ends, so $y=0$ there at all times. $y(0)=0$ is automatic; $y(L)=0$ demands $\\sin(kL)=0$, which is only true when $kL$ is a whole multiple of $\\pi$. *That* is why $n$ must be an integer — the boundary conditions select a discrete ladder of modes. An integer number of half-wavelengths fits the length.",
+          "emphasis": true
+        },
+        {
+          "label": "The harmonic series falls out",
+          "latex": "f_n = \\frac{\\omega_n}{2\\pi} = \\frac{v k_n}{2\\pi} = \\frac{n v}{2L}, \\qquad \\lambda_n = \\frac{2\\pi}{k_n} = \\frac{2L}{n}",
+          "prose": "Each allowed $k_n$ gives a frequency $f_n = nv/2L$ and wavelength $\\lambda_n = 2L/n$ — the memorized series, now derived. Drag the mode slider: each harmonic adds one more antinode, the nodes (always-still points) stay pinned, and the frequency climbs in exact integer steps."
+        }
+      ]
+    }
+  ]
+}

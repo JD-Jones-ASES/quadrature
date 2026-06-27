@@ -62,6 +62,8 @@ export const ORDER = [
   ["rc-charging",         "em"],            // (planned) RC charging, Q(t)/I(t) on the 2-panel stack
   ["lc-oscillation",      "em"],            // LC oscillator — Q/I on the 2-panel stack, the electrical spring
   ["faraday-generator",   "em"],            // Faraday induction — Φ/EMF on the 2-panel stack, the AC generator
+  // Waves & optics
+  ["standing-wave",       "waves"],         // standing waves on a string — opens Waves & optics (the 6th instrument)
   // Modern physics
   ["decay",               "modern"],        // radioactive decay — opens Modern (the N / dN/dt 2-panel stack)
 ];
