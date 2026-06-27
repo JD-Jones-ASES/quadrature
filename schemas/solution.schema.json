@@ -179,7 +179,7 @@
         "window": { "enum": ["landing", "fixed"] },
         "annotate": { "type": "array", "items": { "type": "string" } },
         "svg": { "type": "string" },
-        "series": { "oneOf": [ { "$ref": "#/$defs/series" }, { "$ref": "#/$defs/area_series" }, { "$ref": "#/$defs/traj_series" }, { "$ref": "#/$defs/energy_series" }, { "$ref": "#/$defs/collision_series" } ] },
+        "series": { "anyOf": [ { "$ref": "#/$defs/series" }, { "$ref": "#/$defs/area_series" }, { "$ref": "#/$defs/traj_series" }, { "$ref": "#/$defs/energy_series" }, { "$ref": "#/$defs/collision_series" }, { "$ref": "#/$defs/panel_series" } ] },
         "closed_form": { "type": "object", "additionalProperties": { "type": "string" } },
         "closed_form_params": { "type": "array", "items": { "type": "string" } },
         "u_label": { "type": "string" },
@@ -189,6 +189,21 @@
         "pe_label": { "type": "string" },
         "total_label": { "type": "string" },
         "consts": { "type": "object", "additionalProperties": { "type": "number" } },
+        "panels": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["key", "label", "unit"],
+            "properties": {
+              "key": { "type": "string" },
+              "label": { "type": "string" },
+              "unit": { "type": "string" },
+              "accent": { "type": "boolean" }
+            }
+          }
+        },
         "u0": { "type": "number" },
         "x_label": { "type": "string" },
         "y_label": { "type": "string" },
@@ -343,6 +358,15 @@
         "v2f": { "type": "array", "items": { "type": "number" } },
         "u_max": { "type": "number" }
       }
+    },
+    "panel_series": {
+      "type": "object",
+      "required": ["t", "t_max"],
+      "properties": {
+        "t": { "type": "array", "items": { "type": "number" } },
+        "t_max": { "type": "number" }
+      },
+      "additionalProperties": { "type": "array", "items": { "type": "number" } }
     }
   }
 }

@@ -26,6 +26,13 @@
   --font-mono: "IBM Plex Mono", ui-monospace, "Cascadia Code", monospace;
   --radius: 10px;
   --maxw: 64rem;
+
+  /* Declare both themes so browsers use our own light/dark CSS instead of force-darkening the page. */
+  color-scheme: light dark;
+  /* Static Matplotlib poster figures are baked light; this token does NOT flip in dark mode, so the
+     figure card stays a light "paper" surface in both themes (the posters read as intentional figures). */
+  --figure-paper: #fbfaf7;
+  --figure-line: #ddd9cd;
 }
 
 @media (prefers-color-scheme: dark) {

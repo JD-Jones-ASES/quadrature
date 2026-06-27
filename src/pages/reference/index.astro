@@ -31,7 +31,7 @@ for (const f of data.formulas) (byDomain[f.domain] ??= []).push(f);
               <span class="badge regime">regime {f.regime}</span>
             </header>
             <div class="math" set:html={tex(f.latex)} />
-            <table class="vars">
+            <table class="vars" aria-label={`Variables in ${f.name}`}>
               <tbody>
                 {Object.entries(f.variables).map(([sym, v]) => (
                   <tr><td class="sym">{sym}</td><td class="unit">{v.unit}</td><td class="desc">{v.desc}</td></tr>

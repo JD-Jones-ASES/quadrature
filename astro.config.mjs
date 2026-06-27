@@ -16,6 +16,10 @@ export default defineConfig({
   base,
   output: "static",
   trailingSlash: "always",
-  integrations: [svelte()],
+  // `css: "injected"` makes every Svelte component (incl. CHILD islands like GraphStack/AreaPlot/Collision
+  // that are imported and rendered *inside* SolutionPlayer) ship its scoped <style> via the JS chunk and inject
+  // it on mount. Without this, Astro only delivered the CSS of the top-level islands used directly in .astro
+  // pages, so the child graph instruments rendered with default black SVG fills. See DECISIONS ADR-0019.
+  integrations: [svelte({ compilerOptions: { css: "injected" } })],
   server: { port: devPort },
 });

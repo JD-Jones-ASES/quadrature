@@ -26,6 +26,19 @@ class Slider:
 
 
 @dataclass
+class Panel:
+    """One panel of an N-panel temporal stack (ADR-0021) — the x/v/a stack generalized to any stacked
+    time-series whose successive panels are derivative/integral pairs (e.g. RC charge/current Q–t over I–t,
+    LC, radioactive decay). `expr` is a function of t + sliders; `accent` colors the curve as the 'rate' panel
+    (like v in the x/v/a stack)."""
+    key: str            # series + closed-form key, e.g. "Q", "I"
+    expr: sp.Expr       # function of t (+ sliders/constants)
+    label: str          # y-axis label, e.g. "Q  (C)"
+    unit: str           # unit string for the dimensional-homogeneity check
+    accent: bool = False
+
+
+@dataclass
 class Marker:
     panel: str          # "x" | "v" | "a"
     t: float
@@ -213,6 +226,7 @@ class Scenario:
     trajectory: TrajectoryPlot | None = None  # 2D projectile path (ADR-0015); graph kind "trajectory"
     energy: "EnergyPlot | None" = None  # the energy-exchange bars instrument; graph kind "energy"
     collision: "CollisionPlot | None" = None  # the before/after collision bars (ADR-0018); kind "collision"
+    panels: "list | None" = None  # an N-panel temporal stack (ADR-0021); when set, replaces the x/v/a panels
 
 
 def make_result(expr: sp.Expr, subs: dict, unit: str, label: str) -> dict:

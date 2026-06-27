@@ -1,0 +1,29 @@
+id = "line-charge-field"
+title = "The field of a charged rod: where algebra runs out"
+topic = "circuits"
+slug = "line-charge-field"
+model = "line-charge-field"
+regime = 2
+author = "Quadrature"
+created = "2026-06-27"
+scenario = "A rod of length $L = 0.3$ m with linear charge density $\\lambda = 100$ nC/m lies along the axis, its near end $a = 0.1$ m from the point where we want the field. Algebra gives the field of a *point* charge, $kq/r^2$ — but a rod is not a point, and there is no algebra formula for charge spread along a length. Calculus is the only way in: slice the rod into point charges $dq = \\lambda\\,dx$, each contributing $k\\,dq/x^2$, and integrate. The shaded area under those contributions is the field $E = k\\lambda(1/a - 1/(a+L))$, which collapses to the point-charge $kQ/a^2$ when the rod is short."
+formulas_used = ["em-coulomb", "em-efield-point"]
+
+[parameters]
+k = 8990000000         # N·m²/C² — Coulomb constant
+lam_nc = 100           # nC/m — linear charge density (slider)
+a = 0.1                # m — distance to the near end of the rod
+L = 0.3                # m — rod length
+
+[[assumptions]]
+claim = "A thin rod with uniform linear charge density $\\lambda$, and the field evaluated at a point on the rod's axis beyond its near end (so every slice lies along the same line and the contributions add as scalars)."
+kind = "model"
+
+[[graphs]]
+kind = "area"
+mode = "interactive"
+annotate = ["area_is_field", "point_charge_limit"]
+
+[misconception]
+claim = "To get the rod's field, just treat all its charge as sitting at the rod's centre (or near end) and use $kQ/r^2$."
+refuted_by = "Lumping the charge at one point gives the wrong answer, because the field is non-linear in distance: the near slices ($x$ small) contribute far more than the far ones ($k/x^2$ falls off steeply), so you cannot replace the spread-out charge with a single point at the average position. Treating the rod as a point at its near end *overestimates* the field; the true field is the integral $E = k\\lambda(1/a - 1/(a+L)) = kQ/(a(a+L))$, which is genuinely smaller. Only when the rod is much shorter than its distance ($L \\ll a$) do the slices all sit at nearly the same distance and the integral collapses back to the point charge $kQ/a^2$. The cursor sweeps how much of the rod is included; the area under the contribution curve is the field."

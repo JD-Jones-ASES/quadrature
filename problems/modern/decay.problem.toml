@@ -1,0 +1,27 @@
+id = "decay"
+title = "Radioactive decay: the rate is the slope of the count"
+topic = "modern"
+slug = "decay"
+model = "decay"
+regime = 2
+author = "Quadrature"
+created = "2026-06-27"
+scenario = "A sample of $N_0 = 1000$ nuclei decays with decay constant $\\lambda = 0.5$ s⁻¹. Each nucleus has the same fixed chance of decaying per second, so the number decaying per second is proportional to how many are left: $dN/dt = -\\lambda N$. Solving this gives the exponential $N(t) = N_0 e^{-\\lambda t}$, and the half-life $t_{1/2} = \\ln 2 / \\lambda$ falls out of it. Stacked $N$–$t$ over $dN/dt$–$t$, the decay rate is the slope of the count — the same exponential machine as a discharging capacitor, in the nucleus."
+formulas_used = ["modern-decay", "modern-half-life"]
+
+[parameters]
+lam = 0.5              # 1/s — decay constant (slider)
+N0 = 1000              # nuclei — initial count (slider)
+
+[[assumptions]]
+claim = "A large number of identical nuclei, each decaying independently with a constant probability per unit time, so the count can be treated as a smooth continuous $N(t)$."
+kind = "model"
+
+[[graphs]]
+kind = "stack"
+mode = "interactive"
+annotate = ["rate_is_slope", "exponential"]
+
+[misconception]
+claim = "A radioactive sample decays at a steady rate, losing the same number of nuclei every second until it is gone."
+refuted_by = "It does not decay at a steady rate. The number lost per second is proportional to how many remain, $dN/dt = -\\lambda N$, so the rate is fastest at the start and slows as the sample shrinks — it never quite reaches zero. That is exactly why decay is *exponential* and is described by a constant *half-life* rather than a constant lifetime: every half-life removes half of whatever is left, not a fixed number. Watch the panels: where $N$ is steepest (at the start) the $dN/dt$ curve is largest in magnitude; as $N$ flattens, the rate fades toward zero. The activity a detector reads is $|dN/dt| = \\lambda N$."

@@ -1,0 +1,19 @@
+id = "modern-decay"
+name = "Radioactive decay law"
+domain = "modern"
+regime = 2
+expr = "N0*exp(-lam*t)"
+lhs = "N"
+result_unit = "1"
+assumptions = ["a large number of identical nuclei, each decaying independently", "lam is the decay constant (probability of decay per unit time)"]
+citations = []
+
+[variables]
+N0 = { unit = "1", desc = "initial number of nuclei" }
+lam = { unit = "1/s", desc = "decay constant λ" }
+t = { unit = "s", desc = "elapsed time" }
+
+[[edges]]
+type = "related-to"
+target = "em-rc-charge"
+gloss = "the same exponential solution of a first-order rate equation, dN/dt = −λN"

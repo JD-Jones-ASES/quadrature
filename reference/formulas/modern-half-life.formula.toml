@@ -1,0 +1,17 @@
+id = "modern-half-life"
+name = "Half-life"
+domain = "modern"
+regime = 2
+expr = "log(2)/lam"
+lhs = "t_{1/2}"
+result_unit = "s"
+assumptions = ["exponential decay with decay constant lam", "log is the natural logarithm (ln)"]
+citations = []
+
+[variables]
+lam = { unit = "1/s", desc = "decay constant λ" }
+
+[[edges]]
+type = "derived-from"
+target = "modern-decay"
+gloss = "the time for N to fall to N₀/2: solving e^{−λt} = 1/2 gives t = ln 2 / λ"

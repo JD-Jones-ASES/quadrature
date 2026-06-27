@@ -1,0 +1,25 @@
+id = "em-rc-charge"
+name = "Charge on a charging capacitor (RC circuit)"
+domain = "em"
+regime = 2
+expr = "C*V*(1 - exp(-t/(R*C)))"
+lhs = "Q"
+result_unit = "C"
+assumptions = ["series RC circuit charged from a constant EMF", "capacitor initially uncharged"]
+citations = []
+
+[variables]
+C = { unit = "F", desc = "capacitance" }
+V = { unit = "V", desc = "battery EMF" }
+R = { unit = "ohm", desc = "series resistance" }
+t = { unit = "s", desc = "time since the switch closed" }
+
+[[edges]]
+type = "related-to"
+target = "em-rc-time-constant"
+gloss = "the time constant τ = RC sets the e-folding time of the exponential approach"
+
+[[edges]]
+type = "related-to"
+target = "em-capacitance"
+gloss = "the final charge is Q∞ = CV"

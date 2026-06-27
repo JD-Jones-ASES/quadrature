@@ -1,0 +1,32 @@
+id = "torricelli"
+title = "A draining tank: why the jet speed depends only on the depth"
+topic = "fluids"
+slug = "torricelli"
+model = "torricelli"
+regime = 2
+author = "Quadrature"
+created = "2026-06-27"
+scenario = "Water drains from an orifice a depth $h = 5$ m below the surface of a tank. A parcel of water falling from the surface trades potential energy for kinetic energy, and leaves the orifice at $v = \\sqrt{2gh}$ — exactly the speed it would reach falling freely through $h$. Drag the cursor down from the surface: the KE and PE bars (per unit volume) trade while the Total bar stays flat. The efflux speed is set by the depth alone, not by the width of the tank or how much water sits above."
+formulas_used = ["fluid-bernoulli", "fluid-hydrostatic-pressure", "en-kinetic"]
+
+[parameters]
+rho = 1000             # kg/m³ — fluid density (slider)
+g = 10                 # m/s² — gravitational field magnitude
+h = 5                  # m — depth of the orifice below the surface
+
+[[assumptions]]
+claim = "An ideal fluid (incompressible, no viscosity) draining slowly, so the surface level barely moves and the surface and jet are both at atmospheric pressure; energy is conserved along a streamline (Bernoulli)."
+kind = "model"
+
+[[assumptions]]
+claim = "$g = 10$ m/s² as a magnitude, with depth $d$ measured downward from the surface; the parcel starts essentially at rest at the surface."
+kind = "model"
+
+[[graphs]]
+kind = "energy"
+mode = "interactive"
+annotate = ["total_is_flat", "depth_sets_speed"]
+
+[misconception]
+claim = "A taller column of water, or a wider tank, pushes the water out of the orifice faster."
+refuted_by = "Only the *depth* of the orifice below the surface sets the jet speed: $v = \\sqrt{2gh}$. A wide tank and a narrow pipe at the same depth eject water at the same speed, and the amount of water sitting above the orifice does not matter — just as a block's speed at the bottom of a ramp depends only on the height dropped, not the ramp's shape. It is the same energy conservation: the potential energy density $\\rho g h$ a parcel loses falling to the orifice becomes kinetic energy density $\\tfrac12\\rho v^2$, and the density $\\rho$ cancels. Drag the cursor and read the speed off the kinetic-energy bar — it tracks the depth, nothing else."

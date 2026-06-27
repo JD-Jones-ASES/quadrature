@@ -21,11 +21,13 @@ import sympy as sp
 from . import BuildError, __version__
 from .dims import check_homogeneous, parse_unit
 from .emit import (closed_form, closed_form_area, closed_form_collision, closed_form_energy, closed_form_of,
-                   closed_form_params, closed_form_params_area, closed_form_params_collision,
-                   closed_form_params_energy, closed_form_params_traj, closed_form_traj, sample_area_series,
-                   sample_collision_series, sample_energy_series, sample_series, sample_series_of,
+                   closed_form_panels, closed_form_params, closed_form_params_area,
+                   closed_form_params_collision, closed_form_params_energy, closed_form_params_panels,
+                   closed_form_params_traj, closed_form_traj, sample_area_series, sample_collision_series,
+                   sample_energy_series, sample_panels_series, sample_series, sample_series_of,
                    sample_traj_series)
-from .graph import render_area, render_collision, render_energy, render_stack, render_trajectory
+from .graph import (render_area, render_collision, render_energy, render_panels, render_stack,
+                    render_trajectory)
 from .models import MODELS
 from .reference import build_reference
 
@@ -50,6 +52,9 @@ def build_problem(path: Path, root: Path) -> tuple[dict, str]:
     if scn.x_expr is not None:
         for name, expr in (("x(t)", scn.x_expr), ("v(t)", scn.v_expr), ("a(t)", scn.a_expr)):
             check_homogeneous(expr, umap, f"{ctx}: {name}")
+    if scn.panels is not None:
+        for p in scn.panels:
+            check_homogeneous(p.expr, umap, f"{ctx}: {p.key}(t)")
     if scn.area is not None:
         amap = {s: parse_unit(uu, ctx) for s, uu in scn.area.unit_map.items()}
         check_homogeneous(scn.area.f_expr, amap, f"{ctx}: F(x)")
@@ -170,6 +175,19 @@ def build_problem(path: Path, root: Path) -> tuple[dict, str]:
                 gobj["closed_form_params"] = closed_form_params_traj(tr)
                 gobj["params"] = {sl.name: {"min": sl.min, "max": sl.max, "default": sl.default}
                                   for sl in tr.sliders}
+            graphs.append(gobj)
+            continue
+
+        if scn.panels is not None:
+            render_panels(scn, root / "derived" / svg_rel, scn.t_window)
+            gobj["mode"] = "interactive"
+            gobj["panels"] = [{"key": p.key, "label": p.label, "unit": p.unit, "accent": p.accent}
+                              for p in scn.panels]
+            gobj["series"] = sample_panels_series(scn, scn.t_window)
+            gobj["closed_form"] = closed_form_panels(scn)
+            gobj["closed_form_params"] = closed_form_params_panels(scn)
+            gobj["params"] = {sl.name: {"min": sl.min, "max": sl.max, "default": sl.default}
+                              for sl in scn.sliders}
             graphs.append(gobj)
             continue
 

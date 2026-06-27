@@ -5,6 +5,35 @@ plan in [`ROADMAP.md`](./ROADMAP.md).
 
 ## [Unreleased] — Phase 1: full mechanics (in progress)
 
+- **Site review pass — fixed the black graphs, reorganized lessons, rebuilt the concept graph, +5 lessons.**
+  - **Graph rendering bug fixed (the marquee fix).** Every interactive graph instrument was rendering as solid
+    black SVGs — broken in light mode (black-on-cream), invisible in dark. Root cause (ADR-0019): Astro
+    delivered the scoped CSS of the *top-level* islands but not of the *child* graph islands (`GraphStack`,
+    `AreaPlot`, `Trajectory`, `EnergyBars`, `Collision`), so they fell back to default black fills. Fixed at the
+    source with `svelte({ compilerOptions: { css: "injected" } })` — one line, no island edits, and **full
+    dark mode** then works via the existing `@media` variable swap. Declared `color-scheme: light dark` (meta +
+    CSS) so force-dark browsers use the site's own themes; static Matplotlib posters sit on a fixed-light figure
+    card so they read intentionally in dark mode. Verified live via computed styles in both themes across all
+    five instruments. Polish: lesson "formulas used" now deep-link into the reference; `role="tabpanel"`;
+    reference-table `aria-label`s.
+  - **Lessons index reorganized into a read-in-order course sequence.** A presentation-only manifest
+    (`src/lib/lessonOrder.js`) groups the lessons into **11 pedagogical units** (Kinematics → Dynamics → Energy →
+    Momentum → Rotation → Oscillations → Gravitation → Fluids → Thermodynamics → E&M → Modern), regime demoted to
+    a small badge. No producer/schema change; lessons absent from the manifest fall into a resilient trailing
+    group.
+  - **Concept graph rebuilt (ADR-0020).** Node labels were raw LaTeX (`\tau`, `\frac{1}{f}`, …) — now clean
+    Unicode via a curated `_clean_label` map. The crowded 640×480 single-blob layout is now **domain-clustered**
+    on a 900×640 canvas (each domain seeded into its own region), with an ink label halo, **pan/zoom** (node-drag
+    preserved through the transform), and a domain color legend.
+  - **N-panel temporal stack (ADR-0021)** — the x/v/a stack generalized to any number of derivative/integral
+    panels (the x/v/a path is byte-unchanged), parity-verified with no new gate.
+  - **Five new lessons** (26 total): **RC charging** (E&M, the 2-panel stack — *I* is the slope of *Q*, the RC
+    ODE, τ=RC); **Newton's second law on an incline with friction** (opens the Dynamics unit — `a=g(sinθ−μcosθ)`,
+    the mass cancels); **radioactive decay** (opens Modern — the N / dN/dt 2-panel stack, `dN/dt=−λN`);
+    **Torricelli / draining tank** (opens fluid dynamics — energy bars, `v=√(2gh)`); **the field of a charged rod**
+    (`∫kλ/x² dx` — the area instrument where algebra runs out and calculus is the only way). Reference grew to
+    **74 formulas** (+RC charge, +radioactive decay & half-life). All SymPy-verified; 94 producer tests, parity
+    5753, all six gates green.
 - **Collisions / momentum — a fifth graph instrument (`kind:"collision"`): before/after bars where momentum is
   always conserved but kinetic energy isn't.** A 1D two-cart collision (2 kg @ 3 m/s into 1 kg at rest) with the
   **coefficient of restitution `e` as the cursor** (1 = perfectly elastic … 0 = perfectly inelastic). The

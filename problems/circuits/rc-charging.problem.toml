@@ -1,0 +1,32 @@
+id = "rc-charging"
+title = "Charging a capacitor: the current is the slope of the charge"
+topic = "circuits"
+slug = "rc-charging"
+model = "rc-charging"
+regime = 2
+author = "Quadrature"
+created = "2026-06-27"
+scenario = "A capacitor $C = 1$ mF charges through a resistor $R = 1$ k$\\Omega$ from a $V = 10$ V battery. The charge $Q(t)$ climbs toward $CV$ while the current $I(t)$ fades from $V/R$ to zero. Plotted as a stacked $Q$–$t$ over $I$–$t$, the slope of the charge *is* the current at every instant — the same slope↔value pivot as position and velocity, one domain over. Drag $R$ and watch the time constant $\\tau = RC$ stretch both curves."
+formulas_used = ["em-rc-time-constant", "em-rc-charge", "em-capacitance", "em-ohms-law"]
+
+[parameters]
+R = 1000               # Ω — resistance (slider; sets the time constant τ = RC)
+C = 0.001              # F — capacitance (constant)
+V = 10                 # V — battery EMF (slider; sets the final charge CV)
+
+[[assumptions]]
+claim = "An ideal series RC circuit: a constant-EMF battery, an ohmic resistor, and an ideal capacitor, with no lead resistance or dielectric leakage."
+kind = "model"
+
+[[assumptions]]
+claim = "The capacitor starts uncharged, $Q(0) = 0$, so the initial current is the full $I_0 = V/R$ (the capacitor behaves momentarily like a wire)."
+kind = "model"
+
+[[graphs]]
+kind = "stack"
+mode = "interactive"
+annotate = ["slope_is_current", "tau_is_rc"]
+
+[misconception]
+claim = "The capacitor charges at a steady rate, so the current stays constant while it fills up."
+refuted_by = "It does not. The current is *largest at the start* and decays exponentially as the capacitor fills: $I(t) = (V/R)\\,e^{-t/RC}$. As charge accumulates, the capacitor's voltage $Q/C$ rises and opposes the battery, leaving a smaller voltage across the resistor and so a smaller current. Because the current is the slope of the charge, $I = dQ/dt$, a decaying current is exactly why the charging curve bends over and levels off instead of climbing in a straight line. Watch the panels: where $Q$ is steepest (at $t=0$) the $I$ curve is highest; where $Q$ flattens, $I$ approaches zero."

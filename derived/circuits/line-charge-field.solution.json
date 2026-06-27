@@ -1,0 +1,356 @@
+{
+  "id": "line-charge-field",
+  "title": "The field of a charged rod: where algebra runs out",
+  "topic": "circuits",
+  "slug": "line-charge-field",
+  "scenario": "A rod of length $L = 0.3$ m with linear charge density $\\lambda = 100$ nC/m lies along the axis, its near end $a = 0.1$ m from the point where we want the field. Algebra gives the field of a *point* charge, $kq/r^2$ — but a rod is not a point, and there is no algebra formula for charge spread along a length. Calculus is the only way in: slice the rod into point charges $dq = \\lambda\\,dx$, each contributing $k\\,dq/x^2$, and integrate. The shaded area under those contributions is the field $E = k\\lambda(1/a - 1/(a+L))$, which collapses to the point-charge $kQ/a^2$ when the rod is short.",
+  "regime": 2,
+  "constants": {
+    "k": 8990000000.0,
+    "lam_nc": 100.0,
+    "a": 0.1,
+    "L": 0.3
+  },
+  "initial_conditions": {},
+  "assumptions": [
+    {
+      "claim": "A thin rod with uniform linear charge density $\\lambda$, and the field evaluated at a point on the rod's axis beyond its near end (so every slice lies along the same line and the contributions add as scalars).",
+      "kind": "model"
+    }
+  ],
+  "algebra": {
+    "steps": [
+      {
+        "label": "What the algebra-based course hands you (and where it stops)",
+        "latex": "E_{\\text{point}} = \\frac{kq}{r^2}",
+        "prose": "Algebra gives the field of a single point charge. But a charged rod is not a point — the charge is spread along its length, every piece a different distance away — and there is no algebra formula for that. This is where algebra runs out."
+      }
+    ],
+    "result": {
+      "total_field": {
+        "label": "Total field $E = \\dfrac{kQ}{a(a+L)}$",
+        "unit": "N/C",
+        "symbolic_latex": "k\\lambda\\!\\left(\\tfrac1a - \\tfrac1{a+L}\\right)",
+        "value": 6742.5,
+        "display": "6742"
+      },
+      "point_charge_approx": {
+        "label": "Point-charge approx $kQ/a^2$ (overestimate)",
+        "unit": "N/C",
+        "symbolic_latex": "kQ/a^2",
+        "value": 26970.0,
+        "display": "26970"
+      },
+      "near_half_field": {
+        "label": "Field from the near half of the rod",
+        "unit": "N/C",
+        "symbolic_latex": "k\\lambda(1/a - 1/(a+L/2))",
+        "value": 5394.0,
+        "display": "5394"
+      }
+    }
+  },
+  "calculus": {
+    "steps": [
+      {
+        "label": "Slice the rod into point charges and add their fields",
+        "latex": "dE = \\frac{k\\,dq}{x^2} = \\frac{k\\lambda\\,dx}{x^2}",
+        "prose": "Cut the rod into slices of length $dx$, each carrying charge $dq = \\lambda\\,dx$ and acting like a point charge at distance $x$. Its field is $k\\,dq/x^2$. Summing over the rod is an integral — the only way to handle a continuous distribution."
+      },
+      {
+        "label": "The total field is the area under the contributions",
+        "latex": "E = \\int_a^{a+L} \\frac{k\\lambda}{x^2}\\,dx = k\\lambda\\left(\\frac1a - \\frac1{a+L}\\right)",
+        "prose": "Integrating the inverse-square contributions gives a finite field — the shaded area under $k\\lambda/x^2$. The slope of the accumulated-field curve is the contribution at the cursor; the area under the contributions is the field.",
+        "emphasis": true
+      },
+      {
+        "label": "It reduces to the point charge when the rod is short",
+        "latex": "E = \\frac{kQ}{a(a+L)} \\ \\xrightarrow{\\,L \\ll a\\,}\\ \\frac{kQ}{a^2}",
+        "prose": "Writing $Q = \\lambda L$, the rod's field is $kQ/(a(a+L))$. When the rod is much shorter than its distance, this becomes $kQ/a^2$ — the point-charge formula, recovered. Drag the cursor to sweep how much of the rod is included, and $\\lambda$ to scale the charge."
+      }
+    ]
+  },
+  "proof": {
+    "kind": "integral",
+    "heading": "There is no algebra formula for a continuous charge — calculus sums the point-charge contributions, and the area under them is the field.",
+    "checked_by": "sympy",
+    "holds": true,
+    "detail": "check $dE/dx = k\\lambda/x^2$; check $E = \\int_a^x k\\lambda/x'^2\\,dx'$; total $kQ/(a(a+L))$; short-rod limit $kQ/a^2$",
+    "checks": [
+      {
+        "key": "ftc_slope",
+        "claim": "The accumulated field's slope is the contribution density: $\\dfrac{dE}{dx} = \\dfrac{k\\lambda}{x^2}$.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "area_is_integral",
+        "claim": "The field is the area under the contributions: $E(x) = \\int_a^x \\dfrac{k\\lambda}{x'^2}\\,dx'$.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "total_field",
+        "claim": "The whole rod gives $E = k\\lambda\\left(\\dfrac1a - \\dfrac1{a+L}\\right) = \\dfrac{kQ}{a(a+L)}$ with $Q = \\lambda L$.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "point_charge_limit",
+        "claim": "For a short rod the field reduces to a point charge: $E/Q \\to k/a^2$ as $L \\to 0$.",
+        "holds": true,
+        "tier": "structural"
+      }
+    ]
+  },
+  "units_check": {
+    "checked_by": "sympy",
+    "holds": true
+  },
+  "graphs": [
+    {
+      "kind": "area",
+      "mode": "interactive",
+      "window": "fixed",
+      "annotate": [
+        "area_is_field",
+        "point_charge_limit"
+      ],
+      "svg": "assets/graphs/line-charge-field-0.svg",
+      "series": {
+        "u": [
+          0.1,
+          0.105,
+          0.11,
+          0.115,
+          0.12,
+          0.125,
+          0.13,
+          0.135,
+          0.14,
+          0.145,
+          0.15,
+          0.155,
+          0.16,
+          0.165,
+          0.17,
+          0.175,
+          0.18,
+          0.185,
+          0.19,
+          0.195,
+          0.2,
+          0.205,
+          0.21,
+          0.215,
+          0.22,
+          0.225,
+          0.23,
+          0.235,
+          0.24,
+          0.245,
+          0.25,
+          0.255,
+          0.26,
+          0.265,
+          0.27,
+          0.275,
+          0.28,
+          0.285,
+          0.29,
+          0.295,
+          0.3,
+          0.305,
+          0.31,
+          0.315,
+          0.32,
+          0.325,
+          0.33,
+          0.335,
+          0.34,
+          0.345,
+          0.35,
+          0.355,
+          0.36,
+          0.365,
+          0.37,
+          0.375,
+          0.38,
+          0.385,
+          0.39,
+          0.395,
+          0.4
+        ],
+        "f": [
+          89900.0,
+          81541.9501133787,
+          74297.520661157,
+          67977.3156899811,
+          62430.5555555556,
+          57536.0,
+          53195.2662721894,
+          49327.8463648834,
+          45867.3469387755,
+          42758.6206896552,
+          39955.5555555556,
+          37419.3548387097,
+          35117.1875,
+          33021.1202938476,
+          31107.2664359862,
+          29355.1020408163,
+          27746.9135802469,
+          26267.3484295106,
+          24903.0470914127,
+          23642.3405654175,
+          22475.0,
+          21392.0285544319,
+          20385.4875283447,
+          19448.350459708,
+          18574.3801652893,
+          17758.024691358,
+          16994.3289224953,
+          16278.8592123133,
+          15607.6388888889,
+          14977.0928779675,
+          14384.0,
+          13825.4517493272,
+          13298.8165680473,
+          12801.7087931648,
+          12331.9615912209,
+          11887.6033057851,
+          11466.8367346939,
+          11068.0209295168,
+          10689.6551724138,
+          10330.3648376903,
+          9988.8888888889,
+          9664.06879871,
+          9354.8387096774,
+          9060.2166792643,
+          8779.296875,
+          8511.2426035503,
+          8255.2800734619,
+          8010.6928046335,
+          7776.8166089965,
+          7553.0350766646,
+          7338.7755102041,
+          7133.5052568935,
+          6936.7283950617,
+          6747.982735973,
+          6566.8371073776,
+          6392.8888888889,
+          6225.7617728532,
+          6065.1037274414,
+          5910.5851413544,
+          5761.8971318699,
+          5618.75
+        ],
+        "g": [
+          0.0,
+          428.0952380952,
+          817.2727272727,
+          1172.6086956522,
+          1498.3333333333,
+          1798.0,
+          2074.6153846154,
+          2330.7407407407,
+          2568.5714285714,
+          2790.0,
+          2996.6666666667,
+          3190.0,
+          3371.25,
+          3541.5151515152,
+          3701.7647058824,
+          3852.8571428571,
+          3995.5555555556,
+          4130.5405405405,
+          4258.4210526316,
+          4379.7435897436,
+          4495.0,
+          4604.6341463415,
+          4709.0476190476,
+          4808.6046511628,
+          4903.6363636364,
+          4994.4444444444,
+          5081.3043478261,
+          5164.4680851064,
+          5244.1666666667,
+          5320.612244898,
+          5394.0,
+          5464.5098039216,
+          5532.3076923077,
+          5597.5471698113,
+          5660.3703703704,
+          5720.9090909091,
+          5779.2857142857,
+          5835.6140350877,
+          5890.0,
+          5942.5423728814,
+          5993.3333333333,
+          6042.4590163934,
+          6090.0,
+          6136.0317460317,
+          6180.625,
+          6223.8461538462,
+          6265.7575757576,
+          6306.4179104478,
+          6345.8823529412,
+          6384.2028985507,
+          6421.4285714286,
+          6457.6056338028,
+          6492.7777777778,
+          6526.9863013699,
+          6560.2702702703,
+          6592.6666666667,
+          6624.2105263158,
+          6654.9350649351,
+          6684.8717948718,
+          6714.0506329114,
+          6742.5
+        ],
+        "u_max": 0.4
+      },
+      "closed_form": {
+        "f": "(899/100)*lambda/Math.pow(u, 2)",
+        "g": "(899/100)*lambda*(10 - 1/u)"
+      },
+      "closed_form_params": [
+        "lambda",
+        "u"
+      ],
+      "params": {
+        "lambda": {
+          "min": 50.0,
+          "max": 200.0,
+          "default": 100.0
+        }
+      },
+      "cursor": {
+        "name": "u",
+        "label": "x  (m)",
+        "unit": "m",
+        "min": 0.1,
+        "max": 0.4,
+        "default": 0.4
+      },
+      "u_label": "x  (m)",
+      "f_label": "dE/dx  (N/C/m)",
+      "g_label": "E  (N/C)",
+      "u0": 0.1
+    }
+  ],
+  "misconception": {
+    "claim": "To get the rod's field, just treat all its charge as sitting at the rod's centre (or near end) and use $kQ/r^2$.",
+    "refuted_by": "Lumping the charge at one point gives the wrong answer, because the field is non-linear in distance: the near slices ($x$ small) contribute far more than the far ones ($k/x^2$ falls off steeply), so you cannot replace the spread-out charge with a single point at the average position. Treating the rod as a point at its near end *overestimates* the field; the true field is the integral $E = k\\lambda(1/a - 1/(a+L)) = kQ/(a(a+L))$, which is genuinely smaller. Only when the rod is much shorter than its distance ($L \\ll a$) do the slices all sit at nearly the same distance and the integral collapses back to the point charge $kQ/a^2$. The cursor sweeps how much of the rod is included; the area under the contribution curve is the field."
+  },
+  "formulas_used": [
+    "em-coulomb",
+    "em-efield-point"
+  ],
+  "provenance": {
+    "producer": "quadrature_producer",
+    "version": "0.1.0",
+    "sympy": "1.14.0",
+    "author": "Quadrature",
+    "created": "2026-06-27"
+  }
+}

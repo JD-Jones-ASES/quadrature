@@ -229,6 +229,43 @@ def sample_traj_series(traj, n: int = 81) -> dict:
     return {"t": ts, "x": xs, "y": ys, "t_max": round(float(traj.t_flight), 9)}
 
 
+def closed_form_panels(scn) -> dict[str, str]:
+    """JS-evaluable expr per panel of an N-panel stack (constants substituted; sliders + t left free)."""
+    out = {}
+    for p in scn.panels:
+        e = p.expr.subs(scn.constants)
+        try:
+            out[p.key] = jscode(e)
+        except Exception as ex:
+            raise BuildError(f"panel closed_form.{p.key}: cannot emit JS for {sp.srepr(e)}: {ex}") from ex
+    return out
+
+
+def closed_form_params_panels(scn) -> list[str]:
+    syms: set[str] = set()
+    for p in scn.panels:
+        syms |= {str(s) for s in p.expr.subs(scn.constants).free_symbols}
+    return sorted(syms)
+
+
+def sample_panels_series(scn, t_max: float, n: int = 61) -> dict:
+    """SymPy's panel values at the default parameters over t in [0, t_max] — the parity truth. Keyed by each
+    panel's key (the analogue of x/v/a in sample_series). Rounds t first, then evaluates AT the rounded t."""
+    base = dict(scn.constants)
+    for sl in scn.sliders:
+        base[sl.sym] = sp.nsimplify(sl.default)
+    t = scn.t
+    out = {"t": [], **{p.key: [] for p in scn.panels}}
+    for i in range(n):
+        ti = round(float(sp.Rational(i, n - 1) * sp.nsimplify(t_max)), 9)
+        sub = {**base, t: sp.Rational(str(ti))}
+        out["t"].append(ti)
+        for p in scn.panels:
+            out[p.key].append(round(float(sp.N(p.expr.subs(sub), 30)), 10))
+    out["t_max"] = round(float(t_max), 9)
+    return out
+
+
 def sample_series(scn, t_max: float, n: int = 61) -> dict:
     """SymPy's x/v/a at the default parameters over t in [0, t_max] — the parity truth.
 

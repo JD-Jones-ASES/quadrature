@@ -1,0 +1,385 @@
+{
+  "id": "rc-charging",
+  "title": "Charging a capacitor: the current is the slope of the charge",
+  "topic": "circuits",
+  "slug": "rc-charging",
+  "scenario": "A capacitor $C = 1$ mF charges through a resistor $R = 1$ k$\\Omega$ from a $V = 10$ V battery. The charge $Q(t)$ climbs toward $CV$ while the current $I(t)$ fades from $V/R$ to zero. Plotted as a stacked $Q$–$t$ over $I$–$t$, the slope of the charge *is* the current at every instant — the same slope↔value pivot as position and velocity, one domain over. Drag $R$ and watch the time constant $\\tau = RC$ stretch both curves.",
+  "regime": 2,
+  "constants": {
+    "R": 1000.0,
+    "C": 0.001,
+    "V": 10.0
+  },
+  "initial_conditions": {
+    "Q0": 0.0,
+    "I0": 0.01
+  },
+  "assumptions": [
+    {
+      "claim": "An ideal series RC circuit: a constant-EMF battery, an ohmic resistor, and an ideal capacitor, with no lead resistance or dielectric leakage.",
+      "kind": "model"
+    },
+    {
+      "claim": "The capacitor starts uncharged, $Q(0) = 0$, so the initial current is the full $I_0 = V/R$ (the capacitor behaves momentarily like a wire).",
+      "kind": "model"
+    }
+  ],
+  "algebra": {
+    "steps": [
+      {
+        "label": "What the algebra-based course hands you (a charging curve and a time constant)",
+        "latex": "Q(t) = CV\\left(1 - e^{-t/RC}\\right), \\qquad \\tau = RC",
+        "prose": "The capacitor charges toward $Q_\\infty = CV$, and the time constant $\\tau = RC$ sets how fast: after one $\\tau$ it is about $63\\%$ charged, after $5\\tau$ essentially full. You are handed the curve and the time constant as rules, with no account of *why* the approach is exponential or where $\\tau = RC$ comes from."
+      }
+    ],
+    "result": {
+      "time_constant": {
+        "label": "Time constant $\\tau = RC$",
+        "unit": "s",
+        "symbolic_latex": "RC",
+        "value": 1.0,
+        "display": "1"
+      },
+      "final_charge": {
+        "label": "Final charge $Q_\\infty = CV$",
+        "unit": "C",
+        "symbolic_latex": "CV",
+        "value": 0.01,
+        "display": "0.01"
+      },
+      "initial_current": {
+        "label": "Initial current $I_0 = V/R$",
+        "unit": "A",
+        "symbolic_latex": "V/R",
+        "value": 0.01,
+        "display": "0.01"
+      },
+      "charge_at_tau": {
+        "label": "Charge after one $\\tau$ ($\\approx 63\\%$)",
+        "unit": "C",
+        "symbolic_latex": "CV(1 - e^{-1})",
+        "value": 0.006321,
+        "display": "0.006321"
+      }
+    }
+  },
+  "calculus": {
+    "steps": [
+      {
+        "label": "Kirchhoff's voltage law is a differential equation",
+        "latex": "V = IR + \\frac{Q}{C}, \\quad I = \\frac{dQ}{dt} \\ \\Longrightarrow\\ R\\,\\frac{dQ}{dt} + \\frac{Q}{C} = V",
+        "prose": "Around the loop, the battery EMF equals the resistor drop $IR$ plus the capacitor voltage $Q/C$. Because the current is the rate of change of charge, $I = dQ/dt$, this is a first-order differential equation for $Q(t)$ — not an algebra equation."
+      },
+      {
+        "label": "Solving it gives the charging curve; its slope is the current",
+        "latex": "Q(t) = CV\\left(1 - e^{-t/RC}\\right) \\ \\Longrightarrow\\ I(t) = \\frac{dQ}{dt} = \\frac{V}{R}\\,e^{-t/RC}",
+        "prose": "The solution is the exponential approach to $CV$, with the time constant $\\tau = RC$ falling straight out of the equation. Differentiating the charge gives the current: it starts at $V/R$ and decays. The current is the *slope* of the charge.",
+        "emphasis": true
+      },
+      {
+        "label": "Watch the two panels — I is the slope of Q",
+        "latex": "\\boxed{\\,I(t) = \\frac{dQ}{dt}\\,}",
+        "prose": "Drag $R$ or $V$: the charge $Q$ rises and levels off while the current $I$ decays, and at every instant the slope of the upper $Q$–$t$ curve is the value of the lower $I$–$t$ curve — the same relationship as position and velocity, in a circuit. The area under $I$ is the charge delivered. Raising $R$ stretches the time constant $RC$, slowing both."
+      }
+    ]
+  },
+  "proof": {
+    "kind": "governing",
+    "heading": "The current is the slope of the charge, and the charge solves the RC equation — the kinematics slope↔value pivot, one domain over.",
+    "checked_by": "sympy",
+    "holds": true,
+    "detail": "check $I = dQ/dt$; check $R\\,dQ/dt + Q/C = V$; check $Q = \\int_0^t I\\,dt'$; $\\tau = RC$ (63\\% at $t=\\tau$); steady state $Q\\to CV$, $I\\to 0$",
+    "checks": [
+      {
+        "key": "current_is_slope",
+        "claim": "The current is the slope of the charge: $I = \\dfrac{dQ}{dt}$ — exactly as velocity is the slope of position.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "governing_eqn",
+        "claim": "The charge solves Kirchhoff's voltage law $V = IR + Q/C$, i.e. the RC equation $R\\,\\dfrac{dQ}{dt} + \\dfrac{Q}{C} = V$.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "charge_is_integral",
+        "claim": "The charge is the accumulated current — the area under $I$: $Q(t) = \\int_0^t I\\,dt'$.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "time_constant",
+        "claim": "The time constant is $\\tau = RC$: at $t = \\tau$ the capacitor is $1 - 1/e \\approx 63\\%$ charged, $Q(\\tau) = CV(1 - e^{-1})$.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "steady_state",
+        "claim": "The steady state is full charge and no current: $Q \\to CV$ and $I \\to 0$ as $t \\to \\infty$.",
+        "holds": true,
+        "tier": "structural"
+      }
+    ]
+  },
+  "units_check": {
+    "checked_by": "sympy",
+    "holds": true
+  },
+  "graphs": [
+    {
+      "kind": "stack",
+      "mode": "interactive",
+      "window": "fixed",
+      "annotate": [
+        "slope_is_current",
+        "tau_is_rc"
+      ],
+      "svg": "assets/graphs/rc-charging-0.svg",
+      "panels": [
+        {
+          "key": "Q",
+          "label": "Q  (C)",
+          "unit": "C",
+          "accent": false
+        },
+        {
+          "key": "I",
+          "label": "I  (A)",
+          "unit": "A",
+          "accent": true
+        }
+      ],
+      "series": {
+        "t": [
+          0.0,
+          0.083333333,
+          0.166666667,
+          0.25,
+          0.333333333,
+          0.416666667,
+          0.5,
+          0.583333333,
+          0.666666667,
+          0.75,
+          0.833333333,
+          0.916666667,
+          1.0,
+          1.083333333,
+          1.166666667,
+          1.25,
+          1.333333333,
+          1.416666667,
+          1.5,
+          1.583333333,
+          1.666666667,
+          1.75,
+          1.833333333,
+          1.916666667,
+          2.0,
+          2.083333333,
+          2.166666667,
+          2.25,
+          2.333333333,
+          2.416666667,
+          2.5,
+          2.583333333,
+          2.666666667,
+          2.75,
+          2.833333333,
+          2.916666667,
+          3.0,
+          3.083333333,
+          3.166666667,
+          3.25,
+          3.333333333,
+          3.416666667,
+          3.5,
+          3.583333333,
+          3.666666667,
+          3.75,
+          3.833333333,
+          3.916666667,
+          4.0,
+          4.083333333,
+          4.166666667,
+          4.25,
+          4.333333333,
+          4.416666667,
+          4.5,
+          4.583333333,
+          4.666666667,
+          4.75,
+          4.833333333,
+          4.916666667,
+          5.0
+        ],
+        "Q": [
+          0.0,
+          0.0007995559,
+          0.0015351828,
+          0.0022119922,
+          0.0028346869,
+          0.0034075937,
+          0.0039346934,
+          0.0044196485,
+          0.0048658288,
+          0.0052763345,
+          0.0056540179,
+          0.0060015035,
+          0.0063212056,
+          0.0066153457,
+          0.0068859678,
+          0.007134952,
+          0.0073640286,
+          0.0075747893,
+          0.0077686984,
+          0.0079471034,
+          0.008111244,
+          0.0082622606,
+          0.0084012025,
+          0.0085290353,
+          0.0086466472,
+          0.0087548553,
+          0.0088544116,
+          0.0089460078,
+          0.0090302803,
+          0.0091078148,
+          0.00917915,
+          0.0092447816,
+          0.0093051655,
+          0.0093607214,
+          0.0094118353,
+          0.0094588623,
+          0.0095021293,
+          0.0095419369,
+          0.0095785616,
+          0.0096122579,
+          0.0096432601,
+          0.0096717834,
+          0.0096980262,
+          0.0097221707,
+          0.0097443847,
+          0.0097648225,
+          0.0097836263,
+          0.0098009266,
+          0.0098168436,
+          0.009831488,
+          0.0098449615,
+          0.0098573577,
+          0.0098687627,
+          0.0098792559,
+          0.00988891,
+          0.0098977923,
+          0.0099059644,
+          0.009913483,
+          0.0099204006,
+          0.009926765,
+          0.0099326205
+        ],
+        "I": [
+          0.01,
+          0.0092004441,
+          0.0084648172,
+          0.0077880078,
+          0.0071653131,
+          0.0065924063,
+          0.0060653066,
+          0.0055803515,
+          0.0051341712,
+          0.0047236655,
+          0.0043459821,
+          0.0039984965,
+          0.0036787944,
+          0.0033846543,
+          0.0031140322,
+          0.002865048,
+          0.0026359714,
+          0.0024252107,
+          0.0022313016,
+          0.0020528966,
+          0.001888756,
+          0.0017377394,
+          0.0015987975,
+          0.0014709647,
+          0.0013533528,
+          0.0012451447,
+          0.0011455884,
+          0.0010539922,
+          0.0009697197,
+          0.0008921852,
+          0.00082085,
+          0.0007552184,
+          0.0006948345,
+          0.0006392786,
+          0.0005881647,
+          0.0005411377,
+          0.0004978707,
+          0.0004580631,
+          0.0004214384,
+          0.0003877421,
+          0.0003567399,
+          0.0003282166,
+          0.0003019738,
+          0.0002778293,
+          0.0002556153,
+          0.0002351775,
+          0.0002163737,
+          0.0001990734,
+          0.0001831564,
+          0.000168512,
+          0.0001550385,
+          0.0001426423,
+          0.0001312373,
+          0.0001207441,
+          0.00011109,
+          0.0001022077,
+          9.40356e-05,
+          8.6517e-05,
+          7.95994e-05,
+          7.3235e-05,
+          6.73795e-05
+        ],
+        "t_max": 5.0
+      },
+      "closed_form": {
+        "Q": "(1/1000)*V*(1 - Math.exp(-1000*t/R))",
+        "I": "V*Math.exp(-1000*t/R)/R"
+      },
+      "closed_form_params": [
+        "R",
+        "V",
+        "t"
+      ],
+      "params": {
+        "R": {
+          "min": 200.0,
+          "max": 4000.0,
+          "default": 1000.0
+        },
+        "V": {
+          "min": 5.0,
+          "max": 20.0,
+          "default": 10.0
+        }
+      }
+    }
+  ],
+  "misconception": {
+    "claim": "The capacitor charges at a steady rate, so the current stays constant while it fills up.",
+    "refuted_by": "It does not. The current is *largest at the start* and decays exponentially as the capacitor fills: $I(t) = (V/R)\\,e^{-t/RC}$. As charge accumulates, the capacitor's voltage $Q/C$ rises and opposes the battery, leaving a smaller voltage across the resistor and so a smaller current. Because the current is the slope of the charge, $I = dQ/dt$, a decaying current is exactly why the charging curve bends over and levels off instead of climbing in a straight line. Watch the panels: where $Q$ is steepest (at $t=0$) the $I$ curve is highest; where $Q$ flattens, $I$ approaches zero."
+  },
+  "formulas_used": [
+    "em-rc-time-constant",
+    "em-rc-charge",
+    "em-capacitance",
+    "em-ohms-law"
+  ],
+  "provenance": {
+    "producer": "quadrature_producer",
+    "version": "0.1.0",
+    "sympy": "1.14.0",
+    "author": "Quadrature",
+    "created": "2026-06-27"
+  }
+}

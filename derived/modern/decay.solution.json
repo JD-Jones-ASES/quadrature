@@ -1,0 +1,371 @@
+{
+  "id": "decay",
+  "title": "Radioactive decay: the rate is the slope of the count",
+  "topic": "modern",
+  "slug": "decay",
+  "scenario": "A sample of $N_0 = 1000$ nuclei decays with decay constant $\\lambda = 0.5$ s⁻¹. Each nucleus has the same fixed chance of decaying per second, so the number decaying per second is proportional to how many are left: $dN/dt = -\\lambda N$. Solving this gives the exponential $N(t) = N_0 e^{-\\lambda t}$, and the half-life $t_{1/2} = \\ln 2 / \\lambda$ falls out of it. Stacked $N$–$t$ over $dN/dt$–$t$, the decay rate is the slope of the count — the same exponential machine as a discharging capacitor, in the nucleus.",
+  "regime": 2,
+  "constants": {
+    "lam": 0.5,
+    "N0": 1000.0
+  },
+  "initial_conditions": {
+    "N_start": 1000.0
+  },
+  "assumptions": [
+    {
+      "claim": "A large number of identical nuclei, each decaying independently with a constant probability per unit time, so the count can be treated as a smooth continuous $N(t)$.",
+      "kind": "model"
+    }
+  ],
+  "algebra": {
+    "steps": [
+      {
+        "label": "What the algebra-based course hands you (a half-life)",
+        "latex": "N(t) = N_0\\,2^{-t/t_{1/2}}, \\qquad t_{1/2} = \\frac{\\ln 2}{\\lambda}",
+        "prose": "The sample halves every half-life $t_{1/2}$: after one $t_{1/2}$ half is left, after two a quarter, and so on. You are handed the half-life and the decay curve as rules, with no account of *why* decay is exponential."
+      }
+    ],
+    "result": {
+      "half_life": {
+        "label": "Half-life $t_{1/2} = \\ln 2 / \\lambda$",
+        "unit": "s",
+        "symbolic_latex": "\\ln 2 / \\lambda",
+        "value": 1.386294,
+        "display": "1.386"
+      },
+      "mean_lifetime": {
+        "label": "Mean lifetime $\\tau = 1/\\lambda$",
+        "unit": "s",
+        "symbolic_latex": "1/\\lambda",
+        "value": 2.0,
+        "display": "2"
+      },
+      "initial_rate": {
+        "label": "Initial decay rate $\\lambda N_0$",
+        "unit": "1/s",
+        "symbolic_latex": "\\lambda N_0",
+        "value": 500.0,
+        "display": "500"
+      },
+      "left_at_5s": {
+        "label": "Nuclei left after 5 s",
+        "unit": "1",
+        "symbolic_latex": "N_0 e^{-5\\lambda}",
+        "value": 82.084999,
+        "display": "82.08"
+      }
+    }
+  },
+  "calculus": {
+    "steps": [
+      {
+        "label": "The decay rate is proportional to the number remaining",
+        "latex": "\\frac{dN}{dt} = -\\lambda N",
+        "prose": "Each nucleus has the same fixed chance per second of decaying, so the number decaying per second is proportional to how many are left. That is a first-order differential equation — the rate $dN/dt$ depends on $N$ itself."
+      },
+      {
+        "label": "Solving it gives the exponential; the rate is the slope",
+        "latex": "N(t) = N_0\\,e^{-\\lambda t} \\ \\Longrightarrow\\ \\frac{dN}{dt} = -\\lambda N_0\\,e^{-\\lambda t}",
+        "prose": "The solution is an exponential, and the half-life $t_{1/2} = \\ln 2/\\lambda$ falls out of it. The decay rate is the *slope* of $N(t)$ — the same exponential machine as a discharging capacitor or a body slowing under drag, in the nucleus.",
+        "emphasis": true
+      },
+      {
+        "label": "Watch the two panels — the lower is the slope of the upper",
+        "latex": "\\boxed{\\,\\frac{dN}{dt} = -\\lambda N\\,}",
+        "prose": "Drag $\\lambda$: a larger decay constant means a shorter half-life and a steeper fall. At every instant the slope of the upper $N$–$t$ curve is the value of the lower $dN/dt$–$t$ curve, and the area under $dN/dt$ is the number that have decayed. The activity a Geiger counter reads is the magnitude $|dN/dt| = \\lambda N$."
+      }
+    ]
+  },
+  "proof": {
+    "kind": "governing",
+    "heading": "The decay rate is proportional to the number remaining — and that rate is the slope of $N(t)$, the panel below.",
+    "checked_by": "sympy",
+    "holds": true,
+    "detail": "check $dN/dt$ is the slope; check $dN/dt = -\\lambda N$; $t_{1/2} = \\ln 2/\\lambda$; $1/e$ left after $\\tau = 1/\\lambda$",
+    "checks": [
+      {
+        "key": "rate_is_slope",
+        "claim": "The decay rate is the slope of $N$: the lower panel is $\\dfrac{dN}{dt}$ exactly, the derivative of the curve above.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "governing_eqn",
+        "claim": "Each nucleus decays independently, so the rate is proportional to how many remain: $\\dfrac{dN}{dt} = -\\lambda N$.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "half_life",
+        "claim": "The half-life is $t_{1/2} = \\dfrac{\\ln 2}{\\lambda}$: after it, exactly half remain, $N(t_{1/2}) = N_0/2$.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "mean_lifetime",
+        "claim": "After one mean lifetime $\\tau = 1/\\lambda$, a fraction $1/e$ of the sample remains.",
+        "holds": true,
+        "tier": "structural"
+      }
+    ]
+  },
+  "units_check": {
+    "checked_by": "sympy",
+    "holds": true
+  },
+  "graphs": [
+    {
+      "kind": "stack",
+      "mode": "interactive",
+      "window": "fixed",
+      "annotate": [
+        "rate_is_slope",
+        "exponential"
+      ],
+      "svg": "assets/graphs/decay-0.svg",
+      "panels": [
+        {
+          "key": "N",
+          "label": "N  (nuclei)",
+          "unit": "1",
+          "accent": false
+        },
+        {
+          "key": "dNdt",
+          "label": "dN/dt  (1/s)",
+          "unit": "1/s",
+          "accent": true
+        }
+      ],
+      "series": {
+        "t": [
+          0.0,
+          0.1,
+          0.2,
+          0.3,
+          0.4,
+          0.5,
+          0.6,
+          0.7,
+          0.8,
+          0.9,
+          1.0,
+          1.1,
+          1.2,
+          1.3,
+          1.4,
+          1.5,
+          1.6,
+          1.7,
+          1.8,
+          1.9,
+          2.0,
+          2.1,
+          2.2,
+          2.3,
+          2.4,
+          2.5,
+          2.6,
+          2.7,
+          2.8,
+          2.9,
+          3.0,
+          3.1,
+          3.2,
+          3.3,
+          3.4,
+          3.5,
+          3.6,
+          3.7,
+          3.8,
+          3.9,
+          4.0,
+          4.1,
+          4.2,
+          4.3,
+          4.4,
+          4.5,
+          4.6,
+          4.7,
+          4.8,
+          4.9,
+          5.0,
+          5.1,
+          5.2,
+          5.3,
+          5.4,
+          5.5,
+          5.6,
+          5.7,
+          5.8,
+          5.9,
+          6.0
+        ],
+        "N": [
+          1000.0,
+          951.2294245007,
+          904.837418036,
+          860.7079764251,
+          818.730753078,
+          778.8007830714,
+          740.8182206817,
+          704.6880897187,
+          670.3200460356,
+          637.6281516218,
+          606.5306597126,
+          576.9498103805,
+          548.811636094,
+          522.045776761,
+          496.5853037914,
+          472.366552741,
+          449.3289641172,
+          427.4149319487,
+          406.5696597406,
+          386.7410234545,
+          367.8794411714,
+          349.9377491112,
+          332.8710836981,
+          316.6367693791,
+          301.1942119122,
+          286.5047968602,
+          272.531793034,
+          259.2402606459,
+          246.5969639416,
+          234.5702880938,
+          223.1301601484,
+          212.2479738267,
+          201.8965179947,
+          192.0499086208,
+          182.6835240527,
+          173.7739434504,
+          165.2988882216,
+          157.2371663136,
+          149.5686192226,
+          142.2740715865,
+          135.3352832366,
+          128.7349035878,
+          122.456428253,
+          116.4841577735,
+          110.8031583623,
+          105.3992245619,
+          100.2588437228,
+          95.3691622155,
+          90.7179532894,
+          86.2935864994,
+          82.0849986239,
+          78.0816660012,
+          74.2735782143,
+          70.6512130604,
+          67.2055127397,
+          63.9278612067,
+          60.8100626252,
+          57.8443208748,
+          55.0232200564,
+          52.3397059484,
+          49.7870683679
+        ],
+        "dNdt": [
+          -500.0,
+          -475.6147122504,
+          -452.418709018,
+          -430.3539882125,
+          -409.365376539,
+          -389.4003915357,
+          -370.4091103409,
+          -352.3440448594,
+          -335.1600230178,
+          -318.8140758109,
+          -303.2653298563,
+          -288.4749051902,
+          -274.405818047,
+          -261.0228883805,
+          -248.2926518957,
+          -236.1832763705,
+          -224.6644820586,
+          -213.7074659744,
+          -203.2848298703,
+          -193.3705117273,
+          -183.9397205857,
+          -174.9688745556,
+          -166.435541849,
+          -158.3183846895,
+          -150.5971059561,
+          -143.2523984301,
+          -136.265896517,
+          -129.6201303229,
+          -123.2984819708,
+          -117.2851440469,
+          -111.5650800742,
+          -106.1239869134,
+          -100.9482589973,
+          -96.0249543104,
+          -91.3417620264,
+          -86.8869717252,
+          -82.6494441108,
+          -78.6185831568,
+          -74.7843096113,
+          -71.1370357933,
+          -67.6676416183,
+          -64.3674517939,
+          -61.2282141265,
+          -58.2420788867,
+          -55.4015791812,
+          -52.6996122809,
+          -50.1294218614,
+          -47.6845811078,
+          -45.3589766447,
+          -43.1467932497,
+          -41.0424993119,
+          -39.0408330006,
+          -37.1367891072,
+          -35.3256065302,
+          -33.6027563699,
+          -31.9639306034,
+          -30.4050313126,
+          -28.9221604374,
+          -27.5116100282,
+          -26.1698529742,
+          -24.8935341839
+        ],
+        "t_max": 6.0
+      },
+      "closed_form": {
+        "N": "N0*Math.exp(-lambda*t)",
+        "dNdt": "-N0*lambda*Math.exp(-lambda*t)"
+      },
+      "closed_form_params": [
+        "N0",
+        "lambda",
+        "t"
+      ],
+      "params": {
+        "lambda": {
+          "min": 0.1,
+          "max": 1.5,
+          "default": 0.5
+        },
+        "N0": {
+          "min": 500.0,
+          "max": 2000.0,
+          "default": 1000.0
+        }
+      }
+    }
+  ],
+  "misconception": {
+    "claim": "A radioactive sample decays at a steady rate, losing the same number of nuclei every second until it is gone.",
+    "refuted_by": "It does not decay at a steady rate. The number lost per second is proportional to how many remain, $dN/dt = -\\lambda N$, so the rate is fastest at the start and slows as the sample shrinks — it never quite reaches zero. That is exactly why decay is *exponential* and is described by a constant *half-life* rather than a constant lifetime: every half-life removes half of whatever is left, not a fixed number. Watch the panels: where $N$ is steepest (at the start) the $dN/dt$ curve is largest in magnitude; as $N$ flattens, the rate fades toward zero. The activity a detector reads is $|dN/dt| = \\lambda N$."
+  },
+  "formulas_used": [
+    "modern-decay",
+    "modern-half-life"
+  ],
+  "provenance": {
+    "producer": "quadrature_producer",
+    "version": "0.1.0",
+    "sympy": "1.14.0",
+    "author": "Quadrature",
+    "created": "2026-06-27"
+  }
+}

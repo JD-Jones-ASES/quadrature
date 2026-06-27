@@ -54,7 +54,7 @@
   </div>
 
   {#if tab === "algebra"}
-    <div class="stepper">
+    <div class="stepper" role="tabpanel" aria-label="Algebra register">
       <div class="step">
         <div class="step-label">{@html aSteps[stepA].labelHtml}</div>
         <div class="math">{@html aSteps[stepA].latexHtml}</div>
@@ -67,7 +67,7 @@
       </nav>
     </div>
   {:else if tab === "calculus"}
-    <div class="stepper">
+    <div class="stepper" role="tabpanel" aria-label="Calculus register">
       <div class="step" class:emph={cSteps[stepC].emphasis}>
         <div class="step-label">{@html cSteps[stepC].labelHtml}</div>
         <div class="math">{@html cSteps[stepC].latexHtml}</div>
@@ -79,16 +79,20 @@
         <button onclick={() => (stepC = clamp(stepC + 1, cSteps.length))} disabled={stepC === cSteps.length - 1}>Next ›</button>
       </nav>
     </div>
-  {:else if graph.kind === "area"}
-    <AreaPlot {graph} />
-  {:else if graph.kind === "trajectory"}
-    <Trajectory {graph} />
-  {:else if graph.kind === "energy"}
-    <EnergyBars {graph} />
-  {:else if graph.kind === "collision"}
-    <Collision {graph} />
   {:else}
-    <GraphStack {graph} />
+    <div class="graphpanel" role="tabpanel" aria-label="Graph">
+      {#if graph.kind === "area"}
+        <AreaPlot {graph} />
+      {:else if graph.kind === "trajectory"}
+        <Trajectory {graph} />
+      {:else if graph.kind === "energy"}
+        <EnergyBars {graph} />
+      {:else if graph.kind === "collision"}
+        <Collision {graph} />
+      {:else}
+        <GraphStack {graph} />
+      {/if}
+    </div>
   {/if}
 
   <!-- the proof, SHOWN not asserted (equivalence for regime 1; governing for regime 2) -->

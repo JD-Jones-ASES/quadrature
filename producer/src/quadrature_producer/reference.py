@@ -9,6 +9,7 @@ Svelte island renders static SVG with no client-side layout.
 from __future__ import annotations
 
 import random
+import re
 
 import sympy as sp
 
@@ -19,6 +20,52 @@ from .prove import SampleDomain, tiered_zero
 EDGE_TYPES = {"derived-from", "integral-of", "derivative-of", "special-case-of", "assumes", "related-to"}
 DOMAINS = {"mechanics", "em", "thermo", "waves-optics", "modern"}
 _RECIPROCAL = {"integral-of": "derivative-of", "derivative-of": "integral-of"}
+
+# --- concept-graph node labels: turn a LaTeX `lhs` into a short clean glyph (no raw backslashes/braces) ---
+# Curated map covers every LaTeX-bearing lhs currently in the reference; the generic fallback in
+# _clean_label() keeps future formulas clean too.
+_LABEL_MAP = {
+    r"\tau": "τ", r"\eta": "η", r"\Phi": "Φ", r"\zeta": "ζ", r"\omega": "ω", r"\omega_d": "ω_d",
+    r"\lambda": "λ", r"\theta_2": "θ₂", r"\mathcal{E}": "ℰ",
+    r"F_{\text{net}}": "F_net", r"K_{\text{rot}}": "K_rot", r"v_{\text{term}}": "v_term", r"K_{\max}": "K_max",
+    r"\frac{1}{f}": "1/f", r"\Delta U": "ΔU", r"P_2": "P₂", r"P_0": "P₀",
+}
+_GREEK = {
+    r"\alpha": "α", r"\beta": "β", r"\gamma": "γ", r"\delta": "δ", r"\Delta": "Δ", r"\epsilon": "ε",
+    r"\zeta": "ζ", r"\eta": "η", r"\theta": "θ", r"\lambda": "λ", r"\mu": "μ", r"\pi": "π", r"\rho": "ρ",
+    r"\sigma": "σ", r"\tau": "τ", r"\phi": "φ", r"\Phi": "Φ", r"\omega": "ω", r"\Omega": "Ω",
+}
+_SUBSCRIPT_DIGITS = str.maketrans("0123456789", "₀₁₂₃₄₅₆₇₈₉")
+
+
+def _clean_label(lhs: str) -> str:
+    """A short, brace-free, backslash-free node label from a LaTeX lhs (e.g. '\\frac{1}{f}' -> '1/f')."""
+    if not lhs:
+        return ""
+    if lhs in _LABEL_MAP:
+        return _LABEL_MAP[lhs]
+    s = lhs
+    s = re.sub(r"\\frac\{([^{}]*)\}\{([^{}]*)\}", r"\1/\2", s)        # \frac{a}{b} -> a/b
+    s = re.sub(r"\\(?:text|mathrm|mathcal|mathbf)\{([^{}]*)\}", r"\1", s)  # \text{x} -> x
+    s = s.replace(r"\max", "max").replace(r"\min", "min")
+    for k, v in _GREEK.items():
+        s = s.replace(k, v)
+    s = re.sub(r"_\{([^{}]*)\}", r"_\1", s)                          # x_{ab} -> x_ab
+    s = re.sub(r"_([0-9])", lambda m: m.group(1).translate(_SUBSCRIPT_DIGITS), s)  # P_2 -> P₂
+    return s.replace("{", "").replace("}", "").replace("\\", "").strip()
+
+
+# --- frozen force-layout geometry (ADR-0008, ADR-0020): a larger canvas, domain-clustered ---
+LAYOUT_W, LAYOUT_H = 900, 640
+# Each domain is seeded into its own region (fractions of W×H) and weakly pulled back toward it, so the five
+# domains occupy distinct areas instead of intermixing. Mechanics dominates (most nodes) → central + largest.
+DOMAIN_ANCHOR = {
+    "mechanics":    (0.36, 0.52),
+    "em":           (0.80, 0.38),
+    "thermo":       (0.52, 0.86),
+    "waves-optics": (0.84, 0.74),
+    "modern":       (0.56, 0.13),
+}
 
 
 def _symbol_table(specs: list[dict]) -> dict[str, sp.Symbol]:
@@ -128,61 +175,67 @@ def build_reference(specs: list[dict]) -> tuple[dict, dict]:
 
     nodes = _layout(formula_records, uniq_edges)
     formulas_obj = {"schema_version": 1, "formulas": formula_records}
-    graph_obj = {"schema_version": 1, "layout": {"w": 640, "h": 480}, "nodes": nodes, "edges": uniq_edges}
+    graph_obj = {"schema_version": 1, "layout": {"w": LAYOUT_W, "h": LAYOUT_H}, "nodes": nodes, "edges": uniq_edges}
     return formulas_obj, graph_obj
 
 
 def _layout(records: list[dict], edges: list[dict]) -> list[dict]:
-    """Deterministic force layout, frozen into node coordinates (ported from Decline)."""
-    W, H = 640, 480
+    """Deterministic, domain-clustered force layout, frozen into node coordinates (ADR-0008, ADR-0020).
+
+    Each node is seeded near its domain's anchor region and weakly pulled back toward it each step, so the five
+    domains settle into distinct areas instead of intermixing. Larger canvas + stronger repulsion than the
+    original 640×480 single-blob layout, so 71 nodes have room to breathe. Seeded RNG → reproducible."""
+    W, H = LAYOUT_W, LAYOUT_H
     ids = [r["id"] for r in records]
+    anchor = {r["id"]: (DOMAIN_ANCHOR.get(r["domain"], (0.5, 0.5))[0] * W,
+                        DOMAIN_ANCHOR.get(r["domain"], (0.5, 0.5))[1] * H) for r in records}
     degree = {i: 0 for i in ids}
     for e in edges:
         degree[e["source"]] = degree.get(e["source"], 0) + 1
         degree[e["target"]] = degree.get(e["target"], 0) + 1
     rng = random.Random("quadrature-concept-graph-v1")
-    pos = {i: [rng.uniform(W * 0.3, W * 0.7), rng.uniform(H * 0.3, H * 0.7)] for i in ids}
+    pos = {i: [anchor[i][0] + rng.uniform(-65, 65), anchor[i][1] + rng.uniform(-65, 65)] for i in ids}
     links = [(e["source"], e["target"]) for e in edges]
-    for it in range(420):
-        cool = max(0.1, 1 - it / 520)
-        # repulsion (all pairs)
+    for it in range(500):
+        cool = max(0.08, 1 - it / 580)
+        # repulsion (all pairs) — strong enough to keep ~52px-diameter nodes from overlapping
         for i in range(len(ids)):
             for j in range(i + 1, len(ids)):
                 a_, b_ = ids[i], ids[j]
                 dx = pos[a_][0] - pos[b_][0]
                 dy = pos[a_][1] - pos[b_][1]
                 d2 = dx * dx + dy * dy + 0.01
-                rep = 9000 / d2
+                rep = 19000 / d2
                 d = d2**0.5
                 ux, uy = dx / d, dy / d
                 pos[a_][0] += ux * rep * cool
                 pos[a_][1] += uy * rep * cool
                 pos[b_][0] -= ux * rep * cool
                 pos[b_][1] -= uy * rep * cool
-        # springs
+        # springs (longer rest length for the larger canvas)
         for s, tg in links:
             dx = pos[tg][0] - pos[s][0]
             dy = pos[tg][1] - pos[s][1]
             d = (dx * dx + dy * dy) ** 0.5 + 0.01
-            k = (d - 120) * 0.02 * cool
+            k = (d - 160) * 0.02 * cool
             ux, uy = dx / d, dy / d
             pos[s][0] += ux * k
             pos[s][1] += uy * k
             pos[tg][0] -= ux * k
             pos[tg][1] -= uy * k
-        # gentle centering
-        cx = sum(p[0] for p in pos.values()) / len(pos)
-        cy = sum(p[1] for p in pos.values()) / len(pos)
-        for p in pos.values():
-            p[0] += (W / 2 - cx) * 0.05
-            p[1] += (H / 2 - cy) * 0.05
+        # per-domain centering: a gentle bias toward the domain anchor (clusters the domains without
+        # collapsing them — kept weak so repulsion still spaces nodes inside a cluster)
+        for i in ids:
+            ax, ay = anchor[i]
+            pos[i][0] += (ax - pos[i][0]) * 0.016 * cool
+            pos[i][1] += (ay - pos[i][1]) * 0.016 * cool
     nodes = []
     for r in records:
         i = r["id"]
         px = min(W - 40, max(40, pos[i][0]))
         py = min(H - 40, max(40, pos[i][1]))
         nodes.append({
-            "id": i, "label": r["lhs"] or r["name"], "name": r["name"],
+            "id": i, "label": _clean_label(r["lhs"]) or r["name"], "name": r["name"],
             "domain": r["domain"], "degree": degree[i],
             "x": round(px, 2), "y": round(py, 2),
         })

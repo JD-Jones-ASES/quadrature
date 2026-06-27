@@ -255,6 +255,47 @@ def render_trajectory(traj, out_path: Path) -> None:
     plt.close(fig)
 
 
+def render_panels(scn, out_path: Path, t_max: float) -> None:
+    """Static poster for an N-panel temporal stack (ADR-0021): each panel's curve vs a shared time axis, with
+    the 'rate' panel accented. The general form of the x/v/a stack — the slope of each panel is the panel
+    below it (e.g. the current I is the slope of the charge Q)."""
+    base = dict(scn.constants)
+    for sl in scn.sliders:
+        base[sl.sym] = sp.nsimplify(sl.default)
+    t = scn.t
+    panels = scn.panels
+    fns = [sp.lambdify(t, p.expr.subs(base), "numpy") for p in panels]
+    ts = np.linspace(0.0, t_max, 240)
+    series = [np.broadcast_to(np.asarray(fn(ts), dtype=float), ts.shape) for fn in fns]
+
+    n = len(panels)
+    fig, axes = plt.subplots(n, 1, figsize=(6.4, 2.6 * n), sharex=True,
+                             gridspec_kw={"hspace": 0.16}, facecolor=PAPER)
+    if n == 1:
+        axes = [axes]
+
+    for ax, p, arr in zip(axes, panels, series):
+        ax.set_facecolor(PAPER)
+        ax.set_ylabel(p.label, fontsize=10, color=INK)
+        ax.set_xlim(0, t_max)
+        lo, hi = float(np.min(arr)), float(np.max(arr))
+        lo, hi = min(lo, 0.0), max(hi, 0.0)
+        span = (hi - lo) or 1.0
+        ax.set_ylim(lo - span * 0.14, hi + span * 0.18)
+        ax.tick_params(colors=FAINT, labelsize=8)
+        for s in ("top", "right"):
+            ax.spines[s].set_visible(False)
+        for s in ("left", "bottom"):
+            ax.spines[s].set_color(GRID)
+        ax.axhline(0, color=GRID, lw=1)
+        ax.plot(ts, arr, color=(ACCENT if p.accent else INK), lw=2.2)
+
+    axes[-1].set_xlabel("t  (s)", fontsize=10, color=INK)
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    fig.savefig(out_path, format="svg", bbox_inches="tight", facecolor=PAPER)
+    plt.close(fig)
+
+
 def render_stack(scn, out_path: Path, t_max: float) -> None:
     # substitute constants + slider defaults; only t remains free
     base = dict(scn.constants)

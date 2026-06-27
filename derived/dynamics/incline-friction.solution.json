@@ -1,0 +1,435 @@
+{
+  "id": "incline-friction",
+  "title": "Down a ramp: Newton's second law with friction",
+  "topic": "dynamics",
+  "slug": "incline-friction",
+  "scenario": "A block is released from rest on a $\\theta = 30°$ incline with kinetic friction $\\mu = 0.2$. Resolving forces along the slope gives a constant acceleration $a = g(\\sin\\theta - \\mu\\cos\\theta)$ — and crucially, the mass cancels. From there the motion is constant-acceleration kinematics: $v = at$ and $x = \\tfrac12 at^2$, which are just the integrals of that constant $a$. Drag the angle and the friction coefficient and watch all three panels steepen together.",
+  "regime": 1,
+  "constants": {
+    "g": 10.0,
+    "theta_deg": 30.0,
+    "mu": 0.2
+  },
+  "initial_conditions": {
+    "x0": 0.0,
+    "v0": 0.0
+  },
+  "assumptions": [
+    {
+      "claim": "A rigid block on a planar incline; kinetic friction acts (the block is already moving), with a constant coefficient $\\mu$ and the normal force $N = mg\\cos\\theta$.",
+      "kind": "model"
+    },
+    {
+      "claim": "$g = 10$ m/s² as a magnitude; the block is released from rest and the incline is long enough that it keeps sliding (we take $\\tan\\theta > \\mu$, so $a > 0$).",
+      "kind": "model"
+    }
+  ],
+  "algebra": {
+    "steps": [
+      {
+        "label": "Resolve the forces along the incline (Newton's second law)",
+        "latex": "ma = mg\\sin\\theta - \\mu\\,mg\\cos\\theta \\ \\Longrightarrow\\ a = g(\\sin\\theta - \\mu\\cos\\theta)",
+        "prose": "Along the slope, gravity pulls the block down with $mg\\sin\\theta$ while kinetic friction resists with $\\mu mg\\cos\\theta$ (the normal force is $mg\\cos\\theta$). The mass cancels, so the acceleration depends only on the angle and the friction coefficient — not on how heavy the block is."
+      },
+      {
+        "label": "Then use the constant-acceleration kinematics",
+        "latex": "v = at, \\qquad x = \\tfrac12 at^2, \\qquad v^2 = 2ax",
+        "prose": "With $a$ constant and the block released from rest, the speed grows linearly and the distance grows quadratically — the standard formulas."
+      }
+    ],
+    "result": {
+      "acceleration": {
+        "label": "Acceleration $a = g(\\sin\\theta - \\mu\\cos\\theta)$",
+        "unit": "m/s²",
+        "symbolic_latex": "g(\\sin\\theta - \\mu\\cos\\theta)",
+        "value": 3.267949,
+        "display": "3.268"
+      },
+      "frictionless_accel": {
+        "label": "Frictionless acceleration $g\\sin\\theta$",
+        "unit": "m/s²",
+        "symbolic_latex": "g\\sin\\theta",
+        "value": 5.0,
+        "display": "5"
+      },
+      "speed_2s": {
+        "label": "Speed after 2 s",
+        "unit": "m/s",
+        "symbolic_latex": "a\\,t",
+        "value": 6.535898,
+        "display": "6.536"
+      },
+      "distance_2s": {
+        "label": "Distance in 2 s",
+        "unit": "m",
+        "symbolic_latex": "\\tfrac12 a t^2",
+        "value": 6.535898,
+        "display": "6.536"
+      }
+    }
+  },
+  "calculus": {
+    "steps": [
+      {
+        "label": "The acceleration is constant — integrate it once for the velocity",
+        "latex": "v(t) = \\int_0^t a\\,dt' = at",
+        "prose": "Because $a = g(\\sin\\theta - \\mu\\cos\\theta)$ does not change with time, its integral is just $at$. The velocity rises in a straight line — its slope is $a$."
+      },
+      {
+        "label": "Integrate again for the position",
+        "latex": "x(t) = \\int_0^t v\\,dt' = \\int_0^t at'\\,dt' = \\tfrac12 at^2",
+        "prose": "Integrating the velocity gives the parabola $\\tfrac12 at^2$. The memorized kinematics formula is this integral, already evaluated — a quadrature. The area under the $v$–$t$ line is exactly the distance travelled.",
+        "emphasis": true
+      },
+      {
+        "label": "Eliminate time and the velocity–position relation appears",
+        "latex": "v^2 = (at)^2 = 2a\\left(\\tfrac12 at^2\\right) = 2ax",
+        "prose": "Squaring $v = at$ and substituting $x = \\tfrac12 at^2$ gives $v^2 = 2ax$ with no $t$ — the same identity the algebra course states as a rule. Drag the angle and friction: a steeper slope or less friction means a larger $a$, and all three panels steepen together."
+      }
+    ]
+  },
+  "proof": {
+    "kind": "equivalence",
+    "heading": "The acceleration comes from a free-body diagram; the kinematics are its integrals — algebra is calculus, evaluated.",
+    "checked_by": "sympy",
+    "holds": true,
+    "detail": "check $v = \\int a\\,dt$; check $x = \\int v\\,dt$; show $v^2 = 2ax$; check the $\\mu=0$ limit $g\\sin\\theta$",
+    "checks": [
+      {
+        "key": "velocity_is_integral",
+        "claim": "The velocity is the integral of the (constant) acceleration: $v = \\int_0^t a\\,dt' = at$.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "position_is_integral",
+        "claim": "The position is the integral of the velocity: $x = \\int_0^t v\\,dt' = \\tfrac12 at^2$ — the memorized formula is the quadrature.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "kinematic_identity",
+        "claim": "The velocity–position relation falls out: $v^2 = 2ax$ (no time needed).",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "frictionless_limit",
+        "claim": "With no friction ($\\mu = 0$) the acceleration is the bare gravity component $g\\sin\\theta$.",
+        "holds": true,
+        "tier": "structural"
+      }
+    ]
+  },
+  "units_check": {
+    "checked_by": "sympy",
+    "holds": true
+  },
+  "graphs": [
+    {
+      "kind": "stack",
+      "mode": "interactive",
+      "window": "fixed",
+      "annotate": [
+        "a_is_constant",
+        "mass_cancels"
+      ],
+      "svg": "assets/graphs/incline-friction-0.svg",
+      "series": {
+        "t": [
+          0.0,
+          0.041666667,
+          0.083333333,
+          0.125,
+          0.166666667,
+          0.208333333,
+          0.25,
+          0.291666667,
+          0.333333333,
+          0.375,
+          0.416666667,
+          0.458333333,
+          0.5,
+          0.541666667,
+          0.583333333,
+          0.625,
+          0.666666667,
+          0.708333333,
+          0.75,
+          0.791666667,
+          0.833333333,
+          0.875,
+          0.916666667,
+          0.958333333,
+          1.0,
+          1.041666667,
+          1.083333333,
+          1.125,
+          1.166666667,
+          1.208333333,
+          1.25,
+          1.291666667,
+          1.333333333,
+          1.375,
+          1.416666667,
+          1.458333333,
+          1.5,
+          1.541666667,
+          1.583333333,
+          1.625,
+          1.666666667,
+          1.708333333,
+          1.75,
+          1.791666667,
+          1.833333333,
+          1.875,
+          1.916666667,
+          1.958333333,
+          2.0,
+          2.041666667,
+          2.083333333,
+          2.125,
+          2.166666667,
+          2.208333333,
+          2.25,
+          2.291666667,
+          2.333333333,
+          2.375,
+          2.416666667,
+          2.458333333,
+          2.5
+        ],
+        "x": [
+          0.0,
+          0.0028367615,
+          0.0113470457,
+          0.0255308531,
+          0.0453881834,
+          0.0709190361,
+          0.1021234123,
+          0.1390013115,
+          0.1815527325,
+          0.2297776776,
+          0.2836761456,
+          0.3432481352,
+          0.4084936491,
+          0.4794126859,
+          0.5560052439,
+          0.6382713266,
+          0.7262109324,
+          0.8198240588,
+          0.9191107104,
+          1.0240708849,
+          1.1347045798,
+          1.2510118002,
+          1.3729925437,
+          1.5006468069,
+          1.6339745962,
+          1.7729759085,
+          1.9176507402,
+          2.0679990983,
+          2.2240209795,
+          2.3857163796,
+          2.5530853066,
+          2.7261277566,
+          2.9048437252,
+          3.089233221,
+          3.2792962398,
+          3.4750327768,
+          3.6764428415,
+          3.8835264291,
+          4.0962835346,
+          4.3147141681,
+          4.5388183246,
+          4.7685959986,
+          5.0040472009,
+          5.2451719263,
+          5.4919701686,
+          5.7444419398,
+          6.002587234,
+          6.2664060448,
+          6.5358983849,
+          6.8110642479,
+          7.0919036271,
+          7.378416536,
+          7.6706029679,
+          7.9684629156,
+          8.2719963933,
+          8.5812033941,
+          8.8960839102,
+          9.2166379568,
+          9.5428655264,
+          9.8747666109,
+          10.2123412263
+        ],
+        "v": [
+          0.0,
+          0.1361645508,
+          0.2723290983,
+          0.4084936491,
+          0.5446581998,
+          0.6808227473,
+          0.8169872981,
+          0.9531518489,
+          1.0893163964,
+          1.2254809472,
+          1.3616454979,
+          1.4978100454,
+          1.6339745962,
+          1.770139147,
+          1.9063036945,
+          2.0424682453,
+          2.178632796,
+          2.3147973435,
+          2.4509618943,
+          2.5871264451,
+          2.7232909926,
+          2.8594555434,
+          2.9956200942,
+          3.1317846417,
+          3.2679491924,
+          3.4041137432,
+          3.5402782907,
+          3.6764428415,
+          3.8126073923,
+          3.9487719398,
+          4.0849364905,
+          4.2211010413,
+          4.3572655888,
+          4.4934301396,
+          4.6295946904,
+          4.7657592379,
+          4.9019237886,
+          5.0380883394,
+          5.1742528869,
+          5.3104174377,
+          5.4465819885,
+          5.582746536,
+          5.7189110868,
+          5.8550756375,
+          5.991240185,
+          6.1274047358,
+          6.2635692866,
+          6.3997338341,
+          6.5358983849,
+          6.6720629356,
+          6.8082274831,
+          6.9443920339,
+          7.0805565847,
+          7.2167211322,
+          7.352885683,
+          7.4890502337,
+          7.6252147812,
+          7.761379332,
+          7.8975438828,
+          8.0337084303,
+          8.1698729811
+        ],
+        "a": [
+          3.2679491924,
+          3.2679491924,
+          3.2679491924,
+          3.2679491924,
+          3.2679491924,
+          3.2679491924,
+          3.2679491924,
+          3.2679491924,
+          3.2679491924,
+          3.2679491924,
+          3.2679491924,
+          3.2679491924,
+          3.2679491924,
+          3.2679491924,
+          3.2679491924,
+          3.2679491924,
+          3.2679491924,
+          3.2679491924,
+          3.2679491924,
+          3.2679491924,
+          3.2679491924,
+          3.2679491924,
+          3.2679491924,
+          3.2679491924,
+          3.2679491924,
+          3.2679491924,
+          3.2679491924,
+          3.2679491924,
+          3.2679491924,
+          3.2679491924,
+          3.2679491924,
+          3.2679491924,
+          3.2679491924,
+          3.2679491924,
+          3.2679491924,
+          3.2679491924,
+          3.2679491924,
+          3.2679491924,
+          3.2679491924,
+          3.2679491924,
+          3.2679491924,
+          3.2679491924,
+          3.2679491924,
+          3.2679491924,
+          3.2679491924,
+          3.2679491924,
+          3.2679491924,
+          3.2679491924,
+          3.2679491924,
+          3.2679491924,
+          3.2679491924,
+          3.2679491924,
+          3.2679491924,
+          3.2679491924,
+          3.2679491924,
+          3.2679491924,
+          3.2679491924,
+          3.2679491924,
+          3.2679491924,
+          3.2679491924,
+          3.2679491924
+        ],
+        "t_max": 2.5
+      },
+      "closed_form": {
+        "x": "5*Math.pow(t, 2)*(-mu*Math.cos((1/180)*Math.PI*theta) + Math.sin((1/180)*Math.PI*theta))",
+        "v": "10*t*(-mu*Math.cos((1/180)*Math.PI*theta) + Math.sin((1/180)*Math.PI*theta))",
+        "a": "-10*mu*Math.cos((1/180)*Math.PI*theta) + 10*Math.sin((1/180)*Math.PI*theta)"
+      },
+      "closed_form_params": [
+        "mu",
+        "t",
+        "theta"
+      ],
+      "params": {
+        "theta": {
+          "min": 20.0,
+          "max": 45.0,
+          "default": 30.0
+        },
+        "mu": {
+          "min": 0.0,
+          "max": 0.3,
+          "default": 0.2
+        }
+      }
+    }
+  ],
+  "misconception": {
+    "claim": "A heavier block slides down the ramp faster, because gravity pulls on it harder.",
+    "refuted_by": "It does not — two blocks of different mass slide down the same ramp with the *same* acceleration. Gravity does pull harder on the heavier block ($mg\\sin\\theta$ is larger), but that same larger mass is harder to accelerate (the $m$ in $F = ma$), and friction also scales with the normal force $\\mu mg\\cos\\theta$. Every term carries a factor of $m$, so it cancels: $a = g(\\sin\\theta - \\mu\\cos\\theta)$ depends only on the angle and the friction coefficient. This is the same reason all objects fall at the same rate — Galileo's insight, on a ramp."
+  },
+  "formulas_used": [
+    "dyn-newton-2",
+    "dyn-friction-kinetic",
+    "dyn-weight",
+    "kin-v-of-t",
+    "kin-x-of-t"
+  ],
+  "provenance": {
+    "producer": "quadrature_producer",
+    "version": "0.1.0",
+    "sympy": "1.14.0",
+    "author": "Quadrature",
+    "created": "2026-06-27"
+  }
+}

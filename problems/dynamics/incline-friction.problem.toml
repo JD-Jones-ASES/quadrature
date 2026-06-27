@@ -1,0 +1,32 @@
+id = "incline-friction"
+title = "Down a ramp: Newton's second law with friction"
+topic = "dynamics"
+slug = "incline-friction"
+model = "incline-friction"
+regime = 1
+author = "Quadrature"
+created = "2026-06-27"
+scenario = "A block is released from rest on a $\\theta = 30°$ incline with kinetic friction $\\mu = 0.2$. Resolving forces along the slope gives a constant acceleration $a = g(\\sin\\theta - \\mu\\cos\\theta)$ — and crucially, the mass cancels. From there the motion is constant-acceleration kinematics: $v = at$ and $x = \\tfrac12 at^2$, which are just the integrals of that constant $a$. Drag the angle and the friction coefficient and watch all three panels steepen together."
+formulas_used = ["dyn-newton-2", "dyn-friction-kinetic", "dyn-weight", "kin-v-of-t", "kin-x-of-t"]
+
+[parameters]
+g = 10                 # m/s² — gravitational field magnitude
+theta_deg = 30         # ° — incline angle (slider)
+mu = 0.2               # — coefficient of kinetic friction (slider)
+
+[[assumptions]]
+claim = "A rigid block on a planar incline; kinetic friction acts (the block is already moving), with a constant coefficient $\\mu$ and the normal force $N = mg\\cos\\theta$."
+kind = "model"
+
+[[assumptions]]
+claim = "$g = 10$ m/s² as a magnitude; the block is released from rest and the incline is long enough that it keeps sliding (we take $\\tan\\theta > \\mu$, so $a > 0$)."
+kind = "model"
+
+[[graphs]]
+kind = "stack"
+mode = "interactive"
+annotate = ["a_is_constant", "mass_cancels"]
+
+[misconception]
+claim = "A heavier block slides down the ramp faster, because gravity pulls on it harder."
+refuted_by = "It does not — two blocks of different mass slide down the same ramp with the *same* acceleration. Gravity does pull harder on the heavier block ($mg\\sin\\theta$ is larger), but that same larger mass is harder to accelerate (the $m$ in $F = ma$), and friction also scales with the normal force $\\mu mg\\cos\\theta$. Every term carries a factor of $m$, so it cancels: $a = g(\\sin\\theta - \\mu\\cos\\theta)$ depends only on the angle and the friction coefficient. This is the same reason all objects fall at the same rate — Galileo's insight, on a ramp."

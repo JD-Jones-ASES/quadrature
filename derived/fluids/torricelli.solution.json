@@ -1,0 +1,371 @@
+{
+  "id": "torricelli",
+  "title": "A draining tank: why the jet speed depends only on the depth",
+  "topic": "fluids",
+  "slug": "torricelli",
+  "scenario": "Water drains from an orifice a depth $h = 5$ m below the surface of a tank. A parcel of water falling from the surface trades potential energy for kinetic energy, and leaves the orifice at $v = \\sqrt{2gh}$ — exactly the speed it would reach falling freely through $h$. Drag the cursor down from the surface: the KE and PE bars (per unit volume) trade while the Total bar stays flat. The efflux speed is set by the depth alone, not by the width of the tank or how much water sits above.",
+  "regime": 2,
+  "constants": {
+    "rho": 1000.0,
+    "g": 10.0,
+    "h": 5.0
+  },
+  "initial_conditions": {
+    "d0": 0.0,
+    "v0": 0.0
+  },
+  "assumptions": [
+    {
+      "claim": "An ideal fluid (incompressible, no viscosity) draining slowly, so the surface level barely moves and the surface and jet are both at atmospheric pressure; energy is conserved along a streamline (Bernoulli).",
+      "kind": "model"
+    },
+    {
+      "claim": "$g = 10$ m/s² as a magnitude, with depth $d$ measured downward from the surface; the parcel starts essentially at rest at the surface.",
+      "kind": "model"
+    }
+  ],
+  "algebra": {
+    "steps": [
+      {
+        "label": "What the algebra-based course hands you (Torricelli's law)",
+        "latex": "v = \\sqrt{2gh}",
+        "prose": "Water leaves an orifice a depth $h$ below the surface at the same speed an object would reach falling freely through $h$. It works — but it is handed to you as a rule, with no account of *why* the tank's shape or the water above doesn't matter."
+      }
+    ],
+    "result": {
+      "efflux_speed": {
+        "label": "Efflux speed $v = \\sqrt{2gh}$",
+        "unit": "m/s",
+        "symbolic_latex": "\\sqrt{2gh}",
+        "value": 10.0,
+        "display": "10"
+      },
+      "total_density": {
+        "label": "Total energy density $\\rho g h$",
+        "unit": "Pa",
+        "symbolic_latex": "\\rho g h",
+        "value": 50000.0,
+        "display": "50000"
+      },
+      "ke_at_half": {
+        "label": "KE density at half depth",
+        "unit": "Pa",
+        "symbolic_latex": "\\tfrac12 \\rho g h",
+        "value": 25000.0,
+        "display": "25000"
+      },
+      "speed_at_half": {
+        "label": "Speed at half depth $\\sqrt{gh}$",
+        "unit": "m/s",
+        "symbolic_latex": "\\sqrt{gh}",
+        "value": 7.071068,
+        "display": "7.071"
+      }
+    }
+  },
+  "calculus": {
+    "steps": [
+      {
+        "label": "Energy conservation along a streamline (Bernoulli) is the first integral of $F = ma$",
+        "latex": "\\tfrac12\\rho v^2 + \\rho g y = \\text{const}",
+        "prose": "For a parcel of fluid following a streamline, Newton's second law integrates to the statement that pressure, kinetic energy density, and potential energy density trade so their sum is constant. With the surface and the orifice both at atmospheric pressure, the kinetic energy gained equals the potential energy lost, $\\tfrac12\\rho v^2 = \\rho g h$."
+      },
+      {
+        "label": "The depth sets the speed — the route does not",
+        "latex": "\\tfrac12\\rho v^2 = \\rho g h \\ \\Longrightarrow\\ v = \\sqrt{2gh}",
+        "prose": "The density cancels, so the efflux speed is $\\sqrt{2gh}$ regardless of the fluid or the shape of the tank — exactly the speed of free fall through $h$. A wide tank and a narrow one drain at the same orifice speed for the same depth.",
+        "emphasis": true
+      },
+      {
+        "label": "Watch the energies trade with the total fixed",
+        "latex": "\\boxed{\\,v(d) = \\sqrt{2gd}\\,}",
+        "prose": "Drag the cursor down from the surface: potential energy density converts to kinetic, but the Total bar never moves. At the orifice it is all kinetic, with speed $\\sqrt{2gh}$. The bars are Bernoulli's equation made visible."
+      }
+    ]
+  },
+  "proof": {
+    "kind": "governing",
+    "heading": "Torricelli's law is energy conservation along a streamline — the efflux speed depends only on the depth, not the shape of the tank.",
+    "checked_by": "sympy",
+    "holds": true,
+    "detail": "check $\\tfrac{d}{dd}(\\text{KE}+\\text{PE})=0$; check $\\tfrac12\\rho v^2+\\rho g y=\\rho g h$; show $v=\\sqrt{2gd}$; orifice speed $\\sqrt{2gh}$",
+    "checks": [
+      {
+        "key": "energy_constant",
+        "claim": "The total energy per unit volume does not change with depth: $\\tfrac{d}{dd}(\\text{KE}+\\text{PE}) = 0$.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "conservation_law",
+        "claim": "Bernoulli along the streamline: $\\tfrac12\\rho v^2 + \\rho g y = \\rho g h$ is constant as the parcel falls.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "speed_falls_out",
+        "claim": "The speed falls out of the kinetic energy: $\\tfrac12\\rho v^2 = \\text{KE}$, so $v = \\sqrt{2gd}$.",
+        "holds": true,
+        "tier": "structural"
+      },
+      {
+        "key": "torricelli",
+        "claim": "At the orifice ($d = h$) the efflux speed is Torricelli's law $v = \\sqrt{2gh}$ — the same as a body that fell freely through $h$.",
+        "holds": true,
+        "tier": "structural"
+      }
+    ]
+  },
+  "units_check": {
+    "checked_by": "sympy",
+    "holds": true
+  },
+  "graphs": [
+    {
+      "kind": "energy",
+      "mode": "interactive",
+      "window": "fixed",
+      "annotate": [
+        "total_is_flat",
+        "depth_sets_speed"
+      ],
+      "svg": "assets/graphs/torricelli-0.svg",
+      "series": {
+        "u": [
+          0.0,
+          0.083333333,
+          0.166666667,
+          0.25,
+          0.333333333,
+          0.416666667,
+          0.5,
+          0.583333333,
+          0.666666667,
+          0.75,
+          0.833333333,
+          0.916666667,
+          1.0,
+          1.083333333,
+          1.166666667,
+          1.25,
+          1.333333333,
+          1.416666667,
+          1.5,
+          1.583333333,
+          1.666666667,
+          1.75,
+          1.833333333,
+          1.916666667,
+          2.0,
+          2.083333333,
+          2.166666667,
+          2.25,
+          2.333333333,
+          2.416666667,
+          2.5,
+          2.583333333,
+          2.666666667,
+          2.75,
+          2.833333333,
+          2.916666667,
+          3.0,
+          3.083333333,
+          3.166666667,
+          3.25,
+          3.333333333,
+          3.416666667,
+          3.5,
+          3.583333333,
+          3.666666667,
+          3.75,
+          3.833333333,
+          3.916666667,
+          4.0,
+          4.083333333,
+          4.166666667,
+          4.25,
+          4.333333333,
+          4.416666667,
+          4.5,
+          4.583333333,
+          4.666666667,
+          4.75,
+          4.833333333,
+          4.916666667,
+          5.0
+        ],
+        "ke": [
+          0.0,
+          833.33333,
+          1666.66667,
+          2500.0,
+          3333.33333,
+          4166.66667,
+          5000.0,
+          5833.33333,
+          6666.66667,
+          7500.0,
+          8333.33333,
+          9166.66667,
+          10000.0,
+          10833.33333,
+          11666.66667,
+          12500.0,
+          13333.33333,
+          14166.66667,
+          15000.0,
+          15833.33333,
+          16666.66667,
+          17500.0,
+          18333.33333,
+          19166.66667,
+          20000.0,
+          20833.33333,
+          21666.66667,
+          22500.0,
+          23333.33333,
+          24166.66667,
+          25000.0,
+          25833.33333,
+          26666.66667,
+          27500.0,
+          28333.33333,
+          29166.66667,
+          30000.0,
+          30833.33333,
+          31666.66667,
+          32500.0,
+          33333.33333,
+          34166.66667,
+          35000.0,
+          35833.33333,
+          36666.66667,
+          37500.0,
+          38333.33333,
+          39166.66667,
+          40000.0,
+          40833.33333,
+          41666.66667,
+          42500.0,
+          43333.33333,
+          44166.66667,
+          45000.0,
+          45833.33333,
+          46666.66667,
+          47500.0,
+          48333.33333,
+          49166.66667,
+          50000.0
+        ],
+        "pe": [
+          50000.0,
+          49166.66667,
+          48333.33333,
+          47500.0,
+          46666.66667,
+          45833.33333,
+          45000.0,
+          44166.66667,
+          43333.33333,
+          42500.0,
+          41666.66667,
+          40833.33333,
+          40000.0,
+          39166.66667,
+          38333.33333,
+          37500.0,
+          36666.66667,
+          35833.33333,
+          35000.0,
+          34166.66667,
+          33333.33333,
+          32500.0,
+          31666.66667,
+          30833.33333,
+          30000.0,
+          29166.66667,
+          28333.33333,
+          27500.0,
+          26666.66667,
+          25833.33333,
+          25000.0,
+          24166.66667,
+          23333.33333,
+          22500.0,
+          21666.66667,
+          20833.33333,
+          20000.0,
+          19166.66667,
+          18333.33333,
+          17500.0,
+          16666.66667,
+          15833.33333,
+          15000.0,
+          14166.66667,
+          13333.33333,
+          12500.0,
+          11666.66667,
+          10833.33333,
+          10000.0,
+          9166.66667,
+          8333.33333,
+          7500.0,
+          6666.66667,
+          5833.33333,
+          5000.0,
+          4166.66667,
+          3333.33333,
+          2500.0,
+          1666.66667,
+          833.33333,
+          0.0
+        ],
+        "u_max": 5.0
+      },
+      "closed_form": {
+        "ke": "10*rho*u",
+        "pe": "10*rho*(5 - u)"
+      },
+      "closed_form_params": [
+        "rho",
+        "u"
+      ],
+      "params": {
+        "rho": {
+          "min": 600.0,
+          "max": 1200.0,
+          "default": 1000.0
+        }
+      },
+      "cursor": {
+        "name": "u",
+        "label": "d  (m)",
+        "unit": "m",
+        "min": 0.0,
+        "max": 5.0,
+        "default": 2.5
+      },
+      "u_label": "d  (m)",
+      "ke_label": "KE  (J/m³)",
+      "pe_label": "PE  (J/m³)",
+      "total_label": "Total  (J/m³)",
+      "u0": 0.0
+    }
+  ],
+  "misconception": {
+    "claim": "A taller column of water, or a wider tank, pushes the water out of the orifice faster.",
+    "refuted_by": "Only the *depth* of the orifice below the surface sets the jet speed: $v = \\sqrt{2gh}$. A wide tank and a narrow pipe at the same depth eject water at the same speed, and the amount of water sitting above the orifice does not matter — just as a block's speed at the bottom of a ramp depends only on the height dropped, not the ramp's shape. It is the same energy conservation: the potential energy density $\\rho g h$ a parcel loses falling to the orifice becomes kinetic energy density $\\tfrac12\\rho v^2$, and the density $\\rho$ cancels. Drag the cursor and read the speed off the kinetic-energy bar — it tracks the depth, nothing else."
+  },
+  "formulas_used": [
+    "fluid-bernoulli",
+    "fluid-hydrostatic-pressure",
+    "en-kinetic"
+  ],
+  "provenance": {
+    "producer": "quadrature_producer",
+    "version": "0.1.0",
+    "sympy": "1.14.0",
+    "author": "Quadrature",
+    "created": "2026-06-27"
+  }
+}

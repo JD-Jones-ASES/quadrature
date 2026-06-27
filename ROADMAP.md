@@ -10,27 +10,28 @@ from `JD.md`), then fill depth-first, and close with a doc sweep. Status lives h
 - **Phase 0 — vertical slice — COMPLETE, reviewed, PUBLISHED** (2026-06-26). Producer, gates, player,
   reference, and concept graph end-to-end; the repo is public and the site is **live** at
   https://jd-jones-ases.github.io/quadrature/ (every push to `main` auto-deploys).
-- **Phase 1 — full mechanics — IN PROGRESS.** Lessons: free fall (1), SHM (2), terminal velocity (2), damped
-  oscillator (2, sampled), **work–energy (2, area)**, **projectile drag-free (1) and quadratic drag (2,
-  numerical)**, **impulse–momentum (2, area on the time axis)**, **rotational kinematics (1, stack)**,
-  **gravitational PE (2, area on the radial axis)**, **moment of inertia (2, area on the mass-distribution
-  axis — `∫r² dm`)**, **rotational work–energy (2, area on the angle axis — `∫τ dθ → ½Iω²`)**,
-  **hydrostatic force on a wall (2, area on the depth axis — opens the fluids domain)**, the
-  **circular (1) and elliptical (2) orbit** (trajectory on a centred frame — `v=√(μ/R)` & Kepler's three laws),
-  **conservation of energy (2, the energy-bars instrument — path-independent `v=√(2gH)`)**, and
-  **collisions / momentum (2, the before/after collision-bars instrument)**.
-  Engine now has **five graph instruments**: the temporal stack, the **integral instrument** (ADR-0014), the
-  **2D trajectory instrument** (ADR-0015, drag-free exact + quadratic-drag numerical + a centred `frame:"orbit"`
-  for orbits), the **energy-exchange bars** (`kind:"energy"` — KE/PE trade, Total flat), and the **before/after
-  collision bars** (`kind:"collision"`, ADR-0018 — momentum equal before/after, KE equal only if elastic).
-- **Phase 2 — electricity & magnetism — OPENED.** E&M lessons: **energy in a capacitor** (`∫V dq → ½CV²`,
+- **Phase 1 — full mechanics — IN PROGRESS.** Lessons span free fall, **incline with friction (1, opens
+  Dynamics)**, SHM, terminal velocity, damped oscillator, **work–energy**, **projectile drag-free + quadratic
+  drag**, **impulse–momentum**, **rotational kinematics**, **gravitational PE**, **moment of inertia (`∫r² dm`)**,
+  **rotational work–energy (`∫τ dθ`)**, **hydrostatic force** + **Torricelli (energy bars, opens fluid
+  dynamics)**, the **circular + elliptical orbit** (Kepler), **conservation of energy**, and **collisions /
+  momentum**. The **26 lessons** are grouped into **11 pedagogical units** on the lessons index (a
+  presentation-only manifest, `src/lib/lessonOrder.js`).
+  Engine has **five graph instruments**: the temporal stack (now **generalized to N panels**, ADR-0021), the
+  **integral instrument** (ADR-0014), the **2D trajectory instrument** (ADR-0015 + centred `frame:"orbit"`), the
+  **energy-exchange bars** (ADR-0017), and the **before/after collision bars** (ADR-0018). The interactive-graph
+  CSS-delivery bug (black SVGs) is fixed (ADR-0019, `css:"injected"` + declared dark mode); the concept graph has
+  clean Unicode labels + a domain-clustered layout + pan/zoom (ADR-0020).
+- **Phase 2 — electricity & magnetism — DEEPENING.** E&M lessons: **energy in a capacitor** (`∫V dq → ½CV²`,
   regime 2, area on the charge axis) and **electric potential energy** (`∫kq₁q₂/r² dr → kq₁q₂/R`, regime 2,
   area on the separation axis — the electric twin of gravitational PE, with the area to infinity converging to
   a finite binding energy), both built with no engine change. A **14-formula E&M reference**:
   electrostatics (Coulomb, point-charge field & potential, electric PE), circuits (capacitance, capacitor
   energy, Ohm's law, electrical power, RC time constant), and **magnetism** (Lorentz force, force on a wire,
-  field of a long wire, magnetic flux, motional EMF — which seeds induction). Magnetism/induction lessons and
-  continuous-charge integrals: not started.
+  field of a long wire, magnetic flux, motional EMF — which seeds induction). Since then: **RC charging** (the
+  2-panel temporal stack — `I` is the slope of `Q`, the RC ODE, `τ=RC`) and **the field of a charged rod**
+  (`∫kλ/x² dx`, the area instrument — calculus where algebra has only the point charge). Magnetism/induction
+  lessons: not started.
 - **Phase 3 — algebra-only domains — SEEDED & DEEPENING.** Thermo: **isothermal** and **adiabatic** PV-work
   lessons (`∫P dV`, regime 3, area instrument) + a 6-formula thermo reference (ideal gas, first law, specific
   heat, internal energy, adiabatic work & relation, Carnot). **Fluids now has its first lesson** — hydrostatic
@@ -39,7 +40,9 @@ from `JD.md`), then fill depth-first, and close with a doc sweep. Status lives h
   algebra-only domains too — **fluids** (pressure, buoyancy, continuity, Bernoulli, wall force), **waves &
   optics** (wave speed, period, string, thin lens, magnification), **modern** (photon energy, de Broglie,
   E=mc², photoelectric).
-- **Reference: 70 formulas across all five domains**, all SymPy-unit-verified, 70-node / 102-edge concept graph.
+  **Fluid dynamics** now has its first lesson (**Torricelli**, energy bars) and **modern physics is opened**
+  (**radioactive decay**, the N / dN/dt 2-panel stack, `dN/dt=−λN`).
+- **Reference: 74 formulas across all five domains**, all SymPy-unit-verified, 74-node / 108-edge concept graph.
 
 ---
 

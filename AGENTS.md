@@ -185,27 +185,40 @@ The producer engine should rarely change. If it must, add a physics cross-check 
 ## Current state
 
 See [`ROADMAP.md`](./ROADMAP.md) and the latest [`docs/sessions/`](./docs/sessions/) log. **Phase 0 is
-complete and reviewed**; **Phase 1 (mechanics)** is in progress, **Phase 2 (E&M) is opened** (two lessons + a
-9-formula reference cluster), and **Phase 3 (thermo + now fluids) is seeded and deepening**. The site is **live
-and public** at https://jd-jones-ases.github.io/quadrature/ (push to `main` auto-deploys). Shipped: 21 lessons —
-free fall, **projectile (drag-free)**, **rotational kinematics**, and the **circular orbit** (regime 1,
-trajectory on a centred frame — `v=√(μ/R)`, Kepler's `T²∝R³`); SHM, terminal velocity, the damped oscillator,
-**work–energy**, **projectile with quadratic drag**, **impulse–momentum**, **gravitational potential energy**,
-**energy in a capacitor** and **electric potential energy** (regime 2, E&M), **moment of inertia** (`∫r² dm`),
-**rotational work–energy** (`∫τ dθ → ½Iω²`), **hydrostatic force on a wall** (`∫ρg w h dh → ½ρgwH²`, opens
-the fluids domain), the **elliptical orbit** (numerical — Kepler's three laws from `r̈=−μr/r³`), and
-**conservation of energy** (the energy-bars instrument — path-independent `v=√(2gH)`), and **collisions /
-momentum** (the before/after collision-bars instrument — momentum conserved at every restitution, KE only when
-elastic) (regime 2); and **isothermal** and **adiabatic PV-work** (regime 3) — plus a **71-formula
-reference spanning all five domains** (mechanics incl. fluids & rotation, E&M incl. magnetism, thermo, waves &
-optics, modern) and a 71-node / 104-edge concept graph, all SymPy-verified. The producer is a model registry
-(`constant-accel`, `shm`, `linear-drag`, `damped-shm`, `work-energy`, `pv-work`, `projectile`, `impulse`,
-`rotation`, `gravity-pe`, `capacitor-energy`, `adiabatic`, `moment-of-inertia`, `coulomb-pe`,
-`hydrostatic-force`, `rotational-work`, `orbit`, `energy-conservation`, `collision`). The concept-graph nodes are
-click-to-select and drag-to-reposition.
+complete and reviewed**; **Phase 1 (mechanics)** is in progress, **Phase 2 (E&M)** is deepening (capacitor,
+Coulomb PE, **RC charging**, **line-charge field** + a reference cluster), and **Phase 3 (thermo, fluids, and
+now opened modern)** is deepening. The site is **live and public** at https://jd-jones-ases.github.io/quadrature/
+(push to `main` auto-deploys). Shipped: **26 lessons** across 11 units — free fall, **projectile (drag-free)**,
+**incline with friction** (`a=g(sinθ−μcosθ)`, opens Dynamics), **rotational kinematics**, and the **circular
+orbit** (regime 1, trajectory on a centred frame — `v=√(μ/R)`, Kepler's `T²∝R³`); SHM, terminal velocity, the
+damped oscillator, **work–energy**, **projectile with quadratic drag**, **impulse–momentum**, **gravitational
+potential energy**, **energy in a capacitor**, **electric potential energy**, **RC charging** (the 2-panel
+stack — `I` is the slope of `Q`), **the field of a charged rod** (`∫kλ/x² dx`, where algebra runs out)
+(regime 2, E&M), **moment of inertia** (`∫r² dm`), **rotational work–energy** (`∫τ dθ → ½Iω²`), **hydrostatic
+force on a wall** (`∫ρg w h dh`), **Torricelli / a draining tank** (energy bars, `v=√(2gh)`, opens fluid
+dynamics), the **elliptical orbit** (numerical — Kepler's three laws from `r̈=−μr/r³`), **conservation of
+energy** (energy bars — path-independent `v=√(2gH)`), **collisions / momentum** (before/after collision bars),
+and **radioactive decay** (the N / dN/dt 2-panel stack, `dN/dt=−λN`, opens Modern) (regime 2); and **isothermal**
+and **adiabatic PV-work** (regime 3) — plus a **74-formula reference spanning all five domains** (mechanics incl.
+fluids & rotation, E&M incl. magnetism, thermo, waves & optics, modern) and a 74-node / 108-edge concept graph,
+all SymPy-verified. The producer is a model registry (`constant-accel`, `shm`, `linear-drag`, `damped-shm`,
+`work-energy`, `pv-work`, `projectile`, `impulse`, `rotation`, `gravity-pe`, `capacitor-energy`, `adiabatic`,
+`moment-of-inertia`, `coulomb-pe`, `hydrostatic-force`, `rotational-work`, `orbit`, `energy-conservation`,
+`collision`, `rc-charging`, `incline-friction`, `decay`, `torricelli`, `line-charge-field`). The concept-graph
+nodes have **clean Unicode labels**, a **domain-clustered layout** (ADR-0020), and pan/zoom + click-select +
+drag-to-reposition.
+
+**Frontend rendering (ADR-0019): the interactive graph islands' scoped CSS is delivered via
+`svelte({ compilerOptions: { css: "injected" } })` in `astro.config.mjs`.** Without it, Astro only delivers the
+*top-level* island's CSS, and *child* graph islands (GraphStack/AreaPlot/Trajectory/EnergyBars/Collision) render
+with default **black** SVG fills — do not remove it. The site declares `color-scheme: light dark` (Base.astro
+meta + portal.css) and has a full dark theme; static Matplotlib posters sit on a fixed-light `.svgwrap` figure
+card. **Verify graph colors with `getComputedStyle().fill/stroke`, not just DOM geometry** — colors were the one
+thing prior paint-checks missed.
 
 Graphs come in five instruments: the **temporal stack** (`kind:"stack"`, modes `static` | `interactive` |
-`sampled`), the **area/integral instrument** (`kind:"area"`, ADR-0014 — area under `f(u)` = the accumulated
+`sampled`; **generalized to N panels** beyond x/v/a via `Scenario.panels`, ADR-0021 — used by RC charging and
+decay), the **area/integral instrument** (`kind:"area"`, ADR-0014 — area under `f(u)` = the accumulated
 integral `g(u)`, off the time axis), the **2D trajectory instrument** (`kind:"trajectory"`, ADR-0015 — the
 path y vs x; drag-free is exact/interactive, quadratic drag is numerically integrated; a centred `frame:"orbit"`
 draws closed orbits, ADR-0016), the **energy-exchange bars** (`kind:"energy"`, ADR-0017 — KE/PE bars that

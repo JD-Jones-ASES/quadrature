@@ -780,6 +780,46 @@
       }
     },
     {
+      "id": "em-rc-charge",
+      "name": "Charge on a charging capacitor (RC circuit)",
+      "domain": "em",
+      "regime": 2,
+      "lhs": "Q",
+      "expr": "C*V*(1 - exp(-t/(R*C)))",
+      "expr_srepr": "Mul(Symbol('C', real=True), Symbol('V', real=True), Add(Integer(1), Mul(Integer(-1), exp(Mul(Integer(-1), Pow(Symbol('C', real=True), Integer(-1)), Pow(Symbol('R', real=True), Integer(-1)), Symbol('t', real=True))))))",
+      "latex": "Q = C V \\left(1 - e^{- \\frac{t}{C R}}\\right)",
+      "result_unit": "C",
+      "variables": {
+        "C": {
+          "unit": "F",
+          "desc": "capacitance"
+        },
+        "V": {
+          "unit": "V",
+          "desc": "battery EMF"
+        },
+        "R": {
+          "unit": "ohm",
+          "desc": "series resistance"
+        },
+        "t": {
+          "unit": "s",
+          "desc": "time since the switch closed"
+        }
+      },
+      "assumptions": [
+        "series RC circuit charged from a constant EMF",
+        "capacitor initially uncharged"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
       "id": "em-rc-time-constant",
       "name": "RC time constant",
       "domain": "em",
@@ -1379,6 +1419,70 @@
       "assumptions": [
         "matter has a wavelength set by its momentum",
         "h is Planck's constant"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "modern-decay",
+      "name": "Radioactive decay law",
+      "domain": "modern",
+      "regime": 2,
+      "lhs": "N",
+      "expr": "N0*exp(-lam*t)",
+      "expr_srepr": "Mul(Symbol('N0', real=True), exp(Mul(Integer(-1), Symbol('lam', real=True), Symbol('t', real=True))))",
+      "latex": "N = N_{0} e^{- lam t}",
+      "result_unit": "1",
+      "variables": {
+        "N0": {
+          "unit": "1",
+          "desc": "initial number of nuclei"
+        },
+        "lam": {
+          "unit": "1/s",
+          "desc": "decay constant λ"
+        },
+        "t": {
+          "unit": "s",
+          "desc": "elapsed time"
+        }
+      },
+      "assumptions": [
+        "a large number of identical nuclei, each decaying independently",
+        "lam is the decay constant (probability of decay per unit time)"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
+      "id": "modern-half-life",
+      "name": "Half-life",
+      "domain": "modern",
+      "regime": 2,
+      "lhs": "t_{1/2}",
+      "expr": "log(2)/lam",
+      "expr_srepr": "Mul(Pow(Symbol('lam', real=True), Integer(-1)), log(Integer(2)))",
+      "latex": "t_{1/2} = \\frac{\\log{\\left(2 \\right)}}{lam}",
+      "result_unit": "s",
+      "variables": {
+        "lam": {
+          "unit": "1/s",
+          "desc": "decay constant λ"
+        }
+      },
+      "assumptions": [
+        "exponential decay with decay constant lam",
+        "log is the natural logarithm (ln)"
       ],
       "derivation": null,
       "lessons": [],

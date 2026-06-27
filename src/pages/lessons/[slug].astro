@@ -63,7 +63,7 @@ const figureCaption = isArea
     <p class="muted">Each links into the <a href={withBase("/reference/")}>reference</a> and the{" "}
       <a href={withBase("/reference/graph/")}>concept graph</a>:</p>
     <ul>
-      {solution.formulas_used.map((id) => <li><code>{id}</code></li>)}
+      {solution.formulas_used.map((id) => <li><a href={withBase("/reference/#" + id)}><code>{id}</code></a></li>)}
     </ul>
   </section>
 
@@ -72,10 +72,17 @@ const figureCaption = isArea
     .intro { max-width: 48rem; }
     .crumb { margin-bottom: 0.3rem; }
     .figure { margin-top: 2.5rem; }
-    .svgwrap { max-width: 32rem; margin-top: 1rem; }
-    .svgwrap :global(svg) { width: 100%; height: auto; }
+    /* The static Matplotlib poster is baked light, so it sits on its own fixed-light "figure card"
+       (--figure-paper does not flip in dark mode) — it reads as an intentional figure in both themes. */
+    .svgwrap {
+      max-width: 34rem; margin-top: 1rem; padding: 0.75rem;
+      background: var(--figure-paper); border: 1px solid var(--figure-line); border-radius: var(--radius);
+    }
+    .svgwrap :global(svg) { width: 100%; height: auto; display: block; }
     .links { margin-top: 2rem; }
     .links ul { list-style: none; padding: 0; display: flex; gap: 0.6rem; flex-wrap: wrap; }
+    .links a { text-decoration: none; }
     .links code { background: var(--paper-sunk); padding: 0.2rem 0.5rem; border-radius: 6px; }
+    .links a:hover code { background: var(--accent-soft); color: var(--accent); }
   </style>
 </Base>
