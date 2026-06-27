@@ -17,10 +17,12 @@ from `JD.md`), then fill depth-first, and close with a doc sweep. Status lives h
   axis — `∫r² dm`)**, **rotational work–energy (2, area on the angle axis — `∫τ dθ → ½Iω²`)**,
   **hydrostatic force on a wall (2, area on the depth axis — opens the fluids domain)**, the
   **circular (1) and elliptical (2) orbit** (trajectory on a centred frame — `v=√(μ/R)` & Kepler's three laws),
-  and **conservation of energy (2, the energy-bars instrument — path-independent `v=√(2gH)`)**.
-  Engine now has **four graph instruments**: the temporal stack, the **integral instrument** (ADR-0014), the
+  **conservation of energy (2, the energy-bars instrument — path-independent `v=√(2gH)`)**, and
+  **collisions / momentum (2, the before/after collision-bars instrument)**.
+  Engine now has **five graph instruments**: the temporal stack, the **integral instrument** (ADR-0014), the
   **2D trajectory instrument** (ADR-0015, drag-free exact + quadratic-drag numerical + a centred `frame:"orbit"`
-  for orbits), and the **energy-exchange bars** (`kind:"energy"` — KE/PE trade, Total flat).
+  for orbits), the **energy-exchange bars** (`kind:"energy"` — KE/PE trade, Total flat), and the **before/after
+  collision bars** (`kind:"collision"`, ADR-0018 — momentum equal before/after, KE equal only if elastic).
 - **Phase 2 — electricity & magnetism — OPENED.** E&M lessons: **energy in a capacitor** (`∫V dq → ½CV²`,
   regime 2, area on the charge axis) and **electric potential energy** (`∫kq₁q₂/r² dr → kq₁q₂/R`, regime 2,
   area on the separation axis — the electric twin of gravitational PE, with the area to infinity converging to
@@ -90,8 +92,9 @@ generalized the engine off the time axis (proven on **work–energy**), and the 
 (ADR-0015) added vector motion — drag-free (exact, regime 1) and **quadratic drag** (numerical, regime 2),
 the latter resolving the ADR-0012 no-closed-form question with RK4 + a producer/Node verification split.
 Since then: gravitation (PE, **circular + elliptical orbits**), rotation (kinematics, moment of inertia, work),
-fluids (hydrostatic force), and **energy conservation** (the energy-bars instrument). Remaining mechanics
-lesson: **momentum / collisions** (a before/after bar viz) + the rest of the reference fill.
+fluids (hydrostatic force), **energy conservation** (the energy-bars instrument), and **collisions / momentum**
+(the before/after collision-bars instrument, ADR-0018 — the fifth instrument). The core mechanics lessons are
+now in place; what remains is depth and the rest of the reference fill.
 
 **Definition of done.** The mechanics lessons run on the proven instrument; regime 2 is visibly the half where
 calculus does what algebra can't; the reference covers all mechanics formulas.

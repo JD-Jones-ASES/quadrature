@@ -7,6 +7,7 @@
   import AreaPlot from "./AreaPlot.svelte";
   import Trajectory from "./Trajectory.svelte";
   import EnergyBars from "./EnergyBars.svelte";
+  import Collision from "./Collision.svelte";
 
   let { solution } = $props();
   const s = solution;
@@ -84,6 +85,8 @@
     <Trajectory {graph} />
   {:else if graph.kind === "energy"}
     <EnergyBars {graph} />
+  {:else if graph.kind === "collision"}
+    <Collision {graph} />
   {:else}
     <GraphStack {graph} />
   {/if}

@@ -149,6 +149,49 @@ def sample_energy_series(en, n: int = 61) -> dict:
     return {"u": us, "ke": kes, "pe": pes, "u_max": round(float(en.u_window), 9)}
 
 
+def _norm_collision(col, expr):
+    return expr.subs(col.constants).subs(col.u, _AXIS)
+
+
+def closed_form_collision(col) -> dict[str, str]:
+    """JS-evaluable v1'(m1, e) and v2'(m1, e) for the collision instrument (m2/v1/v2 substituted; the mass
+    slider m1 + the restitution cursor e (canonical `u`) left free)."""
+    out = {}
+    for name, expr in (("v1f", col.v1f_expr), ("v2f", col.v2f_expr)):
+        ex = _norm_collision(col, expr)
+        try:
+            out[name] = jscode(ex)
+        except Exception as exn:
+            raise BuildError(f"collision closed_form.{name}: cannot emit JS for {sp.srepr(ex)}: {exn}") from exn
+    return out
+
+
+def closed_form_params_collision(col) -> list[str]:
+    syms: set[str] = set()
+    for expr in (col.v1f_expr, col.v2f_expr):
+        syms |= {str(s) for s in _norm_collision(col, expr).free_symbols}
+    return sorted(syms)
+
+
+def sample_collision_series(col, n: int = 61) -> dict:
+    """SymPy's v1'(e) and v2'(e) at the default mass over e in [cursor.min, cursor.max] — the parity truth.
+    Rounds e first, then evaluates AT the rounded e (so the JS player reproduces it exactly). Axis key is `u`."""
+    base = dict(col.constants)
+    for sl in col.sliders:
+        base[sl.sym] = sp.nsimplify(sl.default)
+    u = col.u
+    us, v1s, v2s = [], [], []
+    lo, hi = sp.nsimplify(col.cursor.min), sp.nsimplify(col.cursor.max)
+    span = hi - lo
+    for i in range(n):
+        ui = round(float(lo + sp.Rational(i, n - 1) * span), 9)
+        sub = {**base, u: sp.Rational(str(ui))}
+        us.append(ui)
+        v1s.append(round(float(sp.N(col.v1f_expr.subs(sub), 30)), 10))
+        v2s.append(round(float(sp.N(col.v2f_expr.subs(sub), 30)), 10))
+    return {"u": us, "v1f": v1s, "v2f": v2s, "u_max": round(float(col.cursor.max), 9)}
+
+
 def closed_form_traj(traj) -> dict[str, str]:
     """JS-evaluable x(t) and y(t) for the trajectory instrument (constants substituted; t + sliders free)."""
     out = {}

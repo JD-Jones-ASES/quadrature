@@ -5,6 +5,21 @@ plan in [`ROADMAP.md`](./ROADMAP.md).
 
 ## [Unreleased] — Phase 1: full mechanics (in progress)
 
+- **Collisions / momentum — a fifth graph instrument (`kind:"collision"`): before/after bars where momentum is
+  always conserved but kinetic energy isn't.** A 1D two-cart collision (2 kg @ 3 m/s into 1 kg at rest) with the
+  **coefficient of restitution `e` as the cursor** (1 = perfectly elastic … 0 = perfectly inelastic). The
+  **momentum** total bar is the same height before and after at *every* `e` (only the per-body split shifts);
+  the **kinetic-energy** total bar matches only at `e=1` and collapses as `e→0`, the gap shaded as energy lost.
+  The dual-register insight: momentum conservation is the **time-integral of Newton's third law** — the contact
+  forces are equal and opposite at every instant, so the impulses `J=∫F dt` cancel for *any* force profile,
+  elastic or not; kinetic energy is different because the deformation work need not come back, leaving
+  `½μ(1−e²)(Δv)²` behind (`μ` the reduced mass). Proof `governing`: momentum conserved at every `e`, the
+  restitution relation, the KE-loss identity, `e=1 ⇒` KE conserved, `e=0 ⇒` the common velocity `v_cm`. New
+  `CollisionPlot` + `Collision.svelte` + `render_collision` + `collision_series`/`consts` schema, wired like the
+  energy/area instruments (parity-verified `v1f,v2f` closed forms, **no new gate**). Paint-verified live:
+  momentum 6→6 at every `e`; KE 9→9 elastic, 9→6 with 3 J (33 %) lost perfectly inelastic; equal masses elastic
+  → full transfer (the incident cart stops dead, the target leaves at 3 m/s). One reference formula
+  (perfectly-inelastic common velocity). Misconception: "momentum is only conserved when no energy is lost."
 - **Conservation of energy — a fourth graph instrument (`kind:"energy"`): KE/PE bars that trade while the
   Total stays flat.** A block on a frictionless ramp; the kinetic and potential energies exchange as it
   descends, but their sum `mgH` never changes — the constant Total bar is the visual proof of conservation.

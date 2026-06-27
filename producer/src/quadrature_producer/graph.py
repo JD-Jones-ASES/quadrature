@@ -124,6 +124,72 @@ def render_energy(en, out_path: Path) -> None:
     plt.close(fig)
 
 
+def render_collision(col, out_path: Path) -> None:
+    """Static poster for the collision instrument (ADR-0018): two grouped bar charts — total MOMENTUM (before
+    vs after, identical: conservation made visible) and total KINETIC ENERGY (before vs after-elastic vs
+    after-inelastic, the inelastic bar shorter — the lost energy is the lesson). Each bar is stacked by body,
+    so the momentum chart shows the *transfer* between bodies while the total is pinned."""
+    base = dict(col.constants)
+    for sl in col.sliders:
+        base[sl.sym] = sp.nsimplify(sl.default)
+    v1f = col.v1f_expr.subs(base)
+    v2f = col.v2f_expr.subs(base)
+    m1v = float(base[col.sliders[0].sym])
+    m2v = float(col.constants[[s for s in col.constants if str(s) == "m2"][0]])
+    v1v = float(col.constants[[s for s in col.constants if str(s) == "v1"][0]])
+    v2v = float(col.constants[[s for s in col.constants if str(s) == "v2"][0]])
+
+    def state(ev):
+        a = float(v1f.subs(col.u, ev))
+        b = float(v2f.subs(col.u, ev))
+        return (m1v * a, m2v * b, 0.5 * m1v * a * a, 0.5 * m2v * b * b)
+
+    p1b, p2b = m1v * v1v, m2v * v2v
+    k1b, k2b = 0.5 * m1v * v1v * v1v, 0.5 * m2v * v2v * v2v
+    p1e, p2e, k1e, k2e = state(1.0)   # elastic
+    p1i, p2i, k1i, k2i = state(0.0)   # perfectly inelastic
+
+    fig, (axp, axk) = plt.subplots(1, 2, figsize=(7.0, 4.0), facecolor=PAPER,
+                                   gridspec_kw={"wspace": 0.28})
+
+    def stacked(ax, cols, title, ceiling):
+        ax.set_facecolor(PAPER)
+        for x, (s1, s2, lbl) in cols.items():
+            ax.bar(x, s1, width=0.62, color=ACCENT, edgecolor=PAPER, lw=0.5)
+            ax.bar(x, s2, width=0.62, bottom=s1, color=INK, edgecolor=PAPER, lw=0.5)
+            ax.text(x, s1 + s2 + ceiling * 0.03, f"{s1 + s2:.0f}", ha="center", va="bottom",
+                    fontsize=9, color=INK)
+        ax.set_xticks(list(range(len(cols))))
+        ax.set_xticklabels([c[2] for c in cols.values()], fontsize=8.5, color=INK)
+        ax.set_ylim(0, ceiling * 1.20)
+        ax.set_title(title, fontsize=10, color=INK)
+        ax.tick_params(colors=FAINT, labelsize=8)
+        for s in ("top", "right"):
+            ax.spines[s].set_visible(False)
+        for s in ("left", "bottom"):
+            ax.spines[s].set_color(GRID)
+
+    pceil = max(p1b + p2b, p1e + p2e, p1i + p2i, 1e-9)
+    stacked(axp, {0: (p1b, p2b, "before"), 1: (p1e, p2e, "after")},
+            "Momentum  (kg·m/s)", pceil)
+    axp.axhline(p1b + p2b, color=FAINT, lw=1.2, ls="--")
+    axp.text(0.5, (p1b + p2b) * 1.06, "conserved", ha="center", va="bottom", fontsize=8, color=FAINT)
+
+    kceil = max(k1b + k2b, k1e + k2e, k1i + k2i, 1e-9)
+    stacked(axk, {0: (k1b, k2b, "before"), 1: (k1e, k2e, "elastic"), 2: (k1i, k2i, "inelastic")},
+            "Kinetic energy  (J)", kceil)
+    axk.axhline(k1b + k2b, color=FAINT, lw=1.0, ls=":")
+    # shade the energy lost in the inelastic case
+    axk.add_patch(plt.Rectangle((2 - 0.31, k1i + k2i), 0.62, (k1b + k2b) - (k1i + k2i),
+                                facecolor=FAINT, alpha=0.22, edgecolor="none"))
+    axk.annotate("lost", (2, (k1i + k2i + k1b + k2b) / 2), ha="center", va="center",
+                 fontsize=8, color=INK, bbox=_bbox())
+
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    fig.savefig(out_path, format="svg", bbox_inches="tight", facecolor=PAPER)
+    plt.close(fig)
+
+
 def render_trajectory(traj, out_path: Path) -> None:
     """Static poster for the 2D projectile path y vs x (ADR-0015): the parabola (or the numerically-integrated
     drag curve), with launch/apex/range markers. The drag case overlays the drag-free parabola for contrast."""

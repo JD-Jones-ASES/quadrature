@@ -20,11 +20,12 @@ import sympy as sp
 
 from . import BuildError, __version__
 from .dims import check_homogeneous, parse_unit
-from .emit import (closed_form, closed_form_area, closed_form_energy, closed_form_of, closed_form_params,
-                   closed_form_params_area, closed_form_params_energy, closed_form_params_traj,
-                   closed_form_traj, sample_area_series, sample_energy_series, sample_series,
-                   sample_series_of, sample_traj_series)
-from .graph import render_area, render_energy, render_stack, render_trajectory
+from .emit import (closed_form, closed_form_area, closed_form_collision, closed_form_energy, closed_form_of,
+                   closed_form_params, closed_form_params_area, closed_form_params_collision,
+                   closed_form_params_energy, closed_form_params_traj, closed_form_traj, sample_area_series,
+                   sample_collision_series, sample_energy_series, sample_series, sample_series_of,
+                   sample_traj_series)
+from .graph import render_area, render_collision, render_energy, render_stack, render_trajectory
 from .models import MODELS
 from .reference import build_reference
 
@@ -57,6 +58,10 @@ def build_problem(path: Path, root: Path) -> tuple[dict, str]:
         emap = {s: parse_unit(uu, ctx) for s, uu in scn.energy.unit_map.items()}
         check_homogeneous(scn.energy.ke_expr, emap, f"{ctx}: KE(u)")
         check_homogeneous(scn.energy.pe_expr, emap, f"{ctx}: PE(u)")
+    if scn.collision is not None:
+        comap = {s: parse_unit(uu, ctx) for s, uu in scn.collision.unit_map.items()}
+        check_homogeneous(scn.collision.v1f_expr, comap, f"{ctx}: v1'")
+        check_homogeneous(scn.collision.v2f_expr, comap, f"{ctx}: v2'")
     if scn.trajectory is not None and scn.trajectory.x_expr is not None:
         tmap = {s: parse_unit(uu, ctx) for s, uu in scn.trajectory.unit_map.items()}
         check_homogeneous(scn.trajectory.x_expr, tmap, f"{ctx}: x(t)")
@@ -113,6 +118,24 @@ def build_problem(path: Path, root: Path) -> tuple[dict, str]:
             gobj["pe_label"] = en.pe_label
             gobj["total_label"] = en.total_label
             gobj["u0"] = en.u0
+            graphs.append(gobj)
+            continue
+
+        if kind == "collision":
+            if scn.collision is None:
+                raise BuildError(f"{ctx}: graph kind 'collision' but the model produced no CollisionPlot")
+            col = scn.collision
+            render_collision(col, root / "derived" / svg_rel)
+            gobj["mode"] = "interactive"
+            gobj["series"] = sample_collision_series(col)
+            gobj["closed_form"] = closed_form_collision(col)
+            gobj["closed_form_params"] = closed_form_params_collision(col)
+            gobj["params"] = {sl.name: {"min": sl.min, "max": sl.max, "default": sl.default}
+                              for sl in col.sliders}
+            gobj["cursor"] = {"name": "u", "label": col.u_label, "unit": col.u_unit,
+                              "min": col.cursor.min, "max": col.cursor.max, "default": col.cursor.default}
+            gobj["u_label"] = col.u_label
+            gobj["consts"] = col.consts_export
             graphs.append(gobj)
             continue
 

@@ -1,0 +1,25 @@
+id = "mom-inelastic-v"
+name = "Perfectly inelastic collision (common velocity)"
+domain = "mechanics"
+regime = 1
+expr = "(m1*v1 + m2*v2)/(m1 + m2)"
+lhs = "v_f"
+result_unit = "m/s"
+assumptions = ["isolated 1D collision (momentum conserved)", "bodies move off together (e = 0)"]
+citations = []
+
+[variables]
+m1 = { unit = "kg", desc = "mass of body 1" }
+m2 = { unit = "kg", desc = "mass of body 2" }
+v1 = { unit = "m/s", desc = "initial velocity of body 1" }
+v2 = { unit = "m/s", desc = "initial velocity of body 2" }
+
+[[edges]]
+type = "derived-from"
+target = "mom-momentum"
+gloss = "the common final velocity is fixed by conservation of total momentum"
+
+[[edges]]
+type = "related-to"
+target = "mom-impulse"
+gloss = "equal-and-opposite contact impulses conserve the total momentum"

@@ -359,3 +359,35 @@ exactly like the area instrument (ADR-0014), so it inherits the verification for
 the bars idea in a **before/after** two-state mode (momentum bars always equal; KE bars equal only if elastic) —
 either an `EnergyPlot`/`EnergyBars` extension or a sibling `kind:"collision"`. Like ADR-0014, the hard part was
 the instrument; new conservation lessons are model + spec + test.
+
+## ADR-0018 — The collision bars: a fifth instrument for before/after conservation (2026-06-27)
+
+**Context.** The energy bars (ADR-0017) show one continuous state trading along a cursor. A **collision** is
+different: it compares **two discrete states** (before / after) of *two* conserved-or-not quantities at once —
+total momentum (always equal) and total kinetic energy (equal only if elastic). That is not a curve, a path, or
+a single-cursor bar trade; the lost kinetic energy *is the lesson*, and it only reads against the unchanged
+momentum total beside it. The energy bars' single-cursor frame cannot say "before vs after."
+
+**Decision.** Add a fifth, parallel instrument — the **collision bars** (`kind:"collision"`) — wired like the
+area/energy instruments so it inherits the verification for free:
+1. A model returns a `Scenario` carrying a **`CollisionPlot`**: the closed-form final velocities `v1f(e,m1)`,
+   `v2f(e,m1)` of a 1D two-body collision, with the **coefficient of restitution `e` as the cursor** (0 =
+   perfectly inelastic … 1 = perfectly elastic), the incident mass `m1` a slider, and `m2/v1/v2` constants
+   (exported as `consts` for the island). The island forms the before/after **momentum** and **kinetic-energy**
+   stacked bars from the finals: the momentum total is pinned at every `e` (only the per-body split shifts),
+   while the KE total collapses as `e→0`, the gap shaded as energy lost.
+2. A schema `kind:"collision"` with a `collision_series {u,v1f,v2f,u_max}` shape (axis `u`=e) and a `consts`
+   object; `closed_form{v1f,v2f}` + a `cursor`. The kind-agnostic **parity oracle re-checks `v1f,v2f`** the
+   browser evaluates (1e-9, axis auto-detected as `u`) — **no new gate**. `render_collision` is the static
+   poster (momentum before/after equal; KE before/after-elastic/after-inelastic, the inelastic bar short);
+   `Collision.svelte` the island (a before/after block schematic + the two bar groups).
+3. Proof kind `governing`: momentum conservation is the **time-integral of Newton's third law** — the contact
+   forces are equal and opposite at every instant, so the impulses `J=∫F dt` cancel for *any* force profile.
+   The checks are `m₁v₁'+m₂v₂'=m₁v₁+m₂v₂` (every `e`), the restitution relation, the KE-loss identity
+   `½μ(1−e²)(Δv)²` (μ the reduced mass), `e=1 ⇒` KE conserved, and `e=0 ⇒` the common velocity `v_cm`.
+
+**Consequences.** Proven on a 1D cart collision (2 kg @ 3 m/s into 1 kg at rest; regime 2; mechanics),
+paint-verified (momentum 6→6 at every `e`; KE 9→9 elastic, 9→6 with 3 J/33 % lost perfectly inelastic; equal
+masses elastic → full transfer, the incident cart stops dead). Five instruments now: temporal stack · area ·
+trajectory · energy bars · collision bars. The pattern holds — the hard part was the instrument; a second
+collision lesson (head-on, or 2D) would be model + spec + test.

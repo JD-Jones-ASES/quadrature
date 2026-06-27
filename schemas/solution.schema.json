@@ -179,7 +179,7 @@
         "window": { "enum": ["landing", "fixed"] },
         "annotate": { "type": "array", "items": { "type": "string" } },
         "svg": { "type": "string" },
-        "series": { "oneOf": [ { "$ref": "#/$defs/series" }, { "$ref": "#/$defs/area_series" }, { "$ref": "#/$defs/traj_series" }, { "$ref": "#/$defs/energy_series" } ] },
+        "series": { "oneOf": [ { "$ref": "#/$defs/series" }, { "$ref": "#/$defs/area_series" }, { "$ref": "#/$defs/traj_series" }, { "$ref": "#/$defs/energy_series" }, { "$ref": "#/$defs/collision_series" } ] },
         "closed_form": { "type": "object", "additionalProperties": { "type": "string" } },
         "closed_form_params": { "type": "array", "items": { "type": "string" } },
         "u_label": { "type": "string" },
@@ -188,6 +188,7 @@
         "ke_label": { "type": "string" },
         "pe_label": { "type": "string" },
         "total_label": { "type": "string" },
+        "consts": { "type": "object", "additionalProperties": { "type": "number" } },
         "u0": { "type": "number" },
         "x_label": { "type": "string" },
         "y_label": { "type": "string" },
@@ -279,6 +280,15 @@
           }
         },
         {
+          "if": { "required": ["kind"], "properties": { "kind": { "const": "collision" } } },
+          "then": {
+            "required": [
+              "series", "closed_form", "closed_form_params", "params",
+              "cursor", "u_label", "consts"
+            ]
+          }
+        },
+        {
           "if": {
             "allOf": [
               { "properties": { "mode": { "not": { "const": "sampled" } } } },
@@ -320,6 +330,17 @@
         "u": { "type": "array", "items": { "type": "number" } },
         "ke": { "type": "array", "items": { "type": "number" } },
         "pe": { "type": "array", "items": { "type": "number" } },
+        "u_max": { "type": "number" }
+      }
+    },
+    "collision_series": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["u", "v1f", "v2f", "u_max"],
+      "properties": {
+        "u": { "type": "array", "items": { "type": "number" } },
+        "v1f": { "type": "array", "items": { "type": "number" } },
+        "v2f": { "type": "array", "items": { "type": "number" } },
         "u_max": { "type": "number" }
       }
     }

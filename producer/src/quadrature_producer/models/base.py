@@ -107,6 +107,32 @@ class EnergyPlot:
 
 
 @dataclass
+class CollisionPlot:
+    """The collision instrument: a before/after two-state bar comparison (ADR-0018).
+
+    A 1D two-body collision parameterised by the coefficient of restitution e (the cursor, 0=perfectly
+    inelastic, 1=perfectly elastic). The producer ships the closed-form final velocities v1'(e, m1),
+    v2'(e, m1); the island computes the before/after momentum and kinetic-energy bars from them. The
+    *momentum* total bar is identical before and after at every e (equal-and-opposite impulses cancel —
+    Newton's third law integrated); the *kinetic-energy* total bar equals the before value only at e=1 and
+    shrinks as e→0 — the lost KE is the lesson. Closed forms are JS-cheap and parity-verified, like the
+    area/energy instruments. v1f_expr/v2f_expr are symbolic in (m1, m2, v1, v2, e); `constants` substitutes
+    m2/v1/v2, leaving m1 (the slider) and e (the cursor) free.
+    """
+    u: sp.Symbol                  # the coefficient-of-restitution cursor symbol (e)
+    v1f_expr: sp.Expr             # final velocity of body 1, v1'(m1, m2, v1, v2, e)
+    v2f_expr: sp.Expr             # final velocity of body 2, v2'(...)
+    cursor: Slider                # e over [0, 1]
+    sliders: list                 # parameter sliders free in v1f/v2f (the incident mass m1)
+    constants: dict               # {sym: number} substituted (m2, v1, v2) for graph + closed form
+    consts_export: dict           # {"m2":, "v1":, "v2":} floats the island needs to form p/KE bars
+    unit_map: dict                # {sym: unit string} for the dimensional check on v1f and v2f
+    u_label: str = "e  (restitution)"
+    u_unit: str = ""              # the cursor (restitution) is dimensionless
+    annot: str = ""               # one-line static-figure annotation
+
+
+@dataclass
 class TrajMarker:
     """A point annotation in (x, y) space on the trajectory poster (apex, range, launch)."""
     x: float
@@ -186,6 +212,7 @@ class Scenario:
     area: AreaPlot | None = None  # the non-temporal integral instrument (ADR-0014); graph kind "area"
     trajectory: TrajectoryPlot | None = None  # 2D projectile path (ADR-0015); graph kind "trajectory"
     energy: "EnergyPlot | None" = None  # the energy-exchange bars instrument; graph kind "energy"
+    collision: "CollisionPlot | None" = None  # the before/after collision bars (ADR-0018); kind "collision"
 
 
 def make_result(expr: sp.Expr, subs: dict, unit: str, label: str) -> dict:

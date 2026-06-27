@@ -11,8 +11,8 @@
       "name": "Centripetal acceleration",
       "domain": "mechanics",
       "degree": 2,
-      "x": 149.84,
-      "y": 46.66
+      "x": 286.28,
+      "y": 40
     },
     {
       "id": "circ-centripetal-force",
@@ -20,8 +20,8 @@
       "name": "Centripetal force",
       "domain": "mechanics",
       "degree": 2,
-      "x": 40,
-      "y": 188.41
+      "x": 86.65,
+      "y": 40
     },
     {
       "id": "damped-omega-d",
@@ -29,8 +29,8 @@
       "name": "Damped angular frequency",
       "domain": "mechanics",
       "degree": 2,
-      "x": 259.34,
-      "y": 40
+      "x": 600,
+      "y": 303.56
     },
     {
       "id": "damped-zeta",
@@ -38,8 +38,8 @@
       "name": "Damping ratio",
       "domain": "mechanics",
       "degree": 1,
-      "x": 240.44,
-      "y": 40
+      "x": 600,
+      "y": 149.83
     },
     {
       "id": "drag-terminal",
@@ -56,7 +56,7 @@
       "name": "Velocity under linear drag",
       "domain": "mechanics",
       "degree": 4,
-      "x": 574.93,
+      "x": 600,
       "y": 440
     },
     {
@@ -74,8 +74,8 @@
       "name": "Hooke's law (spring force)",
       "domain": "mechanics",
       "degree": 2,
-      "x": 535.08,
-      "y": 289.6
+      "x": 570.53,
+      "y": 440
     },
     {
       "id": "dyn-newton-2",
@@ -83,8 +83,8 @@
       "name": "Newton's second law",
       "domain": "mechanics",
       "degree": 3,
-      "x": 97.71,
-      "y": 252.3
+      "x": 207.13,
+      "y": 40
     },
     {
       "id": "dyn-weight",
@@ -92,8 +92,8 @@
       "name": "Weight (gravitational force near Earth)",
       "domain": "mechanics",
       "degree": 4,
-      "x": 260.43,
-      "y": 89.34
+      "x": 414.58,
+      "y": 40
     },
     {
       "id": "em-bfield-wire",
@@ -101,8 +101,8 @@
       "name": "Magnetic field of a long straight wire",
       "domain": "em",
       "degree": 4,
-      "x": 40,
-      "y": 365.54
+      "x": 64.54,
+      "y": 440
     },
     {
       "id": "em-capacitance",
@@ -110,7 +110,7 @@
       "name": "Capacitance",
       "domain": "em",
       "degree": 4,
-      "x": 356.89,
+      "x": 600,
       "y": 440
     },
     {
@@ -119,7 +119,7 @@
       "name": "Energy stored in a capacitor",
       "domain": "em",
       "degree": 3,
-      "x": 466.18,
+      "x": 600,
       "y": 440
     },
     {
@@ -128,8 +128,8 @@
       "name": "Coulomb's law",
       "domain": "em",
       "degree": 3,
-      "x": 142.57,
-      "y": 40
+      "x": 371.67,
+      "y": 209.15
     },
     {
       "id": "em-efield-point",
@@ -137,8 +137,8 @@
       "name": "Electric field of a point charge",
       "domain": "em",
       "degree": 2,
-      "x": 121.07,
-      "y": 40
+      "x": 309.43,
+      "y": 133.55
     },
     {
       "id": "em-flux",
@@ -146,7 +146,7 @@
       "name": "Magnetic flux",
       "domain": "em",
       "degree": 4,
-      "x": 183.51,
+      "x": 180.64,
       "y": 440
     },
     {
@@ -156,7 +156,7 @@
       "domain": "em",
       "degree": 4,
       "x": 40,
-      "y": 180.4
+      "y": 380.29
     },
     {
       "id": "em-motional-emf",
@@ -164,7 +164,7 @@
       "name": "Motional EMF",
       "domain": "em",
       "degree": 3,
-      "x": 346.46,
+      "x": 347.74,
       "y": 440
     },
     {
@@ -182,8 +182,8 @@
       "name": "Electric potential energy of two charges",
       "domain": "em",
       "degree": 3,
-      "x": 66.45,
-      "y": 40
+      "x": 221.57,
+      "y": 152.19
     },
     {
       "id": "em-potential-point",
@@ -191,7 +191,7 @@
       "name": "Electric potential of a point charge",
       "domain": "em",
       "degree": 3,
-      "x": 73.7,
+      "x": 249.83,
       "y": 40
     },
     {
@@ -201,7 +201,7 @@
       "domain": "em",
       "degree": 3,
       "x": 40,
-      "y": 440
+      "y": 361.48
     },
     {
       "id": "em-rc-time-constant",
@@ -209,7 +209,7 @@
       "name": "RC time constant",
       "domain": "em",
       "degree": 3,
-      "x": 475.78,
+      "x": 600,
       "y": 440
     },
     {
@@ -219,7 +219,7 @@
       "domain": "em",
       "degree": 2,
       "x": 40,
-      "y": 40
+      "y": 210.54
     },
     {
       "id": "en-kinetic",
@@ -227,8 +227,8 @@
       "name": "Kinetic energy",
       "domain": "mechanics",
       "degree": 6,
-      "x": 415.47,
-      "y": 269.53
+      "x": 467.07,
+      "y": 94.53
     },
     {
       "id": "en-mech-energy",
@@ -236,8 +236,8 @@
       "name": "Mechanical energy (kinetic + gravitational potential)",
       "domain": "mechanics",
       "degree": 3,
-      "x": 312.06,
-      "y": 212.43
+      "x": 554.76,
+      "y": 71.27
     },
     {
       "id": "en-power",
@@ -245,8 +245,8 @@
       "name": "Mechanical power (constant force)",
       "domain": "mechanics",
       "degree": 2,
-      "x": 40,
-      "y": 373.47
+      "x": 74.71,
+      "y": 186.68
     },
     {
       "id": "en-spring-pe",
@@ -254,7 +254,7 @@
       "name": "Elastic potential energy",
       "domain": "mechanics",
       "degree": 3,
-      "x": 519.7,
+      "x": 600,
       "y": 440
     },
     {
@@ -263,8 +263,8 @@
       "name": "Work (constant force along displacement)",
       "domain": "mechanics",
       "degree": 7,
-      "x": 187.57,
-      "y": 198.13
+      "x": 348.46,
+      "y": 40
     },
     {
       "id": "fluid-bernoulli",
@@ -273,7 +273,7 @@
       "domain": "mechanics",
       "degree": 4,
       "x": 600,
-      "y": 176.37
+      "y": 40
     },
     {
       "id": "fluid-buoyancy",
@@ -281,8 +281,8 @@
       "name": "Buoyant force (Archimedes' principle)",
       "domain": "mechanics",
       "degree": 3,
-      "x": 441.3,
-      "y": 128.95
+      "x": 579.64,
+      "y": 40
     },
     {
       "id": "fluid-continuity",
@@ -291,7 +291,7 @@
       "domain": "mechanics",
       "degree": 2,
       "x": 600,
-      "y": 204.24
+      "y": 40
     },
     {
       "id": "fluid-force-wall",
@@ -299,8 +299,8 @@
       "name": "Hydrostatic force on a vertical wall",
       "domain": "mechanics",
       "degree": 2,
-      "x": 351.01,
-      "y": 63.07
+      "x": 356.06,
+      "y": 40
     },
     {
       "id": "fluid-hydrostatic-pressure",
@@ -308,8 +308,8 @@
       "name": "Hydrostatic pressure with depth",
       "domain": "mechanics",
       "degree": 4,
-      "x": 561.29,
-      "y": 64.84
+      "x": 532.49,
+      "y": 40
     },
     {
       "id": "grav-newton",
@@ -317,7 +317,7 @@
       "name": "Newton's law of universal gravitation",
       "domain": "mechanics",
       "degree": 5,
-      "x": 298.91,
+      "x": 463.85,
       "y": 40
     },
     {
@@ -326,7 +326,7 @@
       "name": "Constant acceleration",
       "domain": "mechanics",
       "degree": 2,
-      "x": 241.55,
+      "x": 307.31,
       "y": 440
     },
     {
@@ -335,7 +335,7 @@
       "name": "Velocity under constant acceleration",
       "domain": "mechanics",
       "degree": 5,
-      "x": 394.77,
+      "x": 445.6,
       "y": 440
     },
     {
@@ -344,7 +344,7 @@
       "name": "Position under constant acceleration",
       "domain": "mechanics",
       "degree": 2,
-      "x": 334.73,
+      "x": 489.73,
       "y": 440
     },
     {
@@ -353,8 +353,8 @@
       "name": "de Broglie wavelength",
       "domain": "modern",
       "degree": 3,
-      "x": 508.92,
-      "y": 191.31
+      "x": 40,
+      "y": 73.84
     },
     {
       "id": "modern-mass-energy",
@@ -362,7 +362,7 @@
       "name": "Mass–energy equivalence",
       "domain": "modern",
       "degree": 1,
-      "x": 600,
+      "x": 139.23,
       "y": 40
     },
     {
@@ -371,7 +371,7 @@
       "name": "Photoelectric effect",
       "domain": "modern",
       "degree": 1,
-      "x": 242.0,
+      "x": 40,
       "y": 40
     },
     {
@@ -380,26 +380,35 @@
       "name": "Photon energy",
       "domain": "modern",
       "degree": 5,
-      "x": 472.69,
-      "y": 40
+      "x": 40,
+      "y": 76.17
     },
     {
       "id": "mom-impulse",
       "label": "J",
       "name": "Impulse (constant force)",
       "domain": "mechanics",
-      "degree": 1,
-      "x": 600,
-      "y": 108.48
+      "degree": 2,
+      "x": 40,
+      "y": 40
+    },
+    {
+      "id": "mom-inelastic-v",
+      "label": "v_f",
+      "name": "Perfectly inelastic collision (common velocity)",
+      "domain": "mechanics",
+      "degree": 2,
+      "x": 40,
+      "y": 40
     },
     {
       "id": "mom-momentum",
       "label": "p",
       "name": "Linear momentum",
       "domain": "mechanics",
-      "degree": 4,
-      "x": 600,
-      "y": 269.76
+      "degree": 5,
+      "x": 40,
+      "y": 40
     },
     {
       "id": "optics-magnification",
@@ -407,7 +416,7 @@
       "name": "Magnification (thin lens or mirror)",
       "domain": "waves-optics",
       "degree": 2,
-      "x": 600,
+      "x": 40,
       "y": 440
     },
     {
@@ -416,8 +425,8 @@
       "name": "Snell's law of refraction",
       "domain": "waves-optics",
       "degree": 2,
-      "x": 600,
-      "y": 50.15
+      "x": 40,
+      "y": 440
     },
     {
       "id": "optics-thin-lens",
@@ -425,8 +434,8 @@
       "name": "Thin-lens equation",
       "domain": "waves-optics",
       "degree": 3,
-      "x": 600,
-      "y": 381.81
+      "x": 40,
+      "y": 440
     },
     {
       "id": "orbit-kepler-third",
@@ -434,7 +443,7 @@
       "name": "Kepler's third law (circular orbit)",
       "domain": "mechanics",
       "degree": 3,
-      "x": 539.2,
+      "x": 600,
       "y": 40
     },
     {
@@ -443,7 +452,7 @@
       "name": "Circular orbital speed",
       "domain": "mechanics",
       "degree": 4,
-      "x": 376.77,
+      "x": 553.97,
       "y": 40
     },
     {
@@ -452,8 +461,8 @@
       "name": "Angular momentum (rigid body)",
       "domain": "mechanics",
       "degree": 1,
-      "x": 600,
-      "y": 393.88
+      "x": 40,
+      "y": 40
     },
     {
       "id": "rot-kinetic",
@@ -461,8 +470,8 @@
       "name": "Rotational kinetic energy",
       "domain": "mechanics",
       "degree": 4,
-      "x": 84.74,
-      "y": 161.56
+      "x": 579.35,
+      "y": 40
     },
     {
       "id": "rot-moment-disk",
@@ -470,7 +479,7 @@
       "name": "Moment of inertia of a disk",
       "domain": "mechanics",
       "degree": 2,
-      "x": 40,
+      "x": 537.74,
       "y": 40
     },
     {
@@ -479,8 +488,8 @@
       "name": "Moment of inertia of a rod (about one end)",
       "domain": "mechanics",
       "degree": 4,
-      "x": 40,
-      "y": 118.84
+      "x": 439.92,
+      "y": 40
     },
     {
       "id": "rot-parallel-axis",
@@ -488,8 +497,8 @@
       "name": "Parallel-axis theorem",
       "domain": "mechanics",
       "degree": 2,
-      "x": 40,
-      "y": 150.88
+      "x": 311.47,
+      "y": 40
     },
     {
       "id": "rot-torque",
@@ -497,8 +506,8 @@
       "name": "Torque (force at a lever arm)",
       "domain": "mechanics",
       "degree": 2,
-      "x": 85.73,
-      "y": 409.69
+      "x": 260.45,
+      "y": 40
     },
     {
       "id": "rot-work",
@@ -506,8 +515,8 @@
       "name": "Rotational work (constant torque through an angle)",
       "domain": "mechanics",
       "degree": 3,
-      "x": 169.88,
-      "y": 318.6
+      "x": 417.92,
+      "y": 40
     },
     {
       "id": "shm-omega",
@@ -515,8 +524,8 @@
       "name": "Angular frequency of a spring–mass oscillator",
       "domain": "mechanics",
       "degree": 4,
-      "x": 478.39,
-      "y": 40
+      "x": 550.49,
+      "y": 440
     },
     {
       "id": "shm-period",
@@ -524,8 +533,8 @@
       "name": "Period of a spring–mass oscillator",
       "domain": "mechanics",
       "degree": 3,
-      "x": 426.14,
-      "y": 40
+      "x": 411.07,
+      "y": 429.56
     },
     {
       "id": "shm-x-of-t",
@@ -533,8 +542,8 @@
       "name": "Position in simple harmonic motion",
       "domain": "mechanics",
       "degree": 2,
-      "x": 596.1,
-      "y": 40
+      "x": 600,
+      "y": 395.5
     },
     {
       "id": "thermo-adiabatic-relation",
@@ -543,7 +552,7 @@
       "domain": "thermo",
       "degree": 3,
       "x": 600,
-      "y": 311.63
+      "y": 378.36
     },
     {
       "id": "thermo-adiabatic-work",
@@ -551,8 +560,8 @@
       "name": "Adiabatic work",
       "domain": "thermo",
       "degree": 3,
-      "x": 583.74,
-      "y": 247.78
+      "x": 600,
+      "y": 247.91
     },
     {
       "id": "thermo-efficiency-carnot",
@@ -561,7 +570,7 @@
       "domain": "thermo",
       "degree": 1,
       "x": 40,
-      "y": 440
+      "y": 329.17
     },
     {
       "id": "thermo-first-law",
@@ -569,8 +578,8 @@
       "name": "First law of thermodynamics",
       "domain": "thermo",
       "degree": 5,
-      "x": 124.52,
-      "y": 440
+      "x": 222.5,
+      "y": 382.38
     },
     {
       "id": "thermo-heat-capacity",
@@ -578,8 +587,8 @@
       "name": "Heat and specific heat",
       "domain": "thermo",
       "degree": 1,
-      "x": 40,
-      "y": 440
+      "x": 336.11,
+      "y": 365.89
     },
     {
       "id": "thermo-ideal-gas",
@@ -587,8 +596,8 @@
       "name": "Ideal-gas law (pressure form)",
       "domain": "thermo",
       "degree": 3,
-      "x": 484.11,
-      "y": 393.28
+      "x": 517.29,
+      "y": 385.4
     },
     {
       "id": "thermo-internal-energy",
@@ -596,7 +605,7 @@
       "name": "Internal energy of a monatomic ideal gas",
       "domain": "thermo",
       "degree": 3,
-      "x": 289.67,
+      "x": 325.12,
       "y": 440
     },
     {
@@ -605,8 +614,8 @@
       "name": "Isothermal work (ideal gas)",
       "domain": "thermo",
       "degree": 4,
-      "x": 327.14,
-      "y": 350.52
+      "x": 471.92,
+      "y": 247.68
     },
     {
       "id": "wave-period",
@@ -614,8 +623,8 @@
       "name": "Period and frequency",
       "domain": "waves-optics",
       "degree": 4,
-      "x": 496.79,
-      "y": 40
+      "x": 176.21,
+      "y": 306.54
     },
     {
       "id": "wave-speed",
@@ -623,8 +632,8 @@
       "name": "Wave speed",
       "domain": "waves-optics",
       "degree": 5,
-      "x": 525.17,
-      "y": 40
+      "x": 82.15,
+      "y": 440
     },
     {
       "id": "wave-string-speed",
@@ -632,8 +641,8 @@
       "name": "Speed of a wave on a string",
       "domain": "waves-optics",
       "degree": 2,
-      "x": 425.5,
-      "y": 40
+      "x": 78.74,
+      "y": 326.01
     }
   ],
   "edges": [
@@ -1008,6 +1017,18 @@
       "target": "mom-momentum",
       "type": "related-to",
       "gloss": "impulse equals the change in momentum (J = Δp)"
+    },
+    {
+      "source": "mom-inelastic-v",
+      "target": "mom-momentum",
+      "type": "derived-from",
+      "gloss": "the common final velocity is fixed by conservation of total momentum"
+    },
+    {
+      "source": "mom-inelastic-v",
+      "target": "mom-impulse",
+      "type": "related-to",
+      "gloss": "equal-and-opposite contact impulses conserve the total momentum"
     },
     {
       "source": "optics-magnification",

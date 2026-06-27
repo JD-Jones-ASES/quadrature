@@ -1520,6 +1520,46 @@
       }
     },
     {
+      "id": "mom-inelastic-v",
+      "name": "Perfectly inelastic collision (common velocity)",
+      "domain": "mechanics",
+      "regime": 1,
+      "lhs": "v_f",
+      "expr": "(m1*v1 + m2*v2)/(m1 + m2)",
+      "expr_srepr": "Mul(Pow(Add(Symbol('m1', real=True), Symbol('m2', real=True)), Integer(-1)), Add(Mul(Symbol('m1', real=True), Symbol('v1', real=True)), Mul(Symbol('m2', real=True), Symbol('v2', real=True))))",
+      "latex": "v_f = \\frac{m_{1} v_{1} + m_{2} v_{2}}{m_{1} + m_{2}}",
+      "result_unit": "m/s",
+      "variables": {
+        "m1": {
+          "unit": "kg",
+          "desc": "mass of body 1"
+        },
+        "m2": {
+          "unit": "kg",
+          "desc": "mass of body 2"
+        },
+        "v1": {
+          "unit": "m/s",
+          "desc": "initial velocity of body 1"
+        },
+        "v2": {
+          "unit": "m/s",
+          "desc": "initial velocity of body 2"
+        }
+      },
+      "assumptions": [
+        "isolated 1D collision (momentum conserved)",
+        "bodies move off together (e = 0)"
+      ],
+      "derivation": null,
+      "lessons": [],
+      "citations": [],
+      "verified": {
+        "units": true,
+        "derivation": false
+      }
+    },
+    {
       "id": "mom-momentum",
       "name": "Linear momentum",
       "domain": "mechanics",

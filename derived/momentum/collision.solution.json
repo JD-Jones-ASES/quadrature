@@ -1,0 +1,380 @@
+{
+  "id": "collision",
+  "title": "Collisions: why momentum always survives but kinetic energy usually doesn't",
+  "topic": "momentum",
+  "slug": "collision",
+  "scenario": "A $m_1 = 2$ kg cart moving at $v_1 = 3$ m/s strikes a stationary $m_2 = 1$ kg cart. Slide the coefficient of restitution $e$ from $1$ (perfectly elastic — the carts bounce apart with no energy lost) down to $0$ (perfectly inelastic — they latch together). The **momentum** bars are the same total height before and after at *every* setting; the **kinetic-energy** bars match only when $e = 1$, and the gap that opens as $e \\to 0$ is energy lost to deformation. Momentum is conserved because the contact forces are equal and opposite (Newton's third law); kinetic energy is not, because the deformation work need not come back.",
+  "regime": 2,
+  "constants": {
+    "m1": 2.0,
+    "m2": 1.0,
+    "v1": 3.0,
+    "v2": 0.0
+  },
+  "initial_conditions": {
+    "v1": 3.0,
+    "v2": 0.0
+  },
+  "assumptions": [
+    {
+      "claim": "An isolated 1D collision: no external horizontal force during contact, so the total momentum is conserved (the carts' mutual forces are internal).",
+      "kind": "model"
+    },
+    {
+      "claim": "The outcome is summarised by a single coefficient of restitution $e \\in [0, 1]$ — the ratio of the relative speed of separation to the relative speed of approach — rather than modelling the contact force in detail.",
+      "kind": "model"
+    }
+  ],
+  "algebra": {
+    "steps": [
+      {
+        "label": "What the algebra-based course hands you (two conservation rules)",
+        "latex": "m_1v_1+m_2v_2 = m_1v_1'+m_2v_2' \\qquad (\\text{elastic:})\\ \\ \\tfrac12 m_1v_1^2+\\tfrac12 m_2v_2^2 = \\tfrac12 m_1v_1'^2+\\tfrac12 m_2v_2'^2",
+        "prose": "Momentum is conserved in a collision, and for an *elastic* collision so is kinetic energy — two equations, two unknown final velocities. It works, but it is handed to you as a pair of rules, with no account of *why* momentum is always conserved while kinetic energy usually is not."
+      }
+    ],
+    "result": {
+      "v1_elastic": {
+        "label": "Elastic ($e=1$): body 1 final $v_1'$",
+        "unit": "m/s",
+        "symbolic_latex": "\\frac{(m_1-m_2)v_1+2m_2v_2}{m_1+m_2}",
+        "value": 1.0,
+        "display": "1"
+      },
+      "v2_elastic": {
+        "label": "Elastic ($e=1$): body 2 final $v_2'$",
+        "unit": "m/s",
+        "symbolic_latex": "\\frac{(m_2-m_1)v_2+2m_1v_1}{m_1+m_2}",
+        "value": 4.0,
+        "display": "4"
+      },
+      "v_inelastic": {
+        "label": "Inelastic ($e=0$): common velocity $v_{cm}$",
+        "unit": "m/s",
+        "symbolic_latex": "\\frac{m_1v_1+m_2v_2}{m_1+m_2}",
+        "value": 2.0,
+        "display": "2"
+      },
+      "ke_lost_inelastic": {
+        "label": "Inelastic ($e=0$): kinetic energy lost",
+        "unit": "J",
+        "symbolic_latex": "\\tfrac12\\mu(v_1-v_2)^2",
+        "value": 3.0,
+        "display": "3"
+      }
+    }
+  },
+  "calculus": {
+    "steps": [
+      {
+        "label": "Momentum conservation is the time-integral of Newton's third law",
+        "latex": "F_{12} = -F_{21} \\ \\Longrightarrow\\ J_1 = \\int F_{12}\\,dt = -\\int F_{21}\\,dt = -J_2 \\ \\Longrightarrow\\ \\Delta p_1 = -\\Delta p_2",
+        "prose": "During contact the two bodies push on each other with equal and opposite forces at every instant (Newton's third law). The impulse each receives is the time-integral of that force, $J=\\int F\\,dt$ — and since the forces are equal and opposite, so are the impulses. They cancel: $\\Delta p_1+\\Delta p_2=0$. The total momentum is unchanged no matter how complicated the contact force is, elastic or not. This is the impulse–momentum theorem doing the work the algebra states as a rule."
+      },
+      {
+        "label": "Kinetic energy is different — the lost KE is the deformation work",
+        "latex": "\\text{KE}_i-\\text{KE}_f = \\tfrac12\\,\\mu\\,(1-e^2)\\,(v_1-v_2)^2, \\qquad \\mu = \\frac{m_1m_2}{m_1+m_2}",
+        "prose": "The same contact force does work over each body's displacement, and those displacements differ, so the works do *not* cancel: energy goes into deforming the bodies. If they spring all the way back ($e=1$) it is returned and kinetic energy is conserved; otherwise the fraction $\\tfrac12\\mu(1-e^2)(\\Delta v)^2$ stays as heat. The coefficient of restitution $e$ measures how much of the relative speed survives.",
+        "emphasis": true
+      },
+      {
+        "label": "Watch the two totals as you sweep $e$",
+        "latex": "v_1' = \\frac{(m_1-e\\,m_2)v_1+(1+e)m_2v_2}{m_1+m_2}, \\qquad v_2' = \\frac{(m_2-e\\,m_1)v_2+(1+e)m_1v_1}{m_1+m_2}",
+        "prose": "Drag the restitution slider from $e=1$ down to $e=0$: the **momentum** total bar never moves (only the split between the two bodies shifts), while the **kinetic-energy** total bar shrinks, the gap shaded as energy lost. At $e=1$ both totals are conserved; at $e=0$ the bodies leave at the common velocity $v_{cm}$ and the KE loss is maximal."
+      }
+    ]
+  },
+  "proof": {
+    "kind": "governing",
+    "heading": "Momentum is conserved in every collision (equal-and-opposite impulses cancel); kinetic energy is conserved only when the collision is perfectly elastic.",
+    "checked_by": "sympy",
+    "holds": true,
+    "detail": "check $m_1v_1'+m_2v_2'=m_1v_1+m_2v_2$; check $v_2'-v_1'=e(v_1-v_2)$; check $\\Delta\\text{KE}=\\tfrac12\\mu(1-e^2)(\\Delta v)^2$; $e=1\\Rightarrow\\text{KE}$ conserved; $e=0\\Rightarrow$ common velocity $v_{cm}$",
+    "checks": [
+      {
+        "key": "momentum_conserved",
+        "claim": "Total momentum is unchanged for *every* $e$: $m_1v_1'+m_2v_2' = m_1v_1+m_2v_2$. The contact forces are equal and opposite (Newton's third law), so the impulses $J=\\int F\\,dt$ cancel — true for any force profile, elastic or not.",
+        "holds": true,
+        "tier": "simplify"
+      },
+      {
+        "key": "restitution",
+        "claim": "The solved finals obey the restitution relation $v_2'-v_1' = e\\,(v_1-v_2)$ — the relative speed of separation is $e$ times the relative speed of approach.",
+        "holds": true,
+        "tier": "simplify"
+      },
+      {
+        "key": "ke_loss",
+        "claim": "The kinetic energy lost is $\\tfrac12\\mu(1-e^2)(v_1-v_2)^2$ with reduced mass $\\mu=m_1m_2/(m_1+m_2)$ — so KE is conserved only when $e=1$, and the loss is greatest when $e=0$.",
+        "holds": true,
+        "tier": "numeric"
+      },
+      {
+        "key": "elastic_conserves_ke",
+        "claim": "At $e=1$ (perfectly elastic) the kinetic energy is unchanged: $\\text{KE}_f = \\text{KE}_i$.",
+        "holds": true,
+        "tier": "simplify"
+      },
+      {
+        "key": "inelastic_common_velocity",
+        "claim": "At $e=0$ (perfectly inelastic) the bodies move off together at the common velocity $v_{cm}=(m_1v_1+m_2v_2)/(m_1+m_2)$.",
+        "holds": true,
+        "tier": "structural"
+      }
+    ]
+  },
+  "units_check": {
+    "checked_by": "sympy",
+    "holds": true
+  },
+  "graphs": [
+    {
+      "kind": "collision",
+      "mode": "interactive",
+      "window": "fixed",
+      "annotate": [
+        "momentum_conserved",
+        "ke_lost"
+      ],
+      "svg": "assets/graphs/collision-0.svg",
+      "series": {
+        "u": [
+          0.0,
+          0.016666667,
+          0.033333333,
+          0.05,
+          0.066666667,
+          0.083333333,
+          0.1,
+          0.116666667,
+          0.133333333,
+          0.15,
+          0.166666667,
+          0.183333333,
+          0.2,
+          0.216666667,
+          0.233333333,
+          0.25,
+          0.266666667,
+          0.283333333,
+          0.3,
+          0.316666667,
+          0.333333333,
+          0.35,
+          0.366666667,
+          0.383333333,
+          0.4,
+          0.416666667,
+          0.433333333,
+          0.45,
+          0.466666667,
+          0.483333333,
+          0.5,
+          0.516666667,
+          0.533333333,
+          0.55,
+          0.566666667,
+          0.583333333,
+          0.6,
+          0.616666667,
+          0.633333333,
+          0.65,
+          0.666666667,
+          0.683333333,
+          0.7,
+          0.716666667,
+          0.733333333,
+          0.75,
+          0.766666667,
+          0.783333333,
+          0.8,
+          0.816666667,
+          0.833333333,
+          0.85,
+          0.866666667,
+          0.883333333,
+          0.9,
+          0.916666667,
+          0.933333333,
+          0.95,
+          0.966666667,
+          0.983333333,
+          1.0
+        ],
+        "v1f": [
+          2.0,
+          1.983333333,
+          1.966666667,
+          1.95,
+          1.933333333,
+          1.916666667,
+          1.9,
+          1.883333333,
+          1.866666667,
+          1.85,
+          1.833333333,
+          1.816666667,
+          1.8,
+          1.783333333,
+          1.766666667,
+          1.75,
+          1.733333333,
+          1.716666667,
+          1.7,
+          1.683333333,
+          1.666666667,
+          1.65,
+          1.633333333,
+          1.616666667,
+          1.6,
+          1.583333333,
+          1.566666667,
+          1.55,
+          1.533333333,
+          1.516666667,
+          1.5,
+          1.483333333,
+          1.466666667,
+          1.45,
+          1.433333333,
+          1.416666667,
+          1.4,
+          1.383333333,
+          1.366666667,
+          1.35,
+          1.333333333,
+          1.316666667,
+          1.3,
+          1.283333333,
+          1.266666667,
+          1.25,
+          1.233333333,
+          1.216666667,
+          1.2,
+          1.183333333,
+          1.166666667,
+          1.15,
+          1.133333333,
+          1.116666667,
+          1.1,
+          1.083333333,
+          1.066666667,
+          1.05,
+          1.033333333,
+          1.016666667,
+          1.0
+        ],
+        "v2f": [
+          2.0,
+          2.033333334,
+          2.066666666,
+          2.1,
+          2.133333334,
+          2.166666666,
+          2.2,
+          2.233333334,
+          2.266666666,
+          2.3,
+          2.333333334,
+          2.366666666,
+          2.4,
+          2.433333334,
+          2.466666666,
+          2.5,
+          2.533333334,
+          2.566666666,
+          2.6,
+          2.633333334,
+          2.666666666,
+          2.7,
+          2.733333334,
+          2.766666666,
+          2.8,
+          2.833333334,
+          2.866666666,
+          2.9,
+          2.933333334,
+          2.966666666,
+          3.0,
+          3.033333334,
+          3.066666666,
+          3.1,
+          3.133333334,
+          3.166666666,
+          3.2,
+          3.233333334,
+          3.266666666,
+          3.3,
+          3.333333334,
+          3.366666666,
+          3.4,
+          3.433333334,
+          3.466666666,
+          3.5,
+          3.533333334,
+          3.566666666,
+          3.6,
+          3.633333334,
+          3.666666666,
+          3.7,
+          3.733333334,
+          3.766666666,
+          3.8,
+          3.833333334,
+          3.866666666,
+          3.9,
+          3.933333334,
+          3.966666666,
+          4.0
+        ],
+        "u_max": 1.0
+      },
+      "closed_form": {
+        "v1f": "(3*m1 - 3*u)/(m1 + 1)",
+        "v2f": "3*m1*(u + 1)/(m1 + 1)"
+      },
+      "closed_form_params": [
+        "m1",
+        "u"
+      ],
+      "params": {
+        "m1": {
+          "min": 1.0,
+          "max": 4.0,
+          "default": 2.0
+        }
+      },
+      "cursor": {
+        "name": "u",
+        "label": "e  (restitution)",
+        "unit": "",
+        "min": 0.0,
+        "max": 1.0,
+        "default": 1.0
+      },
+      "u_label": "e  (restitution)",
+      "consts": {
+        "m2": 1.0,
+        "v1": 3.0,
+        "v2": 0.0
+      }
+    }
+  ],
+  "misconception": {
+    "claim": "Momentum is only conserved when no kinetic energy is lost — so in a 'sticky' (inelastic) collision, momentum isn't conserved either.",
+    "refuted_by": "Momentum is conserved in *every* collision, elastic or not. It follows from Newton's third law: during contact the two bodies push on each other with equal and opposite forces at every instant, so the impulses $J = \\int F\\,dt$ they receive are equal and opposite and cancel — the total momentum change is zero regardless of how much energy is lost. Kinetic energy is the quantity that is only *conditionally* conserved (when $e = 1$). The two laws are independent: drag $e$ to $0$ and watch the momentum total bar stay pinned while the kinetic-energy total bar collapses by $\\tfrac12\\mu(1-e^2)(\\Delta v)^2$. People conflate the two because the *elastic* case happens to conserve both."
+  },
+  "formulas_used": [
+    "mom-momentum",
+    "mom-impulse",
+    "en-kinetic",
+    "mom-inelastic-v"
+  ],
+  "provenance": {
+    "producer": "quadrature_producer",
+    "version": "0.1.0",
+    "sympy": "1.14.0",
+    "author": "Quadrature",
+    "created": "2026-06-27"
+  }
+}

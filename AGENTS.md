@@ -154,6 +154,13 @@ broad. Adding either touches data, not the engine.
   `EnergyBars.svelte`); proof `governing` (the conserved energy is the first integral of `F=ma`). See
   `energy_conservation.py`. To add an energy lesson, copy it: build `ke_expr`, `pe_expr`, the `EnergyPlot`, and
   the conservation proof checks — no schema/gate/frontend change.
+  **Collision models** (ADR-0018) carry a `CollisionPlot` — a **before/after** two-state bars instrument
+  (`kind:"collision"`, `Collision.svelte`): the closed-form final velocities `v1f`/`v2f` of a 1D two-body
+  collision over a **restitution cursor `e`** (0=inelastic … 1=elastic), with `m2`/`v1`/`v2` as `constants`
+  (exported as `consts` for the island). The momentum total bar is pinned at every `e`; the KE total bar
+  collapses as `e→0`, the gap shaded as lost energy. Parity-verified `v1f,v2f` (axis `u`=e), proof `governing`
+  (momentum conservation is the time-integral of Newton's third law). See `collision.py`; a second collision
+  lesson is model + spec + test.
 
 **Authoring math.** Display equations use the `latex` field (rendered as a block). Inline math inside any
 prose / claim / label / scenario / misconception is written with `$...$` (e.g. `the period $T = 2\pi/\omega$`)
@@ -180,31 +187,34 @@ The producer engine should rarely change. If it must, add a physics cross-check 
 See [`ROADMAP.md`](./ROADMAP.md) and the latest [`docs/sessions/`](./docs/sessions/) log. **Phase 0 is
 complete and reviewed**; **Phase 1 (mechanics)** is in progress, **Phase 2 (E&M) is opened** (two lessons + a
 9-formula reference cluster), and **Phase 3 (thermo + now fluids) is seeded and deepening**. The site is **live
-and public** at https://jd-jones-ases.github.io/quadrature/ (push to `main` auto-deploys). Shipped: 20 lessons —
+and public** at https://jd-jones-ases.github.io/quadrature/ (push to `main` auto-deploys). Shipped: 21 lessons —
 free fall, **projectile (drag-free)**, **rotational kinematics**, and the **circular orbit** (regime 1,
 trajectory on a centred frame — `v=√(μ/R)`, Kepler's `T²∝R³`); SHM, terminal velocity, the damped oscillator,
 **work–energy**, **projectile with quadratic drag**, **impulse–momentum**, **gravitational potential energy**,
 **energy in a capacitor** and **electric potential energy** (regime 2, E&M), **moment of inertia** (`∫r² dm`),
 **rotational work–energy** (`∫τ dθ → ½Iω²`), **hydrostatic force on a wall** (`∫ρg w h dh → ½ρgwH²`, opens
 the fluids domain), the **elliptical orbit** (numerical — Kepler's three laws from `r̈=−μr/r³`), and
-**conservation of energy** (the energy-bars instrument — path-independent `v=√(2gH)`) (regime 2);
-and **isothermal** and **adiabatic PV-work** (regime 3) — plus a **70-formula
+**conservation of energy** (the energy-bars instrument — path-independent `v=√(2gH)`), and **collisions /
+momentum** (the before/after collision-bars instrument — momentum conserved at every restitution, KE only when
+elastic) (regime 2); and **isothermal** and **adiabatic PV-work** (regime 3) — plus a **71-formula
 reference spanning all five domains** (mechanics incl. fluids & rotation, E&M incl. magnetism, thermo, waves &
-optics, modern) and a 70-node / 102-edge concept graph, all SymPy-verified. The producer is a model registry
+optics, modern) and a 71-node / 104-edge concept graph, all SymPy-verified. The producer is a model registry
 (`constant-accel`, `shm`, `linear-drag`, `damped-shm`, `work-energy`, `pv-work`, `projectile`, `impulse`,
 `rotation`, `gravity-pe`, `capacitor-energy`, `adiabatic`, `moment-of-inertia`, `coulomb-pe`,
-`hydrostatic-force`, `rotational-work`, `orbit`, `energy-conservation`). The concept-graph nodes are
+`hydrostatic-force`, `rotational-work`, `orbit`, `energy-conservation`, `collision`). The concept-graph nodes are
 click-to-select and drag-to-reposition.
 
-Graphs come in four instruments: the **temporal stack** (`kind:"stack"`, modes `static` | `interactive` |
+Graphs come in five instruments: the **temporal stack** (`kind:"stack"`, modes `static` | `interactive` |
 `sampled`), the **area/integral instrument** (`kind:"area"`, ADR-0014 — area under `f(u)` = the accumulated
 integral `g(u)`, off the time axis), the **2D trajectory instrument** (`kind:"trajectory"`, ADR-0015 — the
 path y vs x; drag-free is exact/interactive, quadratic drag is numerically integrated; a centred `frame:"orbit"`
-draws closed orbits, ADR-0016), and the **energy-exchange bars** (`kind:"energy"`, ADR-0017 — KE/PE bars that
+draws closed orbits, ADR-0016), the **energy-exchange bars** (`kind:"energy"`, ADR-0017 — KE/PE bars that
 trade as a cursor moves while the Total stays flat; an `EnergyPlot` carrying `ke_expr`/`pe_expr`, wired like the
-area instrument).
+area instrument), and the **before/after collision bars** (`kind:"collision"`, ADR-0018 — momentum bars equal
+before/after at every restitution `e`, KE bars equal only when elastic; a `CollisionPlot` carrying the final
+velocities `v1f`/`v2f`, also wired like the area instrument).
 Proof kinds: `equivalence` (regime 1) · `governing` (regime-2 ODE / numerical motion / a conserved first
-integral) · `integral` (area instrument).
+integral / a collision conservation law) · `integral` (area instrument).
 
 ## Where this might go next (paths for a future session)
 
@@ -227,13 +237,13 @@ is per-domain *depth* and a couple of small, well-scoped engine extensions, flag
      a `check-trajectory.mjs` `frame==="orbit"` branch (closes · encircles the focus once · `e=0` is a circle ·
      equal periods). Kepler's three laws all fall out. (A future polish: animate the satellite around the orbit
      to *show* equal-areas-in-equal-times, rather than stating it.)
-   - **Collisions / momentum — the highest-value remaining mechanics frontier.** Energy conservation is **done**
-     (the `kind:"energy"` bars instrument, `energy_conservation.py` — KE/PE trade, Total flat). Collisions can
-     reuse a *similar* bars idea but **before/after** (two states, not a continuous cursor): a 1D collision with
-     momentum bars (always equal before/after) and KE bars (equal only if elastic — the lost KE is the lesson).
-     Either extend `EnergyBars`/`EnergyPlot` to a two-state "before/after" mode, or add a small `kind:"collision"`
-     island. The producer would solve the elastic/inelastic final velocities and prove momentum conserved (and
-     KE conserved iff elastic). No new physics engine — a viz + a model + a spec.
+   - **Collisions / momentum — DONE** (ADR-0018, `collision.py`, the `kind:"collision"` before/after bars). A 1D
+     two-body collision with the **restitution `e` as the cursor**: momentum bars equal before/after at every
+     `e`, KE bars equal only when elastic, the lost KE shaded. Proof `governing` (momentum conservation = the
+     time-integral of Newton's third law; the KE deficit is `½μ(1−e²)(Δv)²`). New `CollisionPlot` +
+     `Collision.svelte` + `render_collision` + `collision_series`/`consts` schema, parity-verified `v1f,v2f`,
+     no new gate. A future second collision lesson (head-on with opposite signs, or a 2D oblique collision)
+     would be model + spec + test.
 2. **More area-instrument lessons (zero engine change — model + spec + test)** — Coulomb PE and rotational work
    are now **done** (`coulomb_pe.py`, `rotational_work.py`); still open: **isobaric** PV-work (the trivial
    rectangle, completes the PV-process trio), and later E&M field integrals (`∫E·dl`, `∫dq/r²`) and a

@@ -1,0 +1,33 @@
+id = "collision"
+title = "Collisions: why momentum always survives but kinetic energy usually doesn't"
+topic = "momentum"
+slug = "collision"
+model = "collision"
+regime = 2
+author = "Quadrature"
+created = "2026-06-27"
+scenario = "A $m_1 = 2$ kg cart moving at $v_1 = 3$ m/s strikes a stationary $m_2 = 1$ kg cart. Slide the coefficient of restitution $e$ from $1$ (perfectly elastic — the carts bounce apart with no energy lost) down to $0$ (perfectly inelastic — they latch together). The **momentum** bars are the same total height before and after at *every* setting; the **kinetic-energy** bars match only when $e = 1$, and the gap that opens as $e \\to 0$ is energy lost to deformation. Momentum is conserved because the contact forces are equal and opposite (Newton's third law); kinetic energy is not, because the deformation work need not come back."
+formulas_used = ["mom-momentum", "mom-impulse", "en-kinetic", "mom-inelastic-v"]
+
+[parameters]
+m1 = 2                 # kg — incident cart (the slider)
+m2 = 1                 # kg — target cart (constant)
+v1 = 3                 # m/s — incident velocity (constant)
+v2 = 0                 # m/s — target velocity (at rest)
+
+[[assumptions]]
+claim = "An isolated 1D collision: no external horizontal force during contact, so the total momentum is conserved (the carts' mutual forces are internal)."
+kind = "model"
+
+[[assumptions]]
+claim = "The outcome is summarised by a single coefficient of restitution $e \\in [0, 1]$ — the ratio of the relative speed of separation to the relative speed of approach — rather than modelling the contact force in detail."
+kind = "model"
+
+[[graphs]]
+kind = "collision"
+mode = "interactive"
+annotate = ["momentum_conserved", "ke_lost"]
+
+[misconception]
+claim = "Momentum is only conserved when no kinetic energy is lost — so in a 'sticky' (inelastic) collision, momentum isn't conserved either."
+refuted_by = "Momentum is conserved in *every* collision, elastic or not. It follows from Newton's third law: during contact the two bodies push on each other with equal and opposite forces at every instant, so the impulses $J = \\int F\\,dt$ they receive are equal and opposite and cancel — the total momentum change is zero regardless of how much energy is lost. Kinetic energy is the quantity that is only *conditionally* conserved (when $e = 1$). The two laws are independent: drag $e$ to $0$ and watch the momentum total bar stay pinned while the kinetic-energy total bar collapses by $\\tfrac12\\mu(1-e^2)(\\Delta v)^2$. People conflate the two because the *elastic* case happens to conserve both."
