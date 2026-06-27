@@ -6,7 +6,7 @@ model = "isobaric-work"
 regime = 3
 author = "Quadrature"
 created = "2026-06-27"
-scenario = "A gas expands at constant pressure $P = 100$ kPa from $V_1 = 1$ L to $V_2 = 3$ L (a piston under a fixed load). How much work does it do? Because the pressure never changes, the $P$–$V$ curve is a horizontal line and the work is the rectangular area under it: $W = P\\,\\Delta V$. This is the simplest integral in the course — a constant integrand — so the memorized algebra formula and the calculus area are literally the same. Drag $P$ to scale the rectangle; sweep the cursor to watch the work accumulate as a straight line."
+scenario = "A gas expands at constant pressure $P = 100$ kPa from $V_1 = 1$ L to $V_2 = 3$ L (a piston under a fixed load). How much work does it do? Because the pressure never changes, the $P$–$V$ curve is a horizontal line and the work is the rectangular area under it: $W = P\\,\\Delta V$@{thermo-work-isobaric}. This is the simplest integral in the course — a constant integrand — so the memorized algebra formula and the calculus area are literally the same. Drag $P$ to scale the rectangle; sweep the cursor to watch the work accumulate as a straight line."
 formulas_used = ["thermo-work-isobaric", "thermo-ideal-gas", "thermo-first-law"]
 
 [parameters]

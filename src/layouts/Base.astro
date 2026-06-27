@@ -4,6 +4,7 @@ import "@fontsource/ibm-plex-mono";
 import "katex/dist/katex.min.css";
 import "../styles/portal.css";
 import { withBase } from "../lib/withBase.js";
+import SiteSearch from "../islands/SiteSearch.svelte";
 
 const { title = "Quadrature", description = "A dual algebra/calculus physics course where the verification system is the product." } = Astro.props;
 const nav = [
@@ -32,6 +33,9 @@ const nav = [
         <nav class="nav">
           {nav.map(([label, href]) => <a href={withBase(href)}>{label}</a>)}
         </nav>
+        {/* Site-wide ⌘K search + the in-prose formula-hover popover (one fetched index powers both). client:load
+            so ⌘K works immediately and it hydrates in headless previews (client:visible would not). ADR-0030. */}
+        <SiteSearch client:load />
       </div>
     </header>
     <main>

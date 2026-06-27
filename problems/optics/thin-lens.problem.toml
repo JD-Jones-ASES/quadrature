@@ -6,7 +6,7 @@ model = "thin-lens"
 regime = 3
 author = "Quadrature"
 created = "2026-06-27"
-scenario = "A converging lens with focal length $f = 1$ m. An object $h_o = 0.4$ m tall stands a distance $d_o$ to the left. Slide the object along the axis: outside the focal point it makes a **real, inverted** image you could catch on a screen (a projector); slide it *inside* the focal point and the image flips to **virtual, upright, and enlarged** (a magnifying glass). The thin-lens equation $1/d_o + 1/d_i = 1/f$ tells you *where* the image is — but the **ray diagram** shows you *why*, with three straight lines and no equation at all."
+scenario = "A converging lens with focal length $f = 1$ m. An object $h_o = 0.4$ m tall stands a distance $d_o$ to the left. Slide the object along the axis: outside the focal point it makes a **real, inverted** image you could catch on a screen (a projector); slide it *inside* the focal point and the image flips to **virtual, upright, and enlarged** (a magnifying glass). The thin-lens equation $1/d_o + 1/d_i = 1/f$@{optics-thin-lens} tells you *where* the image is — but the **ray diagram** shows you *why*, with three straight lines and no equation at all."
 formulas_used = ["optics-thin-lens", "optics-magnification"]
 
 [parameters]

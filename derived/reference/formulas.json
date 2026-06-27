@@ -100,7 +100,7 @@
       ],
       "derivation": null,
       "lessons": [
-        "spring-damped"
+        "damped"
       ],
       "citations": [],
       "verified": {
@@ -138,7 +138,7 @@
       ],
       "derivation": null,
       "lessons": [
-        "spring-damped"
+        "damped"
       ],
       "citations": [],
       "verified": {
@@ -177,7 +177,7 @@
       ],
       "derivation": null,
       "lessons": [
-        "freefall-drag"
+        "terminal-velocity"
       ],
       "citations": [],
       "verified": {
@@ -224,7 +224,7 @@
       ],
       "derivation": null,
       "lessons": [
-        "freefall-drag"
+        "terminal-velocity"
       ],
       "citations": [],
       "verified": {
@@ -2047,7 +2047,7 @@
       ],
       "derivation": null,
       "lessons": [
-        "freefall-throw-up"
+        "throw-up"
       ],
       "citations": [],
       "verified": {
@@ -2089,7 +2089,7 @@
         "variable": "t"
       },
       "lessons": [
-        "freefall-throw-up"
+        "throw-up"
       ],
       "citations": [],
       "verified": {
@@ -2135,7 +2135,7 @@
         "variable": "t"
       },
       "lessons": [
-        "freefall-throw-up"
+        "throw-up"
       ],
       "citations": [],
       "verified": {
@@ -2896,7 +2896,7 @@
       ],
       "derivation": null,
       "lessons": [
-        "spring-shm"
+        "mass-spring"
       ],
       "citations": [],
       "verified": {
@@ -2927,7 +2927,7 @@
       ],
       "derivation": null,
       "lessons": [
-        "spring-shm"
+        "mass-spring"
       ],
       "citations": [],
       "verified": {
@@ -2970,7 +2970,7 @@
       ],
       "derivation": null,
       "lessons": [
-        "spring-shm"
+        "mass-spring"
       ],
       "citations": [],
       "verified": {

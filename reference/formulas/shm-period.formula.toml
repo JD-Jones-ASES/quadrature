@@ -6,7 +6,7 @@ expr = "2*pi/omega"
 lhs = "T"
 result_unit = "s"
 assumptions = ["ideal Hooke's-law spring", "no damping"]
-lessons = ["spring-shm"]
+lessons = ["mass-spring"]
 citations = []
 
 [variables]

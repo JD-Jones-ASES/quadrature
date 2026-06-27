@@ -1,6 +1,6 @@
 {
   "name": "quadrature",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -16,8 +16,9 @@
     "check:trajectory": "node scripts/validate/check-trajectory.mjs",
     "check:katex": "node scripts/validate/check-katex.mjs",
     "check:latex-quality": "node scripts/validate/check-latex-quality.mjs",
+    "check:prose-links": "node scripts/validate/check-prose-links.mjs",
     "validate:scan": "node scripts/validate/scan-text.mjs",
-    "validate": "npm run validate:solutions && npm run validate:reference && npm run check:parity && npm run check:trajectory && npm run check:katex && npm run check:latex-quality && npm run validate:scan",
+    "validate": "npm run validate:solutions && npm run validate:reference && npm run check:parity && npm run check:trajectory && npm run check:katex && npm run check:latex-quality && npm run check:prose-links && npm run validate:scan",
     "prepare:data": "npm run produce && npm run validate",
     "build": "npm run validate && astro build"
   },

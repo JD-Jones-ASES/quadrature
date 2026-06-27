@@ -2,6 +2,7 @@
 import Base from "../../layouts/Base.astro";
 import { withBase } from "../../lib/withBase.js";
 import { tex, inline } from "../../lib/katex.js";
+import { prettyUnit } from "../../lib/view.js";
 import data from "../../../derived/reference/formulas.json";
 
 const DOMAIN_LABEL = {
@@ -43,7 +44,7 @@ for (const f of data.formulas) formulaName[f.id] = f.name;
             <table class="vars" aria-label={`Variables in ${f.name}`}>
               <tbody>
                 {Object.entries(f.variables).map(([sym, v]) => (
-                  <tr><td class="sym" set:html={v.latex ? tex(v.latex, false) : sym} /><td class="unit">{v.unit}</td><td class="desc">{v.desc}</td></tr>
+                  <tr><td class="sym" set:html={v.latex ? tex(v.latex, false) : sym} /><td class="unit">{prettyUnit(v.unit)}</td><td class="desc">{v.desc}</td></tr>
                 ))}
               </tbody>
             </table>

@@ -7,6 +7,10 @@ from `JD.md`), then fill depth-first, and close with a doc sweep. Status lives h
 
 ## Status
 
+- **v1.0.0 — first public release** (2026-06-27). The course as a verified, navigable whole: **34 lessons** across
+  12 units, a **96-formula** reference (96 nodes / 153 edges), **7 graph instruments**, **8 build gates**, **125
+  producer tests**, parity 6899 — plus the §8 navigational backbone fully discharged (ADR-0026 + the in-prose
+  formula hover and ⌘K search in ADR-0030). The phase tracks below continue past v1.0.0 (more depth per domain).
 - **Phase 0 — vertical slice — COMPLETE, reviewed, PUBLISHED** (2026-06-26). Producer, gates, player,
   reference, and concept graph end-to-end; the repo is public and the site is **live** at
   https://jd-jones-ases.github.io/quadrature/ (every push to `main` auto-deploys).
@@ -15,23 +19,23 @@ from `JD.md`), then fill depth-first, and close with a doc sweep. Status lives h
   drag**, **impulse–momentum**, **rotational kinematics**, **gravitational PE**, **moment of inertia (`∫r² dm`)**,
   **rotational work–energy (`∫τ dθ`)**, **hydrostatic force** + **Torricelli (energy bars, opens fluid
   dynamics)**, the **circular + elliptical orbit** (Kepler), **conservation of energy**, and **collisions /
-  momentum**. The **26 lessons** are grouped into **11 pedagogical units** on the lessons index (a
+  momentum**. The **34 lessons** are grouped into **12 pedagogical units** on the lessons index (a
   presentation-only manifest, `src/lib/lessonOrder.js`).
-  Engine has **five graph instruments**: the temporal stack (now **generalized to N panels**, ADR-0021), the
+  Engine has **seven graph instruments**: the temporal stack (now **generalized to N panels**, ADR-0021), the
   **integral instrument** (ADR-0014), the **2D trajectory instrument** (ADR-0015 + centred `frame:"orbit"`), the
-  **energy-exchange bars** (ADR-0017), and the **before/after collision bars** (ADR-0018). The interactive-graph
+  **energy-exchange bars** (ADR-0017), the **before/after collision bars** (ADR-0018), the **standing-wave spatial
+  modes** (ADR-0023), and the **thin-lens ray diagram** (ADR-0024). The interactive-graph
   CSS-delivery bug (black SVGs) is fixed (ADR-0019, `css:"injected"` + declared dark mode); the concept graph has
   clean Unicode labels + a domain-clustered layout + pan/zoom (ADR-0020).
 - **Phase 2 — electricity & magnetism — DEEPENING.** E&M lessons: **energy in a capacitor** (`∫V dq → ½CV²`,
   regime 2, area on the charge axis) and **electric potential energy** (`∫kq₁q₂/r² dr → kq₁q₂/R`, regime 2,
   area on the separation axis — the electric twin of gravitational PE, with the area to infinity converging to
-  a finite binding energy), both built with no engine change. A **14-formula E&M reference**:
-  electrostatics (Coulomb, point-charge field & potential, electric PE), circuits (capacitance, capacitor
-  energy, Ohm's law, electrical power, RC time constant), and **magnetism** (Lorentz force, force on a wire,
-  field of a long wire, magnetic flux, motional EMF — which seeds induction). Since then: **RC charging** (the
-  2-panel temporal stack — `I` is the slope of `Q`, the RC ODE, `τ=RC`) and **the field of a charged rod**
-  (`∫kλ/x² dx`, the area instrument — calculus where algebra has only the point charge). Magnetism/induction
-  lessons: not started.
+  a finite binding energy), both built with no engine change. A deep E&M reference now spans electrostatics,
+  circuits, and a full **magnetism/induction cluster** (ADR-0028 — solenoid/loop/wire fields, cyclotron, loop
+  torque, inductor energy, RL, mutual inductance, displacement current, Gauss). Dual-register lessons since then:
+  **RC charging** (2-panel temporal stack — `I` is the slope of `Q`, `τ=RC`), **the field of a charged rod**
+  and **the charged disk** (`∫…`, area instrument — calculus where algebra has only the point charge), plus
+  **LC oscillation** and **Faraday induction** (the electrical spring and the AC generator, 2-panel stacks).
 - **Phase 3 — algebra-only domains — SEEDED & DEEPENING.** Thermo: **isothermal** and **adiabatic** PV-work
   lessons (`∫P dV`, regime 3, area instrument) + a 6-formula thermo reference (ideal gas, first law, specific
   heat, internal energy, adiabatic work & relation, Carnot). **Fluids now has its first lesson** — hydrostatic
@@ -42,11 +46,13 @@ from `JD.md`), then fill depth-first, and close with a doc sweep. Status lives h
   E=mc², photoelectric).
   **Fluid dynamics** now has its first lesson (**Torricelli**, energy bars) and **modern physics is opened**
   (**radioactive decay**, the N / dN/dt 2-panel stack, `dN/dt=−λN`).
-- **Reference: 82 formulas across all five domains**, all SymPy-unit-verified, 82-node / 125-edge concept graph.
+- **Reference: 96 formulas across all five domains**, all SymPy-unit-verified, 96-node / 153-edge concept graph.
 - **Waves & optics now has three lessons** — standing waves (ADR-0023) and **thin-lens optics** (ADR-0024,
   the ray-diagram instrument, the 7th), plus a **diverging-lens** variant (the same instrument with f<0, always
   a virtual image) — closing the last domain gap on the engine. Engine now has **seven graph instruments**.
-  Verified practice (ADR-0022) rides on every lesson. **32 lessons, 119 producer tests, parity 6652.**
+  Verified practice (ADR-0022) rides on every lesson; the reference is the navigational spine, with hover
+  previews on formula chips + in-prose tokens and a ⌘K search (ADR-0026, ADR-0030). **34 lessons, 96 formulas,
+  125 producer tests, parity 6899, 8 build gates.**
 
 ---
 
@@ -148,10 +154,11 @@ offerings (ADR-0007), independent of which lessons exist. Tracked against
 [`docs/regime-map.md`](./docs/regime-map.md). Goal: the reference is a comprehensive, SymPy-verified, fully
 interlinked formula sheet early, while lessons trail depth-first.
 
-**Status (2026-06-26): the breadth-first pass now covers all five domains** — 70 formulas (mechanics incl.
-fluids & rotation, E&M incl. magnetism, thermo, waves & optics, modern), a 70-node / 102-edge concept graph,
-every formula's LaTeX generated from its SymPy expression and unit-checked. Remaining is per-domain depth (E&M
-induction beyond motional EMF, Gauss, the rest of optics, nuclear), not new domains.
+**Status: the breadth-first pass covers all five domains** — **96 formulas** (mechanics incl. fluids & rotation,
+E&M incl. a full magnetism/induction/Gauss cluster, thermo, waves & optics, modern), a **96-node / 153-edge**
+concept graph, every formula's LaTeX generated from its SymPy expression and unit-checked, and the reference now
+the navigational spine (hover previews, in-prose tokens, ⌘K search). Remaining is per-domain depth (the rest of
+thermo/optics, nuclear), not new domains.
 
 ## Out of scope (v1)
 

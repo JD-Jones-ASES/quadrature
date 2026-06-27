@@ -6,7 +6,7 @@ expr = "b/(2*sqrt(k*m))"
 lhs = '\zeta'
 result_unit = "1"
 assumptions = ["linear damping"]
-lessons = ["spring-damped"]
+lessons = ["damped"]
 citations = []
 
 [variables]

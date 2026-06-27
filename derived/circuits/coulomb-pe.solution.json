@@ -3,7 +3,7 @@
   "title": "Electric potential energy: why separating charges takes finite energy",
   "topic": "circuits",
   "slug": "coulomb-pe",
-  "scenario": "Two opposite point charges ($q_1 = 2\\ \\mu$C, $q_2 = 2\\ \\mu$C) are held a separation $R = 2$ cm apart and attract with $F = kq_1q_2/r^2$. How much energy does it take to pull them fully apart — and why is that energy *finite*? Drag the cursor outward and watch the potential energy climb toward a ceiling as the area under $1/r^2$ converges. This is the electric twin of escape energy: the same inverse-square area, charge in place of mass.",
+  "scenario": "Two opposite point charges, of magnitudes $q_1 = q_2 = 2\\ \\mu$C, are held a separation $R = 2$ cm apart and attract with $F = kq_1q_2/r^2$. How much energy does it take to pull them fully apart — and why is that energy *finite*? Drag the cursor outward and watch the potential energy climb toward a ceiling as the area under $1/r^2$ converges. This is the electric twin of escape energy: the same inverse-square area, charge in place of mass.",
   "regime": 2,
   "constants": {
     "k": 8990000000.0,
@@ -365,7 +365,7 @@
     {
       "id": "separation-energy",
       "asks": "the energy to separate the charges completely",
-      "prompt": "Two $+2\\,\\mu$C charges sit $R = 2$ cm apart. How much energy is needed to pull them infinitely far apart?",
+      "prompt": "A $+2\\,\\mu$C and a $-2\\,\\mu$C charge sit $R = 2$ cm apart. How much energy is needed to pull them infinitely far apart?",
       "answer": {
         "value": 1.798,
         "display": "1.798",

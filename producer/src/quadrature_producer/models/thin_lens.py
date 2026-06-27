@@ -172,13 +172,21 @@ def build(spec: dict) -> Scenario:
         "the ray *parallel* to the axis bends **outward**, as if it had come from the near focus $F$; the ray "
         "through the lens *center* goes straight; the ray aimed at the far focus $F'$ leaves *parallel*. The "
         "refracted rays diverge — but traced *backward* they meet, and that crossing is the (virtual) image.")
+    # The focus a given ray is tied to flips with lens type, so the latex must track the prose (and the on-screen
+    # ray diagram): a CONVERGING lens sends the parallel ray through the image-side focus F′; a DIVERGING lens
+    # sends it away as if from the object-side focus F. (A shared "parallel↔F" latex contradicted the converging
+    # prose — flagged in the v1.0.0 sweep.)
+    ray_latex = (
+        r"\text{(1) parallel}\leftrightarrow F' \qquad \text{(2) through center}\to\text{straight} "
+        r"\qquad \text{(3) } F \leftrightarrow \text{parallel}" if converging else
+        r"\text{(1) parallel}\leftrightarrow F \qquad \text{(2) through center}\to\text{straight} "
+        r"\qquad \text{(3) } F' \leftrightarrow \text{parallel}")
     geometry = {
         "register_label": "Ray diagram",
         "steps": [
             {
                 "label": "Draw three rays from the tip of the object — no equation needed",
-                "latex": r"\text{(1) parallel}\leftrightarrow F \qquad \text{(2) through center}\to\text{straight} "
-                         r"\qquad \text{(3) } F' \leftrightarrow \text{parallel}",
+                "latex": ray_latex,
                 "prose": f"Geometric optics needs no calculus and, at first, no algebra. From the object tip, "
                          f"{ray_rules}",
             },

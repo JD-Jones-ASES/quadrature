@@ -6,7 +6,7 @@ expr = "v0 + a*t"
 lhs = "v"
 result_unit = "m/s"
 assumptions = ["acceleration is constant"]
-lessons = ["freefall-throw-up"]
+lessons = ["throw-up"]
 citations = []
 
 [variables]

@@ -3,7 +3,7 @@
   "title": "Image formation by a thin lens: why the ray diagram is the lens equation",
   "topic": "optics",
   "slug": "thin-lens",
-  "scenario": "A converging lens with focal length $f = 1$ m. An object $h_o = 0.4$ m tall stands a distance $d_o$ to the left. Slide the object along the axis: outside the focal point it makes a **real, inverted** image you could catch on a screen (a projector); slide it *inside* the focal point and the image flips to **virtual, upright, and enlarged** (a magnifying glass). The thin-lens equation $1/d_o + 1/d_i = 1/f$ tells you *where* the image is — but the **ray diagram** shows you *why*, with three straight lines and no equation at all.",
+  "scenario": "A converging lens with focal length $f = 1$ m. An object $h_o = 0.4$ m tall stands a distance $d_o$ to the left. Slide the object along the axis: outside the focal point it makes a **real, inverted** image you could catch on a screen (a projector); slide it *inside* the focal point and the image flips to **virtual, upright, and enlarged** (a magnifying glass). The thin-lens equation $1/d_o + 1/d_i = 1/f$@{optics-thin-lens} tells you *where* the image is — but the **ray diagram** shows you *why*, with three straight lines and no equation at all.",
   "regime": 3,
   "constants": {
     "f": 1.0,
@@ -72,7 +72,7 @@
     "steps": [
       {
         "label": "Draw three rays from the tip of the object — no equation needed",
-        "latex": "\\text{(1) parallel}\\leftrightarrow F \\qquad \\text{(2) through center}\\to\\text{straight} \\qquad \\text{(3) } F' \\leftrightarrow \\text{parallel}",
+        "latex": "\\text{(1) parallel}\\leftrightarrow F' \\qquad \\text{(2) through center}\\to\\text{straight} \\qquad \\text{(3) } F \\leftrightarrow \\text{parallel}",
         "prose": "Geometric optics needs no calculus and, at first, no algebra. From the object tip, the ray *parallel* to the axis bends through the far focus $F'$; the ray through the lens *center* goes straight; the ray through the near focus $F$ leaves *parallel*. Each is a straight line you can rule by hand. Where they cross is the image."
       },
       {
@@ -501,7 +501,7 @@
       "calculus_steps": [
         {
           "label": "Draw three rays from the tip of the object — no equation needed",
-          "latex": "\\text{(1) parallel}\\leftrightarrow F \\qquad \\text{(2) through center}\\to\\text{straight} \\qquad \\text{(3) } F' \\leftrightarrow \\text{parallel}",
+          "latex": "\\text{(1) parallel}\\leftrightarrow F' \\qquad \\text{(2) through center}\\to\\text{straight} \\qquad \\text{(3) } F \\leftrightarrow \\text{parallel}",
           "prose": "Geometric optics needs no calculus and, at first, no algebra. From the object tip, the ray *parallel* to the axis bends through the far focus $F'$; the ray through the lens *center* goes straight; the ray through the near focus $F$ leaves *parallel*. Each is a straight line you can rule by hand. Where they cross is the image."
         },
         {
@@ -568,7 +568,7 @@
       "calculus_steps": [
         {
           "label": "Draw three rays from the tip of the object — no equation needed",
-          "latex": "\\text{(1) parallel}\\leftrightarrow F \\qquad \\text{(2) through center}\\to\\text{straight} \\qquad \\text{(3) } F' \\leftrightarrow \\text{parallel}",
+          "latex": "\\text{(1) parallel}\\leftrightarrow F' \\qquad \\text{(2) through center}\\to\\text{straight} \\qquad \\text{(3) } F \\leftrightarrow \\text{parallel}",
           "prose": "Geometric optics needs no calculus and, at first, no algebra. From the object tip, the ray *parallel* to the axis bends through the far focus $F'$; the ray through the lens *center* goes straight; the ray through the near focus $F$ leaves *parallel*. Each is a straight line you can rule by hand. Where they cross is the image."
         },
         {

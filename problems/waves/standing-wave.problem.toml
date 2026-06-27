@@ -6,7 +6,7 @@ model = "standing-wave"
 regime = 3
 author = "Quadrature"
 created = "2026-06-27"
-scenario = "A string of length $L = 1$ m, fixed at both ends, carries transverse waves at speed $v = 120$ m/s. It cannot vibrate at just any frequency — only at a discrete ladder of **standing waves**, the harmonics $f_n = nv/2L$. The $n$-th harmonic has $n$ half-wavelengths between the walls and $n-1$ interior nodes that never move. Drag the mode number: the shape changes, the nodes stay pinned, and the frequency climbs in exact integer steps. *Why* only integers? Because the ends are pinned — and that boundary condition is what quantizes the modes."
+scenario = "A string of length $L = 1$ m, fixed at both ends, carries transverse waves at speed $v = 120$ m/s. It cannot vibrate at just any frequency — only at a discrete ladder of **standing waves**, the harmonics $f_n = nv/2L$@{wave-standing-frequency}. The $n$-th harmonic has $n$ half-wavelengths between the walls and $n-1$ interior nodes that never move. Drag the mode number: the shape changes, the nodes stay pinned, and the frequency climbs in exact integer steps. *Why* only integers? Because the ends are pinned — and that boundary condition is what quantizes the modes."
 formulas_used = ["wave-standing-frequency", "wave-standing-wavelength", "wave-speed"]
 
 [parameters]

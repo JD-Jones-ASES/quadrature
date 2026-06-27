@@ -37,7 +37,7 @@ annotate = ["principal_rays", "always_virtual"]
 
 [misconception]
 claim = "If you move the object close enough to a diverging lens, you can magnify it or catch a real image on a screen."
-refuted_by = "You cannot. A diverging lens has no real focus in front of it — parallel rays *spread*, and only their backward extensions meet, at a virtual focus *behind* the object. So for **every** object distance the image distance $d_i = d_o f/(d_o - f)$ comes out **negative** (virtual) and the magnification $|m| < 1$ (reduced and upright). Drag the object from $0.3$ m to $4$ m: the image only ever shrinks toward the focal point, always right-side-up, never on the far side. Only a converging lens ($f > 0$) can magnify or project."
+refuted_by = "You cannot. A diverging lens has no real focus in front of it — parallel rays *spread*, as if streaming from a virtual focus on the near side; trace any object's refracted rays backward and they meet at a virtual image that always sits *between the lens and the object*. So for **every** object distance the image distance $d_i = d_o f/(d_o - f)$ comes out **negative** (virtual) and the magnification $|m| < 1$ (reduced and upright). Drag the object from $0.3$ m to $4$ m: the image only ever shrinks toward the focal point, always right-side-up, never on the far side. Only a converging lens ($f > 0$) can magnify or project."
 
 [[practice]]
 id = "image-distance"

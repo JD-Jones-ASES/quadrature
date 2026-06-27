@@ -6,7 +6,7 @@ expr = "sqrt(k/m - (b/(2*m))**2)"
 lhs = '\omega_d'
 result_unit = "1/s"
 assumptions = ["underdamped (b < 2√(km))", "linear damping"]
-lessons = ["spring-damped"]
+lessons = ["damped"]
 citations = []
 
 [variables]

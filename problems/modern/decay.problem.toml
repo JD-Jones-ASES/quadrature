@@ -6,7 +6,7 @@ model = "decay"
 regime = 2
 author = "Quadrature"
 created = "2026-06-27"
-scenario = "A sample of $N_0 = 1000$ nuclei decays with decay constant $\\lambda = 0.5$ s⁻¹. Each nucleus has the same fixed chance of decaying per second, so the number decaying per second is proportional to how many are left: $dN/dt = -\\lambda N$. Solving this gives the exponential $N(t) = N_0 e^{-\\lambda t}$, and the half-life $t_{1/2} = \\ln 2 / \\lambda$ falls out of it. Stacked $N$–$t$ over $dN/dt$–$t$, the decay rate is the slope of the count — the same exponential machine as a discharging capacitor, in the nucleus."
+scenario = "A sample of $N_0 = 1000$ nuclei decays with decay constant $\\lambda = 0.5$ s⁻¹. Each nucleus has the same fixed chance of decaying per second, so the number decaying per second is proportional to how many are left: $dN/dt = -\\lambda N$. Solving this gives the exponential $N(t) = N_0 e^{-\\lambda t}$@{modern-decay}, and the half-life $t_{1/2} = \\ln 2 / \\lambda$@{modern-half-life} falls out of it. Stacked $N$–$t$ over $dN/dt$–$t$, the decay rate is the slope of the count — the same exponential machine as a discharging capacitor, in the nucleus."
 formulas_used = ["modern-decay", "modern-half-life"]
 
 [parameters]

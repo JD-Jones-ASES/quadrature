@@ -6,7 +6,7 @@ model = "rc-charging"
 regime = 2
 author = "Quadrature"
 created = "2026-06-27"
-scenario = "A capacitor $C = 1$ mF charges through a resistor $R = 1$ k$\\Omega$ from a $V = 10$ V battery. The charge $Q(t)$ climbs toward $CV$ while the current $I(t)$ fades from $V/R$ to zero. Plotted as a stacked $Q$–$t$ over $I$–$t$, the slope of the charge *is* the current at every instant — the same slope↔value pivot as position and velocity, one domain over. Drag $R$ and watch the time constant $\\tau = RC$ stretch both curves."
+scenario = "A capacitor $C = 1$ mF charges through a resistor $R = 1$ k$\\Omega$ from a $V = 10$ V battery. The charge $Q(t)$ climbs toward $CV$ while the current $I(t)$ fades from $V/R$ to zero. Plotted as a stacked $Q$–$t$ over $I$–$t$, the slope of the charge *is* the current at every instant — the same slope↔value pivot as position and velocity, one domain over. Drag $R$ and watch the time constant $\\tau = RC$@{em-rc-time-constant} stretch both curves."
 formulas_used = ["em-rc-time-constant", "em-rc-charge", "em-capacitance", "em-ohms-law"]
 
 [parameters]

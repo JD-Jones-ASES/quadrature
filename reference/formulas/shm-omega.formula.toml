@@ -6,7 +6,7 @@ expr = "sqrt(k/m)"
 lhs = '\omega'
 result_unit = "1/s"
 assumptions = ["ideal Hooke's-law spring", "no damping"]
-lessons = ["spring-shm"]
+lessons = ["mass-spring"]
 citations = []
 
 [variables]

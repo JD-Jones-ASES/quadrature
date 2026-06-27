@@ -6,7 +6,7 @@ model = "coulomb-pe"
 regime = 2
 author = "Quadrature"
 created = "2026-06-26"
-scenario = "Two opposite point charges ($q_1 = 2\\ \\mu$C, $q_2 = 2\\ \\mu$C) are held a separation $R = 2$ cm apart and attract with $F = kq_1q_2/r^2$. How much energy does it take to pull them fully apart — and why is that energy *finite*? Drag the cursor outward and watch the potential energy climb toward a ceiling as the area under $1/r^2$ converges. This is the electric twin of escape energy: the same inverse-square area, charge in place of mass."
+scenario = "Two opposite point charges, of magnitudes $q_1 = q_2 = 2\\ \\mu$C, are held a separation $R = 2$ cm apart and attract with $F = kq_1q_2/r^2$. How much energy does it take to pull them fully apart — and why is that energy *finite*? Drag the cursor outward and watch the potential energy climb toward a ceiling as the area under $1/r^2$ converges. This is the electric twin of escape energy: the same inverse-square area, charge in place of mass."
 formulas_used = ["em-coulomb", "em-potential-energy"]
 
 [parameters]
@@ -41,7 +41,7 @@ refuted_by = "The force does reach out forever, but it *weakens* as $1/r^2$ — 
 id = "separation-energy"
 asks = "the energy to separate the charges completely"
 answer = "result:separation_energy"
-prompt = 'Two $+2\,\mu$C charges sit $R = 2$ cm apart. How much energy is needed to pull them infinitely far apart?'
+prompt = 'A $+2\,\mu$C and a $-2\,\mu$C charge sit $R = 2$ cm apart. How much energy is needed to pull them infinitely far apart?'
 include = ["algebra", "calculus"]
 
   [[practice.distractor]]

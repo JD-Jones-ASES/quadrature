@@ -748,3 +748,44 @@ infinite sheet `σ/2ε₀` — so a finite disk sits *below both* algebra extrem
 with no engine change, and the regime-2 area intro is honest across work/field/fluid/inertia lessons. Verified
 live (E = 3862 N/C at the cursor; the dE/dr and E panels; the corrected intro). A spherical/cylindrical Gauss
 lesson would be the next field step.
+
+## ADR-0030 — The formula-affordances layer: in-prose hover + ⌘K search (the v1.0.0 cut) (2026-06-27)
+
+**Context.** ADR-0026 made the reference the navigational spine but parked two items: in-prose formula-token
+hover ("the rendered-KaTeX-span → formula-id mapping is ambiguous and would need a design pass") and a
+comprehensive search. They are the same feature — both need one *formula-preview dataset* — and together they
+are the last interaction gap before a v1.0.0 cut.
+
+**Decision.** A frontend-only layer (no producer/schema change to the engine) with one design choice at its
+core: **the span→formula mapping is authored and adjacent, not inferred.** An author tags an inline-math span
+with the formula id written right after it — `$\tau = RC$@{em-rc-time-constant}` — and `inline()`
+(`src/lib/katex.js`) renders the math byte-identically to before, then wraps it in
+`<a class="ftok" data-fid="…">` and strips the tag. No heuristics, no false positives; it matches the
+authored-and-verified ethos. (Auto-detection was rejected for exactly the ambiguity ADR-0026 flagged.)
+1. **One dataset, two consumers.** `src/lib/search.js#buildSearchIndex()` aggregates the committed
+   `formulas.json` + the solution JSONs into a small index (formula name/symbols/desc/domain + **build-baked
+   inline KaTeX**, lesson title/topic/regime, pages), served as a static `/search-index.json` endpoint and
+   **fetched once** by a global island (cached across navigations, so no KaTeX ships to the browser and no
+   ~200 KB blob is re-embedded per page).
+2. **The global island** (`src/islands/SiteSearch.svelte`, mounted `client:load` in `Base.astro`): a
+   **⌘K / Ctrl-K command palette** over all 96 formulas + 34 lessons + pages (substring match, light ranking,
+   arrow-key + Enter navigation, KaTeX-previewed results) **and** the **in-prose hover popover** — document-level
+   delegation on `[data-fid]` (robust against late-hydrated island prose) shows the same preview the chip
+   popover does. A header trigger collapses to an icon on mobile.
+3. **An 8th build gate** (`check-prose-links.mjs`, wired into `validate`): every `@{id}` / `data-fid="id"` in
+   committed solution JSON and authored Astro pages must resolve to a real formula — a dangling formula link
+   breaks the build the way a bad unit does. `validate-reference.mjs` also gained a guard that every
+   `formula.lessons` slug is a real lesson route (not the problem id).
+4. **Authored demonstration tags:** the guide's regime/one-idea prose + one canonical formula in each of five
+   lessons spanning all five domains (rc-charging, thin-lens, isobaric-work, standing-wave, decay).
+
+**Consequences.** The ADR-0026 parked items are both closed: hovering a tagged formula anywhere in prose previews
+its reference entry, and ⌘K finds any formula/lesson from any page. Verified live (palette search returns mixed
+KaTeX results, Enter navigates, hover popover paints in light + dark, mobile trigger collapses, zero console
+errors). A pre-release multi-agent sweep then caught and fixed: a like-signed/"opposite" contradiction in
+coulomb-pe, an EMF lead/lag wording slip in faraday, a virtual-image-location error in diverging-lens, a
+thin-lens F/F′ latex label (now lens-type-aware), the Astro word-glue gotcha on the guide, Python `**`/`*` unit
+notation leaking into the reference + result cells (a build-time `prettyUnit()` → `m/s²`, `N·m²/C²`), and
+authoring markup (`$…$`, the formula tags, `**`) leaking into lesson `<meta name="description">` and island
+hydration props (now a `plain()`-projected description; the raw `scenario` is dropped from the view). This is the
+**v1.0.0** state: 34 lessons, 96 formulas (96 nodes / 153 edges), 7 instruments, 8 gates, 125 producer tests.

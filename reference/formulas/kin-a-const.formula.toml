@@ -7,7 +7,7 @@ lhs = "a"
 result_unit = "m/s**2"
 assumptions = ["acceleration is constant"]
 note = 'The seed of the integral ladder: hold $a$ constant and the velocity $v=\int a\,dt$ and position $x=\int v\,dt$ accumulate from it — the constant-acceleration formulas are those integrals, evaluated.'
-lessons = ["freefall-throw-up"]
+lessons = ["throw-up"]
 citations = []
 
 [variables]

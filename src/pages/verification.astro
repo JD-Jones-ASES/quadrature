@@ -37,6 +37,9 @@ import { withBase } from "../lib/withBase.js";
     <li><strong>A closed form that drifts from SymPy.</strong> The JS the browser runs must reproduce
       SymPy's own sample values to within one part in a billion (the parity oracle).</li>
     <li><strong>Math that will not render.</strong> Every LaTeX string must render with KaTeX.</li>
+    <li><strong>A dead formula link or leaked notation.</strong> Every in-prose formula reference must resolve
+      to a real reference entry, and generated formula typography must contain no leaked source-notation symbol
+      names.</li>
     <li><strong>A platform-specific name.</strong> A scan gate keeps the course provider-agnostic.</li>
   </ul>
 

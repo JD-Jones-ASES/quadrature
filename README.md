@@ -28,6 +28,23 @@ the value of the lower; the area under the lower is the change in the upper. Tha
 relationship made visible — and where a student with slope-and-area intuition meets the student with `dx/dt`
 and `∫v dt`, and they turn out to be the same student.
 
+## What's inside
+
+A two-semester spread, built deep on a verified engine:
+
+- **34 lessons** across 12 units and every major domain — mechanics (kinematics, dynamics, energy, momentum,
+  rotation, gravitation/orbits, fluids), electricity & magnetism (circuits, fields, induction), thermodynamics,
+  waves & optics, and modern physics. Each is one scenario shown four reconciled ways (scenario · algebra ·
+  calculus · interactive graph), with a shown SymPy proof, an honest misconception, and "solve it three ways"
+  practice.
+- **Seven interactive graph instruments** — the stacked motion graph, the area/integral graph, a 2D
+  trajectory (incl. orbits), energy-exchange bars, before/after collision bars, standing-wave modes, and a
+  thin-lens ray diagram — all driven by SymPy-exported closed forms in your browser (no server).
+- **A 96-formula reference** spanning all five domains, every entry's LaTeX generated from the SymPy expression
+  it was verified against, plus a typed, pannable **concept graph** (96 nodes, 153 edges).
+- **Navigation built in:** hover any formula chip — or a tagged formula in the prose — to preview its reference
+  entry, and press **⌘K / Ctrl-K** anywhere to search every formula and lesson.
+
 ## How it's verified
 
 One build-time **SymPy** program solves each scenario in the algebra register, derives it in the calculus

@@ -90,7 +90,7 @@ reference/formulas/  AUTHORED formula entries (+ typed concept-graph edges) — 
 producer/            the SymPy producer: a uv package; src/quadrature_producer/*.py + tests/
 derived/             GENERATED, COMMITTED, schema-valid: solution.json, reference/*.json, assets/graphs/*.svg
 schemas/             JSON-Schema contracts (draft 2020-12, additionalProperties:false)
-scripts/validate/    Node gates: validate-solutions, validate-reference, check-parity, check-katex, scan-text
+scripts/validate/    8 Node gates: validate-solutions, validate-reference, check-parity, check-trajectory, check-katex, check-latex-quality, check-prose-links, scan-text
 src/                 Astro app: pages/, layouts/, components/, islands/ (Svelte), lib/, styles/
 docs/                architecture, authoring-problems, authoring-formulas, regime-map, house-conventions, SOURCES, sessions/
 .github/workflows/deploy.yml   push to main -> Node gates + astro build -> GitHub Pages (LIVE, auto-deploys)
@@ -167,6 +167,15 @@ prose / claim / label / scenario / misconception is written with `$...$` (e.g. `
 and rendered by KaTeX at build time. The `check:katex` gate validates **both**. Keep modeling-assumption
 prose in `$...$` too so it reads crisply.
 
+**Linking a formula from prose (ADR-0030).** Tag an inline-math span with a reference formula id written
+*immediately after* it — `the time constant $\tau = RC$@{em-rc-time-constant}` — and `inline()` renders the math
+unchanged, links it to that reference entry, and the global search island shows a hover preview. The id is
+authored (never inferred from the span), and the `check:prose-links` gate fails the build on any tag that
+doesn't resolve. The same dataset powers the **⌘K / Ctrl-K command palette** (`SiteSearch.svelte` +
+`/search-index.json` built by `src/lib/search.js`). Units in `latex`/`unit` fields stay in SymPy source form
+(`m/s**2`); a build-time `prettyUnit()` (`src/lib/view.js`) renders them as `m/s²` — do **not** route units
+through `inline()` (the `**` would become bold).
+
 **Two frontend gotchas when rendering authored text** (both bit twice — check them on any new page/island that
 shows authored prose):
 - **Run prose through `inline()`** (from `src/lib/katex.js`), don't print it raw. The `check:katex` gate proves
@@ -184,48 +193,19 @@ The producer engine should rarely change. If it must, add a physics cross-check 
 
 ## Current state
 
-See [`ROADMAP.md`](./ROADMAP.md) and the latest [`docs/sessions/`](./docs/sessions/) log. **Phase 0 is
-complete and reviewed**; **Phase 1 (mechanics)** is in progress, **Phase 2 (E&M)** is deepening (capacitor,
-Coulomb PE, **RC charging**, **line-charge field** + a reference cluster), and **Phase 3 (thermo, fluids, and
-now opened modern)** is deepening. The site is **live and public** at https://jd-jones-ases.github.io/quadrature/
-(push to `main` auto-deploys). Shipped: **34 lessons** across 12 units — free fall, **projectile (drag-free)**,
-**incline with friction** (`a=g(sinθ−μcosθ)`, opens Dynamics), **rotational kinematics**, and the **circular
-orbit** (regime 1, trajectory on a centred frame — `v=√(μ/R)`, Kepler's `T²∝R³`); SHM, terminal velocity, the
-damped oscillator, **work–energy**, **projectile with quadratic drag**, **impulse–momentum**, **gravitational
-potential energy**, **energy in a capacitor**, **electric potential energy**, **RC charging** (the 2-panel
-stack — `I` is the slope of `Q`), **the field of a charged rod** (`∫kλ/x² dx`, where algebra runs out)
-(regime 2, E&M), **moment of inertia** (`∫r² dm`), **rotational work–energy** (`∫τ dθ → ½Iω²`), **hydrostatic
-force on a wall** (`∫ρg w h dh`), **Torricelli / a draining tank** (energy bars, `v=√(2gh)`, opens fluid
-dynamics), the **elliptical orbit** (numerical — Kepler's three laws from `r̈=−μr/r³`), **conservation of
-energy** (energy bars — path-independent `v=√(2gH)`), **collisions / momentum** (before/after collision bars —
-target-at-rest **and** a head-on opposite-sign variant with total momentum zero, ADR-0027),
-and **radioactive decay** (the N / dN/dt 2-panel stack, `dN/dt=−λN`, opens Modern) (regime 2); **isothermal**,
-**adiabatic**, and **isobaric PV-work** (regime 3); **LC oscillation** and **Faraday induction** (the electrical
-spring and the AC generator, 2-panel stack); **standing waves** (the spatial-mode instrument — opens Waves &
-optics, ADR-0023); and **thin-lens optics** (the ray-diagram instrument — the geometric second register,
-ADR-0024); **thin-lens optics** (the ray-diagram instrument — the geometric second register,
-ADR-0024); and **the charged disk** (a continuous-charge field on the area instrument, bridging the point-charge
-and infinite-sheet limits, ADR-0029) — plus a **96-formula reference spanning all five domains** (mechanics incl.
-fluids & rotation, E&M incl. **magnetism & induction depth** — solenoid/loop/wire fields, cyclotron, RL, mutual
-inductance, displacement current, Gauss (ADR-0028), thermo, waves & optics, modern) and a 96-node / 153-edge
-concept graph, all SymPy-verified. The producer is a model registry (`constant-accel`, `shm`, `linear-drag`, `damped-shm`,
-`work-energy`, `pv-work`, `projectile`, `impulse`, `rotation`, `gravity-pe`, `capacitor-energy`, `adiabatic`,
-`moment-of-inertia`, `coulomb-pe`, `hydrostatic-force`, `rotational-work`, `orbit`, `energy-conservation`,
-`collision`, `rc-charging`, `incline-friction`, `decay`, `torricelli`, `line-charge-field`, `lc-oscillation`,
-`isobaric-work`, `faraday-induction`, `standing-wave`, `thin-lens`, `disk-field`). The concept-graph
-nodes have **clean Unicode labels**, a **domain-clustered layout** (ADR-0020), and pan/zoom + click-select +
-drag-to-reposition. **Verified practice (ADR-0022, "solve it three ways")** rides on every lesson; some
-regime-3 lessons override the second-register label (`calculus.register_label`, e.g. thin lens → "Ray diagram"),
-and authored prose supports `**bold**`/`*italic*` markdown in `inline()` (ADR-0024). **The reference RHS is
-still 100% generated from the verified `expr`, but now correctly (ADR-0025): a per-`[variables]` `latex` glyph
-feeds `sp.latex(symbol_names=…)` so ASCII names (`lam`/`dPhidt`/`di`) print as λ/dΦ/dt/dᵢ, and a `LatexPrinter`
-subclass orders factors/terms by the author's written order (`E=mc²`, `F=qvB`, not SymPy's sort) without ever
-rebuilding the expression. A new gate `check-latex-quality.mjs` fails the build on any leaked multi-char ASCII
-run — typography breaks the build the way a bad unit does. `kin-a-const` carries a `note` caption framing `a=a`
-as the seed of the integral ladder.** **The reference is now the navigational spine (ADR-0026, brief §8):**
-lesson formula chips hover-preview their reference entry; reference cards link their derivation target, the
-lessons that use them, and a `concept graph ↗` deep-link that selects+centres the node — frontend-only, no
-engine change.
+See [`ROADMAP.md`](./ROADMAP.md) for the phase plan, [`CHANGELOG.md`](./CHANGELOG.md) for what shipped when,
+and the newest [`docs/sessions/`](./docs/sessions/) log for the latest work. The site is **live and public** at
+https://jd-jones-ases.github.io/quadrature/ (push to `main` auto-deploys).
+
+**v1.0.0** (2026-06-27): **34 lessons** across 12 units covering every major domain (mechanics incl.
+dynamics/rotation/fluids, E&M incl. circuits/magnetism/induction, thermo, waves & optics, modern); a **96-formula**
+reference (96 nodes / 153 edges) across all five domains; **7 graph instruments**; **8 build gates**; **125
+producer tests**; parity 6899 — all SymPy-verified. The producer is a model registry, one module per scenario
+type (`producer/src/quadrature_producer/models/`). **The reference is the navigational spine**: formula chips and
+in-prose `$…$@{id}` tokens hover-preview their entry, reference cards link their derivation / lessons / graph, and
+a **⌘K search** spans the whole site (ADR-0026, ADR-0030). Verified "solve it three ways" practice (ADR-0022)
+rides on every lesson; the reference RHS is generated from each verified `expr` with correct physics typography,
+gated against leaked ASCII symbol names (ADR-0025).
 
 **Frontend rendering (ADR-0019): the interactive graph islands' scoped CSS is delivered via
 `svelte({ compilerOptions: { css: "injected" } })` in `astro.config.mjs`.** Without it, Astro only delivers the
@@ -257,67 +237,17 @@ integral / a collision conservation law / a wave-equation mode / a thin-lens ray
 
 ## Where this might go next (paths for a future session)
 
-Pick a track; each is independent and lands on the proven engine. Resume from the newest session log
-([`docs/sessions/2026-06-26.md`](./docs/sessions/), bottom). **Already done** (don't redo): work–energy,
-impulse, gravitational PE, **energy in a capacitor**, **electric potential energy** (Coulomb), **moment of
-inertia**, **rotational work–energy**, **hydrostatic force on a wall** (all area instrument); projectile
-drag-free + quadratic drag and the **circular + elliptical orbit** (trajectory); **conservation of energy**
-(energy-bars); rotational kinematics (stack); **isothermal + adiabatic PV-work** (thermo). The **reference now
-spans all five domains** (70 formulas: mechanics incl. fluids & rotation, E&M
-incl. magnetism, thermo, waves/optics, modern) — breadth-fill track 3 below is largely discharged; what remains
-is per-domain *depth* and a couple of small, well-scoped engine extensions, flagged below.
+Pick a track; each is independent and lands on the proven engine. The phase plan and remaining depth live in
+[`ROADMAP.md`](./ROADMAP.md); rationale in [`DECISIONS.md`](./DECISIONS.md); what shipped when in
+[`CHANGELOG.md`](./CHANGELOG.md). The §8 navigational backbone is **done** — formula chips + in-prose
+`$…$@{id}` hover previews, reference→lesson/derivation/graph links, and the ⌘K search (ADR-0026, ADR-0030).
+Open tracks: per-domain reference *depth* (the rest of thermo/optics, nuclear); more lessons on existing
+instruments (e.g. a spherical/cylindrical Gauss field on the area instrument); and a genuinely new instrument
+only where a topic needs one (a 2D oblique collision, a reflective mirror diagram, an animated equal-areas orbit).
 
-1. **Mechanics breadth that needs a SMALL engine extension** (highest-value next):
-   - **Orbits — DONE** (both circular regime-1 + elliptical regime-2, `orbit.py`). The trajectory instrument
-     has a centred `frame:"orbit"` (equal-aspect, central body/focus, a producer-supplied `view_half`) in both
-     `render_trajectory` and `Trajectory.svelte` (with an interactive *and* a sampled branch). The circular
-     case reuses `kind:"trajectory"` + the parity gate; the elliptical case RK4-integrates `r̈=−μr/r³`, verifies
-     **energy + angular-momentum conservation + closure** (refusing to emit otherwise), and is re-gated in CI by
-     a `check-trajectory.mjs` `frame==="orbit"` branch (closes · encircles the focus once · `e=0` is a circle ·
-     equal periods). Kepler's three laws all fall out. (A future polish: animate the satellite around the orbit
-     to *show* equal-areas-in-equal-times, rather than stating it.)
-   - **Collisions / momentum — DONE** (ADR-0018, `collision.py`, the `kind:"collision"` before/after bars). A 1D
-     two-body collision with the **restitution `e` as the cursor**: momentum bars equal before/after at every
-     `e`, KE bars equal only when elastic, the lost KE shaded. Proof `governing` (momentum conservation = the
-     time-integral of Newton's third law; the KE deficit is `½μ(1−e²)(Δv)²`). New `CollisionPlot` +
-     `Collision.svelte` + `render_collision` + `collision_series`/`consts` schema, parity-verified `v1f,v2f`,
-     no new gate. **A second collision lesson is now shipped (ADR-0027): a head-on, opposite-sign collision
-     (`head-on-collision`, total momentum exactly zero → dead stop + total KE loss at `e=0`).** It needed no
-     model change, but it exposed that both renderers assumed positive momenta — so the momentum panel of
-     `Collision.svelte` + `render_collision` was generalized to **signed, floating bars** (backward-compatible:
-     all-positive collisions render identically). A 2D oblique collision would still need a genuinely new
-     instrument (the before/after bars are 1D).
-2. **More area-instrument lessons (zero engine change — model + spec + test)** — Coulomb PE, rotational work,
-   isobaric PV-work, the line charge, and now the **charged disk** (`disk_field.py`, ADR-0029 — a 2D
-   continuous-charge field reduced to a 1D ring integral, bridging the point-charge & infinite-sheet limits)
-   are **done**; a spherical/cylindrical Gauss field would be the next. Copy `work_energy.py` / `disk_field.py` /
-   `line_charge_field.py` / `capacitor_energy.py` / `gravity_pe.py` /
-   `coulomb_pe.py` / `hydrostatic_force.py` / `moment_of_inertia.py`. **Watch the dimensionless-parameter trap**: a free dimensionless
-   slider that lands in a denominator (e.g. `1/(γ−1)`) makes the build-time `check_homogeneous` divide by zero
-   when it collapses units — bake such a parameter to its value and slide a *dimensionful* one instead (see
-   `adiabatic.py`). Likewise, identities with a `symbol**symbol` power must certify in a *symbolic* tier
-   (`simplify`/`conds='none'`); the numeric proof tier exact-evaluates `Rational**Rational` and can `MemoryError`.
-3. **Reference breadth into other domains** — *largely done* (28 → 96). **E&M magnetism/induction/Gauss depth is
-   now done** (ADR-0028: solenoid/loop/wire fields, cyclotron, loop torque, inductor energy, RL, mutual
-   inductance, displacement current, Gauss). Remaining: the rest of thermo & optics, nuclear. Pure authored+verified data: add
-   `reference/formulas/*.formula.toml` with the right `domain` (it color-codes the concept-graph node, all five
-   already supported in the frontend). No engine change.
-4. **E&M (Phase 2)** — *opened* (capacitor-energy lesson + the 9-formula E&M cluster: Coulomb, field, potential,
-   PE, capacitance, energy, Ohm, power, RC). Next dual-register lessons: an **RC charging** lesson — but the
-   temporal stack is hard-wired to three panels (x/v/a); RC is a two-quantity (Q, I) derivative pair, so it
-   needs either a 2-panel stack variant or a reframe onto the area instrument. Then magnetism, induction, and a
-   continuous-charge field integral (`∫dq/r²`) on the area instrument.
-5. **The §8 interlinking backbone — LARGELY DONE (ADR-0026).** The reference is now the navigational spine:
-   lesson "Formulas used" chips carry a hover/focus popover previewing the reference entry (name + LaTeX + valid-
-   when) and link to it; reference cards link their derivation target, the lessons that use them, and a
-   `concept graph ↗` deep-link that selects+centres the node (`ConceptGraph` reads the URL hash on mount). All
-   frontend over the existing `formulas.json` + solution slugs — no engine/schema/gate change. **Still open:**
-   tokenizing "any formula token" inside lesson *prose* (ambiguous KaTeX-span→id mapping, needs a design pass)
-   and a first-class algebra↔integral *dual* link (the regime-1 pair as data, not just a graph edge).
-
-The ADR-0012 parked question (a no-closed-form `sampled` region) is **resolved** (ADR-0015): the
-quadratic-drag trajectory is numerically integrated by RK4, each frame producer-verified (converged + EOM
-residual + recovers the exact parabola at zero drag) and CI re-gated by `check-trajectory.mjs`, with the
-slider snapping between frames over a single parameter. No continuous interpolation-error gate was needed —
-the committed sample density only sets drawing smoothness; the physics accuracy is the producer's converged
-solution.
+**Two producer gotchas when adding a model** (both have bitten): a free *dimensionless* slider that lands in a
+denominator (e.g. `1/(γ−1)`) makes the build-time `check_homogeneous` divide by zero when it collapses units —
+bake it to its value and slide a *dimensionful* parameter instead (see `adiabatic.py`). And an identity with a
+`symbol**symbol` power must certify in a *symbolic* tier (`simplify`/`conds='none'`); the numeric proof tier
+exact-evaluates `Rational**Rational` and can `MemoryError`. The ADR-0012 no-closed-form question is resolved
+(ADR-0015): numerically-integrated paths (RK4) are producer-verified and re-gated by `check-trajectory.mjs`.

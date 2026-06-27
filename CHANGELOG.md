@@ -3,7 +3,33 @@
 Notable changes, newest first. Architecture rationale lives in [`DECISIONS.md`](./DECISIONS.md); the phase
 plan in [`ROADMAP.md`](./ROADMAP.md).
 
-## [Unreleased] — Phase 1: full mechanics (in progress)
+## [1.0.0] — 2026-06-27 — first public release
+
+The course as a verified, navigable whole: 34 lessons across 12 units, a 96-formula reference (96 nodes / 153
+edges), 7 graph instruments, 8 build gates, 125 producer tests, parity 6899 — all SymPy-verified, the site live
+at https://jd-jones-ases.github.io/quadrature/.
+
+- **The formula-affordances layer: in-prose hover + ⌘K search (ADR-0030).** One build-time formula-preview index
+  (`/search-index.json`, KaTeX baked, fetched once) powers two features at once:
+  - **⌘K / Ctrl-K command palette** (global `SiteSearch` island) — searches all 96 formulas + 34 lessons + pages
+    with KaTeX-previewed results, arrow-key + Enter navigation, and a header trigger that collapses to an icon on
+    mobile.
+  - **In-prose formula-token hover** — an author tags an inline-math span with the formula id adjacent
+    (`$\tau = RC$@{em-rc-time-constant}`); `inline()` links it and the island shows a reference-entry preview on
+    hover/focus. Closes the ADR-0026 parked item (the span→id mapping is authored, not inferred). Demonstrated in
+    the guide + one canonical formula in five lessons (one per domain).
+  - **An 8th build gate** (`check:prose-links`) fails the build on any `@{id}`/`data-fid` that doesn't resolve;
+    `validate-reference` now also guards that every `formula.lessons` slug is a real lesson route.
+- **Pre-release accuracy sweep (a multi-agent review, fixes folded into ADR-0030).** Caught and fixed: a
+  like-signed-vs-"opposite" contradiction in the Coulomb-PE lesson; an EMF lead/lag wording slip in the AC
+  generator; a virtual-image-location error in the diverging-lens misconception; a thin-lens F/F′ ray-label
+  latex (now lens-type-aware); the Astro word-glue gotcha on the guide; Python `**`/`*` unit notation leaking
+  into the reference and result cells (build-time `prettyUnit()` → `m/s²`, `N·m²/C²`, `kg·m²`); and authoring
+  markup leaking into lesson `<meta name="description">` + island hydration props (now a `plain()` description;
+  the raw `scenario` is dropped from the player view). Ten formula `lessons` entries that used the problem id
+  instead of the route slug — so their reference "used in" links were dead — were corrected.
+
+## Earlier — Phase 1: full mechanics + Phase 2/3 deepening
 
 - **E&M depth: a magnetism/induction reference cluster + a continuous-charge field lesson (ADR-0028, ADR-0029).**
   - **+14 reference formulas** (82 → 96, 153 edges): solenoid & loop fields, parallel-wire force, cyclotron

@@ -12,7 +12,7 @@ const regimes = [
   {
     tag: "Regime 1",
     head: "Algebra is calculus, evaluated",
-    body: "When the acceleration (or force) is constant, the calculus integrals can be done once and frozen into formulas. The constant-acceleration kinematics rules $x = x_0 + v_0 t + \\tfrac12 a t^2$ are exactly $\\int v\\,dt$ with the integrand held constant — a quadrature, an integral already evaluated. Here algebra and calculus give the same answer, and the lesson proves it.",
+    body: "When the acceleration (or force) is constant, the calculus integrals can be done once and frozen into formulas. The constant-acceleration kinematics rules $x = x_0 + v_0 t + \\tfrac12 a t^2$@{kin-x-of-t} are exactly $\\int v\\,dt$ with the integrand held constant — a quadrature, an integral already evaluated. Here algebra and calculus give the same answer, and the lesson proves it.",
     egText: "A ball thrown straight up",
     egHref: "/lessons/throw-up/",
   },
@@ -49,8 +49,8 @@ const regimes = [
       the <strong>value</strong> of the lower one; the <strong>area</strong> under the lower is the
       <strong>change</strong> in the upper. Slope is the derivative; area is the integral. That single pivot —
       slope↔value, area↔change — is the bridge between the two registers, and it recurs in every domain: position
-      and velocity, charge and current{" "}<Fragment set:html={tex("I = dQ/dt", false)} />, flux and induced
-      EMF{" "}<Fragment set:html={tex("\\mathcal{E} = -d\\Phi/dt", false)} />, pressure and work{" "}<Fragment set:html={tex("W = \\int P\\,dV", false)} />.
+      and velocity, charge and current{" "}<a class="ftok" data-fid="em-rc-charge" href={withBase("/reference/#em-rc-charge")}><Fragment set:html={tex("I = dQ/dt", false)} /></a>, flux and induced
+      EMF{" "}<a class="ftok" data-fid="em-faraday-law" href={withBase("/reference/#em-faraday-law")}><Fragment set:html={tex("\\mathcal{E} = -d\\Phi/dt", false)} /></a>, pressure and work{" "}<a class="ftok" data-fid="thermo-work-isothermal" href={withBase("/reference/#thermo-work-isothermal")}><Fragment set:html={tex("W = \\int P\\,dV", false)} /></a>.
     </p>
   </section>
 
@@ -106,8 +106,8 @@ const regimes = [
   </section>
 
   <p class="foot muted">
-    The breadth of formulas lives in the <a href={withBase("/reference/")}>reference</a> and its
-    <a href={withBase("/reference/graph/")}>concept graph</a>; how the whole thing is verified is on the
+    The breadth of formulas lives in the <a href={withBase("/reference/")}>reference</a> and its{" "}
+    <a href={withBase("/reference/graph/")}>concept graph</a>; how the whole thing is verified is on the{" "}
     <a href={withBase("/verification/")}>verification</a> page.
   </p>
 

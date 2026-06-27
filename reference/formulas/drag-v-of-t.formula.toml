@@ -6,7 +6,7 @@ expr = "(m*g/b) + (v0 - m*g/b)*exp(-b*t/m)"
 lhs = "v"
 result_unit = "m/s"
 assumptions = ["drag linear in speed", "constant gravity"]
-lessons = ["freefall-drag"]
+lessons = ["terminal-velocity"]
 citations = []
 
 [variables]

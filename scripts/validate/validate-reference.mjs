@@ -3,9 +3,9 @@
 // graph is well-formed: every node id is a known formula, every edge endpoint resolves, and every
 // formula declaring a derivation was machine-verified. Fails loud (exit 1).
 
-import { readFileSync, existsSync } from "node:fs";
+import { readFileSync, existsSync, readdirSync, statSync } from "node:fs";
 import { fileURLToPath } from "node:url";
-import { dirname, resolve } from "node:path";
+import { dirname, resolve, join } from "node:path";
 import Ajv from "ajv/dist/2020.js";
 import addFormats from "ajv-formats";
 
@@ -48,6 +48,14 @@ if (errors.length === 0) {
   for (const f of formulas.formulas)
     if (f.derivation && f.verified.derivation !== true)
       fail(`formula '${f.id}' declares a derivation but verified.derivation is not true`);
+  // every formula.lessons entry names a real lesson ROUTE slug (not the problem id) — otherwise the
+  // reference's "used in" link renders as dead plain text instead of a link.
+  const slugs = new Set();
+  const walk = (d) => { for (const n of readdirSync(d)) { const p = join(d, n); statSync(p).isDirectory() ? walk(p) : n.endsWith(".solution.json") && slugs.add(JSON.parse(readFileSync(p, "utf8")).slug); } };
+  walk(resolve(ROOT, "derived"));
+  for (const f of formulas.formulas)
+    for (const slug of f.lessons ?? [])
+      if (!slugs.has(slug)) fail(`formula '${f.id}' lists lesson '${slug}' which is not a real lesson slug (use the solution's route slug, not the problem id)`);
 }
 
 if (errors.length) {

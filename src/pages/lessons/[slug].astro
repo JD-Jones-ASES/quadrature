@@ -5,6 +5,7 @@ import SolutionPlayer from "../../islands/SolutionPlayer.svelte";
 import { withBase } from "../../lib/withBase.js";
 import { renderSolution } from "../../lib/view.js";
 import { tex } from "../../lib/katex.js";
+import { plain } from "../../lib/search.js";
 import formulaData from "../../../derived/reference/formulas.json";
 
 // Interlinking backbone (brief §8): each "formula used" chip hovers/focuses open its reference entry.
@@ -17,6 +18,10 @@ export function getStaticPaths() {
 
 const { solution } = Astro.props;
 const view = renderSolution(solution);
+// Plain-text meta description: strip $…$ math, the adjacent formula-id tags, and **emphasis** so none of that
+// authoring markup leaks into SEO/social snippets (the on-page scenario is rendered separately by the island).
+const metaDescRaw = plain(solution.scenario);
+const metaDesc = metaDescRaw.length > 157 ? metaDescRaw.slice(0, 156).replace(/\s+\S*$/, "") + "…" : metaDescRaw;
 const svg = readFileSync(
   new URL("../../../derived/" + solution.graphs[0].svg, import.meta.url),
   "utf8"
@@ -53,7 +58,7 @@ const figureCaption = isArea
   : "A static rendering (Matplotlib) at the default parameters — the interactive version is in the Graph tab above.";
 ---
 
-<Base title={`${solution.title} — Quadrature`} description={solution.scenario}>
+<Base title={`${solution.title} — Quadrature`} description={metaDesc}>
   <p class="crumb faint"><a href={withBase("/lessons/")}>Lessons</a> · {solution.topic}</p>
   <h1>{solution.title}</h1>
   <p class="muted intro">{FRAMING[solution.regime]}</p>

@@ -6,7 +6,7 @@ model = "faraday-induction"
 regime = 2
 author = "Quadrature"
 created = "2026-06-27"
-scenario = "A coil of area $A = 0.1$ m² spins at $\\omega = 10$ rad/s in a uniform magnetic field $B = 0.5$ T. The flux through it varies as $\\Phi(t) = BA\\cos(\\omega t)$, and the **induced EMF is its rate of change**, $\\mathcal{E} = -d\\Phi/dt = BA\\omega\\sin(\\omega t)$ — a sinusoid a quarter cycle ahead of the flux. This is how a generator turns rotation into alternating current. Plotted as a stacked $\\Phi$–$t$ over EMF–$t$, the slope of the flux *is* the (negated) EMF at every instant. Drag $B$ or $\\omega$: when the flux is at its peak the EMF is zero, and when the flux crosses zero the EMF is at its peak."
+scenario = "A coil of area $A = 0.1$ m² spins at $\\omega = 10$ rad/s in a uniform magnetic field $B = 0.5$ T. The flux through it varies as $\\Phi(t) = BA\\cos(\\omega t)$, and the **induced EMF is its rate of change**, $\\mathcal{E} = -d\\Phi/dt = BA\\omega\\sin(\\omega t)$ — a sinusoid that lags the flux by a quarter cycle (its peak comes a quarter turn *after* the flux's). This is how a generator turns rotation into alternating current. Plotted as a stacked $\\Phi$–$t$ over EMF–$t$, the slope of the flux *is* the (negated) EMF at every instant. Drag $B$ or $\\omega$: when the flux is at its peak the EMF is zero, and when the flux crosses zero the EMF is at its peak."
 formulas_used = ["em-faraday-law", "em-ac-generator-emf", "em-flux"]
 
 [parameters]
@@ -29,7 +29,7 @@ annotate = ["emf_is_slope", "ninety_degree_phase"]
 
 [misconception]
 claim = "The flux and the EMF reach their maxima at the same time — they are in phase."
-refuted_by = "No. The EMF is the *rate of change* of the flux, $\\mathcal{E} = -d\\Phi/dt$, so it is $90^\\circ$ out of phase. When the flux $\\Phi$ is at its peak, its slope is zero, so the EMF is zero. When the flux passes through zero (its steepest point), $|d\\Phi/dt|$ is largest, so the EMF is at its peak. Watch the two panels: the EMF (lower) crests exactly halfway between the flux (upper) crests — a sine riding a quarter cycle ahead of the cosine."
+refuted_by = "No. The EMF is the *rate of change* of the flux, $\\mathcal{E} = -d\\Phi/dt$, so it is $90^\\circ$ out of phase. When the flux $\\Phi$ is at its peak, its slope is zero, so the EMF is zero. When the flux passes through zero (its steepest point), $|d\\Phi/dt|$ is largest, so the EMF is at its peak. Watch the two panels: each EMF (lower) peak falls a quarter cycle *after* the corresponding flux (upper) peak — a sine lagging the cosine by $90^\\circ$."
 
 [[practice]]
 id = "peak-emf"
