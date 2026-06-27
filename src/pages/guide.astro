@@ -1,7 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 import { withBase } from "../lib/withBase.js";
-import { inline } from "../lib/katex.js";
+import { inline, tex } from "../lib/katex.js";
 
 // A short, provider-neutral reading guide: the one idea, the three regimes (when algebra suffices and when you
 // need calculus), how to read a lesson, and how the "solve it three ways" practice works. Prose with inline
@@ -12,7 +12,7 @@ const regimes = [
   {
     tag: "Regime 1",
     head: "Algebra is calculus, evaluated",
-    body: "When the acceleration (or force) is constant, the calculus integrals can be done once and frozen into formulas. The constant-acceleration kinematics rules $x = x_0 + v_0 t + \\tfrac12 a t^2$ are exactly $\\int v\\,dt$ with the integrand held constant — a <em>quadrature</em>, an integral already evaluated. Here algebra and calculus give the same answer, and the lesson proves it.",
+    body: "When the acceleration (or force) is constant, the calculus integrals can be done once and frozen into formulas. The constant-acceleration kinematics rules $x = x_0 + v_0 t + \\tfrac12 a t^2$ are exactly $\\int v\\,dt$ with the integrand held constant — a quadrature, an integral already evaluated. Here algebra and calculus give the same answer, and the lesson proves it.",
     egText: "A ball thrown straight up",
     egHref: "/lessons/throw-up/",
   },
@@ -44,7 +44,14 @@ const regimes = [
 
   <section class="block">
     <h2>The one idea</h2>
-    <p set:html={H("Stack a position–time graph over a velocity–time graph. The <strong>slope</strong> of the upper curve is the <strong>value</strong> of the lower one; the <strong>area</strong> under the lower is the <strong>change</strong> in the upper. Slope is the derivative; area is the integral. That single pivot — slope↔value, area↔change — is the bridge between the two registers, and it recurs in every domain: position and velocity, charge and current $I = dQ/dt$, flux and induced EMF $\\mathcal{E} = -d\\Phi/dt$, pressure and work $W = \\int P\\,dV$.")} />
+    <p>
+      Stack a position–time graph over a velocity–time graph. The <strong>slope</strong> of the upper curve is
+      the <strong>value</strong> of the lower one; the <strong>area</strong> under the lower is the
+      <strong>change</strong> in the upper. Slope is the derivative; area is the integral. That single pivot —
+      slope↔value, area↔change — is the bridge between the two registers, and it recurs in every domain: position
+      and velocity, charge and current{" "}<Fragment set:html={tex("I = dQ/dt", false)} />, flux and induced
+      EMF{" "}<Fragment set:html={tex("\\mathcal{E} = -d\\Phi/dt", false)} />, pressure and work{" "}<Fragment set:html={tex("W = \\int P\\,dV", false)} />.
+    </p>
   </section>
 
   <section class="block">
